@@ -1,0 +1,71 @@
+@font-face {
+  font-family: "KOTRAHOPE";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2110@1.0/KOTRAHOPE.woff2")
+    format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+
+:root {
+  --color-deepGreen: #00876d;
+  --color-lightGreen: #d3ecc8;
+  --lihgt-orange: #ffeec6;
+  --color-A2D8FF: #a2d8ff;
+  --color-FD7900: #fd7900;
+  --color-24A2FF: #24a2ff;
+  --color-FDC1C5: #fdc1c5;
+  --color-E7D8FF: #e7d8ff;
+  --color-D64478: #d64478;
+  --color-A36BFF: #a36bff;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  outline-style: none;
+  box-sizing: border-box;
+}
+
+ul,
+li {
+  list-style: none;
+}
+a {
+  color: #000;
+  text-decoration: none;
+}
+img {
+  border: 0;
+  vertical-align: middle;
+}
+html {
+  font-size: 10px;
+}
+body {
+  font-family: "Noto Sans KR", sans-serif;
+  font-size: 1rem;
+  line-height: 1.25;
+  color: #000;
+  letter-spacing: -0.23px;
+  word-break: keep-all;
+}
+
+h1,
+h2 {
+  font-size: 50px;
+}
+h3 {
+  font-size: 36px;
+}
+h4 {
+  font-size: 24px;
+}
+button {
+  font-size: 24px;
+}
+
+.box {
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.05);
+  border-color: #ebebeb;
+}

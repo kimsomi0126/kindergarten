@@ -1,5 +1,5 @@
-import React, { lazy } from "react";
-import { Outlet } from "react-router";
+import React from "react";
+import ContentLayout from "../../layouts/ContentLayout";
 
 // const LazyIdentNum = lazy(() => import("./pages/user/IdentNum"));
 // const LazyGuardianSignup = lazy(() => import("./pages/user/GuardianSignup"));
@@ -9,9 +9,9 @@ import { Outlet } from "react-router";
 
 const Login = () => {
   return (
-    <div>
+    <ContentLayout>
       <h1>로그인 페이지</h1>
-    </div>
+    </ContentLayout>
   );
 };
 

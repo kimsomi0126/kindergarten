@@ -1,4 +1,6 @@
 import React, { lazy } from "react";
+import ContentLayout from "../../layouts/ContentLayout";
+
 import "../../styles/information/info.css";
 
 // 원생 소개
@@ -8,6 +10,9 @@ import "../../styles/information/info.css";
 
 const Info = () => {
   return (
+
+    <ContentLayout>
+    
     <div className="info_wrap">
       <div className="info_header">
         <h4 className="info_title">
@@ -63,6 +68,7 @@ const Info = () => {
         </ul>
       </div>
     </div>
+    </ContentLayout>
   );
 };
 

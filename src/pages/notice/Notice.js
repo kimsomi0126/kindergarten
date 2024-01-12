@@ -1,9 +1,14 @@
+
+import React, { lazy } from "react";
+import ContentLayout from "../../layouts/ContentLayout";
 import { Button, Flex, Input, List, Pagination } from "antd";
 import React, { useState } from "react";
 
 const { Search } = Input;
 
 const onSearch = (value, _e, info) => console.log(info?.source, value);
+
+const Notice = () => {
 
 const data = [
   "상단 공지 제목",
@@ -64,6 +69,7 @@ const App = () => {
   const size = "small";
 
   return (
+  <ContentLayout>
     <div style={{ marginTop: 60 }}>
       <Flex
         gap="small"
@@ -142,6 +148,7 @@ const App = () => {
         }}
       />
     </div>
+  </ContentLayout>
   );
 };
 

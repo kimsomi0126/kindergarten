@@ -1,18 +1,10 @@
 import React, { lazy, Suspense } from "react";
-import {
-  BrowserRouter,
-  Outlet,
-  Route,
-  Routes,
-  useNavigate,
-} from "react-router-dom";
-import "./styles/normalize.css";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./styles/index.css";
-import { Wrap, WrapContent } from "./styles/basic";
+import "./styles/normalize.css";
+
 // 라우터 페이지 로딩 컴포넌트
 import Loading from "./components/loading/Loading";
-import SideBar from "./components/common/SideBar";
-import NavBar from "./components/common/NavBar";
 
 // lazy 는 실시간으로 컴포넌트 불러들이기
 
@@ -50,161 +42,155 @@ const LazyStudentCreate = lazy(() => import("./pages/adminPage/StudentCreate"));
 
 function App() {
   return (
-    <Wrap maxw="1920">
-      <BrowserRouter>
-        <NavBar />
-        <SideBar />
-        <WrapContent maxw="1440">
-          <Routes>
-            {/* 메인페이지 */}
-            <Route
-              path="/"
-              element={
-                <Suspense fallback={<Loading />}>
-                  <LazyMainPage />
-                </Suspense>
-              }
-            />
-            {/* 회원가입 - 학부모,교사 선택 페이지 */}
-            <Route
-              path="signup"
-              element={
-                <Suspense fallback={<Loading />}>
-                  <LazyCreateRole />
-                </Suspense>
-              }
-            ></Route>
-            {/* 로그인 페이지 */}
-            <Route
-              index
-              path="login"
-              element={
-                <Suspense fallback={<Loading />}>
-                  <LazyLogin />
-                </Suspense>
-              }
-            ></Route>
-            {/* 고유번호 입력 페이지 */}
-            <Route
-              path="identNum"
-              element={
-                <Suspense fallback={<Loading />}>
-                  <LazyIdentNum />
-                </Suspense>
-              }
-            />
-            {/* 보호자 회원가입 페이지 */}
-            <Route
-              path="guardianSignup"
-              element={
-                <Suspense fallback={<Loading />}>
-                  <LazyGuardianSignup />
-                </Suspense>
-              }
-            />
-            {/* 마이페이지 */}
-            <Route
-              path="myPage"
-              element={
-                <Suspense fallback={<Loading />}>
-                  <LazyMyPage />
-                </Suspense>
-              }
-            />
+    <BrowserRouter>
+      <Routes>
+        {/* 메인페이지 */}
+        <Route
+          path="/"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LazyMainPage />
+            </Suspense>
+          }
+        />
+        {/* 회원가입 - 학부모,교사 선택 페이지 */}
+        <Route
+          path="signup"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LazyCreateRole />
+            </Suspense>
+          }
+        ></Route>
+        {/* 로그인 페이지 */}
+        <Route
+          index
+          path="login"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LazyLogin />
+            </Suspense>
+          }
+        ></Route>
+        {/* 고유번호 입력 페이지 */}
+        <Route
+          path="identNum"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LazyIdentNum />
+            </Suspense>
+          }
+        />
+        {/* 보호자 회원가입 페이지 */}
+        <Route
+          path="guardianSignup"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LazyGuardianSignup />
+            </Suspense>
+          }
+        />
+        {/* 마이페이지 */}
+        <Route
+          path="myPage"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LazyMyPage />
+            </Suspense>
+          }
+        />
 
-            {/* 유치원 소개 페이지 */}
-            <Route
-              path="info"
-              element={
-                <Suspense fallback={<Loading />}>
-                  <LazyInfo />
-                </Suspense>
-              }
-            ></Route>
-            <Route
-              path="infoClass"
-              element={
-                <Suspense fallback={<Loading />}>
-                  <LazyInfoClass />
-                </Suspense>
-              }
-            ></Route>
-            <Route
-              path="location"
-              element={
-                <Suspense fallback={<Loading />}>
-                  <LazyLocation />
-                </Suspense>
-              }
-            ></Route>
-            {/* 교육과정 페이지 */}
-            <Route
-              path="edu"
-              element={
-                <Suspense fallback={<Loading />}>
-                  <LazyEdu />
-                </Suspense>
-              }
-            ></Route>
-            {/* 방과후 활동 페이지 */}
-            <Route
-              path="act"
-              element={
-                <Suspense fallback={<Loading />}>
-                  <LazySpecialAct />
-                </Suspense>
-              }
-            ></Route>
-            {/* 활동앨범 페이지 */}
-            <Route
-              path="album"
-              element={
-                <Suspense fallback={<Loading />}>
-                  <LazyAlbum />
-                </Suspense>
-              }
-            ></Route>
-            {/* 유치원소식 페이지 */}
-            <Route
-              path="notice"
-              element={
-                <Suspense fallback={<Loading />}>
-                  <LazyNotice />
-                </Suspense>
-              }
-            ></Route>
-            {/* 관리자 페이지 */}
-            <Route
-              path="admin/"
-              element={
-                <Suspense fallback={<Loading />}>
-                  <LazyGuardianList />
-                </Suspense>
-              }
-            ></Route>
-            <Route
-              path="admin/student/List"
-              element={
-                <Suspense fallback={<Loading />}>
-                  <LazyStudentList />
-                </Suspense>
-              }
-            ></Route>
-            <Route
-              path="admin/student/Create"
-              element={
-                <Suspense fallback={<Loading />}>
-                  <LazyStudentCreate />
-                </Suspense>
-              }
-            ></Route>
+        {/* 유치원 소개 페이지 */}
+        <Route
+          path="info"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LazyInfo />
+            </Suspense>
+          }
+        ></Route>
+        <Route
+          path="infoClass"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LazyInfoClass />
+            </Suspense>
+          }
+        ></Route>
+        <Route
+          path="location"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LazyLocation />
+            </Suspense>
+          }
+        ></Route>
+        {/* 교육과정 페이지 */}
+        <Route
+          path="edu"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LazyEdu />
+            </Suspense>
+          }
+        ></Route>
+        {/* 방과후 활동 페이지 */}
+        <Route
+          path="act"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LazySpecialAct />
+            </Suspense>
+          }
+        ></Route>
+        {/* 활동앨범 페이지 */}
+        <Route
+          path="album"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LazyAlbum />
+            </Suspense>
+          }
+        ></Route>
+        {/* 유치원소식 페이지 */}
+        <Route
+          path="notice"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LazyNotice />
+            </Suspense>
+          }
+        ></Route>
+        {/* 관리자 페이지 */}
+        <Route
+          path="admin/"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LazyGuardianList />
+            </Suspense>
+          }
+        ></Route>
+        <Route
+          path="admin/student/List"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LazyStudentList />
+            </Suspense>
+          }
+        ></Route>
+        <Route
+          path="admin/student/Create"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LazyStudentCreate />
+            </Suspense>
+          }
+        ></Route>
 
-            <Route path="*" element={<h1>페이지가 없습니다.</h1>}></Route>
-            {/* </Route> */}
-          </Routes>
-        </WrapContent>
-      </BrowserRouter>
-    </Wrap>
+        <Route path="*" element={<h1>페이지가 없습니다.</h1>}></Route>
+        {/* </Route> */}
+      </Routes>
+    </BrowserRouter>
   );
 }
 

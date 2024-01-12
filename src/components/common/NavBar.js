@@ -16,10 +16,10 @@ const NavBar = () => {
           <Link to={"/info"}>
             <div>유치원 소개</div>
           </Link>
-          <Link to={"/info"}>
+          <Link to={"/class"}>
             <div>유치원 현황</div>
           </Link>
-          <Link to={"/info"}>
+          <Link to={"/location"}>
             <div>오시는 길</div>
           </Link>
         </div>

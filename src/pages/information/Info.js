@@ -1,4 +1,5 @@
 import React, { lazy } from "react";
+import ContentLayout from "../../layouts/ContentLayout";
 
 // 원생 소개
 // const LazyInfoClass = lazy(() => import("./pages/information/InfoClass"));
@@ -6,7 +7,11 @@ import React, { lazy } from "react";
 // const LazyLocation = lazy(() => import("./pages/information/Location"));
 
 const Info = () => {
-  return <h1>유치원소개 페이지</h1>;
+  return (
+    <ContentLayout>
+      <h1>유치원소개 페이지</h1>;
+    </ContentLayout>
+  );
 };
 
 export default Info;

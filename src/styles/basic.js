@@ -1,43 +1,52 @@
 /* eslint-disable no-undef */
 import styled from "@emotion/styled";
+import { Link } from "react-router-dom";
 
 // 기본색상
 export const colors = {
-  main: "#ffffff",
-  secondary: "#ebebeb",
-  point: "#273F7C",
-  tab: "#f7f7f7",
-  error: "#ff6345",
-  placeholder: "#cccccc",
-  gray: "#555555",
+  // 초록색
+  greenDeep: "#00876D",
+  greenLight: "#D3ECC8",
+  greenLight2: "#E7F6ED",
+
+  // 오렌지색
+  orangeDeep: "#FD7900",
+  orangeLight: "#FFEEC6",
+  // 분홍색
+  pinkDeep: "#D64478",
+  pinkLight: "#FDC1C5",
+  // 파랑색
+  blueDeep: "#24A2FF",
+  blueLight: "#A2D8FF",
+  // 보라색
+  purpleDeep: "#A36BFF",
+  purpleLight: "#E7D8FF",
+
+  // 회색, 검정색
+  grayDeep: "#999999",
+  grayLight: "#EBEBEB",
   black: "#000",
+  white: "#fff",
 };
 
 // 그림자효과
 export const shadow = {
-  light: { boxShadow: "0px 0px 10px 0px rgba(0, 0, 0, 0.10)" },
-  bold: {
-    boxShadow:
-      "0px 1px 3px 1px rgba(0, 0, 0, 0.15), 0px 1px 2px 0px rgba(0, 0, 0, 0.30)",
-  },
+  boxShadow: "0px 0px 10px 0px rgba(0, 0, 0, 0.05)",
 };
 
 // 전체 레이아웃
 export const Wrap = styled.div`
   position: relative;
   max-width: ${props => props.maxw + "px"};
-  /* height: 100vh; */
-  min-height: 100vh;
   overflow-x: auto;
   margin: 0 auto;
-  padding: 6rem 1.5% 16rem;
   background: url(${process.env.PUBLIC_URL + "/images/common/background.svg"})
     repeat center;
 
   input,
   textarea {
     border: 1px solid ${colors.secondary};
-    border-radius: 0;
+    border-radius: 1rem;
     font-size: 1.2rem;
   }
 
@@ -68,10 +77,10 @@ export const HeaderBtn = styled.div`
 export const WrapContent = styled.div`
   position: relative;
   max-width: ${props => props.maxw + "px"};
-  /* height: 100vh; */
   min-height: 100vh;
   overflow-x: auto;
   margin: 0 auto;
+  padding-left: 20rem;
 
   input::placeholder,
   textarea::placeholder {
@@ -81,10 +90,18 @@ export const WrapContent = styled.div`
 
 // 왼쪽 NavBar
 export const WrapNav = styled.div`
-  height: 84.5625rem;
-  width: 20rem;
   position: fixed;
-  top: 20px;
-  left: 20px;
-  font-size: 20px;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: ${colors.white};
+  z-index: 99;
+  padding: 2rem;
+  ${shadow}
+`;
+
+export const LogoWrap = styled(Link)`
+  img {
+    max-width: 15rem;
+  }
 `;

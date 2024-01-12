@@ -11,7 +11,7 @@ import "./styles/index.css";
 import { Wrap, WrapContent } from "./styles/basic";
 // 라우터 페이지 로딩 컴포넌트
 import Loading from "./components/loading/Loading";
-import Header from "./components/common/Header";
+import SideBar from "./components/common/SideBar";
 import NavBar from "./components/common/NavBar";
 
 // lazy 는 실시간으로 컴포넌트 불러들이기
@@ -52,8 +52,8 @@ function App() {
   return (
     <Wrap maxw="1920">
       <BrowserRouter>
-        <Header />
         <NavBar />
+        <SideBar />
         <WrapContent maxw="1440">
           <Routes>
             {/* 메인페이지 */}

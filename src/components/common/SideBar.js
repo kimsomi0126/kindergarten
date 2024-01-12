@@ -2,9 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { HeaderBtn } from "../../styles/basic";
 
-const Header = () => {
+const SideBar = () => {
   return (
-    // 310
     <HeaderBtn>
       <Link to={"/signup"} styles="button">
         <div>회원가입</div>
@@ -16,4 +15,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default SideBar;

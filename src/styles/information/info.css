@@ -1,0 +1,40 @@
+.info_wrap {
+  position: relative;
+}
+
+.info_header {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: aqua;
+}
+.info_title {
+  position: relative;
+  
+}
+
+.info_logo {
+  position: relative;
+}
+
+.info_img {
+  position: relative;
+}
+.info_good {
+  position: relative;
+}
+.info_childen {
+  position: relative;
+}
+
+.info_main {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: blueviolet;
+
+}
+.info_list{
+    position: relative;
+    display:flex;
+}

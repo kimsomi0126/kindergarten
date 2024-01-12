@@ -1,3 +1,4 @@
+@import url("https://webfontworld.github.io/pretendard/Pretendard.css");
 @font-face {
   font-family: "KOTRAHOPE";
   src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2110@1.0/KOTRAHOPE.woff2")
@@ -42,7 +43,7 @@ html {
   font-size: 10px;
 }
 body {
-  font-family: "Noto Sans KR", sans-serif;
+  font-family: "Pretendard", sans-serif;
   font-size: 1rem;
   line-height: 1.25;
   color: #000;
@@ -51,17 +52,25 @@ body {
 }
 
 h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: "KOTRAHOPE", "Pretendard", sans-serif;
+}
+
+h1,
 h2 {
-  font-size: 50px;
+  font-size: 5rem;
 }
 h3 {
-  font-size: 36px;
+  font-size: 3.6rem;
 }
 h4 {
-  font-size: 24px;
+  font-size: 2.4rem;
 }
 button {
-  font-size: 24px;
+  font-size: 2.4rem;
 }
 
 .box {

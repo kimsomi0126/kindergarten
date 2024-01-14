@@ -4,7 +4,7 @@ import ContentLayout from "../../layouts/ContentLayout";
 const Location = () => {
   return (
     <ContentLayout>
-      <div>오시는 길 페이지</div>
+      <h1>오시는 길 페이지</h1>
     </ContentLayout>
   );
 };

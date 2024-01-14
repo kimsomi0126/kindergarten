@@ -1,10 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { LogoWrap, WrapNav } from "../../styles/basic";
+import { Buttons, LogoWrap, SideBarWrap } from "../../styles/basic";
 
 const SideBar = () => {
   return (
-    <WrapNav>
+    <SideBarWrap>
       <LogoWrap>
         <Link to={"/"}>
           <img
@@ -14,14 +14,16 @@ const SideBar = () => {
       </LogoWrap>
       <div>
         <div>
-          <p>유치원안내</p>
+          <Link as={Link} to={"/info"}>
+            유치원안내
+          </Link>
           <Link to={"/info"}>
             <p>유치원 소개</p>
           </Link>
-          <Link to={"/info"}>
+          <Link to={"/info/class"}>
             <p>유치원 현황</p>
           </Link>
-          <Link to={"/info"}>
+          <Link to={"/info/location"}>
             <p>오시는 길</p>
           </Link>
         </div>
@@ -30,7 +32,7 @@ const SideBar = () => {
           <Link to={"/edu"}>
             <p>교육과정</p>
           </Link>
-          <Link to={"/edu"}>
+          <Link to={"/act"}>
             <p>방과후활동</p>
           </Link>
         </div>
@@ -57,7 +59,7 @@ const SideBar = () => {
           </Link>
         </div>
       </div>
-    </WrapNav>
+    </SideBarWrap>
   );
 };
 

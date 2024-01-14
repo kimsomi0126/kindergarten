@@ -1,7 +1,12 @@
 import React from "react";
+import ContentLayout from "../../layouts/ContentLayout";
 
 const AlbumWrite = () => {
-  return <div>앨범 작성 페이지</div>;
+  return (
+    <ContentLayout>
+      <h1>앨범 작성 페이지</h1>
+    </ContentLayout>
+  );
 };
 
 export default AlbumWrite;

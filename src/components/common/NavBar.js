@@ -1,17 +1,29 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { HeaderBtn } from "../../styles/basic";
+import { Buttons, HeaderBtn, NavWrap } from "../../styles/basic";
 
 const NavBar = () => {
   return (
-    <HeaderBtn>
-      <Link to={"/signup"} styles="button">
-        <p>회원가입</p>
-      </Link>
-      <Link to={"/login"}>
-        <p>로그인</p>
-      </Link>
-    </HeaderBtn>
+    <NavWrap>
+      <HeaderBtn>
+        <Buttons
+          as={Link}
+          to={"/signup"}
+          color="orangeDeep"
+          background="orangeLight"
+        >
+          회원가입
+        </Buttons>
+        <Buttons
+          as={Link}
+          to={"/login"}
+          color="greenDeep"
+          background="greenLight"
+        >
+          로그인
+        </Buttons>
+      </HeaderBtn>
+    </NavWrap>
   );
 };
 

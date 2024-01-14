@@ -4,7 +4,7 @@ import ContentLayout from "../../layouts/ContentLayout";
 const IdentNum = () => {
   return (
     <ContentLayout>
-      <div>식별번호 입력 페이지</div>;
+      <h1>식별번호 입력 페이지</h1>
     </ContentLayout>
   );
 };

@@ -1,7 +1,7 @@
-import React, { lazy, Suspense } from "react";
+import React, { Suspense, lazy } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import "./styles/index.css";
 import "./styles/normalize.css";
+import "./styles/index.css";
 
 // 라우터 페이지 로딩 컴포넌트
 import Loading from "./components/loading/Loading";
@@ -33,7 +33,7 @@ const LazySpecialAct = lazy(() => import("./pages/education/SpecialAct"));
 const LazyAlbum = lazy(() => import("./pages/album/Album"));
 
 // 유치원 소식(공지사항)영역
-const LazyNotice = lazy(() => import("./pages/notice/Notice"));
+const LazyNoticeList = lazy(() => import("./pages/notice/NoticeList"));
 
 //관리자 영역
 const LazyGuardianList = lazy(() => import("./pages/adminPage/GuardianList"));
@@ -102,29 +102,31 @@ function App() {
 
         {/* 유치원 소개 페이지 */}
         <Route
-          path="info"
+          path="info/"
           element={
             <Suspense fallback={<Loading />}>
               <LazyInfo />
             </Suspense>
           }
-        ></Route>
+        />
+        {/* 유치원 현황 */}
         <Route
-          path="infoClass"
+          path="info/class"
           element={
             <Suspense fallback={<Loading />}>
               <LazyInfoClass />
             </Suspense>
           }
-        ></Route>
+        />
+        {/* 오시는 길 */}
         <Route
-          path="location"
+          path="info/location"
           element={
             <Suspense fallback={<Loading />}>
               <LazyLocation />
             </Suspense>
           }
-        ></Route>
+        />
         {/* 교육과정 페이지 */}
         <Route
           path="edu"
@@ -157,7 +159,7 @@ function App() {
           path="notice"
           element={
             <Suspense fallback={<Loading />}>
-              <LazyNotice />
+              <LazyNoticeList />
             </Suspense>
           }
         ></Route>

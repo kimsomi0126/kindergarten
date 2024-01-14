@@ -10,7 +10,6 @@
 }
 .info_title {
   position: relative;
-  
 }
 
 .info_logo {
@@ -32,9 +31,8 @@
   width: 100%;
   height: 100%;
   background-color: blueviolet;
-
 }
-.info_list{
-    position: relative;
-    display:flex;
+.info_list {
+  position: relative;
+  display: flex;
 }

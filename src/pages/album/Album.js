@@ -1,4 +1,5 @@
 import React, { lazy } from "react";
+import ContentLayout from "../../layouts/ContentLayout";
 
 // 앨범 상세내용 보기
 // const LazyAlbumDetail = lazy(() => import("./pages/album/AlbumDetail"));
@@ -10,7 +11,11 @@ import React, { lazy } from "react";
 // const LazyAlbumWrite = lazy(() => import("./pages/album/AlbumWrite"));
 
 const Album = () => {
-  return <h1>활동 사진 페이지</h1>;
+  return (
+    <ContentLayout>
+      <h1>활동 사진 페이지</h1>
+    </ContentLayout>
+  );
 };
 
 export default Album;

@@ -4,7 +4,7 @@ import ContentLayout from "../../layouts/ContentLayout";
 const MyPage = () => {
   return (
     <ContentLayout>
-      <div>사용자 마이페이지</div>
+      <h1>사용자 마이페이지</h1>
     </ContentLayout>
   );
 };

@@ -1,12 +1,12 @@
 import React from "react";
 import ContentLayout from "../../layouts/ContentLayout";
 
-const InfoClass = () => {
+const NoticeDetails = () => {
   return (
     <ContentLayout>
-      <h1>원생 현황 페이지</h1>
+      <h1>유치원 소식 상세 페이지</h1>
     </ContentLayout>
   );
 };
 
-export default InfoClass;
+export default NoticeDetails;

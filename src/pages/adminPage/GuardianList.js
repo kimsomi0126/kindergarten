@@ -11,6 +11,7 @@ import {
   StyledSearch,
   StyledSelect,
 } from "../../styles/guardianlist";
+import ContentLayout from "../../layouts/ContentLayout";
 
 // 원아관리 상세
 // const LazyStudentDetails = lazy(() =>
@@ -33,7 +34,7 @@ const handleChange = value => {
 const onSearch = (value, info) => console.log(info?.source, value);
 const GuardianList = () => {
   return (
-    <>
+    <ContentLayout>
       <HeaderWrap>
         <HeaderLeft>학부모 관리</HeaderLeft>
         <HeaderRight>
@@ -83,7 +84,7 @@ const GuardianList = () => {
           <button>정보수정</button>
         </ListItem>
       </div>
-    </>
+    </ContentLayout>
   );
 };
 

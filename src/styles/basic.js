@@ -36,9 +36,10 @@ export const shadow = {
 
 // 전체 레이아웃
 export const Wrap = styled.div`
-  position: relative;
   max-width: ${props => props.maxw + "px"};
-  overflow-x: auto;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
   margin: 0 auto;
   background: url(${process.env.PUBLIC_URL + "/images/common/background.svg"})
     repeat center;
@@ -56,22 +57,48 @@ export const Wrap = styled.div`
   }
 `;
 
-export const HeaderBtn = styled.div`
-  position: fixed;
-  font-size: 24px;
-  top: 20px;
-  right: 20px;
+export const NavWrap = styled.div`
+  width: 100%;
+  height: 90px;
+  background-color: ${colors.white};
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  position: relative; /* 푸터와 사이드바보다 상위에 위치 */
+  z-index: 10;
+  border-bottom: 1px solid ${colors.grayLight};
 `;
 
-// export const HeaderBtnInner = styled.button`
-//   width: 9.0625rem
-//   height: 3.125rem
-//   position: relative;
-//   display: flex;
-//   padding: 10px;
-//   align-items: center;
-//   justify-content: space-between;
-// `;
+// HeaderBtn 스타일드 컴포넌트 정의
+export const HeaderBtn = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px; /* 버튼 사이의 간격 */
+  margin-right: 20px; /* 오른쪽 여백 */
+  border-radius: 10px;
+  box-shadow: ${shadow.boxShadow};
+  margin: 20px 0%;
+`;
+
+// 각 버튼에 적용할 고유 스타일 정의
+export const Buttons = styled.button`
+  border-radius: 10px;
+  background-color: ${props => colors[props.background]};
+  color: ${props => colors[props.color]}; /* props로 받은 글자 색상 적용 */
+  border: none;
+  font-family: "KOTRAHOPE", "Pretendard", sans-serif;
+  font-size: 24px;
+  padding: 10px 20px;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.8;
+  }
+`;
+
+export const WrapMain = styled.div`
+  padding-left: 340px;
+`;
 
 // content 레이아웃
 export const WrapContent = styled.div`
@@ -80,7 +107,6 @@ export const WrapContent = styled.div`
   min-height: 100vh;
   overflow-x: auto;
   margin: 0 auto;
-  padding-left: 20rem;
 
   input::placeholder,
   textarea::placeholder {
@@ -88,20 +114,25 @@ export const WrapContent = styled.div`
   }
 `;
 
-// 왼쪽 NavBar
-export const WrapNav = styled.div`
+// SideBar
+export const SideBarWrap = styled.div`
   position: fixed;
-  top: 0;
-  left: 0;
-  height: 100%;
+  width: 320px;
+  height: 100vh;
+  font-size: 20px;
   background: ${colors.white};
+  display: flex;
+  justify-content: space-;
+  align-items: center;
+  flex-direction: column;
   z-index: 99;
   padding: 2rem;
-  ${shadow}
+  border-right: 1px solid ${colors.grayLight};
+  box-shadow: ${shadow.boxShadow};
 `;
 
 export const LogoWrap = styled(Link)`
   img {
-    max-width: 15rem;
+    max-width: 14rem;
   }
 `;

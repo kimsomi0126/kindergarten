@@ -4,7 +4,7 @@ import ContentLayout from "../../layouts/ContentLayout";
 const CreateRole = () => {
   return (
     <ContentLayout>
-      return <h1>학부모/교직원 역할 선택 페이지</h1>;
+      <h1>학부모/교직원 역할 선택 페이지</h1>
     </ContentLayout>
   );
 };

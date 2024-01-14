@@ -4,7 +4,7 @@ import ContentLayout from "../../layouts/ContentLayout";
 const NoticeWrite = () => {
   return (
     <ContentLayout>
-      <div>공지 작성 페이지</div>
+      <h1>공지 작성 페이지</h1>
     </ContentLayout>
   );
 };

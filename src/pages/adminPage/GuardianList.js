@@ -1,48 +1,39 @@
-import { Select } from "antd";
-import Search from "antd/es/input/Search";
 import React, { lazy } from "react";
-import {
-  HeaderLeft,
-  HeaderRight,
-  HeaderWrap,
-  ListId,
-  ListItem,
-  ListName,
-  StyledSearch,
-  StyledSelect,
-} from "../../styles/guardianlist";
 import ContentLayout from "../../layouts/ContentLayout";
+import {
+  UserInfo,
+  UserListBox,
+  UserListItem,
+  UserListWrap,
+  UserMain,
+  UserTop,
+  UserTopLeft,
+  UserTopRight,
+} from "../../styles/adminstyle/guardianlist";
+import { Pagination, Select } from "antd";
+import Search from "antd/es/input/Search";
 
-// 원아관리 상세
-// const LazyStudentDetails = lazy(() =>
-//   import("./pages/adminPage/StudentDetails"),
-// );
-
-// 원아관리 상세정보 입력
-// const LazyStudentDetailsForm = lazy(() =>
-//   import("./pages/adminPage/StudentDetailsForm"),
-// );
-
-// 원아 관리 리스트
-// const LazyStudentList = lazy(() => import("./pages/adminPage/StudentList"));
-// const LazyStudentNewDetails = lazy(() =>
-//   import("./pages/adminPage/StudentNewDetails"),
-// );
 const handleChange = value => {
   console.log(value);
 };
-const onSearch = (value, info) => console.log(info?.source, value);
+const handlePageChange = (page, pageSize) => {
+  // 페이지 변경 시 처리할 로직을 추가할 수 있습니다.
+  console.log("Page:", page, "PageSize:", pageSize);
+};
 const GuardianList = () => {
   return (
     <ContentLayout>
-      <HeaderWrap>
-        <HeaderLeft>학부모 관리</HeaderLeft>
-        <HeaderRight>
-          <StyledSelect
+      <UserTop>
+        <UserTopLeft>학부모 관리</UserTopLeft>
+        <UserTopRight>
+          <Select
             labelInValue
             defaultValue={{
-              value: "반 선택",
+              value: "",
               label: "반 선택",
+            }}
+            style={{
+              width: 100,
             }}
             onChange={handleChange}
             options={[
@@ -68,22 +59,147 @@ const GuardianList = () => {
               },
             ]}
           />
-          <StyledSearch placeholder="이름을 입력하세요." onSearch={onSearch} />
-
+          <Search
+            placeholder="검색어를 입력하세요."
+            style={{
+              width: 200,
+            }}
+            allowClear
+          />
           <button>선택회원삭제</button>
-        </HeaderRight>
-      </HeaderWrap>
+        </UserTopRight>
+      </UserTop>
 
-      <div className="GuardianListWrap">
-        <ListItem>
-          <input type="checkbox" />
-          <ListId>bong11</ListId>
-          <ListName>봉미선</ListName>
-          <div className="ListChild">해바라기반 신짱구</div>
-          <em className="ListPhoneNumber">010.0000.0000</em>
-          <button>정보수정</button>
-        </ListItem>
-      </div>
+      <UserMain>
+        <UserListWrap>
+          <UserListItem>
+            <UserListBox>
+              <input type="checkbox" />
+              <span>bong11</span>
+              <UserInfo>
+                <p>봉미선 </p>
+                <p>해바라기반 신짱구</p>
+              </UserInfo>
+              <em>010.0000.0000</em>
+              <button>정보 수정</button>
+            </UserListBox>
+          </UserListItem>
+          <UserListItem>
+            <UserListBox>
+              <input type="checkbox" />
+              <span>bong11</span>
+              <UserInfo>
+                <p>봉미선 </p>
+                <p>해바라기반 신짱구</p>
+              </UserInfo>
+              <em>010.0000.0000</em>
+              <button>정보 수정</button>
+            </UserListBox>
+          </UserListItem>
+          <UserListItem>
+            <UserListBox>
+              <input type="checkbox" />
+              <span>bong11</span>
+              <UserInfo>
+                <p>봉미선 </p>
+                <p>해바라기반 신짱구</p>
+              </UserInfo>
+              <em>010.0000.0000</em>
+              <button>정보 수정</button>
+            </UserListBox>
+          </UserListItem>
+          <UserListItem>
+            <UserListBox>
+              <input type="checkbox" />
+              <span>bong11</span>
+              <UserInfo>
+                <p>봉미선 </p>
+                <p>해바라기반 신짱구</p>
+              </UserInfo>
+              <em>010.0000.0000</em>
+              <button>정보 수정</button>
+            </UserListBox>
+          </UserListItem>
+          <UserListItem>
+            <UserListBox>
+              <input type="checkbox" />
+              <span>bong11</span>
+              <UserInfo>
+                <p>봉미선 </p>
+                <p>해바라기반 신짱구</p>
+              </UserInfo>
+              <em>010.0000.0000</em>
+              <button>정보 수정</button>
+            </UserListBox>
+          </UserListItem>
+          <UserListItem>
+            <UserListBox>
+              <input type="checkbox" />
+              <span>bong11</span>
+              <UserInfo>
+                <p>봉미선 </p>
+                <p>해바라기반 신짱구</p>
+              </UserInfo>
+              <em>010.0000.0000</em>
+              <button>정보 수정</button>
+            </UserListBox>
+          </UserListItem>
+          <UserListItem>
+            <UserListBox>
+              <input type="checkbox" />
+              <span>bong11</span>
+              <UserInfo>
+                <p>봉미선 </p>
+                <p>해바라기반 신짱구</p>
+              </UserInfo>
+              <em>010.0000.0000</em>
+              <button>정보 수정</button>
+            </UserListBox>
+          </UserListItem>
+          <UserListItem>
+            <UserListBox>
+              <input type="checkbox" />
+              <span>bong11</span>
+              <UserInfo>
+                <p>봉미선 </p>
+                <p>해바라기반 신짱구</p>
+              </UserInfo>
+              <em>010.0000.0000</em>
+              <button>정보 수정</button>
+            </UserListBox>
+          </UserListItem>
+          <UserListItem>
+            <UserListBox>
+              <input type="checkbox" />
+              <span>bong11</span>
+              <UserInfo>
+                <p>봉미선 </p>
+                <p>해바라기반 신짱구</p>
+              </UserInfo>
+              <em>010.0000.0000</em>
+              <button>정보 수정</button>
+            </UserListBox>
+          </UserListItem>
+          <UserListItem>
+            <UserListBox>
+              <input type="checkbox" />
+              <span>bong11</span>
+              <UserInfo>
+                <p>봉미선 </p>
+                <p>해바라기반 신짱구</p>
+              </UserInfo>
+              <em>010.0000.0000</em>
+              <button>정보 수정</button>
+            </UserListBox>
+          </UserListItem>
+        </UserListWrap>
+      </UserMain>
+      <Pagination
+        defaultCurrent={1} // 초기 선택된 페이지
+        total={50} // 전체 아이템 수
+        pageSize={10} // 한 페이지에 보여질 아이템 수
+        onChange={handlePageChange} // 페이지 변경 시의 콜백 함수
+      />
     </ContentLayout>
   );
 };

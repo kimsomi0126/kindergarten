@@ -32,8 +32,8 @@ const SideMenu = () => {
         src={process.env.PUBLIC_URL + "/images/common/sidebar/education.svg"}
       />,
       [
-        getItem(<Link to="/">교육과정</Link>, "2-1"),
-        getItem(<Link to="/">방과후활동</Link>, "2-2"),
+        getItem(<Link to="/edu">교육과정</Link>, "2-1"),
+        getItem(<Link to="/edu/specialact">방과후활동</Link>, "2-2"),
       ],
     ),
     getItem(
@@ -60,8 +60,8 @@ const SideMenu = () => {
       />,
       [
         getItem(<Link to="/admin">학부모관리</Link>, "5-1"),
-        getItem(<Link to="/admin/student/List">원생관리</Link>, "5-2"),
-        getItem(<Link to="/admin/student/Create">원생등록</Link>, "5-3"),
+        getItem(<Link to="/admin/student/list">원생관리</Link>, "5-2"),
+        getItem(<Link to="/admin/student/create">원생등록</Link>, "5-3"),
       ],
     ),
   ];

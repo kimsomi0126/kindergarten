@@ -35,11 +35,27 @@ const LazyAlbum = lazy(() => import("./pages/album/Album"));
 
 // 유치원 소식(공지사항)영역
 const LazyNoticeList = lazy(() => import("./pages/notice/NoticeList"));
+const LazyNoticeDetails = lazy(() => import("./pages/notice/NoticeDetails"));
+const LazyNoticeModify = lazy(() => import("./pages/notice/NoticeModify"));
+const LazyNoticeWrite = lazy(() => import("./pages/notice/NoticeWrite"));
 
 //관리자 영역
 const LazyGuardianList = lazy(() => import("./pages/adminPage/GuardianList"));
 const LazyStudentList = lazy(() => import("./pages/adminPage/StudentList"));
 const LazyStudentCreate = lazy(() => import("./pages/adminPage/StudentCreate"));
+
+//알림장 영역
+const LazyIndividualNoticeForm = lazy(() =>
+  import("./pages/individualNotice/IndividualNoticeForm"),
+);
+
+const LazyIndividualNoticeHistory = lazy(() =>
+  import("./pages/individualNotice/IndividualNoticeHistory"),
+);
+
+const LazyIndividualNoticeList = lazy(() =>
+  import("./pages/individualNotice/IndividualNoticeList"),
+);
 
 function App() {
   return (
@@ -100,34 +116,34 @@ function App() {
             </Suspense>
           }
         />
-
         {/* 유치원 소개 페이지 */}
         <Route
-          path="info/"
+          path="info"
           element={
             <Suspense fallback={<Loading />}>
               <LazyInfo />
             </Suspense>
           }
-        />
-        {/* 유치원 현황 */}
-        <Route
-          path="info/class"
-          element={
-            <Suspense fallback={<Loading />}>
-              <LazyInfoClass />
-            </Suspense>
-          }
-        />
-        {/* 오시는 길 */}
-        <Route
-          path="info/location"
-          element={
-            <Suspense fallback={<Loading />}>
-              <LazyLocation />
-            </Suspense>
-          }
-        />
+        >
+          {/* 유치원 현황 */}
+          <Route
+            path="class"
+            element={
+              <Suspense fallback={<Loading />}>
+                <LazyInfoClass />
+              </Suspense>
+            }
+          />
+          {/* 오시는 길 */}
+          <Route
+            path="location"
+            element={
+              <Suspense fallback={<Loading />}>
+                <LazyLocation />
+              </Suspense>
+            }
+          />
+        </Route>
         {/* 교육과정 페이지 */}
         <Route
           path="edu"
@@ -136,16 +152,17 @@ function App() {
               <LazyEdu />
             </Suspense>
           }
-        ></Route>
-        {/* 방과후 활동 페이지 */}
-        <Route
-          path="act"
-          element={
-            <Suspense fallback={<Loading />}>
-              <LazySpecialAct />
-            </Suspense>
-          }
-        ></Route>
+        >
+          {/* 방과후 활동 페이지 */}
+          <Route
+            path="specialact"
+            element={
+              <Suspense fallback={<Loading />}>
+                <LazySpecialAct />
+              </Suspense>
+            }
+          />
+        </Route>
         {/* 활동앨범 페이지 */}
         <Route
           path="album"
@@ -157,7 +174,8 @@ function App() {
         ></Route>
         {/* 유치원소식 페이지 */}
         <Route
-          path="/"
+          path="notice"
+          exact
           element={
             <Suspense fallback={<Loading />}>
               <LazyNoticeList />
@@ -165,8 +183,7 @@ function App() {
           }
         >
           <Route
-            path="/notice"
-            exact
+            path="list"
             component={
               <Suspense fallback={<Loading />}>
                 <LazyNoticeList />
@@ -174,10 +191,26 @@ function App() {
             }
           />
           <Route
-            path="/details/:index"
+            path="details"
             component={
               <Suspense fallback={<Loading />}>
-                <LazyNoticeList />
+                <LazyNoticeDetails />
+              </Suspense>
+            }
+          />
+          <Route
+            path="write"
+            component={
+              <Suspense fallback={<Loading />}>
+                <LazyNoticeWrite />
+              </Suspense>
+            }
+          />
+          <Route
+            path="modify"
+            component={
+              <Suspense fallback={<Loading />}>
+                <LazyNoticeModify />
               </Suspense>
             }
           />
@@ -185,30 +218,56 @@ function App() {
 
         {/* 관리자 페이지 */}
         <Route
-          path="admin/"
+          path="admin"
           element={
             <Suspense fallback={<Loading />}>
               <LazyGuardianList />
             </Suspense>
           }
-        ></Route>
+        >
+          <Route
+            path="student/list"
+            element={
+              <Suspense fallback={<Loading />}>
+                <LazyStudentList />
+              </Suspense>
+            }
+          />
+          <Route
+            path="student/create"
+            element={
+              <Suspense fallback={<Loading />}>
+                <LazyStudentCreate />
+              </Suspense>
+            }
+          />
+        </Route>
+        {/* 알림장 페이지 */}
         <Route
-          path="admin/student/List"
+          path="ind"
           element={
             <Suspense fallback={<Loading />}>
-              <LazyStudentList />
+              <LazyIndividualNoticeList />
             </Suspense>
           }
-        ></Route>
-        <Route
-          path="admin/student/Create"
-          element={
-            <Suspense fallback={<Loading />}>
-              <LazyStudentCreate />
-            </Suspense>
-          }
-        ></Route>
-
+        >
+          <Route
+            path="history"
+            element={
+              <Suspense fallback={<Loading />}>
+                <LazyIndividualNoticeHistory />
+              </Suspense>
+            }
+          />
+          <Route
+            path="form"
+            element={
+              <Suspense fallback={<Loading />}>
+                <LazyIndividualNoticeForm />
+              </Suspense>
+            }
+          />
+        </Route>
         <Route path="*" element={<h1>페이지가 없습니다.</h1>}></Route>
         {/* </Route> */}
       </Routes>

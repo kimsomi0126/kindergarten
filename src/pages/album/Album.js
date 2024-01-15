@@ -4,9 +4,9 @@ import {
   AlbumTopBar,
   AlbumWrap,
   InnerAlbum,
-  SearchAndWrite,
+  SearchBar,
 } from "../../styles/album/album";
-
+import { GreenBtn } from "../../styles/ui/buttons";
 const Album = () => {
   // 임시 데이터 서버로부터 받아온 데이터로 대체될 예정
   const data = [
@@ -47,16 +47,8 @@ const Album = () => {
         "https://i.namu.wiki/i/x31ZhQR6s-fIMI8Hm_TKalJIBuffBF87-efGjYzuerdU5r0GOjorD2qQjDtfhCdqUE9iVtN5l4EsWa6PfCfO1pP40O8mlQVDC4BgeoalFUYefIiqPJgw5SsPsZA8qSXpT-u8KcRjkvndDw15stfhgg.webp",
     },
   ];
-  // 앨범 상세내용 보기
-  // const LazyAlbumDetail = lazy(() => import("./pages/album/AlbumDetail"));
 
-  // 수정
-  // const LazyAlbumModify = lazy(() => import("./pages/album/AlbumModify"));
-
-  // 글쓰기 페이지
-  // const LazyAlbumWrite = lazy(() => import("./pages/album/AlbumWrite"));
-
-  // // 무한 스크롤을 위한 로직은 여기에 추가하면 됩니다.
+  // // 무한 스크롤을 위한 로직 예정.
   const [activities, setActivities] = useState([]); // 임시로 상태를 설정
 
   useEffect(() => {
@@ -73,22 +65,27 @@ const Album = () => {
             <img
               src={process.env.PUBLIC_URL + "/images/common/titleIcon.svg"}
             ></img>
-            활동앨범
+            <h3>활동앨범</h3>
           </div>
 
-          <SearchAndWrite>
+          <SearchBar>
             <input type="text" placeholder="제목을 입력하세요." />
             <img
               src={process.env.PUBLIC_URL + "/images/common/readingGlasses.svg"}
             ></img>
-            <button>글쓰기</button>
-          </SearchAndWrite>
+            <GreenBtn>글쓰기</GreenBtn>
+          </SearchBar>
         </AlbumTopBar>
-        <InnerAlbum width={470} height={392}>
+        <InnerAlbum>
           <div data={data} className="gallery">
             {data.map(item => (
               <div key={item.id} className="gallery-item">
-                <img src={`${item.album}`} alt={item.title} />
+                <img
+                  width={30}
+                  height={25}
+                  src={`${item.album}`}
+                  alt={item.title}
+                />
                 <h3>{item.title}</h3>
               </div>
             ))}

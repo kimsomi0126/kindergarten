@@ -1,11 +1,14 @@
 import React from "react";
 import ContentLayout from "../../layouts/ContentLayout";
-
+import { Outlet } from "react-router";
 const Edu = () => {
   return (
-    <ContentLayout>
-      <h1>교육 영역 페이지</h1>
-    </ContentLayout>
+    <>
+      <Outlet />
+      <ContentLayout>
+        <h1>교육 영역 페이지</h1>
+      </ContentLayout>
+    </>
   );
 };
 

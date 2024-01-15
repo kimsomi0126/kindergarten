@@ -1,12 +1,22 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { Buttons, HeaderBtn, NavWrap } from "../../styles/basic";
+import { HeaderBtn, NavWrap } from "../../styles/basic";
+import {
+  GrayBtn,
+  GreenBtn,
+  OrangeBtn,
+  PurpleBtn,
+} from "../../styles/ui/buttons";
 
 const NavBar = () => {
   return (
     <NavWrap>
+      <p>ㅇㅇㅇ님 환영합니다.</p>
       <HeaderBtn>
-        <Buttons
+        <PurpleBtn>학부모관리 </PurpleBtn>
+        <GrayBtn>알림장</GrayBtn>
+        <OrangeBtn>회원가입</OrangeBtn>
+        <GreenBtn>로그인</GreenBtn>
+        {/* <Buttons
           as={Link}
           to={"/signup"}
           color="orangeDeep"
@@ -21,7 +31,7 @@ const NavBar = () => {
           background="greenLight"
         >
           로그인
-        </Buttons>
+        </Buttons> */}
       </HeaderBtn>
     </NavWrap>
   );

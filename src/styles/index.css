@@ -61,20 +61,50 @@ h5 {
 
 h1,
 h2 {
-  font-size: 5rem;
+  font-size: 4rem;
 }
 h3 {
-  font-size: 3.6rem;
+  font-size: 2.4rem;
 }
 h4 {
-  font-size: 2.4rem;
+  font-size: 2.2rem;
 }
 button {
-  font-size: 2.4rem;
+  font-size: 1.8rem;
+  font-family: "KOTRAHOPE", "Pretendard", sans-serif;
+  background: #fff;
+  border: 0;
+  padding: 1rem 1.5rem;
+  background: #ebebeb;
+  border-radius: 1rem;
+  cursor: pointer;
+  min-width: 8rem;
 }
 
 .box {
   border-radius: 10px;
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.05);
   border-color: #ebebeb;
+}
+
+.layout-wrap {
+  min-height: 100vh;
+}
+
+.layout-wrap .ant-menu {
+  border-inline-end: 0;
+}
+.layout-wrap .ant-menu-light.ant-menu-root.ant-menu-inline {
+  border-inline-end: 0;
+}
+.layout-wrap .ant-menu-inline-collapsed > .ant-menu-item,
+.layout-wrap
+  .ant-menu-inline-collapsed
+  > .ant-menu-submenu
+  > .ant-menu-submenu-title {
+  padding-inline: calc(35% - 8px - 4px);
+}
+.layout-wrap .ant-menu-submenu-title img,
+.layout-wrap .ant-menu-item img {
+  max-height: 3rem;
 }

@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 import styled from "@emotion/styled";
-import { Link } from "react-router-dom";
+import { animationGo } from "./ui/animations";
 
 // 기본색상
 export const colors = {
@@ -29,6 +29,11 @@ export const colors = {
   white: "#fff",
 };
 
+export const fonts = {
+  kotraHope: `"KOTRAHOPE", "Pretendard", sans-serif;`,
+  pretendard: `"Pretendard", sans-serif;`,
+};
+
 // 그림자효과
 export const shadow = {
   boxShadow: "0px 0px 10px 0px rgba(0, 0, 0, 0.05)",
@@ -36,13 +41,13 @@ export const shadow = {
 
 // 전체 레이아웃
 export const Wrap = styled.div`
-  max-width: ${props => props.maxw + "px"};
+  max-width: ${props => {
+    props ? props.maxw + "px" : "100%";
+  }};
   height: 100vh;
   display: flex;
   flex-direction: column;
   margin: 0 auto;
-  background: url(${process.env.PUBLIC_URL + "/images/common/background.svg"})
-    repeat center;
 
   input,
   textarea {
@@ -57,54 +62,51 @@ export const Wrap = styled.div`
   }
 `;
 
+// navbar 레이아웃
 export const NavWrap = styled.div`
+  position: relative;
   width: 100%;
-  height: 90px;
+  padding: 0 3%;
   background-color: ${colors.white};
   display: flex;
   justify-content: right;
   align-items: center;
-  position: relative; /* 푸터와 사이드바보다 상위에 위치 */
+  gap: 2rem;
   z-index: 10;
   border-bottom: 1px solid ${colors.grayLight};
+  p {
+    font-size: 1.8rem;
+    font-family: ${fonts.kotraHope};
+    color: ${colors.greenDeep};
+  }
 `;
 
-// HeaderBtn 스타일드 컴포넌트 정의
+// 상단 navbar 버튼
 export const HeaderBtn = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  gap: 10px; /* 버튼 사이의 간격 */
-  margin-right: 20px; /* 오른쪽 여백 */
-  border-radius: 10px;
+  gap: 1rem;
+  border-radius: 1rem;
   box-shadow: ${shadow.boxShadow};
-  margin: 20px 0%;
 `;
 
-// 각 버튼에 적용할 고유 스타일 정의
-export const Buttons = styled.button`
-  border-radius: 10px;
-  background-color: ${props => colors[props.background]};
-  color: ${props => colors[props.color]}; /* props로 받은 글자 색상 적용 */
-  border: none;
-  font-family: "KOTRAHOPE", "Pretendard", sans-serif;
-  font-size: 24px;
-  padding: 10px 20px;
-  cursor: pointer;
-  &:hover {
-    opacity: 0.8;
-  }
-`;
-
+// 메인 content 레이아웃
 export const WrapMain = styled.div`
-  padding-left: 340px;
+  position: relative;
+  padding: 0 3%;
+  height: 100%;
+  background: url(${process.env.PUBLIC_URL + "/images/common/background.png"})
+    repeat top;
 `;
 
 // content 레이아웃
 export const WrapContent = styled.div`
   position: relative;
-  max-width: ${props => props.maxw + "px"};
-  min-height: 100vh;
+  max-width: ${props => {
+    props ? props.maxw + "px" : "100%";
+  }};
+  height: 100%;
   overflow-x: auto;
   margin: 0 auto;
 
@@ -114,25 +116,63 @@ export const WrapContent = styled.div`
   }
 `;
 
-// SideBar
+// 사이드바
 export const SideBarWrap = styled.div`
-  position: fixed;
-  width: 320px;
-  height: 100vh;
-  font-size: 20px;
-  background: ${colors.white};
-  display: flex;
-  justify-content: space-;
-  align-items: center;
-  flex-direction: column;
+  background: #fff;
   z-index: 99;
-  padding: 2rem;
-  border-right: 1px solid ${colors.grayLight};
-  box-shadow: ${shadow.boxShadow};
+  ${shadow}
 `;
 
-export const LogoWrap = styled(Link)`
+// 로고
+export const LogoWrap = styled.div`
+  width: 100%;
+  text-align: center;
+  margin: 3rem 0;
   img {
-    max-width: 14rem;
+    max-height: 3.5rem;
   }
+`;
+
+// 서브페이지 타이틀
+export const PageTitle = styled.h3`
+  padding-left: 2.8rem;
+  background: url(${process.env.PUBLIC_URL + "/images/information/logo1.svg"})
+    no-repeat left 0.25rem/2.3rem;
+  color: ${colors.greenDeep};
+`;
+
+// 하단 footer
+export const FooterWrap = styled.div`
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  padding-bottom: 10rem;
+  overflow: hidden;
+  background: url(${process.env.PUBLIC_URL +
+    "/images/common/footer/footer_bg.png"})
+    no-repeat center 150%/100%;
+  text-align: center;
+
+  a {
+    position: absolute;
+    left: 50%;
+    bottom: 1rem;
+    transform: translateX(-50%);
+    font-size: 1.4rem;
+    color: #fff;
+  }
+`;
+
+export const FooterBus = styled.div`
+  position: absolute;
+  bottom: -22%;
+  left: 0;
+  width: 16.6rem;
+  height: 16.6rem;
+  background: url(${process.env.PUBLIC_URL +
+    "/images/common/footer/footer_bus.svg"})
+    no-repeat center/70%;
+
+  animation: ${animationGo} 10s infinite ease-in-out;
 `;

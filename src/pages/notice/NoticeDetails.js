@@ -1,11 +1,13 @@
-import React from "react";
-import ContentLayout from "../../layouts/ContentLayout";
+// NoticeDetails.js
 
-const NoticeDetails = () => {
+import React from "react";
+
+const NoticeDetails = ({ content }) => {
   return (
-    <ContentLayout>
-      <h1>유치원 소식 상세 페이지</h1>
-    </ContentLayout>
+    <div>
+      <h1>게시물 상세 내용</h1>
+      <p>{content}</p>
+    </div>
   );
 };
 

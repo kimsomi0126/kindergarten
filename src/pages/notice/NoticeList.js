@@ -1,7 +1,7 @@
-import { Button, Flex, Input, List, Pagination } from "antd";
 import React, { useState } from "react";
+import { Button, Flex, Input, List, Pagination } from "antd";
+import { Link } from "react-router-dom"; // 리액트 라우터의 Link 컴포넌트 import
 import ContentLayout from "../../layouts/ContentLayout";
-import MainPageLayout from "../../layouts/MainPageLayout";
 
 const { Search } = Input;
 
@@ -54,6 +54,7 @@ const pageSize = 10; // 페이지당 아이템 개수
 
 const NoticeList = () => {
   const [current, setCurrent] = useState(1);
+
   const onChange = page => {
     console.log(page);
     setCurrent(page);
@@ -63,71 +64,56 @@ const NoticeList = () => {
   const startIndex = (current - 1) * pageSize;
   const endIndex = startIndex + pageSize;
   const currentPageData = data.slice(startIndex, endIndex);
-  const size = "small";
 
   return (
     <ContentLayout>
       <div style={{ marginTop: 60 }}>
-        <Flex
-          gap="small"
-          justify="space-between"
-          style={{
-            width: "100%",
-            marginBottom: 35,
-            alignItems: "center", // 이미지와 텍스트 수직 중앙 정렬을 위한 스타일
-          }}
-        >
-          <div style={{ fontSize: 36 }}>
-            {}
-            <img
-              src="경로/이미지.jpg"
-              alt="유치원 로고"
-              style={{ height: 50, marginRight: 10 }} // 이미지 스타일 조절
-            />
-            유치원 소식
-          </div>
-          <div>
-            <Search
-              placeholder="검색어를 입력하세요."
-              allowClear
-              onSearch={onSearch}
-              style={{
-                width: 330,
-                marginRight: 20,
-              }}
-            />
-            <Button
-              type="primary"
-              size={size}
-              style={{ background: "gray", borderColor: "gray" }}
-            >
-              글쓰기
-            </Button>
-          </div>
-        </Flex>
+        {/* ... (이전의 코드) */}
 
         <List
           size="large"
           itemLayout="vertical"
           dataSource={currentPageData}
           renderItem={(item, index) => (
-            <List.Item
-              style={{
-                borderLeft: "none",
-                borderRight: "none",
-                padding: "12px 0",
-                background: index < 3 ? "#E7F6ED" : "white",
-                display: "flex",
-                alignItems: "center",
-              }}
+            <Link
+              to={`/details/${index}`} // 상세 페이지로 이동하는 Link
+              key={index}
             >
-              <span style={{ marginLeft: 20 }}>{item}</span>
-              {/* 텍스트에 marginLeft 적용 */}
-            </List.Item>
+              <List.Item
+                style={{
+                  borderLeft: "none",
+                  borderRight: "none",
+                  padding: "12px 0",
+                  background: index < 3 ? "#E7F6ED" : "white",
+                  display: "flex",
+                  justifyContent: "space-between", // 내용을 좌우로 나누기 위해 추가
+                  alignItems: "center",
+                  cursor: "pointer",
+                }}
+              >
+                <span
+                  style={{
+                    marginLeft: 20,
+                    color: index < 3 ? "#00876D" : "#000000",
+                    fontWeight: index < 3 ? "bold" : "normal",
+                  }}
+                >
+                  {item}
+                </span>
+                <div style={{ marginRight: 20, color: "gray" }}>
+                  <img
+                    src="/images/information/logo1.svg"
+                    alt="유치원 로고"
+                    style={{ height: 30, marginRight: 10 }} // 이미지 스타일 조절
+                  />
+                  2024-01-15
+                </div>
+              </List.Item>
+            </Link>
           )}
           style={{
             width: "100%",
-            marginTop: 35,
+            margin: "0 auto", // 가로로 가운데 정렬
             background: "white",
             borderTop: "1px solid #00876D",
             borderBottom: "1px solid #00876D",

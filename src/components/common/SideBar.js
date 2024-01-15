@@ -8,7 +8,7 @@ const SideBar = () => {
       <LogoWrap>
         <Link to={"/"}>
           <img
-            src={process.env.PUBLIC_URL + "/images/common/header/logo.svg"}
+            src={process.env.PUBLIC_URL + "/images/common/sidebar/logo.svg"}
           ></img>
         </Link>
       </LogoWrap>
@@ -17,46 +17,32 @@ const SideBar = () => {
           <Link as={Link} to={"/info"}>
             유치원안내
           </Link>
-          <Link to={"/info"}>
-            <p>유치원 소개</p>
-          </Link>
-          <Link to={"/info/class"}>
-            <p>유치원 현황</p>
-          </Link>
-          <Link to={"/info/location"}>
-            <p>오시는 길</p>
-          </Link>
+          <div>
+            <Link to={"/info"}>유치원 소개</Link>
+          </div>
+          <div>
+            <Link to={"/info/class"}>유치원 현황</Link>
+          </div>
+          <div>
+            <Link to={"/info/location"}>오시는 길</Link>
+          </div>
         </div>
         <div>
           <p>교육</p>
-          <Link to={"/edu"}>
-            <p>교육과정</p>
-          </Link>
-          <Link to={"/act"}>
-            <p>방과후활동</p>
-          </Link>
+          <Link to={"/edu"}>교육과정</Link>
+          <Link to={"/act"}>방과후활동</Link>
         </div>
         <div>
-          <Link to={"/album"}>
-            <p>활동앨범</p>
-          </Link>
+          <Link to={"/album"}>활동앨범</Link>
         </div>
         <div>
-          <Link to={"/notice"}>
-            <p>유치원소식</p>
-          </Link>
+          <Link to={"/notice"}>유치원소식</Link>
         </div>
         <div>
           <p>관리자</p>
-          <Link to={"/admin"}>
-            <p>학부모 관리</p>
-          </Link>
-          <Link to={"/admin/student/list"}>
-            <p>원생 관리</p>
-          </Link>
-          <Link to={"admin/student/create"}>
-            <p>원생 등록</p>
-          </Link>
+          <Link to={"/admin"}>학부모 관리</Link>
+          <Link to={"/admin/student/list"}>원생 관리</Link>
+          <Link to={"admin/student/create"}>원생 등록</Link>
         </div>
       </div>
     </SideBarWrap>

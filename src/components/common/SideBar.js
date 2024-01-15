@@ -5,13 +5,6 @@ import { Buttons, LogoWrap, SideBarWrap } from "../../styles/basic";
 const SideBar = () => {
   return (
     <SideBarWrap>
-      <LogoWrap>
-        <Link to={"/"}>
-          <img
-            src={process.env.PUBLIC_URL + "/images/common/header/logo.svg"}
-          ></img>
-        </Link>
-      </LogoWrap>
       <div>
         <div>
           <Link as={Link} to={"/info"}>

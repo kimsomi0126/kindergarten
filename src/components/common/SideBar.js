@@ -8,7 +8,7 @@ const SideBar = () => {
       <LogoWrap>
         <Link to={"/"}>
           <img
-            src={process.env.PUBLIC_URL + "/images/common/sidebar/logo.svg"}
+            src={process.env.PUBLIC_URL + "images/common/sidebar/logo.svg"}
           ></img>
         </Link>
       </LogoWrap>

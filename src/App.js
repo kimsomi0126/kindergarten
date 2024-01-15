@@ -2,8 +2,6 @@ import React, { Suspense, lazy } from "react";
 import { BrowserRouter, Route, Router, Routes } from "react-router-dom";
 import "./styles/normalize.css";
 import "./styles/index.css";
-import NoticeList from "./pages/notice//NoticeList";
-import NoticeDetails from "./pages/notice//NoticeDetails";
 
 // 라우터 페이지 로딩 컴포넌트
 import Loading from "./components/loading/Loading";
@@ -158,20 +156,32 @@ function App() {
           }
         ></Route>
         {/* 유치원소식 페이지 */}
-        <Router>
-          <Switch>
-            <Route
-              path="notice"
-              element={
-                <Suspense fallback={<Loading />}>
-                  <LazyNoticeList />
-                </Suspense>
-              }
-            ></Route>
-            <Route path="/" exact component={NoticeList} />
-            <Route path="/details/:index" component={NoticeDetails} />
-          </Switch>
-        </Router>
+        <Route
+          path="/"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LazyNoticeList />
+            </Suspense>
+          }
+        >
+          <Route
+            path="/notice"
+            exact
+            component={
+              <Suspense fallback={<Loading />}>
+                <LazyNoticeList />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/details/:index"
+            component={
+              <Suspense fallback={<Loading />}>
+                <LazyNoticeList />
+              </Suspense>
+            }
+          />
+        </Route>
 
         {/* 관리자 페이지 */}
         <Route

@@ -229,47 +229,23 @@ function App() {
         </Route>
         {/* 유치원소식 페이지 */}
 
-          <Route
-            index
-            element={
-              <Suspense fallback={<Loading />}>
-                <LazyNoticeList />
-              </Suspense>
-            }
-          />
-          <Route
-            path="list"
-            element={
-              <Suspense fallback={<Loading />}>
-                <NoticeList />
-              </Suspense>
-            }
-          />
-          <Route
-            path="details/:id"
-            element={
-              <Suspense fallback={<Loading />}>
-                <NoticeDetails />
-              </Suspense>
-            }
-          />
-          <Route
-            path="write"
-            component={
-              <Suspense fallback={<Loading />}>
-                <NoticeWrite />
-              </Suspense>
-            }
-          />
-          <Route
-            path="modify"
-            component={
-              <Suspense fallback={<Loading />}>
-                <NoticeModify />
-              </Suspense>
-            }
-          />
-        </Route>
+        <Route index element={<Suspense fallback={<Loading />}></Suspense>} />
+        <Route
+          path="list"
+          element={<Suspense fallback={<Loading />}></Suspense>}
+        />
+        <Route
+          path="details/:id"
+          element={<Suspense fallback={<Loading />}></Suspense>}
+        />
+        <Route
+          path="write"
+          component={<Suspense fallback={<Loading />}></Suspense>}
+        />
+        <Route
+          path="modify"
+          component={<Suspense fallback={<Loading />}></Suspense>}
+        />
 
         {/* 관리자 페이지 */}
         <Route

@@ -7,12 +7,13 @@ import {
   UserListWrap,
   UserMain,
   UserTop,
-  UserTopLeft,
   UserTopRight,
 } from "../../styles/adminstyle/guardianlist";
 import { Pagination, Select } from "antd";
 import Search from "antd/es/input/Search";
 import { Outlet } from "react-router";
+import { PageTitle } from "../../styles/basic";
+import { GrayBtn, GreenBtn } from "../../styles/ui/buttons";
 
 const handleChange = value => {
   console.log(value);
@@ -24,11 +25,9 @@ const handlePageChange = (page, pageSize) => {
 const GuardianList = () => {
   return (
     <>
-      <Outlet />
-
       <ContentLayout>
         <UserTop>
-          <UserTopLeft>학부모 관리</UserTopLeft>
+          <PageTitle>학부모 관리</PageTitle>
           <UserTopRight>
             <Select
               labelInValue
@@ -70,7 +69,7 @@ const GuardianList = () => {
               }}
               allowClear
             />
-            <button>선택회원삭제</button>
+            <GreenBtn>선택회원삭제</GreenBtn>
           </UserTopRight>
         </UserTop>
 
@@ -85,7 +84,7 @@ const GuardianList = () => {
                   <p>해바라기반 신짱구</p>
                 </UserInfo>
                 <em>010.0000.0000</em>
-                <button>정보 수정</button>
+                <GrayBtn>정보 수정</GrayBtn>
               </UserListBox>
             </UserListItem>
             <UserListItem>

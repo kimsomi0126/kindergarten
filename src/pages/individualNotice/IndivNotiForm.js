@@ -1,7 +1,7 @@
 import React from "react";
-import ContentLayout from "../../layouts/ContentLayout";
+import ContentLayout from "../../layouts/common/ContentLayout";
 
-const IndividualNoticeForm = () => {
+const IndivNotiForm = () => {
   return (
     <ContentLayout>
       <h1>알림장 작성 페이지</h1>
@@ -9,4 +9,4 @@ const IndividualNoticeForm = () => {
   );
 };
 
-export default IndividualNoticeForm;
+export default IndivNotiForm;

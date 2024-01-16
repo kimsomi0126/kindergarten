@@ -2,12 +2,13 @@
 import styled from "@emotion/styled";
 import { colors, shadow } from "../basic";
 export const AlbumWrap = styled.div`
+  overflow: hidden;
   font-family: "KOTRAHOPE";
   padding-top: ${props => props.paddingTop + "px"};
 
   width: 100%;
   margin: 0 auto;
-
+  height: 100%;
   input {
     padding: 8px;
     margin-right: 10px;
@@ -30,7 +31,9 @@ export const AlbumWrap = styled.div`
 export const AlbumTopBar = styled.div`
   display: flex;
   justify-content: space-between;
-  /* align-items: center; */
+  align-items: center;
+  width: 100%;
+  height: 60px;
 
   .album-title {
     display: flex;
@@ -50,8 +53,8 @@ export const SearchBar = styled.div`
   text-align: center;
   width: 340px;
   input {
-    padding: 0 20px;
-    widht: 100%;
+    /* padding: 0 20px; */
+    width: 100%;
     height: 100%;
     position: relative;
     font-family: Pretendard;
@@ -71,11 +74,14 @@ export const SearchBar = styled.div`
   }
 `;
 export const InnerAlbum = styled.div`
+  width: 100%;
+  height: 100%;
+
   .gallery {
     display: flex;
     justify-content: space-between;
     align-items: center;
-
+    flex-wrap: wrap;
     width: 100%;
     height: 100%;
     margin: 0 auto;
@@ -83,18 +89,16 @@ export const InnerAlbum = styled.div`
   }
 
   .gallery-item {
+    width: ${props => props.width + "rem"};
+    height: ${props => props.height + "rem"};
     border: 1px solid #ddd;
-    width: 28rem;
-    height: 25rem;
-
-    /* width: ${props => props.width + "rem"};
-    height: ${props => props.height + "rem"}; */
     text-align: center;
+    margin-bottom: 7rem;
   }
 
   .gallery-item img {
-    width: 448px;
-    height: 392px;
+    width: 100%;
+    height: 100%;
     margin-bottom: 10px;
   }
 `;

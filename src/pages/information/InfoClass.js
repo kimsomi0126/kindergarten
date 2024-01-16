@@ -1,11 +1,13 @@
 import React from "react";
-import ContentLayout from "../../layouts/ContentLayout";
-
+import InfoLayout from "../../layouts/InfoLayout";
+import "../../styles/information/info.css";
 const InfoClass = () => {
   return (
-    <ContentLayout>
-      <h1>원생 현황 페이지</h1>
-    </ContentLayout>
+    <InfoLayout>
+      <div className="info_wrap">
+        <div className="info_main">asdfasdfsadfsdafsfd</div>
+      </div>
+    </InfoLayout>
   );
 };
 

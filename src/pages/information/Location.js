@@ -1,11 +1,11 @@
 import React from "react";
-import ContentLayout from "../../layouts/ContentLayout";
+import InfoLayout from "../../layouts/InfoLayout";
 
 const Location = () => {
   return (
-    <ContentLayout>
+    <InfoLayout>
       <h1>오시는 길 페이지</h1>
-    </ContentLayout>
+    </InfoLayout>
   );
 };
 

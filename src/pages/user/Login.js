@@ -1,5 +1,5 @@
 import React from "react";
-import ContentLayout from "../../layouts/ContentLayout";
+import ContentLayout from "../../layouts/common/ContentLayout";
 
 // const LazyIdentNum = lazy(() => import("./pages/user/IdentNum"));
 // const LazyGuardianSignup = lazy(() => import("./pages/user/GuardianSignup"));

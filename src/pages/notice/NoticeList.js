@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Flex, Input, List, Pagination } from "antd";
 import { Link, Outlet } from "react-router-dom"; // 리액트 라우터의 Link 컴포넌트 import
-import ContentLayout from "../../layouts/ContentLayout";
+import ContentLayout from "../../layouts/common/ContentLayout";
 
 const { Search } = Input;
 

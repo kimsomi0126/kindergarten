@@ -1,7 +1,7 @@
 import React from "react";
-import ContentLayout from "../../layouts/ContentLayout";
+import ContentLayout from "../../layouts/common/ContentLayout";
 
-const GuardianSignup = () => {
+const SignupForm = () => {
   return (
     <ContentLayout>
       <h1>보호자 회원가입 상세페이지</h1>
@@ -9,4 +9,4 @@ const GuardianSignup = () => {
   );
 };
 
-export default GuardianSignup;
+export default SignupForm;

@@ -1,8 +1,8 @@
 import React from "react";
 import { Outlet } from "react-router";
-import ContentLayout from "../../layouts/ContentLayout";
+import ContentLayout from "../../layouts/common/ContentLayout";
 
-const IndividualNoticeList = () => {
+const IndivNotiList = () => {
   return (
     <>
       <Outlet />
@@ -13,4 +13,4 @@ const IndividualNoticeList = () => {
   );
 };
 
-export default IndividualNoticeList;
+export default IndivNotiList;

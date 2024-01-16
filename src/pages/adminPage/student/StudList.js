@@ -1,14 +1,14 @@
-import React from "react";
-import ContentLayout from "../../layouts/ContentLayout";
 import { Select } from "antd";
 import Search from "antd/es/input/Search";
+import React from "react";
+import AdminLayout from "../../../layouts/AdminLayout";
 
 const handleChange = value => {
   console.log(value);
 };
-const StudentList = () => {
+const StudList = () => {
   return (
-    <ContentLayout>
+    <AdminLayout>
       <div className="StudentTop">
         <div className="StudentTopLeft">원생 관리</div>
         <div className="StudentTopRight">
@@ -72,8 +72,8 @@ const StudentList = () => {
           </li>
         </ul>
       </div>
-    </ContentLayout>
+    </AdminLayout>
   );
 };
 
-export default StudentList;
+export default StudList;

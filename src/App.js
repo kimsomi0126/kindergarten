@@ -39,10 +39,6 @@ const AlbumModify = lazy(() => import("./pages/album/AlbumModify"));
 const AlbumWrite = lazy(() => import("./pages/album/AlbumWrite"));
 
 // 유치원 소식(공지사항)영역
-const NoticeList = lazy(() => import("./pages/notice/NoticeList"));
-const NoticeDetails = lazy(() => import("./pages/notice/NoticeDetails"));
-const NoticeModify = lazy(() => import("./pages/notice/NoticeModify"));
-const NoticeWrite = lazy(() => import("./pages/notice/NoticeWrite"));
 
 //관리자 영역
 const GuardianList = lazy(() => import("./pages/adminPage/GuardianList"));
@@ -232,26 +228,26 @@ function App() {
           />
         </Route>
         {/* 유치원소식 페이지 */}
-        <Route
-          path="notice"
-          exact
-          element={
-            <Suspense fallback={<Loading />}>
-              <NoticeList />
-            </Suspense>
-          }
-        >
+
+          <Route
+            index
+            element={
+              <Suspense fallback={<Loading />}>
+                <LazyNoticeList />
+              </Suspense>
+            }
+          />
           <Route
             path="list"
-            component={
+            element={
               <Suspense fallback={<Loading />}>
                 <NoticeList />
               </Suspense>
             }
           />
           <Route
-            path="details"
-            component={
+            path="details/:id"
+            element={
               <Suspense fallback={<Loading />}>
                 <NoticeDetails />
               </Suspense>

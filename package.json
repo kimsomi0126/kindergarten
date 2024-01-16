@@ -21,6 +21,7 @@
     "react-spinners": "^0.13.8",
     "react-virtualized": "^9.22.5",
     "sass": "^1.69.7",
+    "styled-jsx": "^5.1.2",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

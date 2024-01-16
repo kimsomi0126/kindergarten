@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button, Flex, Input, List, Pagination } from "antd";
-import { Link, Outlet } from "react-router-dom"; // 리액트 라우터의 Link 컴포넌트 import
+import { Link, Route, Routes, useNavigate } from "react-router-dom";
+import NoticeDetails from "./NoticeDetails"; // NoticeDetails 컴포넌트 import
 import ContentLayout from "../../layouts/common/ContentLayout";
 
 const { Search } = Input;
@@ -60,82 +61,126 @@ const NoticeList = () => {
     setCurrent(page);
   };
 
+  const size = "small";
+
   // 현재 페이지에 해당하는 데이터 계산
   const startIndex = (current - 1) * pageSize;
   const endIndex = startIndex + pageSize;
   const currentPageData = data.slice(startIndex, endIndex);
 
   return (
-    <>
-      <Outlet />
+    <ContentLayout>
+      <div style={{ marginTop: 60 }}>
+        <Flex
+          gap="small"
+          justify="space-between"
+          style={{
+            width: "100%",
+            marginBottom: 20,
+            alignItems: "center",
+          }}
+        >
+          <div style={{ fontSize: 36, color: "#008666" }}>
+            <img
+              src="/images/common/titleIcon.svg"
+              alt=""
+              style={{ height: 50, marginRight: 10 }}
+            />
+            유치원 소식
+          </div>
+          <Flex gap="small" alignItems="center">
+            <Search
+              placeholder="제목을 입력하세요."
+              allowClear
+              onSearch={onSearch}
+              style={{
+                width: 330,
+                marginRight: 20,
+              }}
+            />
+            <Button
+              type="primary"
+              size={size}
+              style={{
+                background: "#D3ECC8",
+                borderColor: "#D3ECC8",
+                padding: "15px 30px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                borderRadius: "1rem",
+                color: "#00876D",
+              }}
+            >
+              글쓰기
+            </Button>
+          </Flex>
+        </Flex>
 
-      <ContentLayout>
-        <div style={{ marginTop: 60 }}>
-          {/* ... (이전의 코드) */}
-
-          <List
-            size="large"
-            itemLayout="vertical"
-            dataSource={currentPageData}
-            renderItem={(item, index) => (
-              <Link
-                to={`/details/${index}`} // 상세 페이지로 이동하는 Link
-                key={index}
+        <List
+          size="large"
+          itemLayout="vertical"
+          dataSource={currentPageData}
+          renderItem={(item, index) => (
+            <Link to={`/notice/details/${index}`} key={index}>
+              <List.Item
+                style={{
+                  borderLeft: "none",
+                  borderRight: "none",
+                  borderBottom: "1px solid #e8e8e8", // 라인 추가
+                  padding: "12px 0",
+                  background: index < 3 ? "#E7F6ED" : "white",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  cursor: "pointer",
+                }}
               >
-                <List.Item
+                <span
                   style={{
-                    borderLeft: "none",
-                    borderRight: "none",
-                    padding: "12px 0",
-                    background: index < 3 ? "#E7F6ED" : "white",
-                    display: "flex",
-                    justifyContent: "space-between", // 내용을 좌우로 나누기 위해 추가
-                    alignItems: "center",
-                    cursor: "pointer",
+                    marginLeft: 20,
+                    color: index < 3 ? "#00876D" : "#000000",
+                    fontWeight: index < 3 ? "bold" : "normal",
                   }}
                 >
-                  <span
-                    style={{
-                      marginLeft: 20,
-                      color: index < 3 ? "#00876D" : "#000000",
-                      fontWeight: index < 3 ? "bold" : "normal",
-                    }}
-                  >
-                    {item}
-                  </span>
-                  <div style={{ marginRight: 20, color: "gray" }}>
-                    <img
-                      src="/images/information/logo1.svg"
-                      alt="유치원 로고"
-                      style={{ height: 30, marginRight: 10 }} // 이미지 스타일 조절
-                    />
-                    2024-01-15
-                  </div>
-                </List.Item>
-              </Link>
-            )}
-            style={{
-              width: "100%",
-              margin: "0 auto", // 가로로 가운데 정렬
-              background: "white",
-              borderTop: "1px solid #00876D",
-              borderBottom: "1px solid #00876D",
-            }}
-          />
+                  {item}
+                </span>
+                <div style={{ marginRight: 20, color: "gray" }}>
+                  <img
+                    src="/images/common/notice/clock.svg"
+                    alt=""
+                    style={{ height: 30, marginRight: 10 }}
+                  />
+                  2024-01-15
+                </div>
+              </List.Item>
+            </Link>
+          )}
+          style={{
+            width: "100%",
+            margin: "0 auto",
+            background: "white",
+            borderTop: "1px solid #00876D",
+            borderBottom: "1px solid #00876D",
+          }}
+        />
 
-          <Pagination
-            current={current}
-            onChange={onChange}
-            total={data.length}
-            pageSize={pageSize}
-            style={{
-              marginTop: 35,
-              textAlign: "center",
-            }}
-          />
-        </div>
-      </ContentLayout>
-    </>
+        <Pagination
+          current={current}
+          onChange={onChange}
+          total={data.length}
+          pageSize={pageSize}
+          style={{
+            marginTop: 35,
+            textAlign: "center",
+          }}
+        />
+
+        <Routes>
+          <Route path="/gallery/:id" element={<NoticeDetails />} />
+        </Routes>
+      </div>
+    </ContentLayout>
   );
 };
 

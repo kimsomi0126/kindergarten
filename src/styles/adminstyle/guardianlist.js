@@ -7,12 +7,6 @@ export const UserTop = styled.div`
   justify-content: space-between;
 `;
 
-export const UserTopLeft = styled.div`
-  color: ${colors.greenDeep};
-  font-size: 3.6rem;
-  font-weight: 400;
-`;
-
 export const UserTopRight = styled.div`
   display: flex;
   justify-content: space-between;

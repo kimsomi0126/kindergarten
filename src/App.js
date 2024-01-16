@@ -40,6 +40,7 @@ const LazyNoticeModify = lazy(() => import("./pages/notice/NoticeModify"));
 const LazyNoticeWrite = lazy(() => import("./pages/notice/NoticeWrite"));
 
 //관리자 영역
+const LazyAdmin = lazy(() => import("./pages/adminPage/AdminPage"));
 const LazyGuardianList = lazy(() => import("./pages/adminPage/GuardianList"));
 const LazyStudentList = lazy(() => import("./pages/adminPage/StudentList"));
 const LazyStudentCreate = lazy(() => import("./pages/adminPage/StudentCreate"));
@@ -221,10 +222,18 @@ function App() {
           path="admin"
           element={
             <Suspense fallback={<Loading />}>
-              <LazyGuardianList />
+              <LazyAdmin />
             </Suspense>
           }
         >
+          <Route
+            index
+            element={
+              <Suspense fallback={<Loading />}>
+                <LazyGuardianList />
+              </Suspense>
+            }
+          />
           <Route
             path="student/list"
             element={

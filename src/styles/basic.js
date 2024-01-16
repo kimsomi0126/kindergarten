@@ -39,12 +39,37 @@ export const shadow = {
   boxShadow: "0px 0px 10px 0px rgba(0, 0, 0, 0.05)",
 };
 
+// 말줄임
+export const ellipsis = {
+  line1: {
+    overflow: "hidden",
+    whiteSpace: "nowrap",
+    textOverflow: "ellipsis",
+  },
+  line2: {
+    overflow: "hidden",
+    whiteSpace: "normal",
+    textOverflow: "ellipsis",
+    display: "-webkit-box",
+    WebkitLineClamp: "2",
+    WebkitBoxOrient: "vertical",
+  },
+  line3: {
+    overflow: "hidden",
+    whiteSpace: "normal",
+    textOverflow: "ellipsis",
+    display: "-webkit-box",
+    WebkitLineClamp: "3",
+    WebkitBoxOrient: "vertical",
+  },
+};
+
 // 전체 레이아웃
 export const Wrap = styled.div`
   max-width: ${props => {
-    props ? props.maxw + "px" : "100%";
+    props.maxw + "px";
   }};
-  height: 100vh;
+  /* height: 100vh; */
   display: flex;
   flex-direction: column;
   margin: 0 auto;
@@ -66,9 +91,10 @@ export const Wrap = styled.div`
 export const NavWrap = styled.div`
   position: relative;
   width: 100%;
-  padding: 0 3%;
+  padding: 0 2%;
   background-color: ${colors.white};
   display: flex;
+  height: 7.5rem;
   justify-content: right;
   align-items: center;
   gap: 2rem;
@@ -87,15 +113,14 @@ export const HeaderBtn = styled.div`
   justify-content: flex-end;
   align-items: center;
   gap: 1rem;
-  border-radius: 1rem;
-  box-shadow: ${shadow.boxShadow};
 `;
 
 // 메인 content 레이아웃
 export const WrapMain = styled.div`
   position: relative;
-  padding: 0 3%;
-  height: 100%;
+  padding: 3rem 2% 0;
+  height: calc(100vh - 7.5rem);
+  overflow-y: auto;
   background: url(${process.env.PUBLIC_URL + "/images/common/background.png"})
     repeat top;
 `;
@@ -133,14 +158,6 @@ export const LogoWrap = styled.div`
   }
 `;
 
-// 서브페이지 타이틀
-export const PageTitle = styled.h3`
-  padding-left: 2.8rem;
-  background: url(${process.env.PUBLIC_URL + "/images/information/logo1.svg"})
-    no-repeat left 0.25rem/2.3rem;
-  color: ${colors.greenDeep};
-`;
-
 // 하단 footer
 export const FooterWrap = styled.div`
   position: absolute;
@@ -153,6 +170,7 @@ export const FooterWrap = styled.div`
     "/images/common/footer/footer_bg.png"})
     no-repeat center 150%/100%;
   text-align: center;
+  z-index: 10;
 
   a {
     position: absolute;
@@ -175,4 +193,12 @@ export const FooterBus = styled.div`
     no-repeat center/70%;
 
   animation: ${animationGo} 10s infinite ease-in-out;
+`;
+
+// 서브페이지 타이틀
+export const PageTitle = styled.h3`
+  padding-left: 2.8rem;
+  background: url(${process.env.PUBLIC_URL + "/images/information/logo1.svg"})
+    no-repeat left 0.25rem/2.3rem;
+  color: ${colors.greenDeep};
 `;

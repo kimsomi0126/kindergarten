@@ -1,17 +1,33 @@
-import { Select } from "antd";
-import Search from "antd/es/input/Search";
 import React from "react";
-import AdminLayout from "../../../layouts/AdminLayout";
+import ContentLayout from "../../layouts/ContentLayout";
+import { Pagination, Select } from "antd";
+import Search from "antd/es/input/Search";
+import {
+  StudentImg,
+  StudentInfo,
+  StudentListBox,
+  StudentListItem,
+  StudentListWrap,
+  StudentMain,
+  StudentTop,
+  StudentTopRight,
+} from "../../styles/adminstyle/studentlist";
+import { PageTitle } from "../../styles/basic";
+import { BlueBtn, OrangeBtn, PurpleBtn } from "../../styles/ui/buttons";
 
 const handleChange = value => {
   console.log(value);
 };
+const handlePageChange = (page, pageSize) => {
+  // 페이지 변경 시 처리할 로직을 추가할 수 있습니다.
+  console.log("Page:", page, "PageSize:", pageSize);
+};
 const StudList = () => {
   return (
-    <AdminLayout>
-      <div className="StudentTop">
-        <div className="StudentTopLeft">원생 관리</div>
-        <div className="StudentTopRight">
+    <ContentLayout>
+      <StudentTop>
+        <PageTitle>원생 관리</PageTitle>
+        <StudentTopRight>
           <Select
             labelInValue
             defaultValue={{
@@ -52,27 +68,118 @@ const StudList = () => {
             }}
             allowClear
           />
-        </div>
-        <button>선택 반 변경</button>
-        <button>선택졸업</button>
-        <button>선택취소</button>
-      </div>
-      <div className="StudentMain">
-        <ul className="StudentListWrap">
-          <li className="StudentListItem">
-            <div className="StudentImg">
-              <img></img>
-            </div>
-            <div className="StudentInfo">
-              <img></img>
-              <p>해바라기반</p>
-              <img></img>
-              <span>신짱구</span>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </AdminLayout>
+          <BlueBtn>선택 반 변경</BlueBtn>
+          <PurpleBtn>선택졸업</PurpleBtn>
+          <OrangeBtn>선택취소</OrangeBtn>
+        </StudentTopRight>
+      </StudentTop>
+      <StudentMain>
+        <StudentListWrap>
+          <StudentListItem>
+            <StudentListBox>
+              <input type="checkbox" />
+              <StudentImg>
+                <img
+                  src={
+                    process.env.PUBLIC_URL + "/images/information/sunflower.svg"
+                  }
+                ></img>
+              </StudentImg>
+              <StudentInfo>
+                <p className="sunflower">해바라기반</p>
+                <p className="rose">신짱구</p>
+              </StudentInfo>
+            </StudentListBox>
+          </StudentListItem>
+          <StudentListItem>
+            <StudentListBox>
+              <input type="checkbox" />
+              <StudentImg>
+                <img
+                  src={
+                    process.env.PUBLIC_URL + "/images/information/sunflower.svg"
+                  }
+                ></img>
+              </StudentImg>
+              <StudentInfo>
+                <p className="sunflower">해바라기반</p>
+                <p className="rose">신짱구</p>
+              </StudentInfo>
+            </StudentListBox>
+          </StudentListItem>
+          <StudentListItem>
+            <StudentListBox>
+              <input type="checkbox" />
+              <StudentImg>
+                <img
+                  src={
+                    process.env.PUBLIC_URL + "/images/information/sunflower.svg"
+                  }
+                ></img>
+              </StudentImg>
+              <StudentInfo>
+                <p className="sunflower">해바라기반</p>
+                <p className="rose">신짱구</p>
+              </StudentInfo>
+            </StudentListBox>
+          </StudentListItem>
+          <StudentListItem>
+            <StudentListBox>
+              <input type="checkbox" />
+              <StudentImg>
+                <img
+                  src={
+                    process.env.PUBLIC_URL + "/images/information/sunflower.svg"
+                  }
+                ></img>
+              </StudentImg>
+              <StudentInfo>
+                <p className="sunflower">해바라기반</p>
+                <p className="rose">신짱구</p>
+              </StudentInfo>
+            </StudentListBox>
+          </StudentListItem>
+          <StudentListItem>
+            <StudentListBox>
+              <input type="checkbox" />
+              <StudentImg>
+                <img
+                  src={
+                    process.env.PUBLIC_URL + "/images/information/sunflower.svg"
+                  }
+                ></img>
+              </StudentImg>
+              <StudentInfo>
+                <p className="sunflower">해바라기반</p>
+                <p className="rose">신짱구</p>
+              </StudentInfo>
+            </StudentListBox>
+          </StudentListItem>
+          <StudentListItem>
+            <StudentListBox>
+              <input type="checkbox" />
+              <StudentImg>
+                <img
+                  src={
+                    process.env.PUBLIC_URL + "/images/information/sunflower.svg"
+                  }
+                ></img>
+              </StudentImg>
+              <StudentInfo>
+                <p className="sunflower">해바라기반</p>
+                <p className="rose">신짱구</p>
+              </StudentInfo>
+            </StudentListBox>
+          </StudentListItem>
+        </StudentListWrap>
+      </StudentMain>
+      <Pagination
+        defaultCurrent={1} // 초기 선택된 페이지
+        total={50} // 전체 아이템 수
+        pageSize={10} // 한 페이지에 보여질 아이템 수
+        onChange={handlePageChange} // 페이지 변경 시의 콜백 함수
+      />
+    </ContentLayout>
   );
 };
 

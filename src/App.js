@@ -1,7 +1,14 @@
 import React, { Suspense, lazy } from "react";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import "./styles/index.css";
+import {
+  BrowserRouter,
+  Navigate,
+  Route,
+  Router,
+  Routes,
+} from "react-router-dom";
 import "./styles/normalize.css";
+import "./styles/index.css";
+
 
 // 라우터 페이지 로딩 컴포넌트
 import Loading from "./components/loading/Loading";
@@ -23,6 +30,7 @@ const MyPage = lazy(() => import("./pages/user/MyPage"));
 //회원탈퇴
 const Withdraw = lazy(() => import("./pages/user/Withdraw"));
 
+
 // 유치원 안내 영역
 const Info = lazy(() => import("./pages/information/Info"));
 const InfoClass = lazy(() => import("./pages/information/InfoClass"));
@@ -42,6 +50,7 @@ const AlbumWrite = lazy(() => import("./pages/album/AlbumWrite"));
 
 //관리자 영역
 const GuardianList = lazy(() => import("./pages/adminPage/GuardianList"));
+const AdminPage = lazy(() => import("./pages/adminPage/AdminPage"));
 const StudentCreate = lazy(() =>
   import("./pages/adminPage/student/StudCreate"),
 );
@@ -52,6 +61,7 @@ const StudentDetails = lazy(() =>
   import("./pages/adminPage/student/StudDetails"),
 );
 const StudentList = lazy(() => import("./pages/adminPage/student/StudList"));
+
 
 //알림장 영역
 const IndivNotiForm = lazy(() =>
@@ -72,6 +82,7 @@ function App() {
       <Routes>
         {/* 메인 페이지를 위한 라우터 설정 */}
         <Route
+
           element={
             <Suspense fallback={<Loading />}>
               <MainLayout />
@@ -89,8 +100,41 @@ function App() {
         </Route>
 
         {/* user pages를 위한 라우터 설정 */}
-        {/* 회원가입 - 학부모,교사 선택 페이지 */}
+        {/* 회원가입 */}
         <Route
+          path="signup "
+          element={
+            <Suspense fallback={<Loading />}>
+              <SignupForm />
+            </Suspense>
+          }
+        >
+          {/* 리다이렉트 */}
+          <Route index element={<Navigate to="identNum" />}></Route>
+
+          {/* 고유번호 입력 페이지 */}
+          <Route
+            path="identNum"
+            element={
+              <Suspense fallback={<Loading />}>
+                <LazyIdentNum />
+              </Suspense>
+            }
+          />
+          {/* 보호자 회원가입 페이지 */}
+          <Route
+            path="guardianSignup"
+            element={
+              <Suspense fallback={<Loading />}>
+                <LazyGuardianSignup />
+              </Suspense>
+            }
+          />
+        </Route>
+        {/* 로그인 페이지 */}
+        <Route
+          index
+          path="login"
           element={
             <Suspense fallback={<Loading />}>
               <ContentLayout />
@@ -142,6 +186,16 @@ function App() {
           element={
             <Suspense fallback={<Loading />}>
               <Withdraw />
+            </Suspense>
+          }
+        />
+
+        {/* 마이페이지 */}
+        <Route
+          path="mypage"
+          element={
+            <Suspense fallback={<Loading />}>
+              <MyPage />
             </Suspense>
           }
         />
@@ -252,11 +306,11 @@ function App() {
           path="admin"
           element={
             <Suspense fallback={<Loading />}>
-              <GuardianList />
+              <AdminPage />
             </Suspense>
           }
         >
-          <Route
+        <Route
             path="student/detailsform"
             element={
               <Suspense fallback={<Loading />}>

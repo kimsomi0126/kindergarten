@@ -1,11 +1,11 @@
 import React from "react";
-import ContentLayout from "../../layouts/ContentLayout";
+import EduLayout from "../../layouts/EduLayout";
 
 const SpecialAct = () => {
   return (
-    <ContentLayout>
+    <EduLayout>
       <h1>방과후 활동 페이지</h1>
-    </ContentLayout>
+    </EduLayout>
   );
 };
 

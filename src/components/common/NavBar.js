@@ -6,6 +6,7 @@ import {
   OrangeBtn,
   PurpleBtn,
 } from "../../styles/ui/buttons";
+import { Link } from "react-router-dom";
 
 const NavBar = () => {
   return (
@@ -14,24 +15,12 @@ const NavBar = () => {
       <HeaderBtn>
         <PurpleBtn>학부모관리 </PurpleBtn>
         <GrayBtn>알림장</GrayBtn>
-        <OrangeBtn>회원가입</OrangeBtn>
-        <GreenBtn>로그인</GreenBtn>
-        {/* <Buttons
-          as={Link}
-          to={"/signup"}
-          color="orangeDeep"
-          background="orangeLight"
-        >
-          회원가입
-        </Buttons>
-        <Buttons
-          as={Link}
-          to={"/login"}
-          color="greenDeep"
-          background="greenLight"
-        >
-          로그인
-        </Buttons> */}
+        <OrangeBtn>
+          <Link to="/signup">회원가입</Link>
+        </OrangeBtn>
+        <GreenBtn>
+          <Link to="/login">로그인</Link>
+        </GreenBtn>
       </HeaderBtn>
     </NavWrap>
   );

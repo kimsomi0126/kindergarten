@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Button, Flex, Input, List, Pagination } from "antd";
 import { Link, Route, Routes, useNavigate } from "react-router-dom";
-import ContentLayout from "../../layouts/ContentLayout";
 import NoticeDetails from "./NoticeDetails"; // NoticeDetails 컴포넌트 import
+import ContentLayout from "../../layouts/common/ContentLayout";
 
 const { Search } = Input;
 

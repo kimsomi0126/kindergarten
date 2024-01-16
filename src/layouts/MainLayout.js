@@ -8,7 +8,8 @@ import { Link } from "react-router-dom";
 import SideMenu from "../components/common/SideMenu";
 import Footer from "../components/common/Footer";
 const { Header, Sider } = Layout;
-const MainPageLayout = ({ children }) => {
+
+const MainLayout = ({ children }) => {
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer },
@@ -62,4 +63,4 @@ const MainPageLayout = ({ children }) => {
     </Layout>
   );
 };
-export default MainPageLayout;
+export default MainLayout;

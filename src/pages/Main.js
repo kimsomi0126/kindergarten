@@ -1,5 +1,5 @@
 import React from "react";
-import MainPageLayout from "../layouts/MainPageLayout";
+import MainLayout from "../layouts/MainLayout";
 import { PageTitle } from "../styles/basic";
 import {
   MainAlbum,
@@ -11,7 +11,7 @@ import {
 
 const Main = () => {
   return (
-    <MainPageLayout>
+    <MainLayout>
       <MainContainer></MainContainer>
       <MainAlbum>
         <PageTitle>활동앨범</PageTitle>
@@ -72,7 +72,7 @@ const Main = () => {
           </li>
         </MainAlbumList>
       </MainAlbum>
-    </MainPageLayout>
+    </MainLayout>
   );
 };
 

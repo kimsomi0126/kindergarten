@@ -1,128 +1,157 @@
 import React, { Suspense, lazy } from "react";
-import { BrowserRouter, Route, Router, Routes } from "react-router-dom";
-import "./styles/normalize.css";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import "./styles/index.css";
+import "./styles/normalize.css";
 
 // 라우터 페이지 로딩 컴포넌트
 import Loading from "./components/loading/Loading";
-import { Switch } from "antd";
+import MainLayout from "./layouts/MainLayout";
+import ContentLayout from "./layouts/common/ContentLayout";
 
 // lazy 는 실시간으로 컴포넌트 불러들이기
 
 //메인 페이지
-const LazyMainPage = lazy(() => import("./pages/Main"));
+const MainPage = lazy(() => import("./pages/Main"));
 
 // 로그인, 사용자 페이지
-const LazyLogin = lazy(() => import("./pages/user/Login"));
-const LazyIdentNum = lazy(() => import("./pages/user/IdentNum"));
-const LazyGuardianSignup = lazy(() => import("./pages/user/GuardianSignup"));
-const LazyMyPage = lazy(() => import("./pages/user/MyPage"));
-
-//회원가입
-const LazyCreateRole = lazy(() => import("./pages/user/CreateRole"));
+const Login = lazy(() => import("./pages/user/Login"));
+// 인증번호 입력
+const IdentNum = lazy(() => import("./pages/user/IdentNum"));
+//회원 상세가입
+const SignupForm = lazy(() => import("./pages/user/SignupForm"));
+const MyPage = lazy(() => import("./pages/user/MyPage"));
+//회원탈퇴
+const Withdraw = lazy(() => import("./pages/user/Withdraw"));
 
 // 유치원 안내 영역
-const LazyInfo = lazy(() => import("./pages/information/Info"));
-const LazyInfoClass = lazy(() => import("./pages/information/InfoClass"));
-const LazyLocation = lazy(() => import("./pages/information/Location"));
+const Info = lazy(() => import("./pages/information/Info"));
+const InfoClass = lazy(() => import("./pages/information/InfoClass"));
+const Location = lazy(() => import("./pages/information/Location"));
 
 // 교육 영역
-const LazyEdu = lazy(() => import("./pages/education/Edu"));
-const LazySpecialAct = lazy(() => import("./pages/education/SpecialAct"));
+const Edu = lazy(() => import("./pages/education/Edu"));
+const SpecialAct = lazy(() => import("./pages/education/SpecialAct"));
 
 // 활동앨범 영역
-const LazyAlbum = lazy(() => import("./pages/album/Album"));
+const Album = lazy(() => import("./pages/album/Album"));
+const AlbumDetails = lazy(() => import("./pages/album/AlbumDetails"));
+const AlbumModify = lazy(() => import("./pages/album/AlbumModify"));
+const AlbumWrite = lazy(() => import("./pages/album/AlbumWrite"));
 
 // 유치원 소식(공지사항)영역
-const LazeNotice = lazy(() => import("./pages/notice/NoticePage"));
-const LazyNoticeList = lazy(() => import("./pages/notice/NoticeList"));
-const LazyNoticeDetails = lazy(() => import("./pages/notice/NoticeDetails"));
-const LazyNoticeModify = lazy(() => import("./pages/notice/NoticeModify"));
-const LazyNoticeWrite = lazy(() => import("./pages/notice/NoticeWrite"));
 
 //관리자 영역
-const LazyGuardianList = lazy(() => import("./pages/adminPage/GuardianList"));
-const LazyStudentList = lazy(() => import("./pages/adminPage/StudentList"));
-const LazyStudentCreate = lazy(() => import("./pages/adminPage/StudentCreate"));
+const GuardianList = lazy(() => import("./pages/adminPage/GuardianList"));
+const StudentCreate = lazy(() =>
+  import("./pages/adminPage/student/StudCreate"),
+);
+const StudentDetailsForm = lazy(() =>
+  import("./pages/adminPage/student/StudDetailsForm"),
+);
+const StudentDetails = lazy(() =>
+  import("./pages/adminPage/student/StudDetails"),
+);
+const StudentList = lazy(() => import("./pages/adminPage/student/StudList"));
 
 //알림장 영역
-const LazyIndividualNoticeForm = lazy(() =>
-  import("./pages/individualNotice/IndividualNoticeForm"),
+const IndivNotiForm = lazy(() =>
+  import("./pages/individualNotice/IndivNotiForm"),
 );
 
-const LazyIndividualNoticeHistory = lazy(() =>
-  import("./pages/individualNotice/IndividualNoticeHistory"),
+const IndivNotiHistory = lazy(() =>
+  import("./pages/individualNotice/IndivNotiHistory"),
 );
 
-const LazyIndividualNoticeList = lazy(() =>
-  import("./pages/individualNotice/IndividualNoticeList"),
+const IndivNotiList = lazy(() =>
+  import("./pages/individualNotice/IndivNotiList"),
 );
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* 메인페이지 */}
+        {/* 메인 페이지를 위한 라우터 설정 */}
         <Route
-          path="/"
           element={
             <Suspense fallback={<Loading />}>
-              <LazyMainPage />
+              <MainLayout />
             </Suspense>
           }
-        />
+        >
+          <Route
+            path="/"
+            element={
+              <Suspense fallback={<Loading />}>
+                <MainPage />
+              </Suspense>
+            }
+          />
+        </Route>
+
+        {/* user pages를 위한 라우터 설정 */}
         {/* 회원가입 - 학부모,교사 선택 페이지 */}
         <Route
-          path="signup"
           element={
             <Suspense fallback={<Loading />}>
-              <LazyCreateRole />
+              <ContentLayout />
             </Suspense>
           }
-        ></Route>
-        {/* 로그인 페이지 */}
+        >
+          {/* 로그인 페이지 */}
+          <Route
+            path="login"
+            element={
+              <Suspense fallback={<Loading />}>
+                <Login />
+              </Suspense>
+            }
+          />
+          {/* 고유번호 입력 페이지 */}
+          <Route
+            path="/identNum"
+            element={
+              <Suspense fallback={<Loading />}>
+                <IdentNum />
+              </Suspense>
+            }
+          />
+
+          {/* 보호자 회원가입 페이지 */}
+          <Route
+            path="signupform"
+            element={
+              <Suspense fallback={<Loading />}>
+                <SignupForm />
+              </Suspense>
+            }
+          />
+          {/* 마이페이지 */}
+          <Route
+            path="myPage"
+            element={
+              <Suspense fallback={<Loading />}>
+                <MyPage />
+              </Suspense>
+            }
+          />
+        </Route>
+
+        {/* 회원탈툅 */}
         <Route
-          index
-          path="login"
+          path="withdraw"
           element={
             <Suspense fallback={<Loading />}>
-              <LazyLogin />
-            </Suspense>
-          }
-        ></Route>
-        {/* 고유번호 입력 페이지 */}
-        <Route
-          path="identNum"
-          element={
-            <Suspense fallback={<Loading />}>
-              <LazyIdentNum />
+              <Withdraw />
             </Suspense>
           }
         />
-        {/* 보호자 회원가입 페이지 */}
-        <Route
-          path="guardianSignup"
-          element={
-            <Suspense fallback={<Loading />}>
-              <LazyGuardianSignup />
-            </Suspense>
-          }
-        />
-        {/* 마이페이지 */}
-        <Route
-          path="myPage"
-          element={
-            <Suspense fallback={<Loading />}>
-              <LazyMyPage />
-            </Suspense>
-          }
-        />
+
         {/* 유치원 소개 페이지 */}
         <Route
-          path="info"
+          path="info/"
           element={
             <Suspense fallback={<Loading />}>
-              <LazyInfo />
+              <Info />
             </Suspense>
           }
         >
@@ -131,7 +160,7 @@ function App() {
             path="class"
             element={
               <Suspense fallback={<Loading />}>
-                <LazyInfoClass />
+                <InfoClass />
               </Suspense>
             }
           />
@@ -140,7 +169,7 @@ function App() {
             path="location"
             element={
               <Suspense fallback={<Loading />}>
-                <LazyLocation />
+                <Location />
               </Suspense>
             }
           />
@@ -150,7 +179,7 @@ function App() {
           path="edu"
           element={
             <Suspense fallback={<Loading />}>
-              <LazyEdu />
+              <Edu />
             </Suspense>
           }
         >
@@ -159,7 +188,7 @@ function App() {
             path="specialact"
             element={
               <Suspense fallback={<Loading />}>
-                <LazySpecialAct />
+                <SpecialAct />
               </Suspense>
             }
           />
@@ -169,19 +198,37 @@ function App() {
           path="album"
           element={
             <Suspense fallback={<Loading />}>
-              <LazyAlbum />
-            </Suspense>
-          }
-        ></Route>
-        {/* 유치원소식 페이지 */}
-        <Route
-          path="notice"
-          element={
-            <Suspense fallback={<Loading />}>
-              <LazeNotice />
+              <Album />
             </Suspense>
           }
         >
+          <Route
+            path="details"
+            element={
+              <Suspense fallback={<Loading />}>
+                <AlbumDetails />
+              </Suspense>
+            }
+          />
+          <Route
+            path="modify"
+            element={
+              <Suspense fallback={<Loading />}>
+                <AlbumModify />
+              </Suspense>
+            }
+          />
+          <Route
+            path="write"
+            element={
+              <Suspense fallback={<Loading />}>
+                <AlbumWrite />
+              </Suspense>
+            }
+          />
+        </Route>
+        {/* 유치원소식 페이지 */}
+
           <Route
             index
             element={
@@ -194,7 +241,7 @@ function App() {
             path="list"
             element={
               <Suspense fallback={<Loading />}>
-                <LazyNoticeList />
+                <NoticeList />
               </Suspense>
             }
           />
@@ -202,7 +249,7 @@ function App() {
             path="details/:id"
             element={
               <Suspense fallback={<Loading />}>
-                <LazyNoticeDetails />
+                <NoticeDetails />
               </Suspense>
             }
           />
@@ -210,7 +257,7 @@ function App() {
             path="write"
             component={
               <Suspense fallback={<Loading />}>
-                <LazyNoticeWrite />
+                <NoticeWrite />
               </Suspense>
             }
           />
@@ -218,7 +265,7 @@ function App() {
             path="modify"
             component={
               <Suspense fallback={<Loading />}>
-                <LazyNoticeModify />
+                <NoticeModify />
               </Suspense>
             }
           />
@@ -229,15 +276,15 @@ function App() {
           path="admin"
           element={
             <Suspense fallback={<Loading />}>
-              <LazyGuardianList />
+              <GuardianList />
             </Suspense>
           }
         >
           <Route
-            path="student/list"
+            path="student/detailsform"
             element={
               <Suspense fallback={<Loading />}>
-                <LazyStudentList />
+                <StudentDetailsForm />
               </Suspense>
             }
           />
@@ -245,17 +292,34 @@ function App() {
             path="student/create"
             element={
               <Suspense fallback={<Loading />}>
-                <LazyStudentCreate />
+                <StudentCreate />
+              </Suspense>
+            }
+          />
+          <Route
+            path="student/list"
+            element={
+              <Suspense fallback={<Loading />}>
+                <StudentList />
+              </Suspense>
+            }
+          />
+          <Route
+            path="student/details"
+            element={
+              <Suspense fallback={<Loading />}>
+                <StudentDetails />
               </Suspense>
             }
           />
         </Route>
+
         {/* 알림장 페이지 */}
         <Route
           path="ind"
           element={
             <Suspense fallback={<Loading />}>
-              <LazyIndividualNoticeList />
+              <IndivNotiList />
             </Suspense>
           }
         >
@@ -263,7 +327,7 @@ function App() {
             path="history"
             element={
               <Suspense fallback={<Loading />}>
-                <LazyIndividualNoticeHistory />
+                <IndivNotiHistory />
               </Suspense>
             }
           />
@@ -271,7 +335,7 @@ function App() {
             path="form"
             element={
               <Suspense fallback={<Loading />}>
-                <LazyIndividualNoticeForm />
+                <IndivNotiForm />
               </Suspense>
             }
           />

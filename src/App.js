@@ -34,6 +34,7 @@ const LazySpecialAct = lazy(() => import("./pages/education/SpecialAct"));
 const LazyAlbum = lazy(() => import("./pages/album/Album"));
 
 // 유치원 소식(공지사항)영역
+const LazeNotice = lazy(() => import("./pages/notice/NoticePage"));
 const LazyNoticeList = lazy(() => import("./pages/notice/NoticeList"));
 const LazyNoticeDetails = lazy(() => import("./pages/notice/NoticeDetails"));
 const LazyNoticeModify = lazy(() => import("./pages/notice/NoticeModify"));
@@ -175,24 +176,31 @@ function App() {
         {/* 유치원소식 페이지 */}
         <Route
           path="notice"
-          exact
           element={
             <Suspense fallback={<Loading />}>
-              <LazyNoticeList />
+              <LazeNotice />
             </Suspense>
           }
         >
           <Route
-            path="list"
-            component={
+            index
+            element={
               <Suspense fallback={<Loading />}>
                 <LazyNoticeList />
               </Suspense>
             }
           />
           <Route
-            path="details"
-            component={
+            path="list"
+            element={
+              <Suspense fallback={<Loading />}>
+                <LazyNoticeList />
+              </Suspense>
+            }
+          />
+          <Route
+            path="details/:id"
+            element={
               <Suspense fallback={<Loading />}>
                 <LazyNoticeDetails />
               </Suspense>

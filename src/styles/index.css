@@ -18,6 +18,7 @@
   --color-E7D8FF: #e7d8ff;
   --color-D64478: #d64478;
   --color-A36BFF: #a36bff;
+  --swiper-theme-color: #7dbcea !important;
 }
 
 * {
@@ -34,6 +35,9 @@ li {
 a {
   color: #000;
   text-decoration: none;
+}
+a:hover {
+  color: #000;
 }
 img {
   border: 0;
@@ -88,6 +92,7 @@ button {
 }
 
 .layout-wrap {
+  position: relative;
   min-height: 100vh;
 }
 
@@ -107,4 +112,11 @@ button {
 .layout-wrap .ant-menu-submenu-title img,
 .layout-wrap .ant-menu-item img {
   max-height: 3rem;
+}
+:where(.css-dev-only-do-not-override-dkbvqv)[class^="ant-layout"] {
+  font-family: "Pretendard", sans-serif;
+}
+.layout-wrap .swiper-pagination {
+  text-align: right;
+  padding: 0 2rem 0.5rem;
 }

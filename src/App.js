@@ -1,5 +1,11 @@
 import React, { Suspense, lazy } from "react";
-import { BrowserRouter, Route, Router, Routes } from "react-router-dom";
+import {
+  BrowserRouter,
+  Navigate,
+  Route,
+  Router,
+  Routes,
+} from "react-router-dom";
 import "./styles/normalize.css";
 import "./styles/index.css";
 
@@ -12,14 +18,15 @@ import { Switch } from "antd";
 //메인 페이지
 const LazyMainPage = lazy(() => import("./pages/Main"));
 
-// 로그인, 사용자 페이지
+// 로그인, 회원가입, 사용자 페이지
+const LazyUserPage = lazy(() => import("./pages/user/UserPage"));
 const LazyLogin = lazy(() => import("./pages/user/Login"));
 const LazyIdentNum = lazy(() => import("./pages/user/IdentNum"));
 const LazyGuardianSignup = lazy(() => import("./pages/user/GuardianSignup"));
 const LazyMyPage = lazy(() => import("./pages/user/MyPage"));
 
 //회원가입
-const LazyCreateRole = lazy(() => import("./pages/user/CreateRole"));
+//const LazyCreateRole = lazy(() => import("./pages/user/CreateRole"));
 
 // 유치원 안내 영역
 const LazyInfo = lazy(() => import("./pages/information/Info"));
@@ -70,15 +77,37 @@ function App() {
             </Suspense>
           }
         />
-        {/* 회원가입 - 학부모,교사 선택 페이지 */}
+        {/* 회원가입 */}
         <Route
           path="signup"
           element={
             <Suspense fallback={<Loading />}>
-              <LazyCreateRole />
+              <LazyUserPage />
             </Suspense>
           }
-        ></Route>
+        >
+          {/* 리다이렉트 */}
+          <Route index element={<Navigate to="identNum" />}></Route>
+
+          {/* 고유번호 입력 페이지 */}
+          <Route
+            path="identNum"
+            element={
+              <Suspense fallback={<Loading />}>
+                <LazyIdentNum />
+              </Suspense>
+            }
+          />
+          {/* 보호자 회원가입 페이지 */}
+          <Route
+            path="guardianSignup"
+            element={
+              <Suspense fallback={<Loading />}>
+                <LazyGuardianSignup />
+              </Suspense>
+            }
+          />
+        </Route>
         {/* 로그인 페이지 */}
         <Route
           index
@@ -89,27 +118,10 @@ function App() {
             </Suspense>
           }
         ></Route>
-        {/* 고유번호 입력 페이지 */}
-        <Route
-          path="identNum"
-          element={
-            <Suspense fallback={<Loading />}>
-              <LazyIdentNum />
-            </Suspense>
-          }
-        />
-        {/* 보호자 회원가입 페이지 */}
-        <Route
-          path="guardianSignup"
-          element={
-            <Suspense fallback={<Loading />}>
-              <LazyGuardianSignup />
-            </Suspense>
-          }
-        />
+
         {/* 마이페이지 */}
         <Route
-          path="myPage"
+          path="mypage"
           element={
             <Suspense fallback={<Loading />}>
               <LazyMyPage />

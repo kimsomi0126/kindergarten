@@ -1,6 +1,8 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AlbumData } from "../../components/common/TemporaryData";
+import Search from "antd/es/input/Search";
+
 import {
   AlbumTopBar,
   AlbumWrap,
@@ -9,6 +11,7 @@ import {
 } from "../../styles/album/album";
 import { PageTitle } from "../../styles/basic";
 import { GreenBtn } from "../../styles/ui/buttons";
+import { UserTopRight } from "../../styles/adminstyle/guardianlist";
 // 임시 데이터 서버로부터 받아온 데이터로 대체될 예정
 
 const initState = {
@@ -27,21 +30,24 @@ const Album = ({ pno }) => {
           <PageTitle>활동앨범</PageTitle>
         </div>
         <SearchBar>
-          <input type="text" placeholder="제목을 입력하세요." />
-          <img
-            src={process.env.PUBLIC_URL + "/images/common/readingGlasses.svg"}
-          ></img>
-          <GreenBtn onClick={e => navigate("write")}>글쓰기</GreenBtn>
+          <UserTopRight>
+            <Search
+              placeholder="제목을 입력하세요."
+              style={{
+                width: 200,
+              }}
+              size={"large"}
+              allowClear
+              onSearch={value => console.log(value)}
+            />
+            <GreenBtn onClick={e => navigate("write")}>글쓰기</GreenBtn>
+          </UserTopRight>
         </SearchBar>
       </AlbumTopBar>
       <InnerAlbum width={54} height={62}>
         <div data={AlbumData} className="gallery">
           {AlbumData.map(item => (
-            <Link
-              to="/details:pno"
-              key={`item.item.length - 1`}
-              className="gallery-item"
-            >
+            <Link to="/details:pno" key={item.id} className="gallery-item">
               <img src={`${item.album}`} alt={item.title} />
               <h3>{item.title}</h3>
             </Link>

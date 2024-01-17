@@ -3,6 +3,7 @@ import { WrapMain } from "../styles/basic";
 import NavBar from "../components/common/NavBar";
 import Footer from "../components/common/Footer";
 import SideBar from "../components/common/SideBar";
+import { Outlet } from "react-router";
 const MainLayout = ({ children }) => {
   return (
     <Layout className="layout-wrap">
@@ -12,7 +13,9 @@ const MainLayout = ({ children }) => {
         {/* 상단네비영역 */}
         <NavBar />
         {/* 컨텐츠영역 */}
-        <WrapMain>{children}</WrapMain>
+        <WrapMain>
+          <Outlet />
+        </WrapMain>
       </Layout>
       {/* 하단푸터 */}
       <Footer />

@@ -19,30 +19,31 @@ import { MainVisualComponent } from "../components/main/MainVisualComponent";
 import { MainNoticeComponent } from "../components/main/MainNoticeComponent";
 import MainBannerComponent from "../components/main/MainBannerComponent";
 import MainPopComponent from "../components/main/MainPopComponent";
+import { Outlet } from "react-router";
 
 const Main = () => {
   useEffect(() => {}, []);
   return (
-    <MainLayout>
-      <MainInner>
-        <MainContainer>
-          {/* 비주얼 */}
-          <MainVisualComponent />
-          {/* 유치원소식 */}
-          <MainNoticeComponent />
-          {/* 배너 */}
-          <MainBannerComponent />
-          <MainFlexWrap>
-            {/* 팝업존 */}
-            <MainPopComponent />
-            {/* 오시는길 */}
-            <MainLocation></MainLocation>
-          </MainFlexWrap>
-        </MainContainer>
-        {/* 활동앨범 */}
-        <MainAlbumComponent />
-      </MainInner>
-    </MainLayout>
+    <MainInner>
+      <MainContainer>
+        {/* 비주얼 */}
+        <MainVisualComponent />
+        {/* 유치원소식 */}
+        <MainNoticeComponent />
+        {/* 배너 */}
+        <MainBannerComponent />
+        <MainFlexWrap>
+          {/* 팝업존 */}
+          <MainPopComponent />
+          {/* 오시는길 */}
+          <MainLocation>
+            <Outlet />
+          </MainLocation>
+        </MainFlexWrap>
+      </MainContainer>
+      {/* 활동앨범 */}
+      <MainAlbumComponent />
+    </MainInner>
   );
 };
 

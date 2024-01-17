@@ -5,12 +5,9 @@ import MainLayout from "../MainLayout";
 
 const ContentLayout = ({ children }) => {
   return (
-    <MainLayout>
-      <WrapContent maxw="1440">
-        <Outlet />
-        {children}
-      </WrapContent>
-    </MainLayout>
+    <WrapContent maxw="1440">
+      <Outlet />
+    </WrapContent>
   );
 };
 

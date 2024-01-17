@@ -1,13 +1,7 @@
 import React from "react";
-import EduLayout from "../../layouts/EduLayout";
+import ContentLayout from "../../layouts/common/ContentLayout";
 const Edu = () => {
-  return (
-    <>
-      <EduLayout>
-        <h1>교육 영역 페이지</h1>
-      </EduLayout>
-    </>
-  );
+  return <h1>교육 영역 페이지</h1>;
 };
 
 export default Edu;

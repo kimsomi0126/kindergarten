@@ -17,8 +17,8 @@ const NavBar = () => {
         <PurpleBtn onClick={e => navigate("/admin")}>학부모관리</PurpleBtn>
         <GrayBtn onClick={e => navigate("/ind")}>알림장</GrayBtn>
         <OrangeBtn onClick={e => navigate("/mypage")}>마이페이지</OrangeBtn>
-        <OrangeBtn onClick={e => navigate("/signup")}>회원가입</OrangeBtn>
-        <GreenBtn onClick={e => navigate("/login")}>로그인</GreenBtn>
+        <OrangeBtn onClick={e => navigate("user/accounts")}>회원가입</OrangeBtn>
+        <GreenBtn onClick={e => navigate("login")}>로그인</GreenBtn>
       </HeaderBtn>
     </NavWrap>
   );

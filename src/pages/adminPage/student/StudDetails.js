@@ -1,12 +1,8 @@
 import React from "react";
-import AdminLayout from "../../../layouts/AdminLayout";
+import ContentLayout from "../../../layouts/common/ContentLayout";
 
 const StudDetails = () => {
-  return (
-    <AdminLayout>
-      <h1>원아관리 상세</h1>;
-    </AdminLayout>
-  );
+  return <h1>원아관리 상세</h1>;
 };
 
 export default StudDetails;

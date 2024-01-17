@@ -5,7 +5,7 @@ import { DatePicker, Form, Input, Select } from "antd";
 
 const StudentCreate = () => {
   return (
-    <ContentLayout>
+    <>
       <PageTitle>원생등록</PageTitle>
       <div>
         <p>기본정보</p>
@@ -44,7 +44,7 @@ const StudentCreate = () => {
           <DatePicker placeholder="입학날짜" />
         </Form.Item>
       </div>
-    </ContentLayout>
+    </>
   );
 };
 

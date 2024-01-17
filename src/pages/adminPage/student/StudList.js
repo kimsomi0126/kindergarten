@@ -74,6 +74,8 @@ const StudList = () => {
         </StudentTopRight>
       </StudentTop>
       <StudentMain>
+        <input type="checkbox" id="selectAll" />
+        <label htmlFor="selectAll">전체 선택</label>
         <StudentListWrap>
           <StudentListItem>
             <StudentListBox>

@@ -6,7 +6,6 @@
   position: relative;
   width: 100%;
   height: 100%;
-  background-color: aqua;
 }
 .info_title {
   position: relative;
@@ -18,21 +17,58 @@
 
 .info_img {
   position: relative;
+  width: 300px;
+  margin: 10px;
 }
 .info_good {
   position: relative;
+  left: 320px;
+  bottom: 200px;
 }
 .info_childen {
   position: relative;
+  left: 320px;
+  bottom: 170px;
 }
 
 .info_main {
   position: relative;
   width: 100%;
   height: 100%;
-  background-color: blueviolet;
+}
+.info_main_logo {
+  position: relative;
+  bottom: 75px;
+}
+.info_main_title {
+  position: relative;
+  bottom: 100px;
+  left: 28px;
 }
 .info_list {
   position: relative;
   display: flex;
+  bottom: 100px;
+  justify-content: center;
+  gap: 20px;
+}
+.info_list h3 {
+  position: relative;
+  text-align: center;
+  top:10px;
+  font-size: 30px;
+}
+.info_green {
+  position: relative;
+  color: #00876D;
+} 
+
+.info_orange{
+  position: relative;
+  color: #FD7900;
+}
+
+.info_pink{
+  position: relative;
+  color: #D64478;
 }

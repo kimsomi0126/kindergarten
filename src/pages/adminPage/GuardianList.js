@@ -2,6 +2,8 @@ import { Pagination, Select } from "antd";
 import Search from "antd/es/input/Search";
 import React from "react";
 import {
+  ChildInfo,
+  PageNum,
   UserInfo,
   UserListBox,
   UserListItem,

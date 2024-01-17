@@ -9,12 +9,15 @@ export const StudentTop = styled.div`
 
 export const StudentTopRight = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1rem;
 `;
 
 export const StudentMain = styled.div``;
 
 export const StudentListWrap = styled.ul`
+  margin-top: 1rem;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -39,7 +42,8 @@ export const StudentListBox = styled.div`
 `;
 export const StudentImg = styled.div`
   img {
-    width: 10rem;
+    width: 8rem;
+    margin-right: 1rem;
   }
 `;
 export const StudentInfo = styled.div`
@@ -54,14 +58,14 @@ export const StudentInfo = styled.div`
       "/images/information/sunflower.svg"})
       no-repeat left 0.25rem/2.3rem;
     font-family: ${fonts.kotraHope};
-    font-size: 2.4rem;
+    font-size: 2rem;
     color: ${colors.orangeDeep};
   }
   .rose {
     background: url(${process.env.PUBLIC_URL + "/images/information/rose.svg"})
       no-repeat left 0.25rem/2.3rem;
     font-family: ${fonts.kotraHope};
-    font-size: 2.4rem;
+    font-size: 2rem;
     color: ${colors.black};
   }
 `;

@@ -75,20 +75,22 @@ h4 {
 }
 button {
   font-size: 1.8rem;
-  font-family: "KOTRAHOPE", "Pretendard", sans-serif;
+  /* font-family: "KOTRAHOPE", "Pretendard", sans-serif; */
   background: #fff;
   border: 0;
   padding: 1rem 1.5rem;
-  background: #ebebeb;
-  border-radius: 1rem;
+  /* border-radius: 1rem; */
   cursor: pointer;
-  min-width: 8rem;
+  /* min-width: 8rem; */
 }
 
 .box {
   border-radius: 10px;
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.05);
   border-color: #ebebeb;
+}
+table {
+  width: 100%;
 }
 
 .layout-wrap {
@@ -120,3 +122,8 @@ button {
   text-align: right;
   padding: 0 2rem 0.5rem;
 }
+/* 
+.layout-wrap .image-gallery-content .image-gallery-slide .image-gallery-image {
+  max-width: 100%;
+  max-height: none;
+} */

@@ -1,12 +1,13 @@
 import React from "react";
 import { Outlet } from "react-router";
-import { WrapContent } from "../../styles/basic";
-import MainLayout from "../MainLayout";
+import { ContentInner, WrapContent } from "../../styles/basic";
 
-const ContentLayout = ({ children }) => {
+const ContentLayout = () => {
   return (
     <WrapContent maxw="1440">
-      <Outlet />
+      <ContentInner>
+        <Outlet />
+      </ContentInner>
     </WrapContent>
   );
 };

@@ -4,12 +4,9 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
+import { VisualPopImage } from "../common/TemporaryData";
 
 const MainPopComponent = () => {
-  const visualImage = [
-    "/images/main/main_pop.jpg",
-    "/images/main/main_pop.jpg",
-  ];
   return (
     <MainPopSlide>
       <Swiper
@@ -23,8 +20,8 @@ const MainPopComponent = () => {
         }}
         modules={[Autoplay, Navigation, Pagination]}
       >
-        {Array.isArray(visualImage) &&
-          visualImage.map((item, index) => {
+        {Array.isArray(VisualPopImage) &&
+          VisualPopImage.map((item, index) => {
             return (
               <SwiperSlide key={index}>
                 <ImgBox>

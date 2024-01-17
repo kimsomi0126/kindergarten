@@ -55,20 +55,20 @@
 .info_list h3 {
   position: relative;
   text-align: center;
-  top:10px;
+  top: 10px;
   font-size: 30px;
 }
 .info_green {
   position: relative;
-  color: #00876D;
-} 
-
-.info_orange{
-  position: relative;
-  color: #FD7900;
+  color: #00876d;
 }
 
-.info_pink{
+.info_orange {
   position: relative;
-  color: #D64478;
+  color: #fd7900;
+}
+
+.info_pink {
+  position: relative;
+  color: #d64478;
 }

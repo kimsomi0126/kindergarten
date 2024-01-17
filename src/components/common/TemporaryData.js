@@ -1,3 +1,61 @@
+export const VisualPopImage = [
+  "/images/main/main_pop.jpg",
+  "/images/main/main_pop.jpg",
+];
+
+export const VisualImage = [
+  "/images/main/main_visual01.jpg",
+  "/images/main/main_visual02.jpg",
+];
+
+export const NoticeDate = [
+  {
+    ifull_notice: 1,
+    full_title: "첫번째제목입니다.",
+    created_at: "2024-01-10",
+  },
+  {
+    ifull_notice: 2,
+    full_title: "두번째제목입니다.",
+    created_at: "2024-01-20",
+  },
+  {
+    ifull_notice: 3,
+    full_title: "세번째제목입니다.",
+    created_at: "2024-01-22",
+  },
+];
+
+export const AlbumDate = [
+  {
+    ialbum: 1,
+    album_title:
+      "첫번째제목입니다.첫번째제목입니다.첫번째제목입니다.첫번째제목입니다.첫번째제목입니다.첫번째제목입니다.",
+    album_content:
+      "활동앨범 내용 활동앨범 내용 활동앨범 내용활동앨범 내용 활동앨범 내용 활동앨범 내용활동앨범 내용 활동앨범 내용 활동앨범 내용활동앨범 내용 활동앨범 내용 활동앨범 내용활동앨범 내용 활동앨범 내용 활동앨범 내용활동앨범 내용 활동앨범 내용 활동앨범 내용",
+    album_pic: "/images/main/album/main_album01.jpg",
+    create_at: "2024-00-00",
+  },
+  {
+    ialbum: 2,
+    album_title:
+      "두번째제목입니다.두번째제목입니다.두번째제목입니다.두번째제목입니다.두번째제목입니다.두번째제목입니다.",
+    album_content:
+      "활동앨범 내용 활동앨범 내용 활동앨범 내용활동앨범 내용 활동앨범 내용 활동앨범 내용활동앨범 내용 활동앨범 내용 활동앨범 내용활동앨범 내용 활동앨범 내용 활동앨범 내용활동앨범 내용 활동앨범 내용 활동앨범 내용활동앨범 내용 활동앨범 내용 활동앨범 내용",
+    album_pic: "/images/main/album/main_album01.jpg",
+    create_at: "2024-00-00",
+  },
+  {
+    ialbum: 3,
+    album_title:
+      "세번째제목입니다.세번째제목입니다.세번째제목입니다.세번째제목입니다.세번째제목입니다.세번째제목입니다.",
+    album_content:
+      "활동앨범 내용 활동앨범 내용 활동앨범 내용활동앨범 내용 활동앨범 내용 활동앨범 내용활동앨범 내용 활동앨범 내용 활동앨범 내용활동앨범 내용 활동앨범 내용 활동앨범 내용활동앨범 내용 활동앨범 내용 활동앨범 내용활동앨범 내용 활동앨범 내용 활동앨범 내용",
+    album_pic: "/images/main/album/main_album01.jpg",
+    create_at: "2024-00-00",
+  },
+];
+
 export const NoticeImageData = [
   {
     original: "/images/main/album/main_album01.jpg",
@@ -495,7 +553,7 @@ export const AlbumData = [
       "https://i.namu.wiki/i/Nn4jd54NlnJ6LTTAK_5g22L5hUkkjVxD0KuwyOxOnefSvHR-GqjFEYYHxUG9IM3tHJp1kopAPgcuy3wqr3enl93gy_XZPVYIPfFHTknU1nhXIJjTcZdTVhzhoPpIb48rajvzXnu20hQvN7y5pLPKzA.webp",
   },
   {
-    id: 1,
+    id: 91,
     title: "소풍",
     album:
       "https://img.wowtv.co.kr/wowtv_news/dnrs/20230720/2023072008522607175d3244b4fed182172185139.jpg",

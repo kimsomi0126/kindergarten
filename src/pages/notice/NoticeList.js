@@ -70,18 +70,17 @@ const NoticeList = () => {
   const currentPageData = data.slice(startIndex, endIndex);
 
   return (
-    <>
-      < style={{ marginTop: 60 }}>
-        <Flex
-          gap="small"
-          justify="space-between"
-          style={{
-            width: "100%",
-            marginBottom: 20,
-            alignItems: "center",
-          }}
-        >
-          {/* <div style={{ fontSize: 36, color: "#008666" }}>
+    <div style={{ marginTop: 60 }}>
+      <Flex
+        gap="small"
+        justify="space-between"
+        style={{
+          width: "100%",
+          marginBottom: 20,
+          alignItems: "center",
+        }}
+      >
+        {/* <div style={{ fontSize: 36, color: "#008666" }}>
             <img
               src="/images/common/titleIcon.svg"
               alt=""
@@ -89,84 +88,83 @@ const NoticeList = () => {
             />
             유치원 소식
           </div> */}
-          <PageTitle>유치원소식</PageTitle>
-          <Flex gap="small" alignItems="center">
-            <Search
-              placeholder="제목을 입력하세요."
-              allowClear
-              onSearch={onSearch}
+        <PageTitle>유치원소식</PageTitle>
+        <Flex gap="small" alignItems="center">
+          <Search
+            placeholder="제목을 입력하세요."
+            allowClear
+            onSearch={onSearch}
+            style={{
+              width: 330,
+              marginRight: 20,
+            }}
+          />
+          <Button
+            type="primary"
+            size={size}
+            style={{
+              background: "#D3ECC8",
+              borderColor: "#D3ECC8",
+              padding: "15px 30px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              borderRadius: "1rem",
+              color: "#00876D",
+            }}
+          >
+            글쓰기
+          </Button>
+        </Flex>
+      </Flex>
+
+      <List
+        size="large"
+        itemLayout="vertical"
+        dataSource={currentPageData}
+        renderItem={(item, index) => (
+          <Link to={`/notice/details/${index}`}>
+            <List.Item
               style={{
-                width: 330,
-                marginRight: 20,
-              }}
-            />
-            <Button
-              type="primary"
-              size={size}
-              style={{
-                background: "#D3ECC8",
-                borderColor: "#D3ECC8",
-                padding: "15px 30px",
+                borderLeft: "none",
+                borderRight: "none",
+                borderBottom: "1px solid #e8e8e8", // 라인 추가
+                padding: "12px 0",
+                background: index < 3 ? "#E7F6ED" : "white",
                 display: "flex",
+                justifyContent: "space-between",
                 alignItems: "center",
-                justifyContent: "center",
-                borderRadius: "1rem",
-                color: "#00876D",
+                cursor: "pointer",
               }}
             >
-              글쓰기
-            </Button>
-          </Flex>
-        </Flex>
-
-
-        <List
-          size="large"
-          itemLayout="vertical"
-          dataSource={currentPageData}
-          renderItem={(item, index) => (
-            <Link to={`/notice/details/${index}`}>
-              <List.Item
+              <span
                 style={{
-                  borderLeft: "none",
-                  borderRight: "none",
-                  borderBottom: "1px solid #e8e8e8", // 라인 추가
-                  padding: "12px 0",
-                  background: index < 3 ? "#E7F6ED" : "white",
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  cursor: "pointer",
+                  marginLeft: 20,
+                  color: index < 3 ? "#00876D" : "#000000",
+                  fontWeight: index < 3 ? "bold" : "normal",
                 }}
               >
-                <span
-                  style={{
-                    marginLeft: 20,
-                    color: index < 3 ? "#00876D" : "#000000",
-                    fontWeight: index < 3 ? "bold" : "normal",
-                  }}
-                >
-                  {item}
-                </span>
-                <div style={{ marginRight: 20, color: "gray" }}>
-                  <img
-                    src="/images/common/notice/clock.svg"
-                    alt=""
-                    style={{ height: 30, marginRight: 10 }}
-                  />
-                  2024-01-15
-                </div>
-              </List.Item>
-            </Link>
-          )}
-          style={{
-            width: "100%",
-            margin: "0 auto",
-            background: "white",
-            borderTop: "1px solid #00876D",
-            borderBottom: "1px solid #00876D",
-          }}
-        />
+                {item}
+              </span>
+              <div style={{ marginRight: 20, color: "gray" }}>
+                <img
+                  src="/images/common/notice/clock.svg"
+                  alt=""
+                  style={{ height: 30, marginRight: 10 }}
+                />
+                2024-01-15
+              </div>
+            </List.Item>
+          </Link>
+        )}
+        style={{
+          width: "100%",
+          margin: "0 auto",
+          background: "white",
+          borderTop: "1px solid #00876D",
+          borderBottom: "1px solid #00876D",
+        }}
+      />
 
       <Pagination
         current={current}
@@ -182,7 +180,7 @@ const NoticeList = () => {
       <Routes>
         <Route path="/gallery/:id" element={<NoticeDetails />} />
       </Routes>
-    </>
+    </div>
   );
 };
 

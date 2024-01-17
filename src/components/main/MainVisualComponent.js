@@ -4,12 +4,9 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation, EffectFade } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/effect-fade";
+import { VisualImage } from "../common/TemporaryData";
 
 export const MainVisualComponent = () => {
-  const visualImage = [
-    "/images/main/main_visual01.jpg",
-    "/images/main/main_visual02.jpg",
-  ];
   return (
     <MainVisual>
       <Swiper
@@ -29,8 +26,8 @@ export const MainVisualComponent = () => {
         }}
         modules={[Autoplay, Navigation, EffectFade]}
       >
-        {Array.isArray(visualImage) &&
-          visualImage.map((item, index) => {
+        {Array.isArray(VisualImage) &&
+          VisualImage.map((item, index) => {
             return (
               <SwiperSlide key={index}>
                 <ImgBox>

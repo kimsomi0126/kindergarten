@@ -128,17 +128,17 @@ export const WrapMain = styled.div`
 // content 레이아웃
 export const WrapContent = styled.div`
   position: relative;
-  max-width: ${props => {
-    props ? props.maxw + "px" : "100%";
-  }};
-  height: 100%;
-  overflow-x: auto;
   margin: 0 auto;
 
   input::placeholder,
   textarea::placeholder {
     color: ${colors.placeholder};
   }
+`;
+
+export const ContentInner = styled.div`
+  max-width: 1300px;
+  margin: 0 auto;
 `;
 
 // 사이드바

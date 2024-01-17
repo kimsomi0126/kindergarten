@@ -3,6 +3,7 @@ import { Button, Flex, Input, List, Pagination } from "antd";
 import { Link, Route, Routes, useNavigate } from "react-router-dom";
 import NoticeDetails from "./NoticeDetails"; // NoticeDetails 컴포넌트 import
 import ContentLayout from "../../layouts/common/ContentLayout";
+import { PageTitle } from "../../styles/basic";
 
 const { Search } = Input;
 
@@ -80,14 +81,15 @@ const NoticeList = () => {
             alignItems: "center",
           }}
         >
-          <div style={{ fontSize: 36, color: "#008666" }}>
+          {/* <div style={{ fontSize: 36, color: "#008666" }}>
             <img
               src="/images/common/titleIcon.svg"
               alt=""
               style={{ height: 50, marginRight: 10 }}
             />
             유치원 소식
-          </div>
+          </div> */}
+          <PageTitle>유치원소식</PageTitle>
           <Flex gap="small" alignItems="center">
             <Search
               placeholder="제목을 입력하세요."
@@ -122,7 +124,7 @@ const NoticeList = () => {
           itemLayout="vertical"
           dataSource={currentPageData}
           renderItem={(item, index) => (
-            <Link to={`/notice/details/${index}`} key={index}>
+            <Link to={`/notice/details/${index}`}>
               <List.Item
                 style={{
                   borderLeft: "none",

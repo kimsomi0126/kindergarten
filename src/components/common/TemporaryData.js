@@ -1,15 +1,15 @@
 export const NoticeImageData = [
   {
-    original: "https://picsum.photos/id/1018/1000/600/",
-    thumbnail: "https://picsum.photos/id/1018/250/150/",
+    original: "/images/main/album/main_album01.jpg",
+    thumbnail: "/images/main/album/main_album01.jpg",
   },
   {
-    original: "https://picsum.photos/id/1015/1000/600/",
-    thumbnail: "https://picsum.photos/id/1015/250/150/",
+    original: "/images/main/album/main_album02.jpg",
+    thumbnail: "/images/main/album/main_album02.jpg",
   },
   {
-    original: "https://picsum.photos/id/1019/1000/600/",
-    thumbnail: "https://picsum.photos/id/1019/250/150/",
+    original: "/images/main/album/main_album03.jpg",
+    thumbnail: "/images/main/album/main_album03.jpg",
   },
 ];
 

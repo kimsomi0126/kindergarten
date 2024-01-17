@@ -1,6 +1,6 @@
 import React from "react";
-import ContentLayout from "../../layouts/ContentLayout";
-import { PageTitle } from "../../styles/basic";
+import ContentLayout from "../../../layouts/common/ContentLayout";
+import { PageTitle } from "../../../styles/basic";
 import { DatePicker, Form, Input, Select } from "antd";
 
 const StudentCreate = () => {

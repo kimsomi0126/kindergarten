@@ -9,7 +9,6 @@ import {
 import "./styles/normalize.css";
 import "./styles/index.css";
 
-
 // 라우터 페이지 로딩 컴포넌트
 import Loading from "./components/loading/Loading";
 import MainLayout from "./layouts/MainLayout";
@@ -30,7 +29,6 @@ const MyPage = lazy(() => import("./pages/user/MyPage"));
 //회원탈퇴
 const Withdraw = lazy(() => import("./pages/user/Withdraw"));
 
-
 // 유치원 안내 영역
 const Info = lazy(() => import("./pages/information/Info"));
 const InfoClass = lazy(() => import("./pages/information/InfoClass"));
@@ -47,25 +45,24 @@ const AlbumModify = lazy(() => import("./pages/album/AlbumModify"));
 const AlbumWrite = lazy(() => import("./pages/album/AlbumWrite"));
 
 // 유치원 소식(공지사항)영역
+const NoticeDetails = lazy(() => import("./pages/notice/NoticeDetails"));
+const NoticeList = lazy(() => import("./pages/notice/NoticeList"));
+const NoticeModify = lazy(() => import("./pages/notice/NoticeModify"));
+const NoticeWrite = lazy(() => import("./pages/notice/NoticeWrite"));
 
 //관리자 영역
 const GuardianList = lazy(() => import("./pages/adminPage/GuardianList"));
 const AdminPage = lazy(() => import("./pages/adminPage/AdminPage"));
-const StudentCreate = lazy(() =>
-  import("./pages/adminPage/student/StudCreate"),
-);
-const StudentDetailsForm = lazy(() =>
+const StudCreate = lazy(() => import("./pages/adminPage/student/StudCreate"));
+const StudDetailsForm = lazy(() =>
   import("./pages/adminPage/student/StudDetailsForm"),
 );
-const StudentDetails = lazy(() =>
-  import("./pages/adminPage/student/StudDetails"),
-);
-const StudentList = lazy(() => import("./pages/adminPage/student/StudList"));
-
+const StudDetails = lazy(() => import("./pages/adminPage/student/StudDetails"));
+const StudList = lazy(() => import("./pages/adminPage/student/StudList"));
 
 //알림장 영역
-const IndivNotiForm = lazy(() =>
-  import("./pages/individualNotice/IndivNotiForm"),
+const IndivNotiModify = lazy(() =>
+  import("./pages/individualNotice/IndivNotiModify"),
 );
 
 const IndivNotiHistory = lazy(() =>
@@ -80,25 +77,15 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* 메인 페이지를 위한 라우터 설정 */}
         <Route
-
+          path="/"
           element={
             <Suspense fallback={<Loading />}>
-              <MainLayout />
+              <MainPage />
             </Suspense>
           }
-        >
-          <Route
-            path="/"
-            element={
-              <Suspense fallback={<Loading />}>
-                <MainPage />
-              </Suspense>
-            }
-          />
-        </Route>
-
+        />
+        {/* </Route> */}
         {/* user pages를 위한 라우터 설정 */}
         {/* 회원가입 */}
         <Route
@@ -108,78 +95,43 @@ function App() {
               <SignupForm />
             </Suspense>
           }
-        >
-          {/* 리다이렉트 */}
-          <Route index element={<Navigate to="identNum" />}></Route>
-
-          {/* 고유번호 입력 페이지 */}
-          <Route
-            path="identNum"
-            element={
-              <Suspense fallback={<Loading />}>
-                <LazyIdentNum />
-              </Suspense>
-            }
-          />
-          {/* 보호자 회원가입 페이지 */}
-          <Route
-            path="guardianSignup"
-            element={
-              <Suspense fallback={<Loading />}>
-                <LazyGuardianSignup />
-              </Suspense>
-            }
-          />
-        </Route>
+        />
+        {/* 고유번호 입력 페이지 */}
+        <Route
+          path="identNum"
+          element={
+            <Suspense fallback={<Loading />}>
+              <IdentNum />
+            </Suspense>
+          }
+        />
         {/* 로그인 페이지 */}
         <Route
-          index
           path="login"
           element={
             <Suspense fallback={<Loading />}>
-              <ContentLayout />
+              <Login />
             </Suspense>
           }
-        >
-          {/* 로그인 페이지 */}
-          <Route
-            path="login"
-            element={
-              <Suspense fallback={<Loading />}>
-                <Login />
-              </Suspense>
-            }
-          />
-          {/* 고유번호 입력 페이지 */}
-          <Route
-            path="/identNum"
-            element={
-              <Suspense fallback={<Loading />}>
-                <IdentNum />
-              </Suspense>
-            }
-          />
-
-          {/* 보호자 회원가입 페이지 */}
-          <Route
-            path="signupform"
-            element={
-              <Suspense fallback={<Loading />}>
-                <SignupForm />
-              </Suspense>
-            }
-          />
-          {/* 마이페이지 */}
-          <Route
-            path="myPage"
-            element={
-              <Suspense fallback={<Loading />}>
-                <MyPage />
-              </Suspense>
-            }
-          />
-        </Route>
-
+        />
+        {/* 보호자 회원가입 페이지 */}
+        <Route
+          path="signupform"
+          element={
+            <Suspense fallback={<Loading />}>
+              <SignupForm />
+            </Suspense>
+          }
+        />
+        {/* 마이페이지 */}
+        <Route
+          path="myPage"
+          element={
+            <Suspense fallback={<Loading />}>
+              <MyPage />
+            </Suspense>
+          }
+        />
         {/* 회원탈툅 */}
         <Route
           path="withdraw"
@@ -189,7 +141,6 @@ function App() {
             </Suspense>
           }
         />
-
         {/* 마이페이지 */}
         <Route
           path="mypage"
@@ -199,55 +150,55 @@ function App() {
             </Suspense>
           }
         />
-
         {/* 유치원 소개 페이지 */}
+        {/* 유치원 선생님 소개페이지 */}
         <Route
-          path="info/"
+          path="info/intro"
           element={
             <Suspense fallback={<Loading />}>
               <Info />
             </Suspense>
           }
-        >
-          {/* 유치원 현황 */}
-          <Route
-            path="class"
-            element={
-              <Suspense fallback={<Loading />}>
-                <InfoClass />
-              </Suspense>
-            }
-          />
-          {/* 오시는 길 */}
-          <Route
-            path="location"
-            element={
-              <Suspense fallback={<Loading />}>
-                <Location />
-              </Suspense>
-            }
-          />
-        </Route>
-        {/* 교육과정 페이지 */}
+        />
+        {/* 유치원 원아 현황 */}
         <Route
-          path="edu"
+          path="info/class"
+          element={
+            <Suspense fallback={<Loading />}>
+              <InfoClass />
+            </Suspense>
+          }
+        />
+        {/* 오시는 길 */}
+        <Route
+          path="info/location"
+          element={
+            <Suspense fallback={<Loading />}>
+              <Location />
+            </Suspense>
+          }
+        />
+        {/* 교육과정 페이지 */}
+        {/* 커리큘럼 */}
+        <Route
+          path="edu/curriculum"
           element={
             <Suspense fallback={<Loading />}>
               <Edu />
             </Suspense>
           }
-        >
-          {/* 방과후 활동 페이지 */}
-          <Route
-            path="specialact"
-            element={
-              <Suspense fallback={<Loading />}>
-                <SpecialAct />
-              </Suspense>
-            }
-          />
-        </Route>
+        />
+        {/* 방과후 활동 페이지 */}
+        <Route
+          path="edu/specialact"
+          element={
+            <Suspense fallback={<Loading />}>
+              <SpecialAct />
+            </Suspense>
+          }
+        />
         {/* 활동앨범 페이지 */}
+        {/* 활동앨범 리스트 */}
         <Route
           path="album"
           element={
@@ -255,121 +206,133 @@ function App() {
               <Album />
             </Suspense>
           }
-        >
-          <Route
-            path="details"
-            element={
-              <Suspense fallback={<Loading />}>
-                <AlbumDetails />
-              </Suspense>
-            }
-          />
-          <Route
-            path="modify"
-            element={
-              <Suspense fallback={<Loading />}>
-                <AlbumModify />
-              </Suspense>
-            }
-          />
-          <Route
-            path="write"
-            element={
-              <Suspense fallback={<Loading />}>
-                <AlbumWrite />
-              </Suspense>
-            }
-          />
-        </Route>
-        {/* 유치원소식 페이지 */}
-
-        <Route index element={<Suspense fallback={<Loading />}></Suspense>} />
-        <Route
-          path="list"
-          element={<Suspense fallback={<Loading />}></Suspense>}
         />
+        {/* 활동앨범 상세 */}
         <Route
-          path="details/:id"
-          element={<Suspense fallback={<Loading />}></Suspense>}
-        />
-        <Route
-          path="write"
-          component={<Suspense fallback={<Loading />}></Suspense>}
-        />
-        <Route
-          path="modify"
-          component={<Suspense fallback={<Loading />}></Suspense>}
-        />
-
-        {/* 관리자 페이지 */}
-        <Route
-          path="admin"
+          path="album/details"
           element={
             <Suspense fallback={<Loading />}>
-              <AdminPage />
+              <AlbumDetails />
             </Suspense>
           }
-        >
+        />
+        {/* 활동앨범 등록 */}
         <Route
-            path="student/detailsform"
-            element={
-              <Suspense fallback={<Loading />}>
-                <StudentDetailsForm />
-              </Suspense>
-            }
-          />
-          <Route
-            path="student/create"
-            element={
-              <Suspense fallback={<Loading />}>
-                <StudentCreate />
-              </Suspense>
-            }
-          />
-          <Route
-            path="student/list"
-            element={
-              <Suspense fallback={<Loading />}>
-                <StudentList />
-              </Suspense>
-            }
-          />
-          <Route
-            path="student/details"
-            element={
-              <Suspense fallback={<Loading />}>
-                <StudentDetails />
-              </Suspense>
-            }
-          />
-        </Route>
-
+          path="album/write"
+          element={
+            <Suspense fallback={<Loading />}>
+              <AlbumWrite />
+            </Suspense>
+          }
+        />
+        {/* 활동앨범 수정 */}
+        <Route
+          path="album/modify"
+          element={
+            <Suspense fallback={<Loading />}>
+              <AlbumModify />
+            </Suspense>
+          }
+        />
+        {/* 유치원소식 페이지 */}
+        <Route
+          path="notice"
+          element={
+            <Suspense fallback={<Loading />}>
+              <NoticeList />
+            </Suspense>
+          }
+        />
+        <Route
+          path="notice/details/:id"
+          element={
+            <Suspense fallback={<Loading />}>
+              <NoticeDetails />
+            </Suspense>
+          }
+        />
+        <Route
+          path="notice/write"
+          component={
+            <Suspense fallback={<Loading />}>
+              <NoticeWrite />
+            </Suspense>
+          }
+        />
+        <Route
+          path="notice/modify"
+          component={
+            <Suspense fallback={<Loading />}>
+              <NoticeModify />
+            </Suspense>
+          }
+        />
+        {/* 관리자 페이지 */}
+        <Route
+          path="admin/guardian/list"
+          element={
+            <Suspense fallback={<Loading />}>
+              <GuardianList />
+            </Suspense>
+          }
+        />
+        <Route
+          path="admin/student/detailsform"
+          element={
+            <Suspense fallback={<Loading />}>
+              <StudDetailsForm />
+            </Suspense>
+          }
+        />
+        <Route
+          path="admin/student/create"
+          element={
+            <Suspense fallback={<Loading />}>
+              <StudCreate />
+            </Suspense>
+          }
+        />
+        <Route
+          path="admin/student/list"
+          element={
+            <Suspense fallback={<Loading />}>
+              <StudList />
+            </Suspense>
+          }
+        />
+        <Route
+          path="admin/student/details"
+          element={
+            <Suspense fallback={<Loading />}>
+              <StudDetails />
+            </Suspense>
+          }
+        />
         {/* 알림장 페이지 */}
         <Route
-          path="ind"
+          path="/ind"
           element={
             <Suspense fallback={<Loading />}>
               <IndivNotiList />
             </Suspense>
           }
-        >
-          <Route
-            path="history"
-            element={
-              <Suspense fallback={<Loading />}>
-                <IndivNotiHistory />
-              </Suspense>
-            }
-          />
-          <Route
-            path="form"
-            element={
-              <Suspense fallback={<Loading />}>
-                <IndivNotiForm />
-              </Suspense>
-            }
-          />
-        </Route>
+        />
+        <Route
+          path="history"
+          element={
+            <Suspense fallback={<Loading />}>
+              <IndivNotiHistory />
+            </Suspense>
+          }
+        />
+        <Route
+          path="form"
+          element={
+            <Suspense fallback={<Loading />}>
+              <IndivNotiModify />
+            </Suspense>
+          }
+        />
         <Route path="*" element={<h1>페이지가 없습니다.</h1>}></Route>
         {/* </Route> */}
       </Routes>

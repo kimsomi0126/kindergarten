@@ -20,7 +20,7 @@ const SideMenu = () => {
         src={process.env.PUBLIC_URL + "/images/common/sidebar/introduce.svg"}
       />,
       [
-        getItem(<Link to="/info">유치원 소개</Link>, "1-1"),
+        getItem(<Link to="/info/intro">유치원 소개</Link>, "1-1"),
         getItem(<Link to="/info/class">유치원 현황</Link>, "1-2"),
         getItem(<Link to="/info/location">오시는 길</Link>, "1-3"),
       ],
@@ -32,7 +32,7 @@ const SideMenu = () => {
         src={process.env.PUBLIC_URL + "/images/common/sidebar/education.svg"}
       />,
       [
-        getItem(<Link to="/edu">교육과정</Link>, "2-1"),
+        getItem(<Link to="/edu/curriculum">교육과정</Link>, "2-1"),
         getItem(<Link to="/edu/specialact">방과후활동</Link>, "2-2"),
       ],
     ),
@@ -59,7 +59,7 @@ const SideMenu = () => {
         src={process.env.PUBLIC_URL + "/images/common/sidebar/manager.svg"}
       />,
       [
-        getItem(<Link to="/admin">학부모관리</Link>, "5-1"),
+        getItem(<Link to="/admin/guardian/list">학부모관리</Link>, "5-1"),
         getItem(<Link to="/admin/student/list">원생관리</Link>, "5-2"),
         getItem(<Link to="/admin/student/create">원생등록</Link>, "5-3"),
       ],

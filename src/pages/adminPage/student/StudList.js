@@ -1,5 +1,5 @@
 import React from "react";
-import ContentLayout from "../../layouts/ContentLayout";
+import ContentLayout from "../../../layouts/common/ContentLayout";
 import { Pagination, Select } from "antd";
 import Search from "antd/es/input/Search";
 import {
@@ -11,9 +11,9 @@ import {
   StudentMain,
   StudentTop,
   StudentTopRight,
-} from "../../styles/adminstyle/studentlist";
-import { PageTitle } from "../../styles/basic";
-import { BlueBtn, OrangeBtn, PurpleBtn } from "../../styles/ui/buttons";
+} from "../../../styles/adminstyle/studentlist";
+import { PageTitle } from "../../../styles/basic";
+import { BlueBtn, OrangeBtn, PurpleBtn } from "../../../styles/ui/buttons";
 
 const handleChange = value => {
   console.log(value);

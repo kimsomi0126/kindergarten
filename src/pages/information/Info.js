@@ -10,14 +10,14 @@ const Info = () => {
         <div className="info_header">
           <h4 className="info_title">
             <img
-              src="./images/information/logo1.svg"
+              src="../images/information/logo1.svg"
               alt=""
               className="info_logo"
             />
             유치원 소개
           </h4>
           <img
-            src="./images/information/logo2.svg"
+            src="../images/information/logo2.svg"
             alt=""
             className="info_img"
           />
@@ -45,22 +45,20 @@ const Info = () => {
           </span>
         </div>
         <div className="info_main">
+          <img src="../images/information/logo1.svg" alt="" className="info_main_logo"/>
+          <h4 className="info_main_title">선생님 소개 </h4>
           <ul className="info_list">
             <li>
-              <img src="./images/information/logo1.svg" alt="" />
-              <h4>선생님 소개 </h4>
+              <img src="../images/information/logo3.svg" alt="" />
+              <h3 className="info_green">나미리 선생님</h3>
             </li>
             <li>
-              <img src="./images/information/logo3.svg" alt="" />
-              <p>나미리 선생님</p>
+              <img src="../images/information/logo4.svg" alt="" />
+              <h3 className="info_orange">차은주 선생님</h3>
             </li>
             <li>
-              <img src="./images/information/logo4.svg" alt="" />
-              <p>차은주 선생님</p>
-            </li>
-            <li>
-              <img src="./images/information/logo5.svg" alt="" />
-              <p>채성아 선생님</p>
+              <img src="../images/information/logo5.svg" alt="" />
+              <h3 className="info_pink">채성아 선생님</h3>
             </li>
           </ul>
         </div>

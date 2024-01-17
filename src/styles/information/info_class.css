@@ -1,0 +1,14 @@
+.info_class_item {
+  position: relative;
+  border: 1px solid #ddd;
+  text-align: center;
+  background-color: #fff;
+}
+.info_class_item h3 {
+  position: relative;
+  margin: 10px;
+}
+
+.info_class_item img {
+  width: 100%;
+}

@@ -1,6 +1,8 @@
 import React, { lazy } from "react";
 import ContentLayout from "../../layouts/common/ContentLayout";
 import {
+  ChildInfo,
+  PageNum,
   UserInfo,
   UserListBox,
   UserListItem,
@@ -72,17 +74,21 @@ const GuardianList = () => {
             <GreenBtn>선택회원삭제</GreenBtn>
           </UserTopRight>
         </UserTop>
-
         <UserMain>
+          <input type="checkbox" id="selectAll" />
+          <label htmlFor="selectAll">전체 선택</label>
           <UserListWrap>
             <UserListItem>
               <UserListBox>
                 <input type="checkbox" />
-                <span>bong11</span>
                 <UserInfo>
-                  <p>봉미선 </p>
-                  <p>해바라기반 신짱구</p>
+                  <span>bong11</span>
+                  <p>봉미선</p>
                 </UserInfo>
+                <ChildInfo>
+                  <p>해바라기반 신짱구</p>
+                  <p>무궁화반 신짱아</p>
+                </ChildInfo>
                 <em>010.0000.0000</em>
                 <GrayBtn>정보 수정</GrayBtn>
               </UserListBox>
@@ -90,119 +96,58 @@ const GuardianList = () => {
             <UserListItem>
               <UserListBox>
                 <input type="checkbox" />
-                <span>bong11</span>
                 <UserInfo>
-                  <p>봉미선 </p>
-                  <p>해바라기반 신짱구</p>
+                  <span>bong11</span>
+                  <p>봉미선</p>
                 </UserInfo>
+                <ChildInfo>
+                  <p>해바라기반 신짱구</p>
+                  <p>무궁화반 신짱아</p>
+                </ChildInfo>
                 <em>010.0000.0000</em>
-                <button>정보 수정</button>
+                <GrayBtn>정보 수정</GrayBtn>
               </UserListBox>
             </UserListItem>
             <UserListItem>
               <UserListBox>
                 <input type="checkbox" />
-                <span>bong11</span>
                 <UserInfo>
-                  <p>봉미선 </p>
-                  <p>해바라기반 신짱구</p>
+                  <span>bong11</span>
+                  <p>봉미선</p>
                 </UserInfo>
+                <ChildInfo>
+                  <p>해바라기반 신짱구</p>
+                  <p>무궁화반 신짱아</p>
+                </ChildInfo>
                 <em>010.0000.0000</em>
-                <button>정보 수정</button>
+                <GrayBtn>정보 수정</GrayBtn>
               </UserListBox>
             </UserListItem>
             <UserListItem>
               <UserListBox>
                 <input type="checkbox" />
-                <span>bong11</span>
                 <UserInfo>
-                  <p>봉미선 </p>
-                  <p>해바라기반 신짱구</p>
+                  <span>bong11</span>
+                  <p>봉미선</p>
                 </UserInfo>
-                <em>010.0000.0000</em>
-                <button>정보 수정</button>
-              </UserListBox>
-            </UserListItem>
-            <UserListItem>
-              <UserListBox>
-                <input type="checkbox" />
-                <span>bong11</span>
-                <UserInfo>
-                  <p>봉미선 </p>
+                <ChildInfo>
                   <p>해바라기반 신짱구</p>
-                </UserInfo>
+                  <p>무궁화반 신짱아</p>
+                </ChildInfo>
                 <em>010.0000.0000</em>
-                <button>정보 수정</button>
-              </UserListBox>
-            </UserListItem>
-            <UserListItem>
-              <UserListBox>
-                <input type="checkbox" />
-                <span>bong11</span>
-                <UserInfo>
-                  <p>봉미선 </p>
-                  <p>해바라기반 신짱구</p>
-                </UserInfo>
-                <em>010.0000.0000</em>
-                <button>정보 수정</button>
-              </UserListBox>
-            </UserListItem>
-            <UserListItem>
-              <UserListBox>
-                <input type="checkbox" />
-                <span>bong11</span>
-                <UserInfo>
-                  <p>봉미선 </p>
-                  <p>해바라기반 신짱구</p>
-                </UserInfo>
-                <em>010.0000.0000</em>
-                <button>정보 수정</button>
-              </UserListBox>
-            </UserListItem>
-            <UserListItem>
-              <UserListBox>
-                <input type="checkbox" />
-                <span>bong11</span>
-                <UserInfo>
-                  <p>봉미선 </p>
-                  <p>해바라기반 신짱구</p>
-                </UserInfo>
-                <em>010.0000.0000</em>
-                <button>정보 수정</button>
-              </UserListBox>
-            </UserListItem>
-            <UserListItem>
-              <UserListBox>
-                <input type="checkbox" />
-                <span>bong11</span>
-                <UserInfo>
-                  <p>봉미선 </p>
-                  <p>해바라기반 신짱구</p>
-                </UserInfo>
-                <em>010.0000.0000</em>
-                <button>정보 수정</button>
-              </UserListBox>
-            </UserListItem>
-            <UserListItem>
-              <UserListBox>
-                <input type="checkbox" />
-                <span>bong11</span>
-                <UserInfo>
-                  <p>봉미선 </p>
-                  <p>해바라기반 신짱구</p>
-                </UserInfo>
-                <em>010.0000.0000</em>
-                <button>정보 수정</button>
+                <GrayBtn>정보 수정</GrayBtn>
               </UserListBox>
             </UserListItem>
           </UserListWrap>
         </UserMain>
-        <Pagination
-          defaultCurrent={1} // 초기 선택된 페이지
-          total={50} // 전체 아이템 수
-          pageSize={10} // 한 페이지에 보여질 아이템 수
-          onChange={handlePageChange} // 페이지 변경 시의 콜백 함수
-        />
+        <PageNum>
+          <Pagination
+            defaultCurrent={1} // 초기 선택된 페이지
+            total={50} // 전체 아이템 수
+            pageSize={10} // 한 페이지에 보여질 아이템 수
+            onChange={handlePageChange} // 페이지 변경 시의 콜백 함수
+          />
+        </PageNum>
       </ContentLayout>
     </>
   );

@@ -120,3 +120,8 @@ button {
   text-align: right;
   padding: 0 2rem 0.5rem;
 }
+/* 
+.layout-wrap .image-gallery-content .image-gallery-slide .image-gallery-image {
+  max-width: 100%;
+  max-height: none;
+} */

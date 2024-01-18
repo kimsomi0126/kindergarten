@@ -1,5 +1,4 @@
-import React from "react";
-import ContentLayout from "../../../layouts/common/ContentLayout";
+import React, { useState } from "react";
 import { Pagination, Select } from "antd";
 import Search from "antd/es/input/Search";
 import {
@@ -18,13 +17,38 @@ import { BlueBtn, OrangeBtn, PurpleBtn } from "../../../styles/ui/buttons";
 const handleChange = value => {
   console.log(value);
 };
-const handlePageChange = (page, pageSize) => {
-  // 페이지 변경 시 처리할 로직을 추가할 수 있습니다.
-  console.log("Page:", page, "PageSize:", pageSize);
-};
+const handlePageChange = (page, pageSize) => {};
+
 const StudList = () => {
+  // 체크박스 전체 선택
+  const [selectAllChecked, setSelectAllChecked] = useState(false);
+
+  const handleSelectAllChange = e => {
+    const checked = e.target.checked;
+    setSelectAllChecked(checked);
+
+    const checkboxes = document.querySelectorAll(
+      'input[type="checkbox"][name^="student"]',
+    );
+
+    checkboxes.forEach(checkbox => {
+      checkbox.checked = checked;
+    });
+  };
+
+  const handleStudentCheckboxChange = () => {
+    const checkboxes = document.querySelectorAll(
+      'input[type="checkbox"][name^="student"]',
+    );
+
+    const allChecked = Array.from(checkboxes).every(
+      checkbox => checkbox.checked,
+    );
+
+    setSelectAllChecked(allChecked);
+  };
   return (
-    <ContentLayout>
+    <>
       <StudentTop>
         <PageTitle>원생 관리</PageTitle>
         <StudentTopRight>
@@ -74,12 +98,22 @@ const StudList = () => {
         </StudentTopRight>
       </StudentTop>
       <StudentMain>
-        <input type="checkbox" id="selectAll" />
+        <input
+          type="checkbox"
+          id="selectAll"
+          name="student"
+          checked={selectAllChecked}
+          onChange={handleSelectAllChange}
+        />
         <label htmlFor="selectAll">전체 선택</label>
         <StudentListWrap>
           <StudentListItem>
             <StudentListBox>
-              <input type="checkbox" />
+              <input
+                type="checkbox"
+                name="student"
+                onChange={handleStudentCheckboxChange}
+              />
               <StudentImg>
                 <img
                   src={
@@ -89,13 +123,17 @@ const StudList = () => {
               </StudentImg>
               <StudentInfo>
                 <p className="sunflower">해바라기반</p>
-                <p className="rose">신짱구</p>
+                <p className="leaf">신짱구</p>
               </StudentInfo>
             </StudentListBox>
           </StudentListItem>
           <StudentListItem>
             <StudentListBox>
-              <input type="checkbox" />
+              <input
+                type="checkbox"
+                name="student"
+                onChange={handleStudentCheckboxChange}
+              />
               <StudentImg>
                 <img
                   src={
@@ -104,62 +142,18 @@ const StudList = () => {
                 ></img>
               </StudentImg>
               <StudentInfo>
-                <p className="sunflower">해바라기반</p>
+                <p className="hibiscus">해바라기반</p>
                 <p className="rose">신짱구</p>
               </StudentInfo>
             </StudentListBox>
           </StudentListItem>
           <StudentListItem>
             <StudentListBox>
-              <input type="checkbox" />
-              <StudentImg>
-                <img
-                  src={
-                    process.env.PUBLIC_URL + "/images/information/sunflower.svg"
-                  }
-                ></img>
-              </StudentImg>
-              <StudentInfo>
-                <p className="sunflower">해바라기반</p>
-                <p className="rose">신짱구</p>
-              </StudentInfo>
-            </StudentListBox>
-          </StudentListItem>
-          <StudentListItem>
-            <StudentListBox>
-              <input type="checkbox" />
-              <StudentImg>
-                <img
-                  src={
-                    process.env.PUBLIC_URL + "/images/information/sunflower.svg"
-                  }
-                ></img>
-              </StudentImg>
-              <StudentInfo>
-                <p className="sunflower">해바라기반</p>
-                <p className="rose">신짱구</p>
-              </StudentInfo>
-            </StudentListBox>
-          </StudentListItem>
-          <StudentListItem>
-            <StudentListBox>
-              <input type="checkbox" />
-              <StudentImg>
-                <img
-                  src={
-                    process.env.PUBLIC_URL + "/images/information/sunflower.svg"
-                  }
-                ></img>
-              </StudentImg>
-              <StudentInfo>
-                <p className="sunflower">해바라기반</p>
-                <p className="rose">신짱구</p>
-              </StudentInfo>
-            </StudentListBox>
-          </StudentListItem>
-          <StudentListItem>
-            <StudentListBox>
-              <input type="checkbox" />
+              <input
+                type="checkbox"
+                name="student"
+                onChange={handleStudentCheckboxChange}
+              />
               <StudentImg>
                 <img
                   src={
@@ -176,12 +170,12 @@ const StudList = () => {
         </StudentListWrap>
       </StudentMain>
       <Pagination
-        defaultCurrent={1} // 초기 선택된 페이지
-        total={50} // 전체 아이템 수
-        pageSize={10} // 한 페이지에 보여질 아이템 수
-        onChange={handlePageChange} // 페이지 변경 시의 콜백 함수
+        defaultCurrent={1}
+        total={12} // 전체 아이템 수
+        pageSize={3} // 한 페이지당 3개의 아이템
+        onChange={handlePageChange}
       />
-    </ContentLayout>
+    </>
   );
 };
 

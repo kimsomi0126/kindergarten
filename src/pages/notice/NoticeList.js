@@ -103,24 +103,9 @@ const NoticeList = () => {
               marginRight: 20,
             }}
           />
-
-          <GreenBtn
-            type="primary"
-            size={size}
-            style={{
-              background: "#D3ECC8",
-              borderColor: "#D3ECC8",
-              padding: "15px 30px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              borderRadius: "1rem",
-              color: "#00876D",
-            }}
-            onClick={handleWriteClick} // 클릭 이벤트 추가
-          >
-            글쓰기
-          </GreenBtn>
+          <Link to={`/notice/write`}>
+            <GreenBtn>글쓰기</GreenBtn>
+          </Link>
         </Flex>
       </Flex>
 

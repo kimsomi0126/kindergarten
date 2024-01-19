@@ -4,7 +4,7 @@ import "react-image-gallery/styles/css/image-gallery.css";
 import { NoticeImageData } from "../../components/common/TemporaryData";
 import { PageTitle } from "../../styles/basic";
 import { Button } from "antd";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BlueBtn, GreenBtn, PinkBtn } from "../../styles/ui/buttons";
 
 const size = "small";
@@ -69,57 +69,17 @@ const NoticeDetails = () => {
             marginTop: 20,
           }}
         >
-          <GreenBtn
-            type="primary"
-            size={size}
-            onClick={() => navigate(`/notice`)}
-            style={{
-              background: "#D3ECC8",
-              borderColor: "#D3ECC8",
-              padding: "15px 30px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              borderRadius: "1rem",
-              color: "#00876D",
-              marginRight: 10,
-            }}
-          >
-            목록보기
-          </GreenBtn>
-          <BlueBtn
-            type="primary"
-            size={size}
-            style={{
-              background: "#A2D8FF",
-              borderColor: "#A2D8FF",
-              padding: "15px 30px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              borderRadius: "1rem",
-              color: "#00876D",
-              marginRight: 10,
-            }}
-          >
-            수정
-          </BlueBtn>
-          <PinkBtn
-            type="primary"
-            size={size}
-            style={{
-              background: "#FDC1C5",
-              borderColor: "#FDC1C5",
-              padding: "15px 30px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              borderRadius: "1rem",
-              color: "#00876D",
-            }}
-          >
-            삭제
-          </PinkBtn>
+          <div style={{ marginRight: 10 }}>
+            <Link to={`/notice`}>
+              <GreenBtn>목록보기</GreenBtn>
+            </Link>
+          </div>
+          <div style={{ marginRight: 10 }}>
+            <BlueBtn>수정</BlueBtn>
+          </div>
+          <div>
+            <PinkBtn>삭제</PinkBtn>
+          </div>
         </div>
       </div>
     </>

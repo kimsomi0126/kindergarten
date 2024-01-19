@@ -292,7 +292,7 @@ function App() {
             />
             <Route
               path="write"
-              component={
+              element={
                 <Suspense fallback={<Loading />}>
                   <NoticeWrite />
                 </Suspense>
@@ -300,7 +300,7 @@ function App() {
             />
             <Route
               path="modify:id"
-              component={
+              element={
                 <Suspense fallback={<Loading />}>
                   <NoticeModify />
                 </Suspense>

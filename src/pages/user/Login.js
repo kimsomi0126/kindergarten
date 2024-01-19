@@ -1,5 +1,6 @@
 import React from "react";
-import ContentLayout from "../../layouts/common/ContentLayout";
+import { ContentInner } from "../../styles/basic";
+import LoginComponent from "../../components/user/login/LoginComponent";
 
 // const LazyIdentNum = lazy(() => import("./pages/user/IdentNum"));
 // const LazyGuardianSignup = lazy(() => import("./pages/user/GuardianSignup"));
@@ -9,9 +10,9 @@ import ContentLayout from "../../layouts/common/ContentLayout";
 
 const Login = () => {
   return (
-    <ContentLayout>
-      <h1>로그인 페이지</h1>
-    </ContentLayout>
+    <ContentInner>
+      <LoginComponent />
+    </ContentInner>
   );
 };
 

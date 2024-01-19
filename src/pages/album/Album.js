@@ -12,6 +12,8 @@ import {
 import { PageTitle } from "../../styles/basic";
 import { GreenBtn } from "../../styles/ui/buttons";
 import { UserTopRight } from "../../styles/adminstyle/guardianlist";
+import Comment from "../../components/common/CommentComponent";
+import { DeleteModal } from "../../components/common/ResultModal";
 // 임시 데이터 서버로부터 받아온 데이터로 대체될 예정
 
 const initState = {
@@ -34,7 +36,7 @@ const Album = ({ pno }) => {
             <Search
               placeholder="제목을 입력하세요."
               style={{
-                width: 200,
+                width: 300,
               }}
               size={"large"}
               allowClear
@@ -44,6 +46,8 @@ const Album = ({ pno }) => {
           </UserTopRight>
         </SearchBar>
       </AlbumTopBar>
+      <Comment />
+      <DeleteModal />
       <InnerAlbum width={54} height={62}>
         <div data={AlbumData} className="gallery">
           {AlbumData.map(item => (

@@ -94,7 +94,7 @@ const StudList = () => {
           />
           <BlueBtn>선택 반 변경</BlueBtn>
           <PurpleBtn>선택졸업</PurpleBtn>
-          <OrangeBtn>선택취소</OrangeBtn>
+          <OrangeBtn>선택퇴소</OrangeBtn>
         </StudentTopRight>
       </StudentTop>
       <StudentMain>

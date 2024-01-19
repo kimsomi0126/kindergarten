@@ -1,12 +1,7 @@
 import React from "react";
-import ContentLayout from "../../layouts/common/ContentLayout";
 
 const NoticeWrite = () => {
-  return (
-    <ContentLayout>
-      <h1>공지 작성 페이지</h1>
-    </ContentLayout>
-  );
+  return <h1>공지 작성 페이지</h1>;
 };
 
 export default NoticeWrite;

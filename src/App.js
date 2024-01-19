@@ -1,13 +1,7 @@
-import React, { Suspense, lazy } from "react";
-import {
-  BrowserRouter,
-  Navigate,
-  Route,
-  Router,
-  Routes,
-} from "react-router-dom";
-import "./styles/normalize.css";
+import React, { lazy, Suspense } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./styles/index.css";
+import "./styles/normalize.css";
 
 // 라우터 페이지 로딩 컴포넌트
 import Loading from "./components/loading/Loading";
@@ -248,7 +242,7 @@ function App() {
             />
             {/* 활동앨범 등록 */}
             <Route
-              path="write:id"
+              path="write"
               element={
                 <Suspense fallback={<Loading />}>
                   <AlbumWrite />
@@ -283,6 +277,14 @@ function App() {
               }
             />
             <Route
+              path="write"
+              element={
+                <Suspense fallback={<Loading />}>
+                  <NoticeWrite />
+                </Suspense>
+              }
+            />
+            <Route
               path="details/:id"
               element={
                 <Suspense fallback={<Loading />}>
@@ -291,16 +293,8 @@ function App() {
               }
             />
             <Route
-              path="write"
-              component={
-                <Suspense fallback={<Loading />}>
-                  <NoticeWrite />
-                </Suspense>
-              }
-            />
-            <Route
               path="modify:id"
-              component={
+              element={
                 <Suspense fallback={<Loading />}>
                   <NoticeModify />
                 </Suspense>

@@ -1,3 +1,9 @@
+export const commentList = [
+  { user: "love_penguin", content: "감기 조심해!!" },
+  { user: "love_penguin2", content: "오늘 진짜 너무 춥다 ㅠㅠ" },
+  { user: "love_penguin3", content: "내일이 월요일이라니 끔찍해" },
+];
+
 export const VisualPopImage = [
   "/images/main/main_pop.jpg",
   "/images/main/main_pop.jpg",

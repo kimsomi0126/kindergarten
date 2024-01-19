@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { colors, shadow } from "../basic";
-
+import { Button, Modal, Space } from "antd";
 // 버튼 기본 스타일 정의
 const defaultBtnStyle = {
   fontSize: "1.8rem",
@@ -62,7 +62,15 @@ export const BlueBtn = styled.button`
     ${buttonHover}
   }
 `;
-
+export const RedBtn = styled.button`
+  ${defaultBtnStyle}
+  background: ${colors.redLight};
+  color: ${colors.redDeep};
+  transition: 0.2s;
+  :hover {
+    ${buttonHover}
+  }
+`;
 export const PurpleBtn = styled.button`
   ${defaultBtnStyle}
   background: ${colors.purpleLight};
@@ -129,4 +137,10 @@ export const AllBtn = styled.button`
   z-index: 11;
   word-break: break-all;
   line-height: 1;
+`;
+
+export const StyledeleteModal = styled(Modal)`
+  ant-btn {
+    color: red;
+  }
 `;

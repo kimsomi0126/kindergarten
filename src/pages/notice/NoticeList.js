@@ -77,10 +77,6 @@ const NoticeList = () => {
     updateCurrentPageData(current);
   }, [current]);
 
-  const handleWriteClick = () => {
-    navigate("/notice/modify"); // 글쓰기 버튼 클릭 시 NoticeModify 페이지로 이동
-  };
-
   return (
     <div style={{ marginTop: 60 }}>
       <Flex
@@ -117,9 +113,8 @@ const NoticeList = () => {
               borderRadius: "1rem",
               color: "#00876D",
             }}
-            onClick={handleWriteClick} // 클릭 이벤트 추가
           >
-            글쓰기
+            <Link to="/notice/write/">글쓰기</Link>
           </GreenBtn>
         </Flex>
       </Flex>

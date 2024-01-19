@@ -14,7 +14,11 @@ export const StudentTopRight = styled.div`
   gap: 1rem;
 `;
 
-export const StudentMain = styled.div``;
+export const StudentMain = styled.div`
+  input {
+    margin-right: 0.5rem;
+  }
+`;
 
 export const StudentListWrap = styled.ul`
   margin-top: 1rem;
@@ -63,6 +67,21 @@ export const StudentInfo = styled.div`
   }
   .rose {
     background: url(${process.env.PUBLIC_URL + "/images/information/rose.svg"})
+      no-repeat left 0.25rem/2.3rem;
+    font-family: ${fonts.kotraHope};
+    font-size: 2rem;
+    color: ${colors.orangeDeep};
+  }
+  .hibiscus {
+    background: url(${process.env.PUBLIC_URL +
+      "/images/information/hibiscus.svg"})
+      no-repeat left 0.25rem/2.3rem;
+    font-family: ${fonts.kotraHope};
+    font-size: 2rem;
+    color: ${colors.orangeDeep};
+  }
+  .leaf {
+    background: url(${process.env.PUBLIC_URL + "/images/information/logo1.svg"})
       no-repeat left 0.25rem/2.3rem;
     font-family: ${fonts.kotraHope};
     font-size: 2rem;

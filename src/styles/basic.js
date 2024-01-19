@@ -135,7 +135,9 @@ export const WrapMain = styled.div`
 // content 레이아웃
 export const WrapContent = styled.div`
   position: relative;
+  min-height: 100%;
   margin: 0 auto;
+  z-index: 12;
 
   input::placeholder,
   textarea::placeholder {

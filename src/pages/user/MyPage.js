@@ -1,14 +1,13 @@
 import React, { useState } from "react";
-import ContentLayout from "../../layouts/common/ContentLayout";
-import { PageTitle } from "../../styles/basic";
-import { Form, Input, Select } from "antd";
-import Search from "antd/es/input/Search";
+import { ContentInner, PageTitle } from "../../styles/basic";
+import { Form, Select } from "antd";
 import {
+  DetailBadge,
+  DetailInfo,
   FlexBox,
+  MyContentWrap,
   MypageWrap,
-  PageTop,
-  SearchWrap,
-  TableWrap,
+  TitleWrap,
 } from "../../styles/user/mypage";
 import {
   BtnWrap,
@@ -17,21 +16,25 @@ import {
   OrangeBtn,
   PinkBtn,
 } from "../../styles/ui/buttons";
+import MyProfileComponent from "../../components/user/mypage/MyProfileComponent";
+import MyAccountComponent from "../../components/user/mypage/MyAccountComponent";
+import MyPhysicalComponent from "../../components/user/mypage/MyPhysicalComponent";
+import MyBadge from "../../components/user/mypage/MyBadge";
 
 const MyPage = () => {
+  const ilevel = "parent";
   const [componentSize, setComponentSize] = useState("default");
   const onFormLayoutChange = ({ size }) => {
     setComponentSize(size);
     console.log(componentSize);
   };
-  const onSearch = (value, _e, info) => console.log(info?.source, value);
   return (
-    <ContentLayout>
+    <ContentInner>
       <MypageWrap>
-        <PageTop>
+        {/* 마이페이지 상단 버튼 */}
+        <TitleWrap>
           <PageTitle>마이페이지</PageTitle>
           <FlexBox>
-            {/*  */}
             <Form onValuesChange={onFormLayoutChange} layout="inline">
               <Form.Item>
                 <Select defaultValue="2024">
@@ -57,102 +60,32 @@ const MyPage = () => {
               <PinkBtn>회원탈퇴</PinkBtn>
             </BtnWrap>
           </FlexBox>
-        </PageTop>
-        <div className="MyContentWrap">
-          <div className="ProfileWrap">
-            <div className="ProfileImg">
-              <img
-                src={process.env.PUBLIC_URL + "/images/user/my_img01.jpg"}
-                alt=""
-              />
-            </div>
-            <div className="ProfileInfo">
-              <div className="MyClass">
-                <p className="ClassName">해바라기반</p>
-                <div className="IdentCode">
-                  <dl>
-                    <dt>식별코드</dt>
-                    <dd>00000</dd>
-                  </dl>
-                  <OrangeBtn>식별코드수정</OrangeBtn>
-                </div>
-              </div>
-              <div className="MyInfo">
-                <dl>
-                  <dt>이름</dt>
-                  <dd>홍길동</dd>
-                </dl>
-                <dl>
-                  <dt>성별</dt>
-                  <dd>남자</dd>
-                </dl>
-                <dl>
-                  <dt>생년월일</dt>
-                  <dd>2019-05-05</dd>
-                </dl>
-                <dl>
-                  <dt>주소</dt>
-                  <dd>서울특별시 어쩌구 저쩌동</dd>
-                </dl>
-                <dl>
-                  <dt>비상연락처</dt>
-                  <dd>홍길동 01000000000</dd>
-                </dl>
-              </div>
-            </div>
-            <div className="AdminMemo">
-              <dl>
-                <dt>관리자메모</dt>
-                <dd>관리자가 입력한 메모 내용 출력</dd>
-              </dl>
-            </div>
-          </div>
-          <div className="AccountInfo">
-            <TableWrap className="TableWrap">
-              <table>
-                <colgroup>
-                  <col width="20%" />
-                  <col width="20%" />
-                  <col width="20%" />
-                  <col width="20%" />
-                  <col width="20%" />
-                </colgroup>
-                <thead>
-                  <tr>
-                    <th>아이디 </th>
-                    <th>이름</th>
-                    <th>연락처</th>
-                    <th>관계</th>
-                    <th>관리</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>bong11</td>
-                    <td>봉미선</td>
-                    <td>01000000000</td>
-                    <td>부</td>
-                    <td>
-                      <GrayBtn>연결삭제</GrayBtn>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>bong11</td>
-                    <td>봉미선</td>
-                    <td>01000000000</td>
-                    <td>부</td>
-                    <td>
-                      <GrayBtn>연결삭제</GrayBtn>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </TableWrap>
-          </div>
-          <div className="DetailInfo"></div>
-        </div>
+        </TitleWrap>
+        {/* 마이페이지 내용 시작 */}
+        <MyContentWrap>
+          {/* 프로필 */}
+          <MyProfileComponent ilevel={ilevel} />
+          {/* 연결계정 */}
+          {ilevel === "admin" ? <MyAccountComponent /> : null}
+          {/* 상세정보 */}
+          <DetailInfo>
+            <TitleWrap>
+              <PageTitle>상세정보</PageTitle>
+              {ilevel === "admin" ? <OrangeBtn>상세정보 입력</OrangeBtn> : null}
+            </TitleWrap>
+            {/* 상세정보 - 신체정보 */}
+            <MyPhysicalComponent />
+            {/* 상세정보 - 칭찬뱃지 */}
+            <DetailBadge>
+              <MyBadge keywordValue={1} text="활발한 어린이 입니다." />
+              <MyBadge keywordValue={2} text="예의바른 어린이 입니다." />
+              <MyBadge keywordValue={3} text="창의적인 어린이 입니다." />
+              <MyBadge keywordValue={null} text={""} />
+            </DetailBadge>
+          </DetailInfo>
+        </MyContentWrap>
       </MypageWrap>
-    </ContentLayout>
+    </ContentInner>
   );
 };
 

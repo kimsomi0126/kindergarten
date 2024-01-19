@@ -39,6 +39,13 @@ export const shadow = {
   boxShadow: "0px 0px 10px 0px rgba(0, 0, 0, 0.05)",
 };
 
+// 박스
+export const boxStyle = {
+  background: "#fff",
+  borderRadius: "1rem",
+  boxShadow: "0px 0px 10px 0px rgba(0, 0, 0, 0.05)",
+};
+
 // 말줄임
 export const ellipsis = {
   line1: {

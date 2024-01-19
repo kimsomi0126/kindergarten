@@ -1,9 +1,10 @@
-import React, { useState } from "react";
 import { Button, Flex, Input, List, Pagination } from "antd";
-import { Link, Route, Routes, useNavigate } from "react-router-dom";
-import NoticeDetails from "./NoticeDetails"; // NoticeDetails 컴포넌트 import
-import ContentLayout from "../../layouts/common/ContentLayout";
+import React, { useEffect, useState } from "react";
+import { Link, Route, Routes, useNavigate } from "react-router-dom"; // useNavigate 추가
 import { PageTitle } from "../../styles/basic";
+import NoticeDetails from "./NoticeDetails";
+import NoticeModify from "./NoticeModify"; // NoticeModify 컴포넌트 import
+import { GreenBtn } from "../../styles/ui/buttons";
 
 const { Search } = Input;
 
@@ -52,22 +53,33 @@ const data = [
   "제목입니다.",
 ];
 
-const pageSize = 10; // 페이지당 아이템 개수
+const pageSize = 10;
 
 const NoticeList = () => {
   const [current, setCurrent] = useState(1);
+  const [currentPageData, setCurrentPageData] = useState([]);
+  const navigate = useNavigate(); // useNavigate 추가
 
   const onChange = page => {
-    console.log(page);
     setCurrent(page);
+    updateCurrentPageData(page);
   };
 
   const size = "small";
 
-  // 현재 페이지에 해당하는 데이터 계산
-  const startIndex = (current - 1) * pageSize;
-  const endIndex = startIndex + pageSize;
-  const currentPageData = data.slice(startIndex, endIndex);
+  const updateCurrentPageData = page => {
+    const startIndex = (page - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
+    setCurrentPageData(data.slice(startIndex, endIndex));
+  };
+
+  useEffect(() => {
+    updateCurrentPageData(current);
+  }, [current]);
+
+  const handleWriteClick = () => {
+    navigate("/notice/modify"); // 글쓰기 버튼 클릭 시 NoticeModify 페이지로 이동
+  };
 
   return (
     <div style={{ marginTop: 60 }}>
@@ -80,14 +92,6 @@ const NoticeList = () => {
           alignItems: "center",
         }}
       >
-        {/* <div style={{ fontSize: 36, color: "#008666" }}>
-            <img
-              src="/images/common/titleIcon.svg"
-              alt=""
-              style={{ height: 50, marginRight: 10 }}
-            />
-            유치원 소식
-          </div> */}
         <PageTitle>유치원소식</PageTitle>
         <Flex gap="small" alignItems="center">
           <Search
@@ -99,7 +103,8 @@ const NoticeList = () => {
               marginRight: 20,
             }}
           />
-          <Button
+
+          <GreenBtn
             type="primary"
             size={size}
             style={{
@@ -112,9 +117,10 @@ const NoticeList = () => {
               borderRadius: "1rem",
               color: "#00876D",
             }}
+            onClick={handleWriteClick} // 클릭 이벤트 추가
           >
             글쓰기
-          </Button>
+          </GreenBtn>
         </Flex>
       </Flex>
 
@@ -128,7 +134,7 @@ const NoticeList = () => {
               style={{
                 borderLeft: "none",
                 borderRight: "none",
-                borderBottom: "1px solid #e8e8e8", // 라인 추가
+                borderBottom: "1px solid #e8e8e8",
                 padding: "12px 0",
                 background: index < 3 ? "#E7F6ED" : "white",
                 display: "flex",
@@ -137,15 +143,17 @@ const NoticeList = () => {
                 cursor: "pointer",
               }}
             >
-              <span
-                style={{
-                  marginLeft: 20,
-                  color: index < 3 ? "#00876D" : "#000000",
-                  fontWeight: index < 3 ? "bold" : "normal",
-                }}
-              >
-                {item}
-              </span>
+              <Link to={`/notice/details/${index}`}>
+                <span
+                  style={{
+                    marginLeft: 20,
+                    color: index < 3 ? "#00876D" : "#000000",
+                    fontWeight: index < 3 ? "bold" : "normal",
+                  }}
+                >
+                  {item}
+                </span>
+              </Link>
               <div style={{ marginRight: 20, color: "gray" }}>
                 <img
                   src="/images/common/notice/clock.svg"
@@ -176,10 +184,6 @@ const NoticeList = () => {
           textAlign: "center",
         }}
       />
-
-      <Routes>
-        <Route path="/gallery/:id" element={<NoticeDetails />} />
-      </Routes>
     </div>
   );
 };

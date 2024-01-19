@@ -4,9 +4,12 @@ import "react-image-gallery/styles/css/image-gallery.css";
 import { NoticeImageData } from "../../components/common/TemporaryData";
 import { PageTitle } from "../../styles/basic";
 import { Button } from "antd";
+import { useNavigate } from "react-router-dom";
+import { BlueBtn, GreenBtn, PinkBtn } from "../../styles/ui/buttons";
 
 const size = "small";
 const NoticeDetails = () => {
+  const navigate = useNavigate();
   return (
     <>
       <PageTitle>유치원 소식</PageTitle>
@@ -66,9 +69,10 @@ const NoticeDetails = () => {
             marginTop: 20,
           }}
         >
-          <Button
+          <GreenBtn
             type="primary"
             size={size}
+            onClick={() => navigate(`/notice`)}
             style={{
               background: "#D3ECC8",
               borderColor: "#D3ECC8",
@@ -82,8 +86,8 @@ const NoticeDetails = () => {
             }}
           >
             목록보기
-          </Button>
-          <Button
+          </GreenBtn>
+          <BlueBtn
             type="primary"
             size={size}
             style={{
@@ -99,8 +103,8 @@ const NoticeDetails = () => {
             }}
           >
             수정
-          </Button>
-          <Button
+          </BlueBtn>
+          <PinkBtn
             type="primary"
             size={size}
             style={{
@@ -115,7 +119,7 @@ const NoticeDetails = () => {
             }}
           >
             삭제
-          </Button>
+          </PinkBtn>
         </div>
       </div>
     </>

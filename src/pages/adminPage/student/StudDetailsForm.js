@@ -7,17 +7,11 @@ import {
   DetailPhysicalTable,
   KeywordTable,
   StudDetailWrap,
+  StudDetailsFormFooter,
 } from "../../../styles/adminstyle/studdetailsform";
+import { GreenBtn, PinkBtn } from "../../../styles/ui/buttons";
 
 const StudDetailsForm = () => {
-  const [value, setValue] = useState("");
-
-  const handleInputChange = e => {
-    const inputValue = e.target.value;
-    if (/^\d*$/.test(inputValue)) {
-      setValue(inputValue);
-    }
-  };
   return (
     <>
       {/* 상세정보 */}
@@ -106,7 +100,7 @@ const StudDetailsForm = () => {
                         style={{
                           width: "100%",
                         }}
-                        placeholder="측정날짜"
+                        placeholder="측정날짜입력"
                       />
                     </Form.Item>
                   </td>
@@ -114,87 +108,127 @@ const StudDetailsForm = () => {
                 <tr>
                   <th>신장</th>
                   <td>
-                    <Form.Item>
-                      <Input
-                        type="text"
-                        value={value}
-                        onChange={handleInputChange}
-                        placeholder="신장 입력 (숫자만)"
-                      />
-                    </Form.Item>
+                    <Form>
+                      <Form.Item
+                        name="height"
+                        rules={[
+                          {
+                            pattern: /^\d*$/,
+                            message: "숫자만 입력하세요.",
+                          },
+                        ]}
+                      >
+                        <Input type="text" placeholder="신장 입력 (숫자만)" />
+                      </Form.Item>
+                    </Form>
                   </td>
                   <td>
-                    <Form.Item>
-                      <Input
-                        type="text"
-                        value={value}
-                        onChange={handleInputChange}
-                        placeholder="신장 입력 (숫자만)"
-                      />
-                    </Form.Item>
+                    <Form>
+                      <Form.Item
+                        name="height"
+                        rules={[
+                          {
+                            pattern: /^\d*$/,
+                            message: "숫자만 입력하세요.",
+                          },
+                        ]}
+                      >
+                        <Input type="text" placeholder="신장 입력 (숫자만)" />
+                      </Form.Item>
+                    </Form>
                   </td>
                   <td>
-                    <Form.Item>
-                      <Input
-                        type="text"
-                        value={value}
-                        onChange={handleInputChange}
-                        placeholder="신장 입력 (숫자만)"
-                      />
-                    </Form.Item>
+                    <Form>
+                      <Form.Item
+                        name="height"
+                        rules={[
+                          {
+                            pattern: /^\d*$/,
+                            message: "숫자만 입력하세요.",
+                          },
+                        ]}
+                      >
+                        <Input type="text" placeholder="신장 입력 (숫자만)" />
+                      </Form.Item>
+                    </Form>
                   </td>
                   <td>
-                    <Form.Item>
-                      <Input
-                        type="text"
-                        value={value}
-                        onChange={handleInputChange}
-                        placeholder="신장 입력 (숫자만)"
-                      />
-                    </Form.Item>
+                    <Form>
+                      <Form.Item
+                        name="height"
+                        rules={[
+                          {
+                            pattern: /^\d*$/,
+                            message: "숫자만 입력하세요.",
+                          },
+                        ]}
+                      >
+                        <Input type="text" placeholder="신장 입력 (숫자만)" />
+                      </Form.Item>
+                    </Form>
                   </td>
                 </tr>
                 <tr>
                   <th>몸무게</th>
                   <td>
-                    <Form.Item>
-                      <Input
-                        type="text"
-                        value={value}
-                        onChange={handleInputChange}
-                        placeholder="몸무게 입력 (숫자만)"
-                      />
-                    </Form.Item>
+                    <Form>
+                      <Form.Item
+                        name="weight"
+                        rules={[
+                          {
+                            pattern: /^\d*$/,
+                            message: "숫자만 입력해주세요.",
+                          },
+                        ]}
+                      >
+                        <Input type="text" placeholder="몸무게 입력 (숫자만)" />
+                      </Form.Item>
+                    </Form>
                   </td>
                   <td>
-                    <Form.Item>
-                      <Input
-                        type="text"
-                        value={value}
-                        onChange={handleInputChange}
-                        placeholder="몸무게 입력 (숫자만)"
-                      />
-                    </Form.Item>
+                    <Form>
+                      <Form.Item
+                        name="weight"
+                        rules={[
+                          {
+                            pattern: /^\d*$/,
+                            message: "숫자만 입력해주세요.",
+                          },
+                        ]}
+                      >
+                        <Input type="text" placeholder="몸무게 입력 (숫자만)" />
+                      </Form.Item>
+                    </Form>
                   </td>
                   <td>
-                    <Form.Item>
-                      <Input
-                        type="text"
-                        value={value}
-                        onChange={handleInputChange}
-                        placeholder="몸무게 입력 (숫자만)"
-                      />
-                    </Form.Item>
+                    <Form>
+                      <Form.Item
+                        name="weight"
+                        rules={[
+                          {
+                            pattern: /^\d*$/,
+                            message: "숫자만 입력해주세요.",
+                          },
+                        ]}
+                      >
+                        <Input type="text" placeholder="몸무게 입력 (숫자만)" />
+                      </Form.Item>
+                    </Form>
                   </td>
                   <td>
-                    <Form.Item>
-                      <Input
-                        type="text"
-                        value={value}
-                        onChange={handleInputChange}
-                        placeholder="몸무게 입력 (숫자만)"
-                      />
-                    </Form.Item>
+                    <Form>
+                      <Form.Item
+                        name="weight"
+                        rules={[
+                          {
+                            pattern: /^\d*$/,
+                            message: "숫자만 입력해주세요.",
+                          },
+                        ]}
+                      >
+                        <Input type="text" placeholder="몸무게 입력 (숫자만)" />
+                      </Form.Item>
+                    </Form>
                   </td>
                 </tr>
               </tbody>
@@ -410,6 +444,10 @@ const StudDetailsForm = () => {
           </table>
         </KeywordTable>
       </StudDetailWrap>
+      <StudDetailsFormFooter>
+        <GreenBtn>등록</GreenBtn>
+        <PinkBtn>취소</PinkBtn>
+      </StudDetailsFormFooter>
     </>
   );
 };

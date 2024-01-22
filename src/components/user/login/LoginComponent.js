@@ -1,9 +1,10 @@
-import { Form, Input, Tooltip } from "antd";
+import { Form, Input, Select, Tooltip } from "antd";
 import React from "react";
 import { FormWrap } from "../../../styles/user/login";
 import { GreenBtn } from "../../../styles/ui/buttons";
 import { Link } from "react-router-dom";
 import { LogoWrap } from "../../../styles/basic";
+import { Option } from "antd/es/mentions";
 
 const onFinish = values => {
   console.log("Success:", values);
@@ -26,11 +27,26 @@ const LoginComponent = () => {
         }}
         initialValues={{
           remember: true,
+          level: "1",
         }}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
         autoComplete="off"
       >
+        <Form.Item
+          name="level"
+          rules={[
+            {
+              required: true,
+              message: "",
+            },
+          ]}
+        >
+          <Select size="large">
+            <Option value="1">학부모</Option>
+            <Option value="2">선생님</Option>
+          </Select>
+        </Form.Item>
         <Form.Item
           name="id"
           rules={[

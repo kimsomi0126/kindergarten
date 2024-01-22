@@ -1,90 +1,142 @@
 import React, { useState } from "react";
-import { UploadOutlined } from "@ant-design/icons";
-import { Button, Upload, Input, Form, Checkbox, message } from "antd";
+import { Button, Modal } from "antd";
+import ImageGallery from "react-image-gallery";
+import "react-image-gallery/styles/css/image-gallery.css";
+import { Link, useNavigate } from "react-router-dom";
+import { NoticeImageData } from "../../components/common/TemporaryData";
 import { PageTitle } from "../../styles/basic";
+import { BlueBtn, GreenBtn, PinkBtn } from "../../styles/ui/buttons";
 
-const NoticeWrite = () => {
-  const [fileList, setFileList] = useState([]);
+const NoticeDetails = () => {
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isDeleteSuccessModalOpen, setIsDeleteSuccessModalOpen] =
+    useState(false);
+  const navigate = useNavigate();
 
-  const onChange = e => {
-    console.log(`checked = ${e.target.checked}`);
+  const showDeleteModal = () => {
+    setIsDeleteModalOpen(true);
   };
 
-  const handleChange = info => {
-    let fileList = [...info.fileList];
+  const handleDeleteOk = () => {
+    // 여기에 삭제 처리 로직을 추가할 수 있습니다.
 
-    setFileList(fileList);
-  };
+    // 예시: 삭제 처리 로직이 완료되면 성공 모달을 띄우고 페이지 이동
+    setIsDeleteModalOpen(false);
+    setIsDeleteSuccessModalOpen(true);
 
-  const customRequest = ({ file, onSuccess }) => {
-    // 실제로 서버에 업로드할 때 사용할 로직
-    // 예시로 setTimeout을 사용해 가상의 비동기 업로드를 흉내냅니다.
+    // 예시: 2초 후에 성공 모달을 닫고 /notice 페이지로 이동
     setTimeout(() => {
-      onSuccess();
-    }, 1000);
+      setIsDeleteSuccessModalOpen(false);
+      navigate("/notice");
+    }, 2000);
+  };
+
+  const handleDeleteCancel = () => {
+    setIsDeleteModalOpen(false);
+  };
+
+  const handleDeleteSuccessOk = () => {
+    setIsDeleteSuccessModalOpen(false);
   };
 
   return (
-    <div>
+    <>
       <PageTitle>유치원 소식</PageTitle>
       <div
         style={{
-          width: "100%",
-          height: 560,
-          padding: 16,
-          borderTop: "1.5px solid #00876D",
-          borderBottom: "1.5px solid #00876D",
-          background: "#FAFAFA",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
           marginTop: 30,
         }}
       >
-        <Checkbox onChange={onChange} style={{ marginBottom: 10 }}>
-          상단고정
-        </Checkbox>
-
-        <Form>
-          {/* Input 추가 */}
-          <Form.Item
-            name="Input"
-            rules={[
-              {
-                required: true,
-                message: "내용을 입력해주세요!",
-              },
-            ]}
+        <div
+          style={{
+            borderTop: "1.5px solid #00876D",
+            borderBottom: "1.5px solid #00876D",
+            width: "100%",
+            textAlign: "center",
+            paddingTop: 20,
+            justifyContent: "center",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
           >
-            <Input />
-          </Form.Item>
-
-          {/* Input.TextArea 추가 */}
-          <Form.Item
-            style={{ height: "150px" }}
-            name="TextArea"
-            rules={[
-              {
-                required: true,
-                message: "내용을 입력해주세요!",
-              },
-            ]}
+            <div style={{ margin: "auto" }}>
+              <p style={{ margin: 0, fontSize: 27 }}>제목입니다.</p>
+            </div>
+            <p style={{ marginRight: 20, fontSize: 15, color: "#999" }}>
+              2024-01-17
+            </p>
+          </div>
+          <div
+            style={{
+              borderTop: "1.5px solid #DDDDDD",
+              width: "100%",
+              textAlign: "center",
+              marginTop: 20,
+            }}
           >
-            <Input.TextArea style={{ height: "150px" }} />
-          </Form.Item>
-
-          {/* Upload 수정 */}
-          <Upload
-            action="http://localhost:3000/notice/write" // 실제 업로드를 처리하는 서버의 URL로 변경해주세요.
-            listType="picture"
-            fileList={fileList}
-            onChange={handleChange}
-            customRequest={customRequest} // customRequest 추가
-            className="upload-list-inline"
-          >
-            <Button icon={<UploadOutlined />}>업로드 (최대 3개 파일)</Button>
-          </Upload>
-        </Form>
+            <div style={{ margin: 40, maxWidth: 500, display: "inline-block" }}>
+              <ImageGallery items={NoticeImageData} thumbnailPosition="left" />
+            </div>
+          </div>
+          <p style={{ margin: 30, textAlign: "center", fontSize: 20 }}>
+            내용입니다
+          </p>
+        </div>
+        <div
+          style={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "flex-end",
+            marginTop: 20,
+          }}
+        >
+          <div style={{ marginRight: 10 }}>
+            <Link to="/notice">
+              <GreenBtn>목록보기</GreenBtn>
+            </Link>
+          </div>
+          <div style={{ marginRight: 10 }}>
+            <Link to={`/notice/modify/`}>
+              <BlueBtn>수정</BlueBtn>
+            </Link>
+          </div>
+          <div>
+            <PinkBtn onClick={showDeleteModal}>삭제</PinkBtn>
+          </div>
+        </div>
       </div>
-    </div>
+
+      {/* 삭제 모달 */}
+      <Modal
+        title="정말 삭제할까요?"
+        visible={isDeleteModalOpen}
+        onOk={handleDeleteOk}
+        onCancel={handleDeleteCancel}
+        okText="확인"
+        cancelText="취소"
+      >
+        <p>삭제된 내용은 복구할 수 없습니다.</p>
+      </Modal>
+
+      {/* 삭제 성공 모달 */}
+      <Modal
+        title="삭제 완료"
+        visible={isDeleteSuccessModalOpen}
+        onOk={handleDeleteSuccessOk}
+        okText="확인"
+      >
+        <p>삭제가 완료되었습니다.</p>
+      </Modal>
+    </>
   );
 };
 
-export default NoticeWrite;
+export default NoticeDetails;

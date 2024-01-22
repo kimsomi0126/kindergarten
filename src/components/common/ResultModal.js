@@ -73,6 +73,7 @@ const showModifyConfirm = () => {
 export const ConfirmModal = () => (
   <Button onClick={showConfirm}>Confirm</Button>
 );
+
 export const DeleteModal = () => {
   const showDeleteConfirm = () => {
     confirm({
@@ -94,6 +95,33 @@ export const DeleteModal = () => {
   return (
     <>
       <Button onClick={showDeleteConfirm}>Delete</Button>
+    </>
+  );
+};
+
+export const OkModal = () => {
+  const showOkConfirm = () => {
+    confirm({
+      title: "이 항목을 삭제하시겠습니까?",
+      icon: <ExclamationCircleFilled />,
+      content: "삭제된 정보는 다시 되돌릴 수 없습니다.",
+      okText: "삭제",
+      okType: "danger",
+      cancelText: "취소",
+      maskClosable: true,
+      onOk() {
+        console.log("OK");
+      },
+      onCancel() {
+        console.log("Cancel");
+      },
+    });
+  };
+  return (
+    <>
+      <Button defaultBg={"transparent"} onClick={showOkConfirm}>
+        등록
+      </Button>
     </>
   );
 };

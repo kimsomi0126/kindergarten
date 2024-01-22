@@ -99,7 +99,6 @@ const NoticeList = () => {
               marginRight: 20,
             }}
           />
-
           <GreenBtn
             type="primary"
             size={size}

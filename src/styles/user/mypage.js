@@ -53,7 +53,7 @@ export const TableWrap = styled.div`
     &:first-of-type {
       border-left: 0;
     }
-    span {
+    > span {
       color: ${colors.grayDeep};
     }
   }

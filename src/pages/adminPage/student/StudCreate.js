@@ -1,10 +1,18 @@
 import React, { useState } from "react";
 import { PageTitle } from "../../../styles/basic";
-import { Button, DatePicker, Form, Input, Modal, Select, Upload } from "antd";
+import {
+  Button,
+  DatePicker,
+  Form,
+  Input,
+  Modal,
+  Select,
+  Upload,
+  message,
+} from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import TextArea from "antd/es/input/TextArea";
 import DaumPostcode from "react-daum-postcode";
-
 import {
   AdminMemo,
   AdminMemoForm,
@@ -24,43 +32,34 @@ import {
 } from "../../../styles/adminstyle/studcreate";
 import { GreenBtn, OrangeBtn, PinkBtn } from "../../../styles/ui/buttons";
 
+// 프로필 이미지 첨부
+const props = {
+  name: "file",
+  action: "https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188",
+  headers: {
+    authorization: "authorization-text",
+  },
+  onChange(info) {
+    if (info.file.status !== "uploading") {
+      console.log(info.file, info.fileList);
+    }
+    if (info.file.status === "done") {
+      message.success(`${info.file.name} 파일 첨부 성공`);
+    } else if (info.file.status === "error") {
+      message.error(`${info.file.name} 파일 첨부 실패`);
+    }
+  },
+};
+
 const StudentCreate = () => {
+  // 우편번호
   const [zodecode, setZonecode] = useState("");
   const [address, setAddress] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [detailedAddress, setDetailedAddress] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [value, setValue] = useState("");
-  const [fileList, setFileList] = useState([
-    {
-      uid: "-1",
-      name: "xxx.png",
-      status: "done",
-      url: "http://www.baidu.com/xxx.png",
-    },
-  ]);
-  const handleChange = info => {
-    let newFileList = [...info.fileList];
 
-    // 1. Limit the number of uploaded files
-    // Only to show two recent uploaded files, and old ones will be replaced by the new
-    newFileList = newFileList.slice(-1);
-
-    // 2. Read from response and show file link
-    newFileList = newFileList.map(file => {
-      if (file.response) {
-        // Component will show file.url as link
-        file.url = file.response.url;
-      }
-      return file;
-    });
-    setFileList(newFileList);
-  };
-  const props = {
-    action: "https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188",
-    onChange: handleChange,
-    multiple: true,
-  };
   // Daum Post 관련
   const themeObj = {
     bgColor: "#FAFAFA", //바탕 배경색
@@ -76,7 +75,7 @@ const StudentCreate = () => {
 
   const postCodeStyle = {
     width: "480px",
-    height: "500px",
+    height: "445px",
   };
   const completeHandler = data => {
     const { address, zonecode } = data;
@@ -161,6 +160,7 @@ const StudentCreate = () => {
             <BasicInfoCode>
               <Form.Item>
                 <Input
+                  disabled
                   type="text"
                   value={zodecode}
                   onChange={e => setZonecode(e.target.value)}
@@ -174,6 +174,7 @@ const StudentCreate = () => {
                   open={isModalOpen}
                   onOk={handleOk}
                   onCancel={handleCancel}
+                  footer={null}
                 >
                   <DaumPostcode
                     theme={themeObj}
@@ -191,6 +192,7 @@ const StudentCreate = () => {
                 }}
               >
                 <Input
+                  disabled
                   type="text"
                   placeholder="주소 입력"
                   value={address}
@@ -277,10 +279,9 @@ const StudentCreate = () => {
           <p>프로필 이미지</p>
           <ImgInfoForm>
             <Form.Item>
-              <Button icon={<UploadOutlined />}>파일첨부</Button>
-            </Form.Item>
-            <Form.Item>
-              <Upload {...props} fileList={fileList}></Upload>
+              <Upload {...props}>
+                <Button icon={<UploadOutlined />}>파일 첨부</Button>
+              </Upload>
             </Form.Item>
           </ImgInfoForm>
         </ImgInfo>
@@ -288,24 +289,37 @@ const StudentCreate = () => {
         <PhoneInfo>
           <p>비상 연락처</p>
           <PhoneInfoForm>
-            <Form.Item
+            <Form
               style={{
-                width: "50%",
+                display: "flex",
+                gap: "1rem",
               }}
             >
-              <Input type="text" placeholder="이름 입력" />
-            </Form.Item>
-            <Form.Item
-              style={{
-                width: "50%",
-              }}
-            >
-              <Input
-                type="tel"
-                pattern="[0-9]*"
-                placeholder="휴대폰 번호 입력 // 하이픈(-) 제외"
-              />
-            </Form.Item>
+              <Form.Item
+                style={{
+                  width: "50%",
+                }}
+              >
+                <Input type="text" placeholder="이름 입력" />
+              </Form.Item>
+              <Form.Item
+                name="tel"
+                rules={[
+                  {
+                    pattern: /^\d{10,11}$/,
+                    message: "휴대폰 번호를 올바르게 입력하세요.",
+                  },
+                ]}
+                style={{
+                  width: "50%",
+                }}
+              >
+                <Input
+                  type="tel"
+                  placeholder="휴대폰 번호 입력 // 하이픈(-) 제외"
+                />
+              </Form.Item>
+            </Form>
           </PhoneInfoForm>
         </PhoneInfo>
         {/* 관리자메모 */}

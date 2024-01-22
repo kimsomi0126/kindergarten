@@ -84,8 +84,6 @@ export const PhoneInfo = styled.div`
 
 export const PhoneInfoForm = styled.div`
   margin-top: 1rem;
-  display: flex;
-  gap: 1rem;
 `;
 
 export const AdminMemo = styled.div`

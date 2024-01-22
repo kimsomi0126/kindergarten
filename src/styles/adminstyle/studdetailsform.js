@@ -3,7 +3,7 @@ import { colors, fonts, shadow } from "../basic";
 
 export const StudDetailWrap = styled.div`
   position: relative;
-  margin-bottom: 3rem;
+  margin-bottom: 1.5rem;
 `;
 
 export const DetailFormTable = styled.div`
@@ -99,6 +99,9 @@ export const DetailPhysicalTable = styled.div`
     span {
       color: ${colors.grayDeep};
     }
+    .ant-form-item-explain-error {
+      font-size: 1.2rem;
+    }
   }
   tbody tr:last-of-type th,
   tbody tr:last-of-type td {
@@ -159,4 +162,10 @@ export const KeywordTable = styled.div`
   .ant-form-item {
     margin-bottom: 0;
   }
+`;
+
+export const StudDetailsFormFooter = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
 `;

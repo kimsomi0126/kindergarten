@@ -98,6 +98,31 @@ export const DeleteModal = () => {
   );
 };
 
+export const OkModal = () => {
+  const showOkConfirm = () => {
+    confirm({
+      title: "이 항목을 등록하시겠습니까?",
+      icon: <ExclamationCircleFilled />,
+      content: "등록된 정보는 다시 되돌릴 수 없습니다.",
+      okText: "등록",
+      okType: "danger",
+      cancelText: "취소",
+      maskClosable: true,
+      onOk() {
+        console.log("OK");
+      },
+      onCancel() {
+        console.log("Cancel");
+      },
+    });
+  };
+  return (
+    <>
+      <Button onClick={showOkConfirm}>등록</Button>
+    </>
+  );
+};
+
 export const ModifyModal = () => (
   <Button onClick={showModifyConfirm} type="dashed">
     Delete

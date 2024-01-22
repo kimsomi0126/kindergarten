@@ -1,8 +1,11 @@
+import Search from "antd/es/input/Search";
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AlbumData } from "../../components/common/TemporaryData";
-import Search from "antd/es/input/Search";
 
+import Comment from "../../components/common/Comment";
+import { DeleteModal } from "../../components/common/ResultModal";
+import { UserTopRight } from "../../styles/adminstyle/guardianlist";
 import {
   AlbumTopBar,
   AlbumWrap,
@@ -11,9 +14,6 @@ import {
 } from "../../styles/album/album";
 import { PageTitle } from "../../styles/basic";
 import { GreenBtn } from "../../styles/ui/buttons";
-import { UserTopRight } from "../../styles/adminstyle/guardianlist";
-import Comment from "../../components/common/CommentComponent";
-import { DeleteModal } from "../../components/common/ResultModal";
 // 임시 데이터 서버로부터 받아온 데이터로 대체될 예정
 
 const initState = {
@@ -48,6 +48,7 @@ const Album = ({ pno }) => {
       </AlbumTopBar>
       <Comment />
       <DeleteModal />
+      <okModal>등록</okModal>
       <InnerAlbum width={54} height={62}>
         <div data={AlbumData} className="gallery">
           {AlbumData.map(item => (

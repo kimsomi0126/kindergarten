@@ -58,7 +58,6 @@ const pageSize = 10;
 const NoticeList = () => {
   const [current, setCurrent] = useState(1);
   const [currentPageData, setCurrentPageData] = useState([]);
-  const navigate = useNavigate(); // useNavigate 추가
 
   const onChange = page => {
     setCurrent(page);
@@ -99,22 +98,24 @@ const NoticeList = () => {
               marginRight: 20,
             }}
           />
-          <GreenBtn
-            type="primary"
-            size={size}
-            style={{
-              background: "#D3ECC8",
-              borderColor: "#D3ECC8",
-              padding: "15px 30px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              borderRadius: "1rem",
-              color: "#00876D",
-            }}
-          >
-            <Link to="/notice/write/">글쓰기</Link>
-          </GreenBtn>
+          <Link to="/notice/write/">
+            <GreenBtn
+              type="primary"
+              size={size}
+              style={{
+                background: "#D3ECC8",
+                borderColor: "#D3ECC8",
+                padding: "15px 30px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                borderRadius: "1rem",
+                color: "#00876D",
+              }}
+            >
+              글쓰기
+            </GreenBtn>
+          </Link>
         </Flex>
       </Flex>
 

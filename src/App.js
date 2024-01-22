@@ -293,7 +293,7 @@ function App() {
               }
             />
             <Route
-              path="modify:id"
+              path="modify"
               element={
                 <Suspense fallback={<Loading />}>
                   <NoticeModify />

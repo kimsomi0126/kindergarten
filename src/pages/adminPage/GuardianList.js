@@ -2,18 +2,13 @@ import { Pagination, Select } from "antd";
 import Search from "antd/es/input/Search";
 import React from "react";
 import {
-  ChildInfo,
   PageNum,
-  UserInfo,
-  UserListBox,
-  UserListItem,
-  UserListWrap,
-  UserMain,
   UserTop,
   UserTopRight,
 } from "../../styles/adminstyle/guardianlist";
 import { PageTitle } from "../../styles/basic";
-import { GrayBtn, GreenBtn } from "../../styles/ui/buttons";
+import { GreenBtn } from "../../styles/ui/buttons";
+import GuardianListComponent from "../../components/adminpage/GuardianListComponent";
 
 const handleChange = value => {
   console.log(value);
@@ -71,28 +66,7 @@ const GuardianList = () => {
           <GreenBtn>선택회원삭제</GreenBtn>
         </UserTopRight>
       </UserTop>
-
-      <UserMain>
-        <input type="checkbox" id="selectAll" />
-        <label htmlFor="selectAll">전체 선택</label>
-        <UserListWrap>
-          <UserListItem>
-            <UserListBox>
-              <input type="checkbox" />
-              <UserInfo>
-                <span>bong11</span>
-                <p>봉미선 </p>
-              </UserInfo>
-              <ChildInfo>
-                <p>해바라기반 신짱구</p>
-                <p>무궁화반 신짱아</p>
-              </ChildInfo>
-              <em>010.0000.0000</em>
-              <GrayBtn>정보 수정</GrayBtn>
-            </UserListBox>
-          </UserListItem>
-        </UserListWrap>
-      </UserMain>
+      <GuardianListComponent />
       <PageNum>
         <Pagination
           defaultCurrent={1} // 초기 선택된 페이지

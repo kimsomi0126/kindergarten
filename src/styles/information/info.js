@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { colors, shadow } from "../basic";
+import { boxStyle, colors, shadow } from "../basic";
 
 // 유치원소개
 export const InfoWrap = styled.div`
@@ -112,10 +112,43 @@ export const KidsInfo = styled.div`
 // 오시는길
 export const LocationWrap = styled.div`
   position: relative;
+  padding-bottom: 15rem;
 `;
 export const MapWrap = styled.div`
+  margin-top: 3rem;
   position: relative;
+  #map {
+    width: 100%;
+    height: 40rem;
+    ${boxStyle}
+  }
+  a {
+    display: block;
+    position: absolute;
+    right: 2rem;
+    bottom: 2rem;
+    z-index: 9;
+    background: #fff;
+  }
 `;
 export const MapInfoList = styled.div`
   position: relative;
+  margin-top: 2rem;
+
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  li {
+    width: 24%;
+    ${boxStyle}
+    padding:3rem;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 300;
+  }
+
+  h4 {
+    color: ${colors.greenDeep};
+    margin: 2rem 0 1rem;
+  }
 `;

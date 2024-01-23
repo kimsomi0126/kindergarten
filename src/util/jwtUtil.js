@@ -1,6 +1,8 @@
 import axios from "axios";
-// import { API_SERVER_HOST } from "../pages/album/Album";
+
 import { getCookie, setCookie } from "./cookieUtil";
+import { API_SERVER_HOST } from "../api/todoApi";
+
 // intercepter 전용 axios 생성
 // 로그인 제외 및 일반적 api 요청등을 제외
 // 인증이 필요한 경우에 활용하는 용도
@@ -41,13 +43,15 @@ const requestFail = err => {
 // Refresh Token
 // 액세스 요청 실패시 무조건 시도해 봄
 const refreshJWT = async (accessToken, refreshToken) => {
-  // const host = API_SERVER_HOST;
+
+  const host = API_SERVER_HOST;
   const header = { headers: { Authorization: `Bearer ${accessToken}` } };
   // API 백엔드 Refresh 해줄 주소(URI)를 요청
   const res = await axios.get(
-    `http://112.222.157.156:5224/api/member/refresh?refreshToken=${refreshToken}`,
+    `${host}/api/member/refresh?refreshToken=${refreshToken}`,
     header,
-  ); // 새로 요청하는 거니까 jwtAxios가 아니라 axios 사용.
+  );
+
   console.log("1. refreshToken 토큰 요청");
   // 새로 만든 AccessToken 과 RefereshToken 리턴
   console.log("2. 백엔드에서 새로 준 값", res.data);
@@ -67,7 +71,9 @@ const beforeRes = async res => {
     const memberInfo = getCookie("member");
     console.log("5. 쿠키 토큰 정보 AccessToken ", memberInfo.accessToken);
     console.log("6. 쿠키 토큰 정보 RefreshToken ", memberInfo.refreshToken);
-    console.log("7. 위의 정보를 토대로 새로운 토큰을 요청합니다.");
+
+    console.log("7. 위의 정보로 새로운 토큰을 요청합니다.");
+
     const result = await refreshJWT(
       memberInfo.accessToken,
       memberInfo.refreshToken,
@@ -77,7 +83,8 @@ const beforeRes = async res => {
       (memberInfo.refreshToken = result.refreshToken),
       setCookie("member", JSON.stringify(memberInfo));
 
-    console.log("9. 데이터 요청하던 API 재 요청");
+    console.log("9. 데이터 요청 API 재실행");
+
     const originalRequest = res.config;
     originalRequest.headers.Authorization = `Bearer ${result.accessToken}`;
 

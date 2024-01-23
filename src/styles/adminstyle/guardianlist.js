@@ -14,7 +14,12 @@ export const UserTopRight = styled.div`
   gap: 1rem;
 `;
 
-export const UserMain = styled.div``;
+export const UserMain = styled.div`
+  position: relative;
+  input {
+    margin-right: 0.5rem;
+  }
+`;
 
 export const UserListWrap = styled.ul`
   margin-top: 1rem;
@@ -30,6 +35,7 @@ export const UserListItem = styled.li`
   width: 32%;
   background: ${colors.white};
   padding: 2rem;
+  margin-bottom: 1rem;
   ${shadow}
 `;
 export const UserListBox = styled.div`
@@ -72,7 +78,9 @@ export const ChildInfo = styled.div`
 `;
 
 export const PageNum = styled.div`
-  position: fixed;
-  bottom: 8rem;
-  left: 40%;
+  position: absolute;
+  bottom: 12rem;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
 `;

@@ -1,6 +1,10 @@
 import styled from "@emotion/styled";
 import { colors } from "../basic";
 
+export const StudFormTop = styled.div`
+  margin-top: 1rem;
+`;
+
 export const StudFormWrap = styled.div`
   margin-top: 1rem;
   padding: 2rem;
@@ -33,12 +37,14 @@ export const BasicInfoItem = styled.div`
 export const BasicInfoCode = styled.div`
   display: flex;
   gap: 1rem;
-  align-items: center;
-  .ant-modal {
-    background-color: #ffff00;
-  }
-  .ant-modal-content {
-    background-color: #ffff00;
+  button {
+    padding: 1rem 1rem;
+    height: 3.2rem;
+    font-size: 1.5rem;
+    font-family: KOTRAHOPE, Pretendard, sans-serif;
+    background: ${colors.orangeLight};
+    color: ${colors.orangeDeep};
+    border-radius: 1rem;
   }
 `;
 export const BasicInfoAdress = styled.div`

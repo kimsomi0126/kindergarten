@@ -1,142 +1,172 @@
 import React, { useState } from "react";
-import { Button, Modal } from "antd";
-import ImageGallery from "react-image-gallery";
-import "react-image-gallery/styles/css/image-gallery.css";
-import { Link, useNavigate } from "react-router-dom";
-import { NoticeImageData } from "../../components/common/TemporaryData";
+import { UploadOutlined } from "@ant-design/icons";
+import { Button, Checkbox, Form, Input, Upload, Modal } from "antd";
 import { PageTitle } from "../../styles/basic";
-import { BlueBtn, GreenBtn, PinkBtn } from "../../styles/ui/buttons";
+import { GreenBtn, PinkBtn } from "../../styles/ui/buttons";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 
-const NoticeDetails = () => {
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [isDeleteSuccessModalOpen, setIsDeleteSuccessModalOpen] =
-    useState(false);
+const NoticeWrite = () => {
+  const [form] = Form.useForm();
+  const [fileList, setFileList] = useState([]);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [setIsDeleteModalOpen] = useState(false);
   const navigate = useNavigate();
 
-  const showDeleteModal = () => {
-    setIsDeleteModalOpen(true);
+  const onChange = e => {
+    console.log(`checked = ${e.target.checked}`);
   };
 
-  const handleDeleteOk = () => {
+  const handleChange = info => {
+    let fileList = [...info.fileList];
+    setFileList(fileList);
+  };
+
+  const customRequest = ({ file, onSuccess }) => {
+    setTimeout(() => {
+      onSuccess();
+    }, 1000);
+  };
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancelConfirmation = () => {
+    Modal.confirm({
+      title: "정말 취소할까요?",
+      content: "작성된 내용은 저장되지 않습니다.",
+      onOk: handleCancleOk,
+      okText: "확인",
+      cancelText: "취소",
+      onCancel: () => {},
+    });
+  };
+
+  const onFinish = () => {
+    form
+      .validateFields()
+      .then(() => {
+        const { Input, TextArea } = form.getFieldsValue();
+        if (!Input || !TextArea) {
+          Modal.warning({
+            title: "입력 오류",
+            content: "제목과 내용을 입력해주세요.",
+          });
+        } else {
+          showModal();
+        }
+      })
+      .catch(errorInfo => {
+        console.log("Validation failed:", errorInfo);
+      });
+  };
+  const handleCancleOk = () => {
     // 여기에 삭제 처리 로직을 추가할 수 있습니다.
 
-    // 예시: 삭제 처리 로직이 완료되면 성공 모달을 띄우고 페이지 이동
-    setIsDeleteModalOpen(false);
-    setIsDeleteSuccessModalOpen(true);
+    // 예시: 삭제 처리 후 /notice 페이지로 이동
+    navigate("/notice");
 
-    // 예시: 2초 후에 성공 모달을 닫고 /notice 페이지로 이동
-    setTimeout(() => {
-      setIsDeleteSuccessModalOpen(false);
-      navigate("/notice");
-    }, 2000);
-  };
-
-  const handleDeleteCancel = () => {
-    setIsDeleteModalOpen(false);
-  };
-
-  const handleDeleteSuccessOk = () => {
-    setIsDeleteSuccessModalOpen(false);
+    setIsModalVisible(false);
   };
 
   return (
-    <>
+    <div>
       <PageTitle>유치원 소식</PageTitle>
       <div
         style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
+          width: "100%",
+          height: 560,
+          padding: 16,
+          borderTop: "1.5px solid #00876D",
+          borderBottom: "1.5px solid #00876D",
+          background: "#FAFAFA",
           marginTop: 30,
         }}
       >
-        <div
-          style={{
-            borderTop: "1.5px solid #00876D",
-            borderBottom: "1.5px solid #00876D",
-            width: "100%",
-            textAlign: "center",
-            paddingTop: 20,
-            justifyContent: "center",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
+        <Checkbox onChange={onChange} style={{ marginBottom: 10 }}>
+          상단고정
+        </Checkbox>
+
+        <Form form={form} onFinish={onFinish}>
+          <Form.Item
+            name="Input"
+            rules={[
+              {
+                required: true,
+                message: "제목을 입력해주세요!",
+              },
+            ]}
           >
-            <div style={{ margin: "auto" }}>
-              <p style={{ margin: 0, fontSize: 27 }}>제목입니다.</p>
-            </div>
-            <p style={{ marginRight: 20, fontSize: 15, color: "#999" }}>
-              2024-01-17
-            </p>
-          </div>
-          <div
-            style={{
-              borderTop: "1.5px solid #DDDDDD",
-              width: "100%",
-              textAlign: "center",
-              marginTop: 20,
-            }}
+            <Input placeholder="제목 입력" />
+          </Form.Item>
+
+          <Form.Item
+            style={{ height: "150px" }}
+            name="TextArea"
+            rules={[
+              {
+                required: true,
+                message: "내용을 입력해주세요!",
+              },
+            ]}
           >
-            <div style={{ margin: 40, maxWidth: 500, display: "inline-block" }}>
-              <ImageGallery items={NoticeImageData} thumbnailPosition="left" />
-            </div>
-          </div>
-          <p style={{ margin: 30, textAlign: "center", fontSize: 20 }}>
-            내용입니다
-          </p>
-        </div>
-        <div
-          style={{
-            width: "100%",
-            display: "flex",
-            justifyContent: "flex-end",
-            marginTop: 20,
-          }}
-        >
-          <div style={{ marginRight: 10 }}>
-            <Link to="/notice">
-              <GreenBtn>목록보기</GreenBtn>
-            </Link>
-          </div>
-          <div style={{ marginRight: 10 }}>
-            <Link to={`/notice/modify/`}>
-              <BlueBtn>수정</BlueBtn>
-            </Link>
-          </div>
-          <div>
-            <PinkBtn onClick={showDeleteModal}>삭제</PinkBtn>
-          </div>
-        </div>
+            <Input.TextArea
+              placeholder="내용 입력"
+              style={{ height: "150px" }}
+            />
+          </Form.Item>
+
+          <Upload
+            action="http://localhost:3000/notice/write"
+            listType="picture"
+            fileList={fileList}
+            onChange={handleChange}
+            customRequest={customRequest}
+            className="upload-list-inline"
+            maxCount={3}
+          >
+            <Button icon={<UploadOutlined />}>업로드 (최대 3개 파일)</Button>
+          </Upload>
+        </Form>
+      </div>
+      <div
+        style={{
+          marginTop: 35,
+          display: "flex",
+          justifyContent: "flex-end",
+        }}
+      >
+        <GreenBtn htmlType="submit" onClick={onFinish}>
+          등록
+        </GreenBtn>
+        <PinkBtn onClick={handleCancelConfirmation} style={{ marginLeft: 20 }}>
+          취소
+        </PinkBtn>
       </div>
 
-      {/* 삭제 모달 */}
-      <Modal
-        title="정말 삭제할까요?"
-        visible={isDeleteModalOpen}
-        onOk={handleDeleteOk}
-        onCancel={handleDeleteCancel}
-        okText="확인"
-        cancelText="취소"
-      >
-        <p>삭제된 내용은 복구할 수 없습니다.</p>
-      </Modal>
-
-      {/* 삭제 성공 모달 */}
-      <Modal
-        title="삭제 완료"
-        visible={isDeleteSuccessModalOpen}
-        onOk={handleDeleteSuccessOk}
-        okText="확인"
-      >
-        <p>삭제가 완료되었습니다.</p>
-      </Modal>
-    </>
+      <Link to="/notice">
+        <Modal
+          title="등록 완료"
+          visible={isModalVisible}
+          onOk={handleOk}
+          onCancel={handleCancel}
+          okText="확인"
+          cancelButtonProps={{ style: { display: "none" } }}
+          width={350}
+        >
+          <p>성공적으로 등록되었습니다.</p>
+        </Modal>
+      </Link>
+    </div>
   );
 };
 
-export default NoticeDetails;
+export default NoticeWrite;

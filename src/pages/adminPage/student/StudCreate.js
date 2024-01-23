@@ -28,6 +28,7 @@ import {
   ImgInfoForm,
   PhoneInfo,
   PhoneInfoForm,
+  StudFormTop,
   StudFormWrap,
 } from "../../../styles/adminstyle/studcreate";
 import { GreenBtn, OrangeBtn, PinkBtn } from "../../../styles/ui/buttons";
@@ -110,7 +111,9 @@ const StudentCreate = () => {
 
   return (
     <>
-      <PageTitle>원생등록</PageTitle>
+      <StudFormTop>
+        <PageTitle>원생 등록</PageTitle>
+      </StudFormTop>
       <StudFormWrap>
         {/* 기본정보 */}
         <BasicInfo>
@@ -167,7 +170,7 @@ const StudentCreate = () => {
                   placeholder="우편 번호"
                 />
               </Form.Item>
-              <OrangeBtn onClick={toggleHandler}>주소 검색</OrangeBtn>
+              <button onClick={toggleHandler}>주소 검색</button>
               {isOpen && (
                 <Modal
                   title="주소 검색"

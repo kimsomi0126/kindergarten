@@ -234,7 +234,7 @@ function App() {
             />
             {/* 활동앨범 상세 */}
             <Route
-              path="details/:id"
+              path=":id"
               element={
                 <Suspense fallback={<Loading />}>
                   <AlbumDetails />

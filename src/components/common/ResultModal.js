@@ -102,17 +102,10 @@ export const DeleteModal = () => {
 export const OkModal = () => {
   const showOkConfirm = () => {
     confirm({
-<<<<<<< HEAD
-      title: "이 항목을 삭제하시겠습니까?",
-      icon: <ExclamationCircleFilled />,
-      content: "삭제된 정보는 다시 되돌릴 수 없습니다.",
-      okText: "삭제",
-=======
       title: "이 항목을 등록하시겠습니까?",
       icon: <ExclamationCircleFilled />,
       content: "등록된 정보는 다시 되돌릴 수 없습니다.",
       okText: "등록",
->>>>>>> ef1aa846c8bbea185881899a8b1355099bcebb8e
       okType: "danger",
       cancelText: "취소",
       maskClosable: true,
@@ -126,13 +119,7 @@ export const OkModal = () => {
   };
   return (
     <>
-<<<<<<< HEAD
-      <Button defaultBg={"transparent"} onClick={showOkConfirm}>
-        등록
-      </Button>
-=======
       <Button onClick={showOkConfirm}>등록</Button>
->>>>>>> ef1aa846c8bbea185881899a8b1355099bcebb8e
     </>
   );
 };

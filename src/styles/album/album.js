@@ -78,7 +78,6 @@ export const AlbumList = styled.div`
   gap: 0.4rem;
   margin: 0px auto;
   position: relative;
-  z-index: -999;
 
   .image-grid {
     gap: 16px;

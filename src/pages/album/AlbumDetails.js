@@ -7,7 +7,7 @@ import { NoticeImageData } from "../../components/common/TemporaryData";
 import { PageTitle } from "../../styles/basic";
 import { BlueBtn, GreenBtn, PinkBtn } from "../../styles/ui/buttons";
 
-const AlbumDetails = pno => {
+const AlbumDetails = id => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isDeleteSuccessModalOpen, setIsDeleteSuccessModalOpen] =
     useState(false);
@@ -27,7 +27,7 @@ const AlbumDetails = pno => {
     // 예시: 2초 후에 성공 모달을 닫고 /notice 페이지로 이동
     setTimeout(() => {
       setIsDeleteSuccessModalOpen(false);
-      navigate("/notice");
+      navigate("/album");
     }, 2000);
   };
 
@@ -99,12 +99,12 @@ const AlbumDetails = pno => {
           }}
         >
           <div style={{ marginRight: 10 }}>
-            <Link to="/notice">
+            <Link to="/album">
               <GreenBtn>목록보기</GreenBtn>
             </Link>
           </div>
           <div style={{ marginRight: 10 }}>
-            <Link to={`/notice/modify/`}>
+            <Link to={`/album/modify/${id}`}>
               <BlueBtn>수정</BlueBtn>
             </Link>
           </div>

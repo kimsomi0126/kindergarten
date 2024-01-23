@@ -3,11 +3,14 @@ import { UploadOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Form, Input, Upload, Modal } from "antd";
 import { PageTitle } from "../../styles/basic";
 import { GreenBtn, PinkBtn } from "../../styles/ui/buttons";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 
 const NoticeWrite = () => {
+  const [form] = Form.useForm();
   const [fileList, setFileList] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [setIsDeleteModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   const onChange = e => {
     console.log(`checked = ${e.target.checked}`);
@@ -40,11 +43,38 @@ const NoticeWrite = () => {
     Modal.confirm({
       title: "정말 취소할까요?",
       content: "작성된 내용은 저장되지 않습니다.",
+      onOk: handleCancleOk,
       okText: "확인",
       cancelText: "취소",
-      onOk: handleCancel,
       onCancel: () => {},
     });
+  };
+
+  const onFinish = () => {
+    form
+      .validateFields()
+      .then(() => {
+        const { Input, TextArea } = form.getFieldsValue();
+        if (!Input || !TextArea) {
+          Modal.warning({
+            title: "입력 오류",
+            content: "제목과 내용을 입력해주세요.",
+          });
+        } else {
+          showModal();
+        }
+      })
+      .catch(errorInfo => {
+        console.log("Validation failed:", errorInfo);
+      });
+  };
+  const handleCancleOk = () => {
+    // 여기에 삭제 처리 로직을 추가할 수 있습니다.
+
+    // 예시: 삭제 처리 후 /notice 페이지로 이동
+    navigate("/notice");
+
+    setIsModalVisible(false);
   };
 
   return (
@@ -65,21 +95,19 @@ const NoticeWrite = () => {
           상단고정
         </Checkbox>
 
-        <Form>
-          {/* Input 추가 */}
+        <Form form={form} onFinish={onFinish}>
           <Form.Item
             name="Input"
             rules={[
               {
                 required: true,
-                message: "내용을 입력해주세요!",
+                message: "제목을 입력해주세요!",
               },
             ]}
           >
             <Input placeholder="제목 입력" />
           </Form.Item>
 
-          {/* Input.TextArea 추가 */}
           <Form.Item
             style={{ height: "150px" }}
             name="TextArea"
@@ -96,7 +124,6 @@ const NoticeWrite = () => {
             />
           </Form.Item>
 
-          {/* Upload 수정 */}
           <Upload
             action="http://localhost:3000/notice/write"
             listType="picture"
@@ -117,13 +144,14 @@ const NoticeWrite = () => {
           justifyContent: "flex-end",
         }}
       >
-        <GreenBtn onClick={showModal}>수정</GreenBtn>
+        <GreenBtn htmlType="submit" onClick={onFinish}>
+          수정
+        </GreenBtn>
         <PinkBtn onClick={handleCancelConfirmation} style={{ marginLeft: 20 }}>
           취소
         </PinkBtn>
       </div>
 
-      {/* 등록 버튼 클릭 시 모달 */}
       <Link to="/notice">
         <Modal
           title="수정 완료"
@@ -134,8 +162,7 @@ const NoticeWrite = () => {
           cancelButtonProps={{ style: { display: "none" } }}
           width={350}
         >
-          <p>성공적으로 등록되었습니다.</p>
-          {/* 모달 내용 추가 */}
+          <p>성공적으로 수정되었습니다.</p>
         </Modal>
       </Link>
     </div>

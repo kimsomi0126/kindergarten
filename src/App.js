@@ -6,6 +6,7 @@ import "./styles/normalize.css";
 // 라우터 페이지 로딩 컴포넌트
 import Loading from "./components/loading/Loading";
 import ContentLayout from "./layouts/common/ContentLayout";
+import NotFound from "./pages/NotFound";
 
 // lazy 는 실시간으로 컴포넌트 불러들이기
 
@@ -233,7 +234,7 @@ function App() {
             />
             {/* 활동앨범 상세 */}
             <Route
-              path="details:id"
+              path="details/:id"
               element={
                 <Suspense fallback={<Loading />}>
                   <AlbumDetails />
@@ -251,7 +252,7 @@ function App() {
             />
             {/* 활동앨범 수정 */}
             <Route
-              path="modify:id"
+              path="modify/:id"
               element={
                 <Suspense fallback={<Loading />}>
                   <AlbumModify />
@@ -387,7 +388,7 @@ function App() {
               }
             />
           </Route>
-          <Route path="*" element={<h1>페이지가 없습니다.</h1>}></Route>
+          <Route path="*" element={<NotFound />}></Route>
           {/* </Route> */}
         </Route>
       </Routes>

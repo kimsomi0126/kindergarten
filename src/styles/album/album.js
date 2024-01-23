@@ -71,3 +71,40 @@ export const InnerAlbum = styled.div`
   }
 `;
 // export const HeaderLeft = styled.div`
+
+export const AlbumList = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); // 3개의 이미지를 가로로 나란히 표시
+  gap: 0.4rem;
+  margin: 0px auto;
+  position: relative;
+  z-index: -999;
+
+  .image-grid {
+    gap: 16px;
+    margin: 16px;
+    text-align: center;
+  }
+  .image-grid > p {
+    font-size: 20px;
+    margin: 20px 0;
+  }
+  .image-item {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .image-item img {
+    border-radius: 5%;
+    width: 100%;
+    text-align: center;
+    height: auto;
+  }
+
+  .loading {
+    height: 100px;
+    margin: 30px;
+    text-align: center;
+    font-size: 20px;
+  }
+`;

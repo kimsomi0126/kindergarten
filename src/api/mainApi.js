@@ -1,7 +1,23 @@
-import React from "react";
+import axios from "axios";
+import { SERVER_URL } from "./config";
+import jwtAxios from "../util/jwtUtil";
+const path = `${SERVER_URL}/api`;
 
-const mainApi = () => {
-  return <div>mainApi</div>;
+// 메인 유치원소식
+export const getMainNotice = async ({ successFn, failFn, errorFn }) => {
+  try {
+    const res = await jwtAxios.get(`${path}/full?iFullNotice=3`);
+    console.log(res.data);
+  } catch (error) {
+    errorFn("서버가 불안정합니다.다시 시도해주세요.");
+  }
 };
 
-export default mainApi;
+// 메인 활동앨범
+export const getMainAlbum = async ({ successFn, failFn, errorFn }) => {
+  try {
+    const res = await axios.get();
+  } catch (error) {
+    errorFn("서버가 불안정합니다.다시 시도해주세요.");
+  }
+};

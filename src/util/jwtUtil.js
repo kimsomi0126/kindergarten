@@ -1,7 +1,7 @@
 import axios from "axios";
 
 import { getCookie, setCookie } from "./cookieUtil";
-import { API_SERVER_HOST } from "../api/todoApi";
+import { SERVER_URL } from "../api/config";
 
 // intercepter 전용 axios 생성
 // 로그인 제외 및 일반적 api 요청등을 제외
@@ -43,8 +43,7 @@ const requestFail = err => {
 // Refresh Token
 // 액세스 요청 실패시 무조건 시도해 봄
 const refreshJWT = async (accessToken, refreshToken) => {
-
-  const host = API_SERVER_HOST;
+  const host = SERVER_URL;
   const header = { headers: { Authorization: `Bearer ${accessToken}` } };
   // API 백엔드 Refresh 해줄 주소(URI)를 요청
   const res = await axios.get(

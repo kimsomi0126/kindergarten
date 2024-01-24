@@ -4,19 +4,39 @@ import { FormWrap } from "../../../styles/user/login";
 import { GreenBtn } from "../../../styles/ui/buttons";
 import { Link } from "react-router-dom";
 import { LogoWrap } from "../../../styles/basic";
+import { postParentLogin, postTeacherLogin } from "../../../api/user/userApi";
+import useCustomLogin from "../../../hooks/useCustomLogin";
 
 const LoginComponent = () => {
   const [loginParam, setLoginParam] = useState("");
+  const [userState, setUserState] = useState();
+  const { doLogin, moveToPath } = useCustomLogin();
 
   const onFinish = values => {
-    console.log("Success:", values);
-    console.log(loginParam);
+    console.log("Success:", loginParam);
+
+    doLogin({ loginParam, successFn, failFn, errorFn });
+
+    //postParentLogin({ loginParam, successFn, failFn, errorFn });
   };
   const onFinishFailed = errorInfo => {
     console.log("Failed:", errorInfo);
   };
   const onValuesChanged = (changeValues, allValues) => {
     setLoginParam({ ...allValues });
+  };
+  const handleUserStateChange = e => {
+    setUserState(e.target.value);
+  };
+  // 로그인 결과
+  const successFn = () => {
+    moveToPath("/");
+  };
+  const failFn = () => {
+    alert("로그인 실패");
+  };
+  const errorFn = () => {
+    alert("에러");
   };
 
   return (
@@ -30,9 +50,12 @@ const LoginComponent = () => {
         </LogoWrap>
         <Flex vertical gap="middle">
           <Radio.Group
-            defaultValue="1"
+            defaultValue="2"
             buttonStyle="solid"
             size="large"
+            onChange={e => {
+              handleUserStateChange(e);
+            }}
             style={{ textAlign: "center", marginBottom: "2rem" }}
           >
             <Radio.Button value="1" style={{ width: "50%" }}>

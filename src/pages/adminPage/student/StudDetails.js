@@ -20,6 +20,7 @@ import MyProfileComponent from "../../../components/user/mypage/MyProfileCompone
 import MyAccountComponent from "../../../components/user/mypage/MyAccountComponent";
 import MyPhysicalComponent from "../../../components/user/mypage/MyPhysicalComponent";
 import MyBadge from "../../../components/user/mypage/MyBadge";
+import { Link } from "react-router-dom";
 
 const StudDetails = () => {
   const ilevel = "admin";
@@ -71,7 +72,11 @@ const StudDetails = () => {
           <DetailInfo>
             <TitleWrap>
               <PageTitle>상세정보</PageTitle>
-              {ilevel === "admin" ? <OrangeBtn>상세정보 입력</OrangeBtn> : null}
+              {ilevel === "admin" ? (
+                <Link to="/admin/student/detailsform">
+                  <OrangeBtn>상세정보 입력</OrangeBtn>
+                </Link>
+              ) : null}
             </TitleWrap>
             {/* 상세정보 - 신체정보 */}
             <MyPhysicalComponent />

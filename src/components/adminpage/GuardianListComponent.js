@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   ChildInfo,
   UserInfo,
@@ -8,8 +8,28 @@ import {
   UserMain,
 } from "../../styles/adminstyle/guardianlist";
 import { GrayBtn } from "../../styles/ui/buttons";
+import { getAdminParentList } from "../../api/adminPage/admin_api";
+
+const initParentList = [
+  {
+    iparent: 0,
+    parentNm: "string",
+    uid: "string",
+    phoneNb: "string",
+    kids: [
+      {
+        kidNm: "string",
+        iclass: "string",
+      },
+    ],
+  },
+];
 
 const GuardianListComponent = () => {
+  const [parentList, setParentList] = useState(initParentList);
+  useEffect(() => {
+    getAdminParentList(setParentList);
+  }, []);
   return (
     <UserMain>
       <div>
@@ -17,21 +37,35 @@ const GuardianListComponent = () => {
         <label htmlFor="selectAll">전체 선택</label>
       </div>
       <UserListWrap>
-        <UserListItem>
-          <UserListBox>
-            <input type="checkbox" />
-            <UserInfo>
-              <span>bong11</span>
-              <p>봉미선 </p>
-            </UserInfo>
-            <ChildInfo>
-              <p>해바라기반 신짱구</p>
-              <p>무궁화반 신짱아</p>
-            </ChildInfo>
-            <em>010.0000.0000</em>
-            <GrayBtn>정보 수정</GrayBtn>
-          </UserListBox>
-        </UserListItem>
+        {parentList.map(item => {
+          <UserListItem key={item.iparent}>
+            <UserListBox>
+              <input type="checkbox" />
+              <UserInfo>
+                <span>{item.uid}</span>
+                <p>{item.parentNm} </p>
+              </UserInfo>
+              {item.kids.map((kidsitem, index) => (
+                <div key={index}>
+                  <ChildInfo>
+                    <p>
+                      {kidsitem.kidNm}
+                      {kidsitem.iclass === 1
+                        ? "무궁화반"
+                        : kidsitem.iclass === 2
+                        ? "해바라기반"
+                        : kidsitem.iclass === 3
+                        ? "장미반"
+                        : ""}
+                    </p>
+                  </ChildInfo>
+                </div>
+              ))}
+              <em>{item.phoneNb}</em>
+              <GrayBtn>정보 수정</GrayBtn>
+            </UserListBox>
+          </UserListItem>;
+        })}
       </UserListWrap>
     </UserMain>
   );

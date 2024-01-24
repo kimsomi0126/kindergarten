@@ -18,7 +18,7 @@ import { GreenBtn } from "../../styles/ui/buttons";
 const initState = { ialbum: 0, albumTitle: "string", albumPic: "string" };
 // const host = `${API_SERVER_HOST}/api/album/listall`;
 
-const ReadAllAlbum = ({ pno }) => {
+const ReadAllAlbum = ({ id }) => {
   const [items, setItems] = useState(AlbumData[0]); // 이미지 데이터 상태
   const [loading, setLoading] = useState(false); // 로딩 상태
   const [hasMore, setHasMore] = useState(true); // 더 불러올 데이터가 있는지 여부
@@ -74,12 +74,10 @@ const ReadAllAlbum = ({ pno }) => {
   }, []);
 
   return (
-    <AlbumWrap paddingTop={100}>
+    <AlbumWrap paddingTop={40} width={100} height={100}>
       {/* 메인 콘텐츠 상단 바 컴포넌트 */}
       <AlbumTopBar>
-        <div className="album-title">
-          <PageTitle>활동앨범</PageTitle>
-        </div>
+        <PageTitle>활동앨범</PageTitle>
         <SearchBar>
           <UserTopRight>
             <Search
@@ -97,7 +95,7 @@ const ReadAllAlbum = ({ pno }) => {
       </AlbumTopBar>
       <AlbumList>
         {items.map(item => (
-          <Link key={item.ialbum} to={`/details/${pno}}`}>
+          <Link key={item.ialbum} to={`details/${item.ialbum}`}>
             <ul className="image-grid">
               <li className="image-item">
                 <img src={item.albumPic} alt={item.albumTitle} />

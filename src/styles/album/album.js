@@ -1,14 +1,14 @@
 /* eslint-disable no-undef */
 import styled from "@emotion/styled";
-import { colors, shadow } from "../basic";
+import { colors, fonts, shadow } from "../basic";
 export const AlbumWrap = styled.div`
   overflow: hidden;
   font-family: "KOTRAHOPE";
   padding-top: ${props => props.paddingTop + "px"};
 
-  width: 100%;
+  width: ${props => props.width + "%"};
   margin: 0 auto;
-  height: 100%;
+  height: ${props => props.height + "%"};
   input {
     padding: 8px;
     border: 1px solid ${colors.grayLight};
@@ -24,14 +24,8 @@ export const AlbumTopBar = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 60px;
-
-  .album-title {
-    display: flex;
-    align-items: center;
-    line-height: normal;
-    color: ${colors.greenDeep};
-  }
+  height: 3.75rem;
+  padding: 1.8rem;
 `;
 export const SearchBar = styled.div`
   img {
@@ -53,7 +47,7 @@ export const InnerAlbum = styled.div`
     width: 100%;
     height: 100%;
     margin: 0 auto;
-    margin-top: 40px;
+    margin-top: 2.5rem;
   }
 
   .gallery-item {
@@ -67,7 +61,7 @@ export const InnerAlbum = styled.div`
   .gallery-item img {
     width: 100%;
     height: 100%;
-    margin-bottom: 10px;
+    margin-bottom: 0.625rem;
   }
 `;
 // export const HeaderLeft = styled.div`
@@ -80,13 +74,15 @@ export const AlbumList = styled.div`
   position: relative;
 
   .image-grid {
-    gap: 16px;
-    margin: 16px;
+    gap: 1.6rem;
+    margin: 1.6rem;
     text-align: center;
   }
   .image-grid > p {
-    font-size: 20px;
-    margin: 20px 0;
+    font-size: 1.8rem;
+    margin: 1rem 0;
+    font-family: ${fonts.pretendard};
+    color: ${colors.black};
   }
   .image-item {
     display: flex;
@@ -101,9 +97,43 @@ export const AlbumList = styled.div`
   }
 
   .loading {
-    height: 100px;
-    margin: 30px;
+    height: 10rem;
+    margin: 3rem;
     text-align: center;
-    font-size: 20px;
+    font-size: 2rem;
   }
+`;
+
+export const SwiperWrap = styled.div`
+  .swiper {
+    width: 500px;
+    height: 500px;
+    /* position: absolute; */
+    /* left: 50%;
+    top: 50%; */
+    margin-top: 20px;
+  }
+
+  .swiper-slide {
+    background-position: center;
+    background-size: cover;
+  }
+
+  .swiper-slide img {
+    display: block;
+    width: 100%;
+  }
+`;
+
+export const ContentWrap = styled.div`
+  border-top: 0.2rem solid ${colors.greenDeep};
+  border-bottom: 0.2rem solid ${colors.greenDeep};
+`;
+
+export const AlbumTitle = styled.h3`
+  padding-left: 2.8rem;
+  padding-bottom: 3rem;
+  background: url(${process.env.PUBLIC_URL + "/images/information/logo1.svg"})
+    no-repeat left 0.25rem/2.3rem;
+  color: ${colors.greenDeep};
 `;

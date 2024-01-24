@@ -20,9 +20,15 @@ import { MainNoticeComponent } from "../components/main/MainNoticeComponent";
 import MainBannerComponent from "../components/main/MainBannerComponent";
 import MainPopComponent from "../components/main/MainPopComponent";
 import { Outlet } from "react-router";
+import { getMainNotice } from "../api/mainApi";
 
 const Main = () => {
-  useEffect(() => {}, []);
+  const successFn = () => {};
+  const failFn = () => {};
+  const errorFn = () => {};
+  useEffect(() => {
+    getMainNotice({ successFn, failFn, errorFn });
+  }, []);
   return (
     <MainInner>
       <MainContainer>

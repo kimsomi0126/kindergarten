@@ -1,6 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
-import { loginPostAsync, logout } from "../slices/loginSlice";
+import {
+  loginPostAsync,
+  logout,
+  postParentLoginAsync,
+} from "../slices/loginSlice";
 
 const useCustomLogin = () => {
   // 패스 이동하기
@@ -13,7 +17,9 @@ const useCustomLogin = () => {
   const loginState = useSelector(state => state.loginSlice);
 
   // 로그인 상태값 파악
-  const isLogin = loginState.email ? true : false;
+  const isLogin = loginState.teacherUid ? true : false;
+  const isName = loginState.teacherNm ? true : false;
+  const isParentLogin = loginState.iparent ? true : false;
 
   // 로그인 기능
   const doLogin = ({ loginParam, successFn, failFn, errorFn }) => {
@@ -21,6 +27,17 @@ const useCustomLogin = () => {
     // 로그인 상태 업데이트
     const action = dispatch(
       loginPostAsync({ loginParam, successFn, failFn, errorFn }),
+    );
+    // 결과값
+    return action.payload;
+  };
+
+  // 학부모 로그인 기능
+  const doParentLogin = ({ loginParam, successFn, failFn, errorFn }) => {
+    // 로그인 어느화면에서 실행이 될 소지가 높아요.
+    // 로그인 상태 업데이트
+    const action = dispatch(
+      postParentLoginAsync({ loginParam, successFn, failFn, errorFn }),
     );
     // 결과값
     return action.payload;
@@ -38,13 +55,22 @@ const useCustomLogin = () => {
     navigate({ pathname: path }, { replace: true });
   };
 
-  // 로그인 페이동 기능
+  // 로그인 페이지로 이동
   const moveToLogin = () => {
     console.log("페이지 이동");
-    return <Navigate replace to="/member/login" />;
+    return <Navigate replace to="/login" />;
   };
 
-  return { loginState, isLogin, doLogin, doLogout, moveToPath, moveToLogin };
+  return {
+    loginState,
+    isLogin,
+    isParentLogin,
+    doLogin,
+    doLogout,
+    doParentLogin,
+    moveToPath,
+    moveToLogin,
+  };
 };
 
 export default useCustomLogin;

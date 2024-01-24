@@ -92,19 +92,19 @@ export const AlbumData = [
         "https://cdn.dongnamns.co.kr/news/photo/202106/4788_5959_3943.jpg",
     },
     {
-      ialbum: 1,
+      ialbum: 2,
       albumTitle: "소풍",
       albumPic:
         "https://cdn.dongnamns.co.kr/news/photo/202106/4788_5959_3943.jpg",
     },
     {
-      ialbum: 1,
+      ialbum: 3,
       albumTitle: "소풍",
       albumPic:
         "https://cdn.dongnamns.co.kr/news/photo/202106/4788_5959_3943.jpg",
     },
     {
-      ialbum: 1,
+      ialbum: 4,
       albumTitle: "소풍",
       albumPic:
         "https://cdn.dongnamns.co.kr/news/photo/202106/4788_5959_3943.jpg",

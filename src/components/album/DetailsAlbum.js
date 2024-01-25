@@ -1,4 +1,3 @@
-
 import { Modal } from "antd";
 import React, { useEffect, useState, useRef } from "react";
 // Import Swiper React components
@@ -25,10 +24,75 @@ import {
 } from "../../styles/album/album";
 import { BlueBtn, GreenBtn, PinkBtn } from "../../styles/ui/buttons";
 import Comment from "../common/Comment";
+import CommentClassic from "../common/CommentClassic";
 
 // import required modules
 
 const data = [
+  { id: 1, pic: ["https://swiperjs.com/demos/images/nature-1.jpg"] },
+  { id: 2, pic: ["https://swiperjs.com/demos/images/nature-2.jpg"] },
+  { id: 3, pic: ["https://swiperjs.com/demos/images/nature-3.jpg"] },
+  { id: 4, pic: ["https://swiperjs.com/demos/images/nature-4.jpg"] },
+  { id: 5, pic: ["https://swiperjs.com/demos/images/nature-5.jpg"] },
+  { id: 6, pic: ["https://swiperjs.com/demos/images/nature-6.jpg"] },
+  { id: 7, pic: ["https://swiperjs.com/demos/images/nature-7.jpg"] },
+  { id: 8, pic: ["https://swiperjs.com/demos/images/nature-8.jpg"] },
+  { id: 1, pic: ["https://swiperjs.com/demos/images/nature-1.jpg"] },
+  { id: 2, pic: ["https://swiperjs.com/demos/images/nature-2.jpg"] },
+  { id: 3, pic: ["https://swiperjs.com/demos/images/nature-3.jpg"] },
+  { id: 4, pic: ["https://swiperjs.com/demos/images/nature-4.jpg"] },
+  { id: 5, pic: ["https://swiperjs.com/demos/images/nature-5.jpg"] },
+  { id: 6, pic: ["https://swiperjs.com/demos/images/nature-6.jpg"] },
+  { id: 7, pic: ["https://swiperjs.com/demos/images/nature-7.jpg"] },
+  { id: 8, pic: ["https://swiperjs.com/demos/images/nature-8.jpg"] },
+  { id: 1, pic: ["https://swiperjs.com/demos/images/nature-1.jpg"] },
+  { id: 2, pic: ["https://swiperjs.com/demos/images/nature-2.jpg"] },
+  { id: 3, pic: ["https://swiperjs.com/demos/images/nature-3.jpg"] },
+  { id: 4, pic: ["https://swiperjs.com/demos/images/nature-4.jpg"] },
+  { id: 5, pic: ["https://swiperjs.com/demos/images/nature-5.jpg"] },
+  { id: 6, pic: ["https://swiperjs.com/demos/images/nature-6.jpg"] },
+  { id: 7, pic: ["https://swiperjs.com/demos/images/nature-7.jpg"] },
+  { id: 8, pic: ["https://swiperjs.com/demos/images/nature-8.jpg"] },
+  { id: 1, pic: ["https://swiperjs.com/demos/images/nature-1.jpg"] },
+  { id: 2, pic: ["https://swiperjs.com/demos/images/nature-2.jpg"] },
+  { id: 3, pic: ["https://swiperjs.com/demos/images/nature-3.jpg"] },
+  { id: 4, pic: ["https://swiperjs.com/demos/images/nature-4.jpg"] },
+  { id: 5, pic: ["https://swiperjs.com/demos/images/nature-5.jpg"] },
+  { id: 6, pic: ["https://swiperjs.com/demos/images/nature-6.jpg"] },
+  { id: 7, pic: ["https://swiperjs.com/demos/images/nature-7.jpg"] },
+  { id: 8, pic: ["https://swiperjs.com/demos/images/nature-8.jpg"] },
+  { id: 1, pic: ["https://swiperjs.com/demos/images/nature-1.jpg"] },
+  { id: 2, pic: ["https://swiperjs.com/demos/images/nature-2.jpg"] },
+  { id: 3, pic: ["https://swiperjs.com/demos/images/nature-3.jpg"] },
+  { id: 4, pic: ["https://swiperjs.com/demos/images/nature-4.jpg"] },
+  { id: 5, pic: ["https://swiperjs.com/demos/images/nature-5.jpg"] },
+  { id: 6, pic: ["https://swiperjs.com/demos/images/nature-6.jpg"] },
+  { id: 7, pic: ["https://swiperjs.com/demos/images/nature-7.jpg"] },
+  { id: 8, pic: ["https://swiperjs.com/demos/images/nature-8.jpg"] },
+  { id: 1, pic: ["https://swiperjs.com/demos/images/nature-1.jpg"] },
+  { id: 2, pic: ["https://swiperjs.com/demos/images/nature-2.jpg"] },
+  { id: 3, pic: ["https://swiperjs.com/demos/images/nature-3.jpg"] },
+  { id: 4, pic: ["https://swiperjs.com/demos/images/nature-4.jpg"] },
+  { id: 5, pic: ["https://swiperjs.com/demos/images/nature-5.jpg"] },
+  { id: 6, pic: ["https://swiperjs.com/demos/images/nature-6.jpg"] },
+  { id: 7, pic: ["https://swiperjs.com/demos/images/nature-7.jpg"] },
+  { id: 8, pic: ["https://swiperjs.com/demos/images/nature-8.jpg"] },
+  { id: 1, pic: ["https://swiperjs.com/demos/images/nature-1.jpg"] },
+  { id: 2, pic: ["https://swiperjs.com/demos/images/nature-2.jpg"] },
+  { id: 3, pic: ["https://swiperjs.com/demos/images/nature-3.jpg"] },
+  { id: 4, pic: ["https://swiperjs.com/demos/images/nature-4.jpg"] },
+  { id: 5, pic: ["https://swiperjs.com/demos/images/nature-5.jpg"] },
+  { id: 6, pic: ["https://swiperjs.com/demos/images/nature-6.jpg"] },
+  { id: 7, pic: ["https://swiperjs.com/demos/images/nature-7.jpg"] },
+  { id: 8, pic: ["https://swiperjs.com/demos/images/nature-8.jpg"] },
+  { id: 1, pic: ["https://swiperjs.com/demos/images/nature-1.jpg"] },
+  { id: 2, pic: ["https://swiperjs.com/demos/images/nature-2.jpg"] },
+  { id: 3, pic: ["https://swiperjs.com/demos/images/nature-3.jpg"] },
+  { id: 4, pic: ["https://swiperjs.com/demos/images/nature-4.jpg"] },
+  { id: 5, pic: ["https://swiperjs.com/demos/images/nature-5.jpg"] },
+  { id: 6, pic: ["https://swiperjs.com/demos/images/nature-6.jpg"] },
+  { id: 7, pic: ["https://swiperjs.com/demos/images/nature-7.jpg"] },
+  { id: 8, pic: ["https://swiperjs.com/demos/images/nature-8.jpg"] },
   { id: 1, pic: ["https://swiperjs.com/demos/images/nature-1.jpg"] },
   { id: 2, pic: ["https://swiperjs.com/demos/images/nature-2.jpg"] },
   { id: 3, pic: ["https://swiperjs.com/demos/images/nature-3.jpg"] },
@@ -95,6 +159,8 @@ const DetailsAlbum = () => {
         <MainContent>
           <SwiperWrap>
             <Swiper
+              loading="swiper-lazy-preloader swiper-lazy-preloader-white"
+              height={200}
               effect={"coverflow"}
               grabCursor={true}
               centeredSlides={true}
@@ -110,7 +176,7 @@ const DetailsAlbum = () => {
               keyboard={{ enabled: true }} // 키보드 제어 활성화
               modules={[EffectCoverflow, Pagination, Keyboard]} // Keyboard 모듈 추가
               className="mySwiper"
-              // style={{ transform: `translate3d(-200px, 0px, 0px)` }} //
+              // style={{ transform: `translate3d(0px, 0px, 0px)` }} //
             >
               {data.map(item => (
                 <SwiperSlide key={item.id}>
@@ -131,7 +197,8 @@ const DetailsAlbum = () => {
               애국가에 특별한 이름을 붙이지 않고 국가(國歌)로 사용하고 있어요.
             </p>
           </DetailsText>
-          <Comment />
+          {/* <Comment /> */}
+          <CommentClassic />
         </MainContent>
         {/* 삭제 모달 */}
         <Modal

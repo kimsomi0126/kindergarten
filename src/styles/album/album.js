@@ -25,7 +25,7 @@ export const AlbumTopBar = styled.div`
   align-items: center;
   width: 100%;
   height: 3.75rem;
-  padding: ${props => props.padding + "rem"};
+  padding: 1.8rem;
 `;
 export const SearchBar = styled.div`
   img {
@@ -105,26 +105,18 @@ export const AlbumList = styled.div`
 `;
 
 export const SwiperWrap = styled.div`
-  body {
-    background: #eee;
-    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
-    font-size: 14px;
-    color: #000;
-    margin: 0;
-    padding: 0;
-  }
   .swiper {
-    width: 100%;
-    height: 100%;
-    padding-top: 50px;
-    padding-bottom: 50px;
+    width: 500px;
+    height: 500px;
+    /* position: absolute; */
+    /* left: 50%;
+    top: 50%; */
+    margin-top: 20px;
   }
 
   .swiper-slide {
     background-position: center;
     background-size: cover;
-    width: 300px;
-    height: 300px;
   }
 
   .swiper-slide img {
@@ -134,18 +126,14 @@ export const SwiperWrap = styled.div`
 `;
 
 export const ContentWrap = styled.div`
-  margin-top: 20px;
   border-top: 0.2rem solid ${colors.greenDeep};
   border-bottom: 0.2rem solid ${colors.greenDeep};
 `;
 
 export const AlbumTitle = styled.h3`
-  padding-left: 2.65rem;
+  padding-left: 2.8rem;
+  padding-bottom: 3rem;
   background: url(${process.env.PUBLIC_URL + "/images/information/logo1.svg"})
     no-repeat left 0.25rem/2.3rem;
   color: ${colors.greenDeep};
-`;
-
-export const TitleWrap = styled.h4`
-  height: 40px;
 `;

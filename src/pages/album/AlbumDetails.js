@@ -9,7 +9,6 @@ import {
   AlbumWrap,
   ContentWrap,
   AlbumTitle,
-  TitleWrap,
 } from "../../styles/album/album";
 import { BlueBtn, GreenBtn, PinkBtn } from "../../styles/ui/buttons";
 
@@ -47,11 +46,13 @@ const AlbumDetails = id => {
 
   return (
     <AlbumWrap paddingTop={40}>
-      <AlbumTopBar padding={1}>
+      <AlbumTopBar>
         <AlbumTitle>활동앨범</AlbumTitle>
       </AlbumTopBar>
       <ContentWrap>
-        <TitleWrap>제목입니다.</TitleWrap>
+        <div>
+          <p>제목입니다.</p>
+        </div>
         <p style={{ marginRight: 20, color: "#999" }}>2024-01-17</p>
         {/* <div
             style={{
@@ -68,7 +69,6 @@ const AlbumDetails = id => {
           <p style={{ margin: 30, textAlign: "center", fontSize: 20 }}>
             내용입니다
           </p> */}
-
         <DetailsAlbum />
         <div
           style={{
@@ -96,7 +96,7 @@ const AlbumDetails = id => {
         {/* 삭제 모달 */}
         <Modal
           title="정말 삭제할까요?"
-          open={isDeleteModalOpen}
+          visible={isDeleteModalOpen}
           onOk={handleDeleteOk}
           onCancel={handleDeleteCancel}
           okText="확인"
@@ -108,7 +108,7 @@ const AlbumDetails = id => {
         {/* 삭제 성공 모달 */}
         <Modal
           title="삭제 완료"
-          open={isDeleteSuccessModalOpen}
+          visible={isDeleteSuccessModalOpen}
           onOk={handleDeleteSuccessOk}
           okText="확인"
         >

@@ -76,7 +76,7 @@ const ReadAllAlbum = ({ id }) => {
   return (
     <AlbumWrap paddingTop={40} width={100} height={100}>
       {/* 메인 콘텐츠 상단 바 컴포넌트 */}
-      <AlbumTopBar padding={1.8}>
+      <AlbumTopBar>
         <PageTitle>활동앨범</PageTitle>
         <SearchBar>
           <UserTopRight>

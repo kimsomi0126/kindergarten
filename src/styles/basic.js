@@ -179,7 +179,7 @@ export const FooterWrap = styled.div`
     "/images/common/footer/footer_bg.png"})
     no-repeat center 150%/100%;
   text-align: center;
-  z-index: 10;
+  z-index: 13;
 
   a {
     position: absolute;

@@ -26,6 +26,7 @@ const NoticeDetails = () => {
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [detailData, setDetailData] = useState(obj);
+  const [detailImage, setDetailImage] = useState([]);
   const { tno } = useParams();
   console.log("tno:", tno);
   const navigate = useNavigate();
@@ -48,16 +49,22 @@ const NoticeDetails = () => {
   };
 
   const successFn = result => {
-    console.log("API Response:", result);
     setDetailData(result);
+    const pics = result.pics;
+    const newImages = pics.map(pic => ({
+      original: `http://192.168.0.144:5224/pic/fullnotice/${tno}/` + pic,
+      thumbnail: `http://192.168.0.144:5224/pic/fullnotice/${tno}/` + pic,
+    }));
+
+    setDetailImage(prevDetailImage => [...prevDetailImage, ...newImages]);
   };
+
+  console.log("!!!!", detailImage);
   const failFn = result => {};
   const errorFn = result => {};
   useEffect(() => {
-    // const apiUrl = `${path}/${tno}`;
-    // console.log("API URL:", apiUrl);
     getDetail({ tno, successFn, failFn, errorFn });
-  }, []);
+  }, [tno]);
   console.log(detailData);
 
   return (
@@ -75,7 +82,6 @@ const NoticeDetails = () => {
           style={{
             borderTop: "1.5px solid #00876D",
             borderBottom: "1.5px solid #00876D",
-            background: "white",
             width: "100%",
             textAlign: "center",
             paddingTop: 20,
@@ -105,7 +111,7 @@ const NoticeDetails = () => {
             }}
           >
             <div style={{ margin: 40, maxWidth: 500, display: "inline-block" }}>
-              <ImageGallery items={NoticeImageData} thumbnailPosition="left" />
+              <ImageGallery items={detailImage} thumbnailPosition="left" />
             </div>
           </div>
           <p style={{ margin: 30, textAlign: "center", fontSize: 20 }}>
@@ -139,7 +145,7 @@ const NoticeDetails = () => {
       {/* 삭제 모달 */}
       <Modal
         title="정말 삭제할까요?"
-        visible={isDeleteModalOpen}
+        open={isDeleteModalOpen}
         onOk={handleDeleteOk}
         onCancel={handleDeleteCancel}
         okText="확인"

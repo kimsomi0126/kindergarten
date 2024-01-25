@@ -70,7 +70,7 @@ export const ChildInfo = styled.div`
   margin-top: 1rem;
   margin-bottom: 1rem;
   display: flex;
-  gap: 1rem;
+  gap: 0.5rem;
   p {
     color: ${colors.grayDeep};
     font-size: 1.5rem;

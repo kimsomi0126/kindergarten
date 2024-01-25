@@ -47,8 +47,15 @@ export const StudentListBox = styled.div`
   }
 `;
 export const StudentImg = styled.div`
+  width: 8rem;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   img {
-    width: 8rem;
+    height: 100%;
     margin-right: 1rem;
   }
 `;
@@ -56,6 +63,7 @@ export const StudentInfo = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  padding-left: 1rem;
   p {
     padding-left: 3rem;
   }

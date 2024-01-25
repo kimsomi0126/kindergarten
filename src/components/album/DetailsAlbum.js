@@ -1,10 +1,12 @@
+
 import { Modal } from "antd";
 import React, { useEffect, useState, useRef } from "react";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
+
 // Import Swiper styles
 import "swiper/css";
-import "swiper/css/effect-coverflow";
+import "swiper/css/effect-cube";
 import "swiper/css/pagination";
 import { EffectCoverflow, Keyboard, Pagination } from "swiper/modules";
 import LightBox from "./LightBox";
@@ -35,55 +37,8 @@ const data = [
   { id: 6, pic: ["https://swiperjs.com/demos/images/nature-6.jpg"] },
   { id: 7, pic: ["https://swiperjs.com/demos/images/nature-7.jpg"] },
   { id: 8, pic: ["https://swiperjs.com/demos/images/nature-8.jpg"] },
-  { id: 1, pic: ["https://swiperjs.com/demos/images/nature-1.jpg"] },
-  { id: 2, pic: ["https://swiperjs.com/demos/images/nature-2.jpg"] },
-  { id: 3, pic: ["https://swiperjs.com/demos/images/nature-3.jpg"] },
-  { id: 4, pic: ["https://swiperjs.com/demos/images/nature-4.jpg"] },
-  { id: 5, pic: ["https://swiperjs.com/demos/images/nature-5.jpg"] },
-  { id: 6, pic: ["https://swiperjs.com/demos/images/nature-6.jpg"] },
-  { id: 7, pic: ["https://swiperjs.com/demos/images/nature-7.jpg"] },
-  { id: 8, pic: ["https://swiperjs.com/demos/images/nature-8.jpg"] },
-  { id: 1, pic: ["https://swiperjs.com/demos/images/nature-1.jpg"] },
-  { id: 2, pic: ["https://swiperjs.com/demos/images/nature-2.jpg"] },
-  { id: 3, pic: ["https://swiperjs.com/demos/images/nature-3.jpg"] },
-  { id: 4, pic: ["https://swiperjs.com/demos/images/nature-4.jpg"] },
-  { id: 5, pic: ["https://swiperjs.com/demos/images/nature-5.jpg"] },
-  { id: 6, pic: ["https://swiperjs.com/demos/images/nature-6.jpg"] },
-  { id: 7, pic: ["https://swiperjs.com/demos/images/nature-7.jpg"] },
-  { id: 8, pic: ["https://swiperjs.com/demos/images/nature-8.jpg"] },
-  { id: 1, pic: ["https://swiperjs.com/demos/images/nature-1.jpg"] },
-  { id: 2, pic: ["https://swiperjs.com/demos/images/nature-2.jpg"] },
-  { id: 3, pic: ["https://swiperjs.com/demos/images/nature-3.jpg"] },
-  { id: 4, pic: ["https://swiperjs.com/demos/images/nature-4.jpg"] },
-  { id: 5, pic: ["https://swiperjs.com/demos/images/nature-5.jpg"] },
-  { id: 6, pic: ["https://swiperjs.com/demos/images/nature-6.jpg"] },
-  { id: 7, pic: ["https://swiperjs.com/demos/images/nature-7.jpg"] },
-  { id: 8, pic: ["https://swiperjs.com/demos/images/nature-8.jpg"] },
-  { id: 1, pic: ["https://swiperjs.com/demos/images/nature-1.jpg"] },
-  { id: 2, pic: ["https://swiperjs.com/demos/images/nature-2.jpg"] },
-  { id: 3, pic: ["https://swiperjs.com/demos/images/nature-3.jpg"] },
-  { id: 4, pic: ["https://swiperjs.com/demos/images/nature-4.jpg"] },
-  { id: 5, pic: ["https://swiperjs.com/demos/images/nature-5.jpg"] },
-  { id: 6, pic: ["https://swiperjs.com/demos/images/nature-6.jpg"] },
-  { id: 7, pic: ["https://swiperjs.com/demos/images/nature-7.jpg"] },
-  { id: 8, pic: ["https://swiperjs.com/demos/images/nature-8.jpg"] },
-  { id: 1, pic: ["https://swiperjs.com/demos/images/nature-1.jpg"] },
-  { id: 2, pic: ["https://swiperjs.com/demos/images/nature-2.jpg"] },
-  { id: 3, pic: ["https://swiperjs.com/demos/images/nature-3.jpg"] },
-  { id: 4, pic: ["https://swiperjs.com/demos/images/nature-4.jpg"] },
-  { id: 5, pic: ["https://swiperjs.com/demos/images/nature-5.jpg"] },
-  { id: 6, pic: ["https://swiperjs.com/demos/images/nature-6.jpg"] },
-  { id: 7, pic: ["https://swiperjs.com/demos/images/nature-7.jpg"] },
-  { id: 8, pic: ["https://swiperjs.com/demos/images/nature-8.jpg"] },
-  { id: 1, pic: ["https://swiperjs.com/demos/images/nature-1.jpg"] },
-  { id: 2, pic: ["https://swiperjs.com/demos/images/nature-2.jpg"] },
-  { id: 3, pic: ["https://swiperjs.com/demos/images/nature-3.jpg"] },
-  { id: 4, pic: ["https://swiperjs.com/demos/images/nature-4.jpg"] },
-  { id: 5, pic: ["https://swiperjs.com/demos/images/nature-5.jpg"] },
-  { id: 6, pic: ["https://swiperjs.com/demos/images/nature-6.jpg"] },
-  { id: 7, pic: ["https://swiperjs.com/demos/images/nature-7.jpg"] },
-  { id: 8, pic: ["https://swiperjs.com/demos/images/nature-8.jpg"] },
 ];
+
 const DetailsAlbum = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isDeleteSuccessModalOpen, setIsDeleteSuccessModalOpen] =

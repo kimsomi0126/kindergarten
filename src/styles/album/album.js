@@ -25,7 +25,7 @@ export const AlbumTopBar = styled.div`
   align-items: center;
   width: 100%;
   height: 3.75rem;
-  padding: ${props => props.padding + "rem"};
+  padding: 1.8rem;
 `;
 export const SearchBar = styled.div`
   img {
@@ -127,8 +127,6 @@ export const SwiperWrap = styled.div`
   .swiper-slide {
     background-position: center;
     background-size: cover;
-    width: 300px;
-    height: 300px;
   }
 
   .swiper-slide img {
@@ -140,6 +138,7 @@ export const SwiperWrap = styled.div`
 export const ContentWrap = styled.div`
   margin-top: 2rem;
   background: #fff;
+
   border-top: 0.2rem solid ${colors.greenDeep};
   .rce-container-input {
     padding: 0 2rem;
@@ -148,11 +147,13 @@ export const ContentWrap = styled.div`
 `;
 
 export const AlbumTitle = styled.h3`
-  padding-left: 2.65rem;
+  padding-left: 2.8rem;
+  padding-bottom: 3rem;
   background: url(${process.env.PUBLIC_URL + "/images/information/logo1.svg"})
     no-repeat left 0.25rem/2.3rem;
   color: ${colors.greenDeep};
 `;
+
 
 export const TitleWrap = styled.div`
   display: flex;

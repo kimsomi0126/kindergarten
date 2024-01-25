@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ContentInner, PageTitle } from "../../styles/basic";
 import { Form, Select } from "antd";
 import {
@@ -17,27 +17,98 @@ import {
   PinkBtn,
 } from "../../styles/ui/buttons";
 import MyProfileComponent from "../../components/user/mypage/MyProfileComponent";
-import MyAccountComponent from "../../components/user/mypage/MyAccountComponent";
 import MyPhysicalComponent from "../../components/user/mypage/MyPhysicalComponent";
 import MyBadge from "../../components/user/mypage/MyBadge";
+import useCustomLogin from "../../hooks/useCustomLogin";
+import ModalOneBtn from "../../components/ui/ModalOneBtn";
+import { useNavigate } from "react-router";
+import { getMypage } from "../../api/user/userApi";
 
+const initState = {
+  kidNm: "",
+  iclass: 0,
+  gender: 0,
+  profile: "",
+  birth: "",
+  address: "",
+  growths: [
+    {
+      height: 0,
+      weight: 0,
+      bodyDate: "",
+      growth: 0,
+      growthDate: "",
+      growthMemo: "",
+    },
+  ],
+  parents: [
+    {
+      iparent: 0,
+      uid: "",
+      parentNm: "",
+      phoneNb: "",
+      irelation: 0,
+    },
+  ],
+  memo: ".",
+  emerNm: "",
+  emerNb: "",
+};
 const MyPage = () => {
-  const ilevel = "parent";
-  const [componentSize, setComponentSize] = useState("default");
-  const onFormLayoutChange = ({ size }) => {
-    setComponentSize(size);
-    console.log(componentSize);
+  const navigate = useNavigate();
+  const { loginState, isParentLogin } = useCustomLogin();
+  const [ikid, setIkid] = useState(3);
+  const [myData, setMyData] = useState(initState);
+  const [year, setYear] = useState("2024");
+  const handleVelueChange = e => {
+    setYear(e);
   };
+
+  const handleOk = () => {
+    navigate("/");
+  };
+  useEffect(() => {
+    getMypage({ year, ikid, successFn, failFn, errorFn });
+  }, []);
+
+  const successFn = result => {
+    setMyData(result);
+  };
+  const failFn = result => {
+    console.log(result);
+  };
+  const errorFn = result => {
+    console.log(result);
+  };
+
+  console.log(myData);
   return (
     <ContentInner>
+      {!isParentLogin ? (
+        <ModalOneBtn
+          isOpen={true}
+          handleOk={handleOk}
+          title="학부모회원 전용페이지"
+          subTitle="학부모회원만 이용할 수 있는 서비스 입니다."
+        />
+      ) : null}
+
       <MypageWrap>
         {/* 마이페이지 상단 버튼 */}
         <TitleWrap>
           <PageTitle>마이페이지</PageTitle>
           <FlexBox>
-            <Form onValuesChange={onFormLayoutChange} layout="inline">
-              <Form.Item>
-                <Select defaultValue="2024">
+            <Form
+              onValuesChange={e => {
+                handleVelueChange(e);
+              }}
+              layout="inline"
+              initialValues={{
+                year: "2024",
+              }}
+            >
+              <Form.Item name="year">
+                <Select>
                   <Select.Option value="2024">2024년</Select.Option>
                   <Select.Option value="2023">2023년</Select.Option>
                   <Select.Option value="2022">2022년</Select.Option>
@@ -64,17 +135,15 @@ const MyPage = () => {
         {/* 마이페이지 내용 시작 */}
         <MyContentWrap>
           {/* 프로필 */}
-          <MyProfileComponent ilevel={ilevel} />
+          <MyProfileComponent ilevel={parent} myData={myData} />
           {/* 연결계정 */}
-          {ilevel === "admin" ? <MyAccountComponent /> : null}
           {/* 상세정보 */}
           <DetailInfo>
             <TitleWrap>
               <PageTitle>상세정보</PageTitle>
-              {ilevel === "admin" ? <OrangeBtn>상세정보 입력</OrangeBtn> : null}
             </TitleWrap>
             {/* 상세정보 - 신체정보 */}
-            <MyPhysicalComponent />
+            <MyPhysicalComponent myData={myData} />
             {/* 상세정보 - 칭찬뱃지 */}
             <DetailBadge>
               <MyBadge keywordValue={1} text="활발한 어린이 입니다." />

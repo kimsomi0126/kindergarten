@@ -9,15 +9,19 @@ import useCustomLogin from "../../../hooks/useCustomLogin";
 
 const LoginComponent = () => {
   const [loginParam, setLoginParam] = useState("");
-  const [userState, setUserState] = useState();
-  const { doLogin, moveToPath } = useCustomLogin();
+  const [userState, setUserState] = useState("");
+  const { doLogin, doParentLogin, moveToPath } = useCustomLogin();
 
   const onFinish = values => {
     console.log("Success:", loginParam);
 
-    doLogin({ loginParam, successFn, failFn, errorFn });
-
-    //postParentLogin({ loginParam, successFn, failFn, errorFn });
+    if (userState === "2") {
+      console.log(userState, "선생님로그인");
+      doLogin({ loginParam, successFn, failFn, errorFn });
+    } else {
+      console.log(userState, "학부모로그인");
+      doParentLogin({ loginParam, successFn, failFn, errorFn });
+    }
   };
   const onFinishFailed = errorInfo => {
     console.log("Failed:", errorInfo);
@@ -38,7 +42,7 @@ const LoginComponent = () => {
   const errorFn = () => {
     alert("에러");
   };
-
+  console.log("기본상태", userState);
   return (
     <>
       <FormWrap>
@@ -50,7 +54,7 @@ const LoginComponent = () => {
         </LogoWrap>
         <Flex vertical gap="middle">
           <Radio.Group
-            defaultValue="2"
+            defaultValue="1"
             buttonStyle="solid"
             size="large"
             onChange={e => {

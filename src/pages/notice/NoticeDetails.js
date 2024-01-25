@@ -1,14 +1,33 @@
-import React, { useState } from "react";
-import { Button, Modal } from "antd";
+import { Modal } from "antd";
+import React, { useEffect, useState } from "react";
 import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
-import { Link, useNavigate } from "react-router-dom";
+import {
+  Link,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
+import { getDetail, path } from "../../api/notice/notice_api";
 import { NoticeImageData } from "../../components/common/TemporaryData";
 import { PageTitle } from "../../styles/basic";
 import { BlueBtn, GreenBtn, PinkBtn } from "../../styles/ui/buttons";
 
+const obj = {
+  fullTitle: "",
+  fullContents: "",
+  writer: "",
+  createdAt: "",
+  pics: [""],
+};
+
 const NoticeDetails = () => {
+  const params = useSearchParams();
+
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [detailData, setDetailData] = useState(obj);
+  const { tno } = useParams();
+  console.log("tno:", tno);
   const navigate = useNavigate();
 
   const showDeleteModal = () => {
@@ -28,6 +47,19 @@ const NoticeDetails = () => {
     setIsDeleteModalOpen(false);
   };
 
+  const successFn = result => {
+    console.log("API Response:", result);
+    setDetailData(result);
+  };
+  const failFn = result => {};
+  const errorFn = result => {};
+  useEffect(() => {
+    // const apiUrl = `${path}/${tno}`;
+    // console.log("API URL:", apiUrl);
+    getDetail({ tno, successFn, failFn, errorFn });
+  }, []);
+  console.log(detailData);
+
   return (
     <>
       <PageTitle>유치원 소식</PageTitle>
@@ -43,6 +75,7 @@ const NoticeDetails = () => {
           style={{
             borderTop: "1.5px solid #00876D",
             borderBottom: "1.5px solid #00876D",
+            background: "white",
             width: "100%",
             textAlign: "center",
             paddingTop: 20,
@@ -57,10 +90,10 @@ const NoticeDetails = () => {
             }}
           >
             <div style={{ margin: "auto" }}>
-              <p style={{ margin: 0, fontSize: 27 }}>제목입니다.</p>
+              <p style={{ margin: 0, fontSize: 27 }}>{detailData.fullTitle}</p>
             </div>
             <p style={{ marginRight: 20, fontSize: 15, color: "#999" }}>
-              2024-01-17
+              {detailData.createdAt}
             </p>
           </div>
           <div
@@ -76,7 +109,7 @@ const NoticeDetails = () => {
             </div>
           </div>
           <p style={{ margin: 30, textAlign: "center", fontSize: 20 }}>
-            내용입니다
+            {detailData.fullContents}
           </p>
         </div>
         <div

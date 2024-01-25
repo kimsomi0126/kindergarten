@@ -27,6 +27,9 @@ export const colors = {
   grayLight: "#EBEBEB",
   black: "#000",
   white: "#fff",
+
+  // 타이틀바 아래 밝은 회색라인
+  grayBar: "#DDDDDD",
 };
 
 export const fonts = {

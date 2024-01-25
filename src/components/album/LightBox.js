@@ -1,6 +1,6 @@
 import React from "react";
 
-const Lightbox = ({ imgSrc, open, closeLightbox }) => {
+const LightBox = ({ imgSrc, open, closeLightbox }) => {
   if (!open) return null;
 
   return (
@@ -17,6 +17,7 @@ const Lightbox = ({ imgSrc, open, closeLightbox }) => {
         justifyContent: "center",
         zIndex: 1000,
       }}
+      onClick={closeLightbox}
     >
       <img
         src={imgSrc}
@@ -25,7 +26,6 @@ const Lightbox = ({ imgSrc, open, closeLightbox }) => {
           maxHeight: "100%",
           objectFit: "contain",
         }}
-        onClick={e => e.stopPropagation()}
       />
       <button
         onClick={closeLightbox}
@@ -42,4 +42,4 @@ const Lightbox = ({ imgSrc, open, closeLightbox }) => {
   );
 };
 
-export default Lightbox;
+export default LightBox;

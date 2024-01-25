@@ -14,10 +14,6 @@ import {
 import { PageTitle } from "../../styles/basic";
 import { GreenBtn } from "../../styles/ui/buttons";
 
-// 화면 출력 상태 정보
-const initState = { ialbum: 0, albumTitle: "string", albumPic: "string" };
-// const host = `${API_SERVER_HOST}/api/album/listall`;
-
 const ReadAllAlbum = ({ id }) => {
   const [items, setItems] = useState(AlbumData[0]); // 이미지 데이터 상태
   const [loading, setLoading] = useState(false); // 로딩 상태

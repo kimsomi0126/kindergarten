@@ -64,6 +64,7 @@ const useCustomLogin = () => {
   return {
     loginState,
     isLogin,
+    isName,
     isParentLogin,
     doLogin,
     doLogout,

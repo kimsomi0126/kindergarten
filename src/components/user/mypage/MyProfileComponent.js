@@ -11,7 +11,8 @@ import {
 import { OrangeBtn } from "../../../styles/ui/buttons";
 import MyClass from "../MyClass";
 
-const MyProfileComponent = ({ ilevel }) => {
+const MyProfileComponent = ({ ilevel, myData }) => {
+  const my = myData;
   return (
     <>
       <ProfileWrap>
@@ -22,8 +23,8 @@ const MyProfileComponent = ({ ilevel }) => {
           />
         </ProfileImg>
         <ProfileInfo>
-          <MyClassWrap state={2}>
-            <MyClass state={2} admin={true} />
+          <MyClassWrap state={my.iclass}>
+            <MyClass state={my.iclass} admin={true} />
             {ilevel === "admin" ? (
               <IdentCodeWrap>
                 <dl>
@@ -37,15 +38,15 @@ const MyProfileComponent = ({ ilevel }) => {
           <MyInfo>
             <dl>
               <dt>이름</dt>
-              <dd>홍길동</dd>
+              <dd>{my.kidNm}</dd>
             </dl>
             <dl>
               <dt>성별</dt>
-              <dd>남자</dd>
+              <dd>{my.gender === 0 ? "여자" : "남자"}</dd>
             </dl>
             <dl>
               <dt>생년월일</dt>
-              <dd>2019-05-05</dd>
+              <dd>{my.birth}</dd>
             </dl>
             <dl>
               <dt>주소</dt>

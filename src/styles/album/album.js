@@ -113,11 +113,15 @@ export const SwiperWrap = styled.div`
     margin: 0;
     padding: 0;
   }
+  .swiper-pagination {
+    text-align: center;
+    padding: 0 2rem 0.5rem;
+  }
   .swiper {
     width: 100%;
     height: 100%;
-    padding-top: 50px;
-    padding-bottom: 50px;
+    padding-top: 40px;
+    padding-bottom: 60px;
   }
 
   .swiper-slide {
@@ -134,9 +138,13 @@ export const SwiperWrap = styled.div`
 `;
 
 export const ContentWrap = styled.div`
-  margin-top: 20px;
+  margin-top: 2rem;
+  background: #fff;
   border-top: 0.2rem solid ${colors.greenDeep};
-  border-bottom: 0.2rem solid ${colors.greenDeep};
+  .rce-container-input {
+    padding: 0 2rem;
+    background-color: #fafafa;
+  }
 `;
 
 export const AlbumTitle = styled.h3`
@@ -146,6 +154,59 @@ export const AlbumTitle = styled.h3`
   color: ${colors.greenDeep};
 `;
 
-export const TitleWrap = styled.h4`
-  height: 40px;
+export const TitleWrap = styled.div`
+  display: flex;
+  height: 4rem;
+  align-items: center;
+  border-bottom: 1px solid ${colors.grayBar};
+  padding: 3.5rem;
+  h3 {
+    display: inline-block;
+    font-size: 2.7rem;
+    font-weight: 400;
+    flex: 1;
+    text-align: center;
+  }
+  p {
+    font-family: Pretendard;
+    font-size: 1.5rem;
+    text-align: right;
+    color: ${colors.grayDeep};
+  }
+`;
+
+export const MainContent = styled.div`
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-bottom: 0.2rem solid ${colors.greenDeep};
+`;
+
+export const DetailsText = styled.div`
+  overflow: auto;
+  scroll-padding-bottom: 100;
+  width: 100%;
+  height: 100%;
+  font-size: 1.6rem;
+
+  p {
+    line-height: 1.8;
+    margin: 2rem 0;
+    text-align: center;
+  }
+`;
+
+export const Footer = styled.div`
+  text-align: right;
+  width: 100%;
+  margin-top: 2rem;
+  margin-bottom: 9rem;
+  button {
+    margin-left: 1rem;
+  }
+`;
+
+export const CommentWrap = styled.div`
+  background-color: #fafafa;
+  padding-bottom: 2rem;
 `;

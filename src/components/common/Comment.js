@@ -1,16 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { MessageBox, Input, Button } from "react-chat-elements";
 import "react-chat-elements/dist/main.css";
 import { colors, fonts } from "../../styles/basic";
+import { CommentWrap } from "../../styles/album/album";
 
 const Comment = () => {
   const [comments, setComments] = useState([]);
   const [message, setMessage] = useState("");
 
+  const messagesEndRef = useRef(null);
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
   const handleSendMessage = () => {
     if (message) {
       const newComment = {
-        title: `OOO 선생님`,
+        title: `선생님`,
         position: "left",
         type: "text",
         text: message,
@@ -20,16 +26,19 @@ const Comment = () => {
       setMessage("");
     }
   };
+  useEffect(() => {
+    scrollToBottom();
+  }, [comments]);
 
   return (
-    <div>
+    <CommentWrap>
       <div>
         {comments.map((comment, index) => (
           <MessageBox
             lockable={true}
             key={index}
-            position={comment.position}
-            type={comment.type}
+            position={comment.title === "선생님" ? "left" : "right"}
+            type={"text"}
             text={comment.text}
             title={comment.title}
             date={comment.date}
@@ -42,6 +51,7 @@ const Comment = () => {
             ]}
           />
         ))}
+        <div ref={messagesEndRef}></div>
       </div>
       <Input
         inputStyle={{
@@ -54,6 +64,11 @@ const Comment = () => {
         color={`colors.orangeLight`}
         value={message}
         onChange={e => setMessage(e.target.value)}
+        onKeyPress={e => {
+          if (e.key === "Enter") {
+            handleSendMessage();
+          }
+        }}
         rightButtons={
           <Button
             color={`${colors.orangeLight}`}
@@ -63,7 +78,7 @@ const Comment = () => {
           />
         }
       />
-    </div>
+    </CommentWrap>
   );
 };
 

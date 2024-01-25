@@ -12,9 +12,7 @@ import useCustomLogin from "../../hooks/useCustomLogin";
 const NavBar = () => {
   const navigate = useNavigate();
   const { moveToPath, doLogout } = useCustomLogin();
-  const { isLogin, isParentLogin } = useCustomLogin();
-  console.log("선생님 로그인 :", isLogin);
-  console.log("학부모 로그인 :", isParentLogin);
+  const { loginState, isLogin, isParentLogin } = useCustomLogin();
   const handleLogout = () => {
     doLogout();
     moveToPath("/");
@@ -24,7 +22,7 @@ const NavBar = () => {
       <p>
         {" "}
         {isLogin
-          ? "선생님 환영합니다."
+          ? `${loginState.teacherNm} 환영합니다.`
           : isParentLogin
           ? "학부모님 환영합니다."
           : null}

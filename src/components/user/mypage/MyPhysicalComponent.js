@@ -1,7 +1,8 @@
 import React from "react";
 import { DetailPhysical, TableWrap } from "../../../styles/user/mypage";
 
-const MyPhysicalComponent = () => {
+const MyPhysicalComponent = ({ myData }) => {
+  const res = myData;
   return (
     <DetailPhysical>
       <TableWrap className="th_left">

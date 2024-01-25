@@ -7,11 +7,11 @@
     "kids": [
       {
         "kidNm": "신짱구",
-        "iclass": "해바라기반"
+        "iclass": 2
       },
       {
         "kidNm": "신짱아",
-        "iclass": "무궁화반"
+        "iclass": 1
       }
     ]
   },
@@ -23,7 +23,7 @@
     "kids": [
       {
         "kidNm": "한유리",
-        "iclass": "해바라기반"
+        "iclass": 3
       }
     ]
   },
@@ -35,7 +35,7 @@
     "kids": [
       {
         "kidNm": "맹맹구",
-        "iclass": "해바라기반"
+        "iclass": 1
       }
     ]
   },
@@ -47,7 +47,7 @@
     "kids": [
       {
         "kidNm": "한수지",
-        "iclass": "해바라기반"
+        "iclass": 2
       }
     ]
   },
@@ -59,7 +59,7 @@
     "kids": [
       {
         "kidNm": "김철수",
-        "iclass": "해바라기반"
+        "iclass": 3
       }
     ]
   },
@@ -71,7 +71,7 @@
     "kids": [
       {
         "kidNm": "이훈이",
-        "iclass": "해바라기반"
+        "iclass": 3
       }
     ]
   },
@@ -83,7 +83,7 @@
     "kids": [
       {
         "kidNm": "맹맹구",
-        "iclass": "해바라기반"
+        "iclass": 1
       }
     ]
   }

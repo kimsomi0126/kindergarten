@@ -31,7 +31,7 @@ import {
   StudFormTop,
   StudFormWrap,
 } from "../../../styles/adminstyle/studcreate";
-import { GreenBtn, OrangeBtn, PinkBtn } from "../../../styles/ui/buttons";
+import { GreenBtn, PinkBtn } from "../../../styles/ui/buttons";
 
 // 프로필 이미지 첨부
 const props = {

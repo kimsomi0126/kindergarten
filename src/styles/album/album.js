@@ -106,7 +106,7 @@ export const AlbumList = styled.div`
 
 export const SwiperWrap = styled.div`
   body {
-    background: #eee;
+    background-color: #eee;
     font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
     font-size: 14px;
     color: #000;
@@ -118,6 +118,7 @@ export const SwiperWrap = styled.div`
     padding: 0 2rem 0.5rem;
   }
   .swiper {
+    display: flex;
     width: 100%;
     height: 100%;
     padding-top: 40px;
@@ -127,10 +128,11 @@ export const SwiperWrap = styled.div`
   .swiper-slide {
     background-position: center;
     background-size: cover;
+    width: 300px;
+    height: 300px;
   }
 
   .swiper-slide img {
-    display: block;
     width: 100%;
   }
 `;
@@ -153,7 +155,6 @@ export const AlbumTitle = styled.h3`
     no-repeat left 0.25rem/2.3rem;
   color: ${colors.greenDeep};
 `;
-
 
 export const TitleWrap = styled.div`
   display: flex;
@@ -185,7 +186,6 @@ export const MainContent = styled.div`
 
 export const DetailsText = styled.div`
   overflow: auto;
-  scroll-padding-bottom: 100;
   width: 100%;
   height: 100%;
   font-size: 1.6rem;
@@ -202,6 +202,7 @@ export const Footer = styled.div`
   width: 100%;
   margin-top: 2rem;
   margin-bottom: 9rem;
+
   button {
     margin-left: 1rem;
   }

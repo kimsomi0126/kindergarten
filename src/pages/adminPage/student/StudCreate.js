@@ -32,6 +32,8 @@ import {
   StudFormWrap,
 } from "../../../styles/adminstyle/studcreate";
 import { GreenBtn, PinkBtn } from "../../../styles/ui/buttons";
+import ModalTwoBtn from "../../../components/ui/ModalTwoBtn";
+import ModalOneBtn from "../../../components/ui/ModalOneBtn";
 
 // 프로필 이미지 첨부
 const props = {
@@ -53,6 +55,19 @@ const props = {
 };
 
 const StudentCreate = () => {
+  // 모달창 적용
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isCancleModalOpen, setIsCancleModalOpen] = useState(false);
+  const handleAddClick = () => {
+    setIsAddModalOpen(true);
+  };
+  const handleCancleClick = () => {
+    setIsCancleModalOpen(true);
+  };
+
+  const onCancel = () => {
+    setIsCancleModalOpen(false);
+  };
   // 우편번호
   const [zodecode, setZonecode] = useState("");
   const [address, setAddress] = useState("");
@@ -342,8 +357,25 @@ const StudentCreate = () => {
         </AdminMemo>
       </StudFormWrap>
       <BottomBt>
-        <GreenBtn>등록</GreenBtn>
-        <PinkBtn>취소</PinkBtn>
+        <GreenBtn onClick={handleAddClick}>등록</GreenBtn>
+        {isAddModalOpen && (
+          <ModalOneBtn
+            isOpen={isAddModalOpen}
+            handleOk={handleOk}
+            title="등록 완료"
+            subTitle="성공적으로 등록되었습니다."
+          />
+        )}
+        <PinkBtn onClick={handleCancleClick}>취소</PinkBtn>
+        {isCancleModalOpen && (
+          <ModalTwoBtn
+            isOpen={isCancleModalOpen}
+            handleOk={handleOk}
+            handleCancel={onCancel}
+            title="정말 취소할까요?"
+            subTitle="작성된 내용은 저장되지 않습니다."
+          />
+        )}
       </BottomBt>
     </>
   );

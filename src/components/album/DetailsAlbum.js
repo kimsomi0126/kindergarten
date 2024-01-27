@@ -24,7 +24,6 @@ import {
 } from "../../styles/album/album";
 import { BlueBtn, GreenBtn, PinkBtn } from "../../styles/ui/buttons";
 import Comment from "../common/Comment";
-import CommentClassic from "../common/CommentClassic";
 
 // import required modules
 
@@ -197,8 +196,7 @@ const DetailsAlbum = () => {
               애국가에 특별한 이름을 붙이지 않고 국가(國歌)로 사용하고 있어요.
             </p>
           </DetailsText>
-          {/* <Comment /> */}
-          <CommentClassic />
+          <Comment />
         </MainContent>
         {/* 삭제 모달 */}
         <Modal

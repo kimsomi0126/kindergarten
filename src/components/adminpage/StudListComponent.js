@@ -19,11 +19,7 @@ const initStudentList = [
     profile: "",
   },
 ];
-const pageSize = 12;
-const handlePageChange = (page, pageSize) => {
-  // 페이지 변경 시 처리할 로직을 추가할 수 있습니다.
-  console.log("Page:", page, "PageSize:", pageSize);
-};
+
 const StudListComponent = () => {
   const [studentList, setStudentList] = useState(initStudentList);
   const page = 1;
@@ -123,12 +119,7 @@ const StudListComponent = () => {
         </StudentListWrap>
       </StudentMain>
       <PageNum>
-        <Pagination
-          // defaultCurrent={1}
-          total={50}
-          pageSize={pageSize}
-          onChange={handlePageChange}
-        />
+        <Pagination defaultCurrent={1} total={50} />
       </PageNum>
     </>
   );

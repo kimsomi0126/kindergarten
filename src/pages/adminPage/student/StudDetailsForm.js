@@ -18,19 +18,19 @@ const StudDetailsForm = ({ isOpen, handleOk, handleCancel }) => {
   const navigate = useNavigate();
   // 모달창 적용
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [isCancleModalOpen, setIsCancleModalOpen] = useState(false);
+  const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
   const handleAddClick = () => {
     setIsAddModalOpen(true);
   };
-  const handleCancleClick = () => {
-    setIsCancleModalOpen(true);
+  const handleCancelClick = () => {
+    setIsCancelModalOpen(true);
   };
   const onAdd = () => {
     navigate(`/admin/student/details`);
     return;
   };
   const onCancel = () => {
-    setIsCancleModalOpen(false);
+    setIsCancelModalOpen(false);
   };
 
   return (
@@ -476,10 +476,10 @@ const StudDetailsForm = ({ isOpen, handleOk, handleCancel }) => {
           />
         )}
 
-        <PinkBtn onClick={handleCancleClick}>취소</PinkBtn>
-        {isCancleModalOpen && (
+        <PinkBtn onClick={handleCancelClick}>취소</PinkBtn>
+        {isCancelModalOpen && (
           <ModalTwoBtn
-            isOpen={isCancleModalOpen}
+            isOpen={isCancelModalOpen}
             handleOk={handleOk}
             handleCancel={onCancel}
             title="정말 취소할까요?"

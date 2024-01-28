@@ -16,6 +16,7 @@ export const UserTopRight = styled.div`
 
 export const UserMain = styled.div`
   position: relative;
+  /* min-height: 60rem; */
   input {
     margin-right: 0.5rem;
   }
@@ -79,8 +80,39 @@ export const ChildInfo = styled.div`
 
 export const PageNum = styled.div`
   position: absolute;
-  bottom: 12rem;
+  bottom: 10rem;
   left: 50%;
   transform: translateX(-50%);
   text-align: center;
+
+  .ant-pagination-prev {
+    font-size: 1.5rem;
+    color: ${colors.grayDeep};
+    background-color: ${colors.grayLight};
+    border-radius: 50%;
+  }
+  .ant-pagination-next {
+    font-size: 1.5rem;
+    color: ${colors.grayDeep};
+    background-color: ${colors.grayLight};
+    border-radius: 50%;
+  }
+  .ant-pagination-item-active {
+    font-weight: 400;
+    border-radius: 50%;
+    background-color: ${colors.greenDeep};
+    border-color: ${colors.greenDeep};
+    a {
+      color: #fff;
+    }
+    &:hover {
+      border-color: ${colors.greenDeep};
+      a {
+        color: #fff;
+      }
+    }
+  }
+  .ant-pagination-item:hover {
+    border-radius: 50%;
+  }
 `;

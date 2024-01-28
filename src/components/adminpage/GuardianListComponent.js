@@ -14,7 +14,6 @@ import {
 } from "../../api/adminPage/admin_api";
 import ModalTwoBtn from "../ui/ModalTwoBtn";
 import { Form, Input } from "antd";
-import useCustomLogin from "../../hooks/useCustomLogin";
 
 const initParentList = [
   {
@@ -31,15 +30,13 @@ const initParentList = [
   },
 ];
 
-const initParentInfo = [
-  {
-    iparent: 0,
-    parentNm: "",
-    phoneNb: "",
-    uid: "",
-    prEmail: "",
-  },
-];
+const initState = {
+  iparent: 0,
+  parentNm: "",
+  phoneNb: "",
+  uid: "",
+  prEmail: "",
+};
 
 const GuardianListComponent = ({ handleOk }) => {
   // 학부모 리스트 GET
@@ -62,43 +59,19 @@ const GuardianListComponent = ({ handleOk }) => {
   };
 
   // 학부모 정보 수정
-  const [parentInfo, setParentInfo] = useState(initParentInfo);
-  const { loginState, moveToPath } = useCustomLogin();
-
-  useEffect(() => {
-    setParentInfo({
-      ...loginState,
-      uid: loginState.uid,
-      parentNm: loginState.parentNm,
-      phoneNb: loginState.phoneNb,
-      prEmail: loginState.prEmail,
-    });
-  }, [loginState]);
-
-  const handleSubmit = e => {
-    // 웹브라우저 갱신막기
-    e.preventDefault();
-    editParentInfo({ parentInfo, successEditFn, failEditFn, errorEditFn });
-  };
+  const [memberInfo, setMemberInfo] = useState(initState);
   const handleChange = e => {
-    parentInfo[e.target.name] = e.target.value;
-    setParentInfo({ ...parentInfo });
+    memberInfo[e.target.name] = e.target.value;
+    setMemberInfo({ ...memberInfo });
   };
-  const successEditFn = result => {
-    console.log(result);
-  };
-  const failEditFn = result => {
-    console.log(result);
-  };
-  const errorEditFn = result => {
-    console.log(result);
-  };
+
   // 정보 수정 모달창 적용
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   const handleEditClick = () => {
     setIsEditModalOpen(true);
   };
+
   const onEditCancel = () => {
     setIsEditModalOpen(false);
   };
@@ -147,11 +120,7 @@ const GuardianListComponent = ({ handleOk }) => {
         {parentList.map(item => (
           <UserListItem key={item.iparent}>
             <UserListBox>
-              <input
-                type="checkbox"
-                name="student"
-                onChange={handleStudentCheckboxChange}
-              />
+              <input type="checkbox" name="student" onChange={handleChange} />
               <UserInfo>
                 <span>{item.uid}</span>
                 <p>{item.parentNm}</p>
@@ -187,30 +156,26 @@ const GuardianListComponent = ({ handleOk }) => {
                   <Form>
                     <Form.Item>
                       <Input
-                        name="uid"
-                        value={parentInfo.uid}
+                        value={memberInfo.uid}
                         onChange={e => handleChange(e)}
                         readOnly
                       />
                     </Form.Item>
                     <Form.Item>
                       <Input
-                        name="parentNm"
-                        value={parentInfo.parentNm}
+                        value={memberInfo.parentNm}
                         onChange={e => handleChange(e)}
                       />
                     </Form.Item>
                     <Form.Item>
                       <Input
-                        name="phoneNb"
-                        value={parentInfo.phoneNb}
+                        value={memberInfo.phoneNb}
                         onChange={e => handleChange(e)}
                       />
                     </Form.Item>
                     <Form.Item>
                       <Input
-                        name="prEmail"
-                        value={parentInfo.prEmail}
+                        value={memberInfo.prEmail}
                         onChange={e => handleChange(e)}
                       />
                     </Form.Item>
@@ -265,5 +230,4 @@ const GuardianListComponent = ({ handleOk }) => {
     </UserMain>
   );
 };
-
 export default GuardianListComponent;

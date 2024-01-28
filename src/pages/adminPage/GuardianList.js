@@ -1,6 +1,6 @@
 import { Pagination, Select } from "antd";
 import Search from "antd/es/input/Search";
-import React from "react";
+import React, { useState } from "react";
 import {
   PageNum,
   UserTop,
@@ -10,13 +10,10 @@ import { PageTitle } from "../../styles/basic";
 import { GreenBtn } from "../../styles/ui/buttons";
 import GuardianListComponent from "../../components/adminpage/GuardianListComponent";
 
-const handleChange = value => {
+const handleClassChange = value => {
   console.log(value);
 };
-const handlePageChange = (page, pageSize) => {
-  // 페이지 변경 시 처리할 로직을 추가할 수 있습니다.
-  console.log("Page:", page, "PageSize:", pageSize);
-};
+
 const GuardianList = () => {
   return (
     <>
@@ -32,7 +29,7 @@ const GuardianList = () => {
             style={{
               width: 100,
             }}
-            onChange={handleChange}
+            onChange={handleClassChange}
             options={[
               {
                 value: "1",
@@ -68,12 +65,7 @@ const GuardianList = () => {
       </UserTop>
       <GuardianListComponent />
       <PageNum>
-        <Pagination
-          defaultCurrent={1} // 초기 선택된 페이지
-          total={50} // 전체 아이템 수
-          pageSize={10} // 한 페이지에 보여질 아이템 수
-          onChange={handlePageChange} // 페이지 변경 시의 콜백 함수
-        />
+        <Pagination defaultCurrent={1} total={50} />
       </PageNum>
     </>
   );

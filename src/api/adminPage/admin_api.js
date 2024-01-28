@@ -53,17 +53,15 @@ export const getAdminStudentList = async ({
     console.log(error);
   }
 };
-// 학부모 정보 수정 GET
-
 // 학부모 정보 수정 PUT
 export const editParentInfo = async ({
-  parentInfo,
+  memberInfo,
   successEditFn,
   failEditFn,
   errorEditFn,
 }) => {
   try {
-    const res = await jwtAxios.put(`${path}`, parentInfo);
+    const res = await jwtAxios.put(`${path}`, memberInfo);
     const status = res.status.toString();
 
     if (status.charAt(0) === "2") {
@@ -95,5 +93,22 @@ export const postStudentCreate = async ({ successFn, failFn, errorFn }) => {
     }
   } catch (error) {
     errorFn();
+  }
+};
+
+// 학부모 리스트 삭제 PUT
+export const deleteParentList = async ({ successFn, failFn, errorFn }) => {
+  try {
+    const res = await jwtAxios.put(`${path}/parent`);
+    const status = res.status.toString();
+    if (status.charAt(0) === "2") {
+      successFn(res.data);
+    } else {
+      failFn("자료 호출 에러입니다.");
+    }
+  } catch (error) {
+    const demo = await axios.put(`/guardian.json`);
+    errorFn(demo.data);
+    console.log(error);
   }
 };

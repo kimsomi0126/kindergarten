@@ -10,21 +10,35 @@ import { BlueBtn, OrangeBtn, PurpleBtn } from "../../../styles/ui/buttons";
 import StudListComponent from "../../../components/adminpage/StudListComponent";
 import ModalTwoBtn from "../../../components/ui/ModalTwoBtn";
 
-const handleChange = value => {
+const handleClassChange = value => {
   console.log(value);
 };
 
-const StudList = ({ isOpen, handleOk, handleCancel }) => {
-  // 모달창 적용
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const handleClick = () => {
-    setIsModalOpen(true);
+const StudList = ({ handleOk }) => {
+  // 반 변경 모달창
+  const [UpgradeModalOpen, setUpgradeModalOpen] = useState(false);
+  const handleUpgradeClick = () => {
+    setUpgradeModalOpen(true);
   };
-  const onCancel = () => {
-    setIsModalOpen(false);
+  const onUpgradeCancel = () => {
+    setUpgradeModalOpen(false);
   };
-
+  // 졸업 모달창
+  const [GraduateModalOpen, SetGraduateModalOpen] = useState(false);
+  const handleGraduateClick = () => {
+    SetGraduateModalOpen(true);
+  };
+  const onGraduateCancel = () => {
+    SetGraduateModalOpen(false);
+  };
+  // 퇴소 모달창
+  const [OutModalOpen, SetOutModalOpen] = useState(false);
+  const handleOutClick = () => {
+    SetOutModalOpen(true);
+  };
+  const onOutCancel = () => {
+    SetOutModalOpen(false);
+  };
   return (
     <>
       <StudentTop>
@@ -39,7 +53,7 @@ const StudList = ({ isOpen, handleOk, handleCancel }) => {
             style={{
               width: 100,
             }}
-            onChange={handleChange}
+            onChange={handleClassChange}
             options={[
               {
                 value: "1",
@@ -70,18 +84,21 @@ const StudList = ({ isOpen, handleOk, handleCancel }) => {
             }}
             allowClear
           />
-          <BlueBtn onClick={handleClick}>선택 반 변경</BlueBtn>
-          {isModalOpen && (
+          <BlueBtn onClick={handleUpgradeClick}>선택 반 변경</BlueBtn>
+          {UpgradeModalOpen && (
             <ModalTwoBtn
-              isOpen={isModalOpen}
+              isOpen={UpgradeModalOpen}
               handleOk={handleOk}
-              handleCancel={onCancel}
+              handleCancel={onUpgradeCancel}
               title="반 일괄수정"
               subTitle="반 이름을 선택해주세요."
             >
               <Form>
                 <Form.Item>
-                  <Select placeholder="반 선택" onChange={e => handleChange(e)}>
+                  <Select
+                    placeholder="반 선택"
+                    onChange={e => handleClassChange(e)}
+                  >
                     <Select.Option value="1">무궁화반</Select.Option>
                     <Select.Option value="2">해바라기반</Select.Option>
                     <Select.Option value="3">장미반</Select.Option>
@@ -91,8 +108,26 @@ const StudList = ({ isOpen, handleOk, handleCancel }) => {
             </ModalTwoBtn>
           )}
 
-          <PurpleBtn>선택졸업</PurpleBtn>
-          <OrangeBtn>선택퇴소</OrangeBtn>
+          <PurpleBtn onClick={handleGraduateClick}>선택졸업</PurpleBtn>
+          {GraduateModalOpen && (
+            <ModalTwoBtn
+              isOpen={GraduateModalOpen}
+              handleOk={handleOk}
+              handleCancel={onGraduateCancel}
+              title="정말 변경할까요?"
+              subTitle="확인하면 원생의 재원 상태가 변경됩니다."
+            ></ModalTwoBtn>
+          )}
+          <OrangeBtn onClick={handleOutClick}>선택퇴소</OrangeBtn>
+          {OutModalOpen && (
+            <ModalTwoBtn
+              isOpen={OutModalOpen}
+              handleOk={handleOk}
+              handleCancel={onOutCancel}
+              title="정말 변경할까요?"
+              subTitle="확인하면 원생의 재원 상태가 변경됩니다."
+            ></ModalTwoBtn>
+          )}
         </StudentTopRight>
       </StudentTop>
       <StudListComponent />

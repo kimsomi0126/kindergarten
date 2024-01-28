@@ -5,6 +5,19 @@ import { PageTitle } from "../../styles/basic";
 import { GreenBtn, PinkBtn } from "../../styles/ui/buttons";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 
+const initAlubmInfo = [
+  {
+    pics: ["string"],
+    dto: {
+      ilevel: 0,
+      iteacher: 0,
+      albumTitle: "string",
+      albumContents: "string",
+      ialbum: 0,
+      albumPic: ["string"],
+    },
+  },
+];
 const AlbumModify = () => {
   const [form] = Form.useForm();
   const [fileList, setFileList] = useState([]);

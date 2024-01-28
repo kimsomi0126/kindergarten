@@ -10,8 +10,29 @@ import {
   StudDetailsFormFooter,
 } from "../../../styles/adminstyle/studdetailsform";
 import { GreenBtn, PinkBtn } from "../../../styles/ui/buttons";
+import ModalTwoBtn from "../../../components/ui/ModalTwoBtn";
+import ModalOneBtn from "../../../components/ui/ModalOneBtn";
+import { useNavigate } from "react-router-dom";
 
-const StudDetailsForm = () => {
+const StudDetailsForm = ({ isOpen, handleOk, handleCancel }) => {
+  const navigate = useNavigate();
+  // 모달창 적용
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isCancleModalOpen, setIsCancleModalOpen] = useState(false);
+  const handleAddClick = () => {
+    setIsAddModalOpen(true);
+  };
+  const handleCancleClick = () => {
+    setIsCancleModalOpen(true);
+  };
+  const onAdd = () => {
+    navigate(`/admin/student/details`);
+    return;
+  };
+  const onCancel = () => {
+    setIsCancleModalOpen(false);
+  };
+
   return (
     <>
       {/* 상세정보 */}
@@ -445,8 +466,26 @@ const StudDetailsForm = () => {
         </KeywordTable>
       </StudDetailWrap>
       <StudDetailsFormFooter>
-        <GreenBtn>등록</GreenBtn>
-        <PinkBtn>취소</PinkBtn>
+        <GreenBtn onClick={handleAddClick}>등록</GreenBtn>
+        {isAddModalOpen && (
+          <ModalOneBtn
+            isOpen={isAddModalOpen}
+            handleOk={onAdd}
+            title="등록 완료"
+            subTitle="성공적으로 등록되었습니다."
+          />
+        )}
+
+        <PinkBtn onClick={handleCancleClick}>취소</PinkBtn>
+        {isCancleModalOpen && (
+          <ModalTwoBtn
+            isOpen={isCancleModalOpen}
+            handleOk={handleOk}
+            handleCancel={onCancel}
+            title="정말 취소할까요?"
+            subTitle="작성된 내용은 저장되지 않습니다."
+          />
+        )}
       </StudDetailsFormFooter>
     </>
   );

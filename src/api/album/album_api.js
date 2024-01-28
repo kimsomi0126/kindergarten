@@ -1,11 +1,175 @@
 import axios from "axios";
 import { SERVER_URL } from "../config";
+import jwtAxios from "../../util/jwtUtil";
 const path = `${SERVER_URL}/api/album`;
 
-export const getList = async ({ successFn, failFn, errorFn }) => {
+// ialbum = 세부 글 넘버.
+// page = 전체리스트
+// ialbumComment = 세부 댓글 넘버
+
+// 활동앨범 상세조회 get
+export const getAlbum = async ({ ialbum, successFn, failFn, errorFn }) => {
   try {
-    const res = await axios.get();
+    const res = await jwtAxios.get(`${path}/?ialbum=${ialbum}`);
+    const status = res.status.toString();
+    if (status.charAt(0) === "2") {
+      console.log("res.data임 : ", res.data);
+      successFn(res.data);
+    } else {
+      failFn("자료 호출 에러입니다.");
+    }
   } catch (error) {
-    errorFn("서버가 불안정합니다.다시 시도해주세요.");
+    const demo = await axios.get(`/`);
+    errorFn(demo.data);
+    console.log(error);
+  }
+};
+
+// album/listall?page=1
+
+// 활동 앨범 전체 조회 get
+export const getlistAll = async ({ page, successFn, failFn, errorFn }) => {
+  try {
+    const res = await jwtAxios.get(`${path}/listall?page=${page}`);
+    const status = res.status.toString();
+    if (status.charAt(0) === "2") {
+      console.log("res.data : ", res.data);
+      successFn(res.data);
+    } else {
+      failFn("자료 호출 에러입니다.");
+    }
+  } catch (error) {
+    const demo = await axios.get(`/`);
+    errorFn(demo.data);
+    console.log(error);
+  }
+};
+
+// edit?ialbum=1
+// 수정할 앨범 선택시 세부 정보 조회 get
+export const getEditAlbum = async ({ ialbum, successFn, failFn, errorFn }) => {
+  try {
+    const res = await jwtAxios.get(`${path}/edit?ialbum=${ialbum}`);
+    const status = res.status.toString();
+    if (status.charAt(0) === "2") {
+      console.log("res.data : ", res.data);
+      successFn(res.data);
+    } else {
+      failFn("자료 호출 에러입니다.");
+    }
+  } catch (error) {
+    const demo = await axios.get(`/`);
+    errorFn(demo.data);
+    console.log(error);
+  }
+};
+
+// 수정한 앨범 put 하기.
+export const putEditAlbum = async ({
+  albumInfo,
+  successFn,
+  failFn,
+  errorFn,
+}) => {
+  try {
+    const res = await jwtAxios.put(`${path}`, albumInfo);
+    const status = res.status.toString();
+    if (status.charAt(0) === "2") {
+      console.log("res.data : ", res.data);
+      successFn(res.data);
+      return res.data;
+    } else {
+      failFn("수정에 실패하였습니다. 다시 시도해주세요.");
+    }
+  } catch (error) {
+    errorFn(
+      "정보수정에 실패하였습니다. 서버가 불안정합니다. 잠시 후 다시 시도해주세요.",
+    );
+  }
+};
+
+// 앨범 등록 POST
+// path
+export const postAlbumWrite = async ({ successFn, failFn, errorFn }) => {
+  try {
+    const header = { headers: { "Content-Type": "multipart/form-data" } };
+    const res = await jwtAxios.post();
+    const status = res.status.toString();
+    if (status.charAt(0) === "2") {
+      // 화면처리용
+      successFn(res.data);
+    } else {
+      failFn("앨범 등록에 실패하였습니다. 다시 시도해주세요.");
+    }
+  } catch (error) {
+    errorFn(
+      "앨범 등록에 실패하였습니다. 서버가 불안정하니 잠시 후 다시 시도해주세요.",
+    );
+  }
+};
+
+// 앨범 댓글 등록 POST
+// path
+export const postAlbumComment = async ({ successFn, failFn, errorFn }) => {
+  try {
+    const header = { headers: { "Content-Type": "multipart/form-data" } };
+    const res = await jwtAxios.post();
+    const status = res.status.toString();
+    if (status.charAt(0) === "2") {
+      // 화면처리용
+      successFn(res.data);
+    } else {
+      failFn("댓글 등록에 실패하였습니다. 다시 시도해주세요.");
+    }
+  } catch (error) {
+    errorFn(
+      "댓글 등록에 실패하였습니다. 서버가 불안정하니 잠시 후 다시 시도해주세요.",
+    );
+  }
+};
+
+// 앨범 글 삭제 Delete
+// ?ialbum=1
+export const deleteAlbum = async ({ ialbum, successFn, failFn, errorFn }) => {
+  try {
+    // 여기서도 이미지가 추가될 수 있어요.
+    // header 가 필요합니다.
+    const res = await jwtAxios.delete(`${path}?ialbum=${ialbum}`);
+
+    const status = res.status.toString();
+    if (status.charAt(0) === "2") {
+      successFn(res.data);
+    } else {
+      failFn("삭제 호출 오류입니다.");
+    }
+  } catch (error) {
+    errorFn(
+      "삭제에 실패하였습니다. 서버가 불안정하니 잠시 후 다시 시도해주세요.",
+    );
+  }
+};
+
+// 앨범 댓글 삭제 Delete
+// comment?ialbumComment=0&ialbum=0&iteacher=0&iparent=0
+export const deleteAlbumComment = async ({
+  commentInfo,
+  successFn,
+  failFn,
+  errorFn,
+}) => {
+  try {
+    const header = { headers: { "Content-Type": "multipart/form-data" } };
+    const res = await jwtAxios.delete(
+      `${path}/comment?ialbumComment=${ialbumComment}&ialbum=${ialbum}&iteacher=${iteacher}&iparent=${iparent}`,
+      commentInfo,
+    );
+    const status = res.status.toString();
+    if (status.charAt(0) === "2") {
+      successFn(res.data);
+    } else {
+      failFn();
+    }
+  } catch (error) {
+    errorFn();
   }
 };

@@ -26,7 +26,14 @@ import { BlueBtn, GreenBtn, PinkBtn } from "../../styles/ui/buttons";
 import Comment from "../common/Comment";
 
 // import required modules
-
+const initAlbumCommnet = [
+  {
+    ialbum: 0,
+    albumComment: "string",
+    iteacher: 0,
+    iparent: 0,
+  },
+];
 const data = [
   { id: 1, pic: ["https://swiperjs.com/demos/images/nature-1.jpg"] },
   { id: 2, pic: ["https://swiperjs.com/demos/images/nature-2.jpg"] },

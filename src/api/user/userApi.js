@@ -119,3 +119,21 @@ export const getMypage = async ({ year, ikid, successFn, failFn, errorFn }) => {
     errorFn("서버가 불안정합니다.다시 시도해주세요.");
   }
 };
+
+// 부모님 - 정보수정
+export const getParentInfo = async ({ successFn, failFn, errorFn }) => {
+  try {
+    const res = await jwtAxios.get(`${path}/parent/edit`);
+    const status = res.status.toString();
+    if (status.charAt(0) === "2") {
+      // 화면처리용
+      successFn(res.data);
+      // RTK 업데이트 처리를 위해 값 전달
+      return res.data;
+    } else {
+      failFn("서버가 불안정합니다. 다시 시도해주세요.");
+    }
+  } catch (error) {
+    errorFn("서버가 불안정합니다.다시 시도해주세요.");
+  }
+};

@@ -2,7 +2,7 @@ import React from "react";
 import { DetailPhysical, TableWrap } from "../../../styles/user/mypage";
 
 const MyPhysicalComponent = ({ myData }) => {
-  const res = myData;
+  const my = myData;
   return (
     <DetailPhysical>
       <TableWrap className="th_left">
@@ -25,11 +25,17 @@ const MyPhysicalComponent = ({ myData }) => {
                 />
                 측정날짜
               </th>
-              <td>2024-03-01</td>
-              <td>2024-03-01</td>
-              <td>2024-03-01</td>
               <td>
-                <span>날짜</span>
+                {my.growths[0] ? my.growths[0].bodyDate : <span>날짜</span>}
+              </td>
+              <td>
+                {my.growths[1] ? my.growths[1].bodyDate : <span>날짜</span>}
+              </td>
+              <td>
+                {my.growths[2] ? my.growths[2].bodyDate : <span>날짜</span>}
+              </td>
+              <td>
+                {my.growths[3] ? my.growths[3].bodyDate : <span>날짜</span>}
               </td>
             </tr>
             <tr>
@@ -42,11 +48,33 @@ const MyPhysicalComponent = ({ myData }) => {
                 />
                 신장
               </th>
-              <td>100cm</td>
-              <td>100cm</td>
-              <td>100cm</td>
               <td>
-                <span>신장</span>
+                {my.growths[0] ? (
+                  my.growths[0].height + "cm"
+                ) : (
+                  <span>신장</span>
+                )}
+              </td>
+              <td>
+                {my.growths[1] ? (
+                  my.growths[1].height + "cm"
+                ) : (
+                  <span>신장</span>
+                )}
+              </td>
+              <td>
+                {my.growths[2] ? (
+                  my.growths[2].height + "cm"
+                ) : (
+                  <span>신장</span>
+                )}
+              </td>
+              <td>
+                {my.growths[3] ? (
+                  my.growths[3].height + "cm"
+                ) : (
+                  <span>신장</span>
+                )}
               </td>
             </tr>
             <tr>
@@ -59,11 +87,33 @@ const MyPhysicalComponent = ({ myData }) => {
                 />
                 몸무게
               </th>
-              <td>20kg</td>
-              <td>20kg</td>
-              <td>20kg</td>
               <td>
-                <span>몸무게</span>
+                {my.growths[0] ? (
+                  my.growths[0].weight + "kg"
+                ) : (
+                  <span>몸무게</span>
+                )}
+              </td>
+              <td>
+                {my.growths[1] ? (
+                  my.growths[1].weight + "kg"
+                ) : (
+                  <span>몸무게</span>
+                )}
+              </td>
+              <td>
+                {my.growths[2] ? (
+                  my.growths[2].weight + "kg"
+                ) : (
+                  <span>몸무게</span>
+                )}
+              </td>
+              <td>
+                {my.growths[3] ? (
+                  my.growths[3].weight + "kg"
+                ) : (
+                  <span>몸무게</span>
+                )}
               </td>
             </tr>
           </tbody>

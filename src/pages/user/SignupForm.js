@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Checkbox, Col, Form, Input, Modal, Select } from "antd";
+import { Checkbox, Form, Input, Select } from "antd";
 import { GreenBtn } from "../../styles/ui/buttons";
-import { FormWrap, PrivacyWrap } from "../../styles/user/login";
+import { FormWrap } from "../../styles/user/login";
 import { LogoWrap } from "../../styles/basic";
 import PrivacyPolicy from "../../components/user/PrivacyPolicy";
 

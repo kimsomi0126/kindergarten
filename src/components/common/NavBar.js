@@ -6,13 +6,15 @@ import {
   OrangeBtn,
   PurpleBtn,
 } from "../../styles/ui/buttons";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import useCustomLogin from "../../hooks/useCustomLogin";
 
 const NavBar = () => {
   const navigate = useNavigate();
   const { moveToPath, doLogout } = useCustomLogin();
   const { loginState, isLogin, isParentLogin } = useCustomLogin();
+  const currentYear = new Date().getFullYear();
+  const ikidList = loginState.kidList;
   const handleLogout = () => {
     doLogout();
     moveToPath("/");
@@ -20,7 +22,6 @@ const NavBar = () => {
   return (
     <NavWrap>
       <p>
-        {" "}
         {isLogin
           ? `${loginState.teacherNm} 환영합니다.`
           : isParentLogin
@@ -45,7 +46,13 @@ const NavBar = () => {
         ) : isParentLogin ? (
           <>
             <GrayBtn onClick={e => navigate("/ind")}>알림장</GrayBtn>
-            <OrangeBtn onClick={e => navigate("/mypage")}>마이페이지</OrangeBtn>
+            <OrangeBtn
+              onClick={e =>
+                navigate(`/mypage?year=${currentYear}&ikid=${ikidList[0].ikid}`)
+              }
+            >
+              마이페이지
+            </OrangeBtn>
             <GreenBtn
               onClick={() => {
                 handleLogout();

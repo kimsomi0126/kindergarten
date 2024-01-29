@@ -10,16 +10,17 @@ import {
 } from "../../../styles/user/mypage";
 import { OrangeBtn } from "../../../styles/ui/buttons";
 import MyClass from "../MyClass";
+import { IMG_URL } from "../../../api/config";
 
-const MyProfileComponent = ({ ilevel, myData }) => {
+const MyProfileComponent = ({ ilevel, myData, ikid }) => {
   const my = myData;
   return (
     <>
       <ProfileWrap>
         <ProfileImg>
           <img
-            src={process.env.PUBLIC_URL + "/images/user/my_img01.jpg"}
-            alt="신짱구"
+            src={`${IMG_URL}/pic/kid/${ikid}/${my.profile}`}
+            alt={my.kidNm}
           />
         </ProfileImg>
         <ProfileInfo>
@@ -50,7 +51,7 @@ const MyProfileComponent = ({ ilevel, myData }) => {
             </dl>
             <dl>
               <dt>주소</dt>
-              <dd>서울특별시 어쩌구 저쩌동</dd>
+              <dd>{my.address}</dd>
             </dl>
             {ilevel === "admin" ? (
               <dl>

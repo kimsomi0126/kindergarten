@@ -6,7 +6,7 @@ const path = `${SERVER_URL}/api`;
 // 메인 유치원소식
 export const getMainNotice = async ({ successFn, failFn, errorFn }) => {
   try {
-    const res = await jwtAxios.get(`${path}/full?iFullNotice=3`);
+    const res = await jwtAxios.get(`${path}/full?iFullNotice=1`);
     console.log(res.data);
   } catch (error) {
     errorFn("서버가 불안정합니다.다시 시도해주세요.");
@@ -16,7 +16,7 @@ export const getMainNotice = async ({ successFn, failFn, errorFn }) => {
 // 메인 활동앨범
 export const getMainAlbum = async ({ successFn, failFn, errorFn }) => {
   try {
-    const res = await axios.get();
+    const res = await jwtAxios.get(`${path}/full?iFullNotice=1`);
   } catch (error) {
     errorFn("서버가 불안정합니다.다시 시도해주세요.");
   }

@@ -10,6 +10,7 @@ export const MypageWrap = styled.div`
 export const FlexBox = styled.div`
   display: flex;
   align-items: center;
+  gap: 1rem;
 `;
 
 // table 스타일

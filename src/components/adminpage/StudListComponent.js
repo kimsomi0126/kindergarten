@@ -10,6 +10,7 @@ import {
 import { Pagination } from "antd";
 import { PageNum } from "../../styles/adminstyle/guardianlist";
 import { getAdminStudentList } from "../../api/adminPage/admin_api";
+import { useNavigate } from "react-router";
 
 const initStudentList = [
   {
@@ -23,7 +24,7 @@ const initStudentList = [
 const StudListComponent = () => {
   const [studentList, setStudentList] = useState(initStudentList);
   const page = 1;
-  const kidCheck = 1;
+  const kidCheck = 0;
 
   useEffect(() => {
     getAdminStudentList({ successFn, failFn, errorFn, page, kidCheck });
@@ -65,7 +66,11 @@ const StudListComponent = () => {
 
     setSelectAllChecked(allChecked);
   };
-
+  // 원아 상세 페이지로 이동
+  const navigate = useNavigate();
+  const handleClickView = () => {
+    navigate(`/admin/student/details`);
+  };
   return (
     <>
       <StudentMain>
@@ -81,7 +86,7 @@ const StudListComponent = () => {
         </div>
         <StudentListWrap>
           {studentList.map(item => (
-            <StudentListItem key={item.ikid}>
+            <StudentListItem key={item.ikid} onClick={handleClickView}>
               <StudentListBox>
                 <input
                   type="checkbox"

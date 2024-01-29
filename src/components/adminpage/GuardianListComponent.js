@@ -117,115 +117,120 @@ const GuardianListComponent = ({ handleOk }) => {
         <label htmlFor="selectAll">전체 선택</label>
       </div>
       <UserListWrap>
-        {parentList.map(item => (
-          <UserListItem key={item.iparent}>
-            <UserListBox>
-              <input type="checkbox" name="student" onChange={handleChange} />
-              <UserInfo>
-                <span>{item.uid}</span>
-                <p>{item.parentNm}</p>
-              </UserInfo>
-              <div style={{ display: "flex", gap: 10 }}>
-                {item.kids.map((kidsitem, index) => (
-                  <div key={`${item.iparent}_${index}`}>
-                    <ChildInfo>
-                      <p>
-                        {kidsitem.iclass === 1
-                          ? "무궁화반"
-                          : kidsitem.iclass === 2
-                          ? "해바라기반"
-                          : kidsitem.iclass === 3
-                          ? "장미반"
-                          : ""}{" "}
-                        {kidsitem.kidNm}
-                      </p>
-                    </ChildInfo>
-                  </div>
-                ))}
-              </div>
+        {Array.isArray(parentList) &&
+          parentList.map(item => (
+            <UserListItem key={item.iparent}>
+              <UserListBox>
+                <input type="checkbox" name="student" onChange={handleChange} />
+                <UserInfo>
+                  <span>{item.uid}</span>
+                  <p>{item.parentNm}</p>
+                </UserInfo>
+                <div style={{ display: "flex", gap: 10 }}>
+                  {Array.isArray(item.kids) &&
+                    item.kids.map((kidsitem, index) => (
+                      <div key={`${item.iparent}_${index}`}>
+                        <ChildInfo>
+                          <p>
+                            {kidsitem.iclass === 1
+                              ? "무궁화반"
+                              : kidsitem.iclass === 2
+                              ? "해바라기반"
+                              : kidsitem.iclass === 3
+                              ? "장미반"
+                              : ""}{" "}
+                            {kidsitem.kidNm}
+                          </p>
+                        </ChildInfo>
+                      </div>
+                    ))}
+                </div>
 
-              <em>{item.phoneNb}</em>
-              <GrayBtn onClick={handleEditClick}>정보 수정</GrayBtn>
-              {isEditModalOpen && (
-                <ModalTwoBtn
-                  isOpen={isEditModalOpen}
-                  handleOk={handleOk}
-                  handleCancel={onEditCancel}
-                  title="학부모 정보 수정"
-                >
-                  <Form>
-                    <Form.Item>
-                      <Input
-                        value={memberInfo.uid}
-                        onChange={e => handleChange(e)}
-                        readOnly
-                      />
-                    </Form.Item>
-                    <Form.Item>
-                      <Input
-                        value={memberInfo.parentNm}
-                        onChange={e => handleChange(e)}
-                      />
-                    </Form.Item>
-                    <Form.Item>
-                      <Input
-                        value={memberInfo.phoneNb}
-                        onChange={e => handleChange(e)}
-                      />
-                    </Form.Item>
-                    <Form.Item>
-                      <Input
-                        value={memberInfo.prEmail}
-                        onChange={e => handleChange(e)}
-                      />
-                    </Form.Item>
+                <em>{item.phoneNb}</em>
+                <GrayBtn onClick={handleEditClick}>정보 수정</GrayBtn>
+                {isEditModalOpen && (
+                  <ModalTwoBtn
+                    isOpen={isEditModalOpen}
+                    handleOk={handleOk}
+                    handleCancel={onEditCancel}
+                    title="학부모 정보 수정"
+                  >
+                    <Form>
+                      <Form.Item>
+                        <Input
+                          value={memberInfo.uid}
+                          onChange={e => handleChange(e)}
+                          readOnly
+                        />
+                      </Form.Item>
+                      <Form.Item>
+                        <Input
+                          value={memberInfo.parentNm}
+                          onChange={e => handleChange(e)}
+                        />
+                      </Form.Item>
+                      <Form.Item>
+                        <Input
+                          value={memberInfo.phoneNb}
+                          onChange={e => handleChange(e)}
+                        />
+                      </Form.Item>
+                      <Form.Item>
+                        <Input
+                          value={memberInfo.prEmail}
+                          onChange={e => handleChange(e)}
+                        />
+                      </Form.Item>
 
-                    <Form.Item
-                      name="newpassword"
-                      style={{ marginBottom: 20 }}
-                      rules={[
-                        {
-                          required: true,
-                          message: "비밀번호를 입력해주세요.",
-                        },
-                      ]}
-                      hasFeedback
-                    >
-                      <Input.Password placeholder="새로운 비밀번호 입력" />
-                    </Form.Item>
-
-                    <Form.Item
-                      name="newconfirm"
-                      style={{ marginBottom: 20 }}
-                      dependencies={["password"]}
-                      hasFeedback
-                      rules={[
-                        {
-                          required: true,
-                          message: "비밀번호를 한번 더 입력해주세요.",
-                        },
-                        ({ getFieldValue }) => ({
-                          validator(_, value) {
-                            if (!value || getFieldValue("password") === value) {
-                              return Promise.resolve();
-                            }
-                            return Promise.reject(
-                              new Error(
-                                "비밀번호가 일치하지 않습니다. 다시 작성해주세요.",
-                              ),
-                            );
+                      <Form.Item
+                        name="newpassword"
+                        style={{ marginBottom: 20 }}
+                        rules={[
+                          {
+                            required: true,
+                            message: "비밀번호를 입력해주세요.",
                           },
-                        }),
-                      ]}
-                    >
-                      <Input.Password placeholder="새로운 비밀번호 확인" />
-                    </Form.Item>
-                  </Form>
-                </ModalTwoBtn>
-              )}
-            </UserListBox>
-          </UserListItem>
-        ))}
+                        ]}
+                        hasFeedback
+                      >
+                        <Input.Password placeholder="새로운 비밀번호 입력" />
+                      </Form.Item>
+
+                      <Form.Item
+                        name="newconfirm"
+                        style={{ marginBottom: 20 }}
+                        dependencies={["password"]}
+                        hasFeedback
+                        rules={[
+                          {
+                            required: true,
+                            message: "비밀번호를 한번 더 입력해주세요.",
+                          },
+                          ({ getFieldValue }) => ({
+                            validator(_, value) {
+                              if (
+                                !value ||
+                                getFieldValue("password") === value
+                              ) {
+                                return Promise.resolve();
+                              }
+                              return Promise.reject(
+                                new Error(
+                                  "비밀번호가 일치하지 않습니다. 다시 작성해주세요.",
+                                ),
+                              );
+                            },
+                          }),
+                        ]}
+                      >
+                        <Input.Password placeholder="새로운 비밀번호 확인" />
+                      </Form.Item>
+                    </Form>
+                  </ModalTwoBtn>
+                )}
+              </UserListBox>
+            </UserListItem>
+          ))}
       </UserListWrap>
     </UserMain>
   );

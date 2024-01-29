@@ -2,6 +2,7 @@ import axios from "axios";
 import { SERVER_URL } from "../config";
 import jwtAxios from "../../util/jwtUtil";
 const path = `${SERVER_URL}/api/teacher`;
+const host = `${SERVER_URL}/api/kid`;
 
 // 학부모 관리 리스트 GET
 export const getAdminParentList = async ({
@@ -80,10 +81,15 @@ export const editParentInfo = async ({
 };
 
 // 원생 등록 POST
-export const postStudentCreate = async ({ successFn, failFn, errorFn }) => {
+export const postStudentCreate = async ({
+  successFn,
+  failFn,
+  errorFn,
+  student,
+}) => {
   try {
     const header = { headers: { "Content-Type": "multipart/form-data" } };
-    const res = await jwtAxios.post();
+    const res = await jwtAxios.post(`${host}`, student, header);
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
       // 화면처리용

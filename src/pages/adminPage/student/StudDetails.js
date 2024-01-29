@@ -14,16 +14,24 @@ import {
   GrayBtn,
   GreenBtn,
   OrangeBtn,
-  PinkBtn,
+  PurpleBtn,
 } from "../../../styles/ui/buttons";
 import MyProfileComponent from "../../../components/user/mypage/MyProfileComponent";
 import MyAccountComponent from "../../../components/user/mypage/MyAccountComponent";
 import MyPhysicalComponent from "../../../components/user/mypage/MyPhysicalComponent";
 import MyBadge from "../../../components/user/mypage/MyBadge";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const StudDetails = () => {
+  const navigate = useNavigate();
+  const handleClickList = () => {
+    navigate(`/admin/student/list`);
+  };
+  const handleClickCreate = () => {
+    navigate(`/admin/student/Create`);
+  };
   const ilevel = "admin";
+  const [myData, setMyData] = useState("default");
   const [componentSize, setComponentSize] = useState("default");
   const onFormLayoutChange = ({ size }) => {
     setComponentSize(size);
@@ -47,25 +55,18 @@ const StudDetails = () => {
                   <Select.Option value="2019">2019년</Select.Option>
                 </Select>
               </Form.Item>
-              <Form.Item>
-                <Select label="Select" defaultValue="1">
-                  <Select.Option value="1">신짱구</Select.Option>
-                  <Select.Option value="2">신짱아</Select.Option>
-                </Select>
-              </Form.Item>
             </Form>
             <BtnWrap>
-              <GrayBtn>아이추가</GrayBtn>
-              <GrayBtn>알림장</GrayBtn>
-              <GreenBtn>학부모정보수정</GreenBtn>
-              <PinkBtn>회원탈퇴</PinkBtn>
+              <GrayBtn>알림장작성</GrayBtn>
+              <PurpleBtn onClick={handleClickCreate}>원생정보수정</PurpleBtn>
+              <GreenBtn onClick={handleClickList}>목록보기</GreenBtn>
             </BtnWrap>
           </FlexBox>
         </TitleWrap>
         {/* 마이페이지 내용 시작 */}
         <MyContentWrap>
           {/* 프로필 */}
-          <MyProfileComponent ilevel={ilevel} />
+          <MyProfileComponent ilevel={ilevel} myData={myData} />
           {/* 연결계정 */}
           {ilevel === "admin" ? <MyAccountComponent /> : null}
           {/* 상세정보 */}

@@ -21,14 +21,21 @@ const initStudentList = [
   },
 ];
 
-const StudListComponent = () => {
+const StudListComponent = ({ selectedClass }) => {
   const [studentList, setStudentList] = useState(initStudentList);
   const page = 1;
   const kidCheck = 0;
 
   useEffect(() => {
-    getAdminStudentList({ successFn, failFn, errorFn, page, kidCheck });
-  }, []);
+    getAdminStudentList({
+      successFn,
+      failFn,
+      errorFn,
+      page,
+      kidCheck,
+      selectedClass, // 선택된 반 정보를 전달합니다.
+    });
+  }, [selectedClass]);
   const successFn = result => {
     setStudentList(result);
   };
@@ -71,6 +78,10 @@ const StudListComponent = () => {
   const handleClickView = () => {
     navigate(`/admin/student/details`);
   };
+  // 필터
+  const filteredStudentList = selectedClass
+    ? studentList.filter(item => item.iclass.toString() === selectedClass)
+    : studentList;
   return (
     <>
       <StudentMain>
@@ -85,7 +96,7 @@ const StudListComponent = () => {
           <label htmlFor="selectAll">전체 선택</label>
         </div>
         <StudentListWrap>
-          {studentList.map(item => (
+          {filteredStudentList.map(item => (
             <StudentListItem key={item.ikid} onClick={handleClickView}>
               <StudentListBox>
                 <input

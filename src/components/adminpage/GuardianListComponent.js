@@ -145,7 +145,6 @@ const GuardianListComponent = ({ handleOk }) => {
                       </div>
                     ))}
                 </div>
-
                 <em>{item.phoneNb}</em>
                 <GrayBtn onClick={handleEditClick}>정보 수정</GrayBtn>
                 {isEditModalOpen && (

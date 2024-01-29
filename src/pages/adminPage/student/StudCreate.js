@@ -82,24 +82,24 @@ const StudentCreate = () => {
   // 파일 업로드 실행
   const handleClick = () => {
     const files = uploadRef.current.files;
-    if (!files) {
-      // 파일이 선택되지 않은 경우 처리
-      console.error("선택된 파일이 없습니다.");
-      return;
-    }
-    const filesTotal = files.length;
+    // if (!files) {
+    //   // 파일이 선택되지 않은 경우 처리
+    //   console.error("선택된 파일이 없습니다.");
+    //   return;
+    // }
+    // const filesTotal = files.length;
     const formData = new FormData();
-    for (let i = 0; i < filesTotal; i++) {
-      formData.append("files", files[i]);
-    }
-    formData.append("kidNm", student[0].dto.kidNm);
-    formData.append("iclass", student[0].dto.iclass);
-    formData.append("gender", student[0].dto.gender);
-    formData.append("birth", student[0].dto.birth);
-    formData.append("address", student[0].dto.address);
-    formData.append("memo", student[0].dto.memo);
-    formData.append("emerNm", student[0].dto.emerNm);
-    formData.append("emerNb", student[0].dto.emerNb);
+    // for (let i = 0; i < filesTotal; i++) {
+    //   formData.append("files", files[i]);
+    // }
+    // formData.append("kidNm", student[0].dto.kidNm);
+    // formData.append("iclass", student[0].dto.iclass);
+    // formData.append("gender", student[0].dto.gender);
+    // formData.append("birth", student[0].dto.birth);
+    // formData.append("address", student[0].dto.address);
+    // formData.append("memo", student[0].dto.memo);
+    // formData.append("emerNm", student[0].dto.emerNm);
+    // formData.append("emerNb", student[0].dto.emerNb);
     console.log(student);
     // 제품 정보 전송하기
     postStudentCreate({ student: formData, successFn, failFn, errorFn });

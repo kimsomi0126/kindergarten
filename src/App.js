@@ -234,7 +234,7 @@ function App() {
             />
             {/* 활동앨범 상세 */}
             <Route
-              path="details/:id"
+              path="details/:pno"
               element={
                 <Suspense fallback={<Loading />}>
                   <AlbumDetails />
@@ -252,7 +252,7 @@ function App() {
             />
             {/* 활동앨범 수정 */}
             <Route
-              path="modify/:id"
+              path="modify/:pno"
               element={
                 <Suspense fallback={<Loading />}>
                   <AlbumModify />

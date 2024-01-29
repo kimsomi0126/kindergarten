@@ -152,6 +152,10 @@ export const deleteAlbum = async ({ ialbum, successFn, failFn, errorFn }) => {
 // 앨범 댓글 삭제 Delete
 // comment?ialbumComment=0&ialbum=0&iteacher=0&iparent=0
 export const deleteAlbumComment = async ({
+  ialbumComment,
+  ialbum,
+  iteacher,
+  iparent,
   commentInfo,
   successFn,
   failFn,

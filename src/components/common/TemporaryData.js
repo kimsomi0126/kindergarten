@@ -109,42 +109,6 @@ export const AlbumData = [
       albumPic:
         "https://cdn.dongnamns.co.kr/news/photo/202106/4788_5959_3943.jpg",
     },
-    {
-      ialbum: 1,
-      albumTitle: "소풍",
-      albumPic:
-        "https://cdn.dongnamns.co.kr/news/photo/202106/4788_5959_3943.jpg",
-    },
-    {
-      ialbum: 1,
-      albumTitle: "소풍",
-      albumPic:
-        "https://cdn.dongnamns.co.kr/news/photo/202106/4788_5959_3943.jpg",
-    },
-    {
-      ialbum: 1,
-      albumTitle: "소풍",
-      albumPic:
-        "https://cdn.dongnamns.co.kr/news/photo/202106/4788_5959_3943.jpg",
-    },
-    {
-      ialbum: 1,
-      albumTitle: "소풍",
-      albumPic:
-        "https://cdn.dongnamns.co.kr/news/photo/202106/4788_5959_3943.jpg",
-    },
-    {
-      ialbum: 1,
-      albumTitle: "소풍",
-      albumPic:
-        "https://cdn.dongnamns.co.kr/news/photo/202106/4788_5959_3943.jpg",
-    },
-    {
-      ialbum: 1,
-      albumTitle: "소풍",
-      albumPic:
-        "https://cdn.dongnamns.co.kr/news/photo/202106/4788_5959_3943.jpg",
-    },
   ],
   [
     {
@@ -154,64 +118,22 @@ export const AlbumData = [
         "https://cdn.dongnamns.co.kr/news/photo/202106/4788_5959_3943.jpg",
     },
     {
-      ialbum: 1,
+      ialbum: 2,
       albumTitle: "소풍",
       albumPic:
         "https://cdn.dongnamns.co.kr/news/photo/202106/4788_5959_3943.jpg",
     },
     {
-      ialbum: 1,
+      ialbum: 3,
       albumTitle: "소풍",
       albumPic:
         "https://cdn.dongnamns.co.kr/news/photo/202106/4788_5959_3943.jpg",
     },
     {
-      ialbum: 1,
+      ialbum: 4,
       albumTitle: "소풍",
       albumPic:
         "https://cdn.dongnamns.co.kr/news/photo/202106/4788_5959_3943.jpg",
-    },
-    {
-      ialbum: 1,
-      albumTitle: "소풍",
-      albumPic:
-        "https://cdn.dongnamns.co.kr/news/photo/202106/4788_5959_3943.jpg",
-    },
-    {
-      ialbum: 1,
-      albumTitle: "소풍",
-      albumPic:
-        "https://cdn.dongnamns.co.kr/news/photo/202106/4788_5959_3943.jpg",
-    },
-    {
-      ialbum: 1,
-      albumTitle: "소풍",
-      albumPic:
-        "https://cdn.dongnamns.co.kr/news/photo/202106/4788_5959_3943.jpg",
-    },
-    {
-      ialbum: 1,
-      albumTitle: "소풍",
-      albumPic:
-        "https://cdn.dongnamns.co.kr/news/photo/202106/4788_5959_3943.jpg",
-    },
-    {
-      ialbum: 1,
-      albumTitle: "소풍",
-      albumPic:
-        "https://cdn.dongnamns.co.kr/news/photo/202106/4788_5959_3943.jpg",
-    },
-    {
-      ialbum: 1,
-      albumTitle: "소풍",
-      albumPic:
-        "https://cdn.dongnamns.co.kr/news/photo/202106/4788_5959_3943.jpg",
-    },
-    {
-      ialbum: 1,
-      albumTitle: "소풍",
-      albumPic:
-        "https://www.newsuwon.com/news/photo/202006/12439_13233_1937.jpg",
     },
   ],
 ];

@@ -3,9 +3,9 @@ import { UploadOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Form, Input, Upload, Modal } from "antd";
 import { PageTitle } from "../../styles/basic";
 import { GreenBtn, PinkBtn } from "../../styles/ui/buttons";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 
-const initAlubmInfo = [
+const initAlbumInfo = [
   {
     pics: ["string"],
     dto: {
@@ -19,12 +19,13 @@ const initAlubmInfo = [
   },
 ];
 const AlbumModify = () => {
+  let { pno } = useParams();
   const [form] = Form.useForm();
   const [fileList, setFileList] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [setIsDeleteModalOpen] = useState(false);
+  console.log("pno", pno);
   const navigate = useNavigate();
-
   const onChange = e => {
     console.log(`checked = ${e.target.checked}`);
   };

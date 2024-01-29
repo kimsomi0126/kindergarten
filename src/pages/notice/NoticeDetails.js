@@ -8,12 +8,11 @@ import {
   useParams,
   useSearchParams,
 } from "react-router-dom";
-import { getDetail, path } from "../../api/notice/notice_api";
-import { NoticeImageData } from "../../components/common/TemporaryData";
+import { getDetail } from "../../api/notice/notice_api";
 import { PageTitle } from "../../styles/basic";
 import { BlueBtn, GreenBtn, PinkBtn } from "../../styles/ui/buttons";
 
-const obj = {
+export const obj = {
   fullTitle: "",
   fullContents: "",
   writer: "",
@@ -24,6 +23,7 @@ const obj = {
 const NoticeDetails = () => {
   const params = useSearchParams();
 
+  const [postNumber, setPostNumber] = useState(0);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [detailData, setDetailData] = useState(obj);
   const [detailImage, setDetailImage] = useState([]);
@@ -51,21 +51,22 @@ const NoticeDetails = () => {
   const successFn = result => {
     setDetailData(result);
     const pics = result.pics;
-    const newImages = pics.map(pic => ({
+    const newImages = pics.map((pic, index) => ({
       original: `http://192.168.0.144:5224/pic/fullnotice/${tno}/` + pic,
       thumbnail: `http://192.168.0.144:5224/pic/fullnotice/${tno}/` + pic,
     }));
 
     setDetailImage(prevDetailImage => [...prevDetailImage, ...newImages]);
+    setPostNumber(pics.length); // 이미지 번호를 1부터 시작하도록 수정
   };
 
-  console.log("!!!!", detailImage);
+  // console.log("!!!!", detailImage);
   const failFn = result => {};
   const errorFn = result => {};
   useEffect(() => {
     getDetail({ tno, successFn, failFn, errorFn });
   }, [tno]);
-  console.log(detailData);
+  // console.log(detailData);
 
   return (
     <>
@@ -83,6 +84,7 @@ const NoticeDetails = () => {
             borderTop: "1.5px solid #00876D",
             borderBottom: "1.5px solid #00876D",
             width: "100%",
+            background: "white",
             textAlign: "center",
             paddingTop: 20,
             justifyContent: "center",
@@ -132,7 +134,7 @@ const NoticeDetails = () => {
             </Link>
           </div>
           <div style={{ marginRight: 10 }}>
-            <Link to={`/notice/modify/`}>
+            <Link to={`/notice/modify/${tno}`}>
               <BlueBtn>수정</BlueBtn>
             </Link>
           </div>

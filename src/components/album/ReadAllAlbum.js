@@ -2,6 +2,7 @@ import Search from "antd/es/input/Search";
 import React, { useEffect, useRef, useState } from "react";
 import { Navigate, useNavigate } from "react-router";
 import { Link } from "react-router-dom";
+import { getlistAll } from "../../api/album/album_api";
 import { AlbumData } from "../../components/common/TemporaryData";
 import Loading from "../../components/loading/Loading";
 import { UserTopRight } from "../../styles/adminstyle/guardianlist";
@@ -14,33 +15,38 @@ import {
 import { PageTitle } from "../../styles/basic";
 import { GreenBtn } from "../../styles/ui/buttons";
 
-const ReadAllAlbum = ({ id }) => {
-  const [items, setItems] = useState(AlbumData[0]); // 이미지 데이터 상태
+const ReadAllAlbum = ({ pno }) => {
+  const [items, setItems] = useState([]); // 이미지 데이터 상태
   const [loading, setLoading] = useState(false); // 로딩 상태
   const [hasMore, setHasMore] = useState(true); // 더 불러올 데이터가 있는지 여부
-  const navigate = useNavigate(); // 'useNavigate' hook을 사용하여 페이지 이동 처리
+  const [page, setPage] = useState(1); // 'useNavigate' hook을 사용하여 페이지 이동 처리
   const loaderRef = useRef(null);
-
+  const navigate = useNavigate();
   const loadImages = async () => {
     if (loading || !hasMore) return; // 이미 로딩중이거나 더 이상 불러올 데이터가 없으면 실행 중단
 
     setLoading(true); // 로딩 시작
-
-    try {
-      const response = await AlbumData[1]; //fetch(`host/?ialbum=${items.length / pno + 1}`);
-      const data = await AlbumData[0];
-      // 새 이미지 데이터 추가
-      setItems(prevItems => [...prevItems, ...data]);
-
-      if (data.length === 0 || data.length < 10) {
-        // 더 이상 불러올 데이터가 없거나 마지막 페이지일 경우
-        setHasMore(false); // 더 불러올 데이터가 없음으로 설정
-      }
-    } catch (error) {
-      console.error("Error fetching images:", error);
-    } finally {
-      setLoading(false); // 로딩 상태 해제
-    }
+    getlistAll({
+      page: page,
+      successFn: data => {
+        setItems(prevItems => [...prevItems, ...data]); // 기존 아이템에 새 데이터 추가
+        setPage(prevPage => prevPage + 1); // 페이지 번호 증가
+        setLoading(false);
+        if (data.length === 0 || data.length < 10) {
+          setHasMore(false); // 데이터가 없거나 마지막 페이지인 경우
+        }
+      },
+      failFn: message => {
+        console.error(message);
+        setLoading(false);
+        setHasMore(false);
+      },
+      errorFn: data => {
+        console.error(data);
+        setLoading(false);
+        setHasMore(false);
+      },
+    });
   };
 
   // Intersection Observer Callback
@@ -91,10 +97,13 @@ const ReadAllAlbum = ({ id }) => {
       </AlbumTopBar>
       <AlbumList>
         {items.map(item => (
-          <Link key={item.ialbum} to={`details/${item.ialbum}`}>
+          <Link key={item.ialbum} to={`/album/details/${item.ialbum}`}>
             <ul className="image-grid">
               <li className="image-item">
-                <img src={item.albumPic} alt={item.albumTitle} />
+                <img
+                  src={`http://192.168.0.144:5224/pic/album/${item.ialbum}/${item.albumPic}`}
+                  alt={item.albumTitle}
+                />
               </li>
               <p>{item.albumTitle}</p>
             </ul>

@@ -109,12 +109,12 @@ const data = [
   { id: 8, pic: ["https://swiperjs.com/demos/images/nature-8.jpg"] },
 ];
 
-const DetailsAlbum = () => {
+const DetailsAlbum = ({ pno }) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isDeleteSuccessModalOpen, setIsDeleteSuccessModalOpen] =
     useState(false);
   const navigate = useNavigate();
-
+  console.log("pno", pno);
   const showDeleteModal = () => {
     setIsDeleteModalOpen(true);
   };

@@ -4,17 +4,23 @@ import { FormWrap } from "../../../styles/user/login";
 import { GreenBtn } from "../../../styles/ui/buttons";
 import { Link } from "react-router-dom";
 import { LogoWrap } from "../../../styles/basic";
-import { postParentLogin, postTeacherLogin } from "../../../api/user/userApi";
 import useCustomLogin from "../../../hooks/useCustomLogin";
+import ModalOneBtn from "../../ui/ModalOneBtn";
 
 const LoginComponent = () => {
   const [loginParam, setLoginParam] = useState("");
   const [userState, setUserState] = useState("");
   const { doLogin, doParentLogin, moveToPath } = useCustomLogin();
+  const [title, setTitle] = useState("");
+  const [subTitle, setSubTitle] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+
+  // 모달창 확인버튼
+  const handleOk = () => {
+    setIsOpen(false);
+  };
 
   const onFinish = values => {
-    console.log("Success:", loginParam);
-
     if (userState === "2") {
       console.log(userState, "선생님로그인");
       doLogin({ loginParam, successFn, failFn, errorFn });
@@ -33,18 +39,28 @@ const LoginComponent = () => {
     setUserState(e.target.value);
   };
   // 로그인 결과
-  const successFn = () => {
+  const successFn = result => {
     moveToPath("/");
   };
-  const failFn = () => {
-    alert("로그인 실패");
+  const failFn = result => {
+    setIsOpen(true);
+    setTitle("로그인 실패");
+    setSubTitle(result);
   };
-  const errorFn = () => {
-    alert("에러");
+  const errorFn = result => {
+    setIsOpen(true);
+    setTitle("로그인 실패");
+    setSubTitle(result);
   };
-  console.log("기본상태", userState);
+
   return (
     <>
+      <ModalOneBtn
+        isOpen={isOpen}
+        handleOk={handleOk}
+        title={title}
+        subTitle={subTitle}
+      />
       <FormWrap>
         <LogoWrap>
           <img

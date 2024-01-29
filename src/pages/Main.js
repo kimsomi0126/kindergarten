@@ -1,18 +1,9 @@
-import React, { useEffect } from "react";
-import MainLayout from "../layouts/MainLayout";
+import React, { useEffect, useState } from "react";
 import {
-  ImgBox,
-  MainBannerWrap,
   MainContainer,
   MainFlexWrap,
   MainInner,
   MainLocation,
-  MainNoticeList,
-  MainNoticeTitle,
-  MainNoticeWrap,
-  MainPopSlide,
-  MainVisual,
-  SlideBtn,
 } from "../styles/main";
 import MainAlbumComponent from "../components/main/MainAlbumComponent";
 import { MainVisualComponent } from "../components/main/MainVisualComponent";
@@ -20,24 +11,52 @@ import { MainNoticeComponent } from "../components/main/MainNoticeComponent";
 import MainBannerComponent from "../components/main/MainBannerComponent";
 import MainPopComponent from "../components/main/MainPopComponent";
 import { Outlet } from "react-router";
-import { getMainNotice } from "../api/mainApi";
+import { getMain } from "../api/mainApi";
+
+const initdata = {
+  albumMainVoList: [
+    {
+      ialbum: 0,
+      albumTitle: "",
+      albumContents: "",
+      createdAt: "",
+      albumPic: "",
+    },
+  ],
+  fullNoticeVoList: [
+    {
+      fullTitle: "",
+      writer: "",
+      fullNoticeFix: 0,
+      createdAt: "",
+    },
+  ],
+};
 
 const Main = () => {
-  const successFn = () => {};
-  const failFn = () => {};
-  const errorFn = () => {};
+  const [mainData, setMainData] = useState(initdata);
   useEffect(() => {
-    getMainNotice({ successFn, failFn, errorFn });
-  }, []);
+    getMain({ successFn, failFn, errorFn });
+  }, [initdata]);
+
+  const successFn = result => {
+    setMainData(result);
+  };
+  const failFn = result => {
+    console.log(result);
+  };
+  const errorFn = result => {
+    console.log(result);
+  };
   return (
     <MainInner>
       <MainContainer>
         {/* 비주얼 */}
         <MainVisualComponent />
         {/* 유치원소식 */}
-        <MainNoticeComponent />
+        <MainNoticeComponent noticeDate={mainData.fullNoticeVoList} />
         {/* 배너 */}
-        <MainBannerComponent />
+        <MainBannerComponent albumDate={mainData.albumMainVoList} />
         <MainFlexWrap>
           {/* 팝업존 */}
           <MainPopComponent />

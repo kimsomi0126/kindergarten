@@ -91,6 +91,7 @@ const MyPage = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [codeOpen, setCodeOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
+  const [editKey, setEditKey] = useState(0);
 
   // 마이페이지 데이터 가져오기
   useEffect(() => {
@@ -136,15 +137,15 @@ const MyPage = () => {
     // 메인으로 이동
     navigate("/");
   };
-  const handleSubmit = () => {
-    setIsOpen(false);
-    window.location.reload();
+
+  const handleCancel = () => {
+    setIsEditOpen(false);
   };
-  const handleCancel = e => {};
 
   // 학부모수정버튼 클릭
   const onParentEditClick = () => {
     setIsEditOpen(true);
+    setEditKey(prevKey => prevKey + 1);
   };
   const formRef = useRef();
   // 아이추가 클릭
@@ -161,18 +162,17 @@ const MyPage = () => {
   };
   // console.log("로그인정보", loginState);
   // console.log("아이데이터", myData);
-  console.log(isEditOpen);
 
-  //학부모수정 데이터
-  const [parentData, setParentData] = useState(initState);
   return (
     <ContentInner>
+      {/* 안내창 */}
       <ModalOneBtn
         isOpen={isOpen}
         handleOk={handleOk}
         title={title}
         subTitle={subTitle}
       />
+      {/* 식별코드 입력창 */}
       <ModalTwoBtn
         isOpen={codeOpen}
         handleOk={handleExternalSubmit}
@@ -206,14 +206,14 @@ const MyPage = () => {
           </Form.Item>
         </Form>
       </ModalTwoBtn>
-      {isEditOpen ? (
+      {/* 학부모정보 수정창 */}
+      {isEditOpen && (
         <ParentEdit
-          isEditOpen={isEditOpen}
-          handleCancel={() => {
-            setIsEditOpen(false);
-          }}
+          open={isEditOpen}
+          handleCancel={handleCancel}
+          key={editKey}
         />
-      ) : null}
+      )}
 
       <MypageWrap>
         {/* 마이페이지 상단 버튼 */}

@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import React, { useEffect } from "react";
 import {
   LocationWrap,
@@ -6,7 +5,7 @@ import {
   MapWrap,
 } from "../../styles/information/info";
 import { PageTitle } from "../../styles/basic";
-
+const { kakao } = window;
 const Location = () => {
   useEffect(() => {
     var mapContainer = document.getElementById("map"), // 지도 표시 div

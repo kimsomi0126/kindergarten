@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   MainNoticeItem,
   MainNoticeList,
@@ -9,9 +9,8 @@ import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import "swiper/css";
-import { NoticeDate } from "../common/TemporaryData";
 
-export const MainNoticeComponent = () => {
+export const MainNoticeComponent = ({ noticeDate }) => {
   return (
     <MainNoticeWrap>
       <MainNoticeTitle>유치원소식</MainNoticeTitle>
@@ -27,14 +26,14 @@ export const MainNoticeComponent = () => {
           loop={true}
           modules={[Autoplay]}
         >
-          {Array.isArray(NoticeDate) &&
-            NoticeDate.map(item => {
+          {Array.isArray(noticeDate) &&
+            noticeDate.map((item, index) => {
               return (
-                <SwiperSlide key={item.ifull_notice}>
+                <SwiperSlide key={index}>
                   <MainNoticeItem>
-                    <Link to={`/notice/details/${item.ifull_notice}`}>
-                      <p>{item.full_title}</p>
-                      <span>{item.created_at}</span>
+                    <Link to={`/notice/details/${index}`}>
+                      <p>{item.fullTitle}</p>
+                      <span>{item.createdAt}</span>
                     </Link>
                   </MainNoticeItem>
                 </SwiperSlide>

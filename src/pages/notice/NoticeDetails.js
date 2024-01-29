@@ -113,7 +113,10 @@ const NoticeDetails = () => {
               marginTop: 20,
             }}
           >
-            <div style={{ margin: 40, maxWidth: 500, display: "inline-block" }}>
+            <div
+              key={postNumber}
+              style={{ margin: 40, maxWidth: 500, display: "inline-block" }}
+            >
               <ImageGallery items={detailImage} thumbnailPosition="left" />
             </div>
           </div>

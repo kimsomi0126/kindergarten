@@ -1,11 +1,9 @@
-import { Avatar, Button, Flex, Input, List, Pagination } from "antd";
+import { Flex, Input, List, Pagination } from "antd";
 import React, { useEffect, useState } from "react";
-import { Link, Route, Routes, useNavigate } from "react-router-dom"; // useNavigate 추가
-import { PageTitle } from "../../styles/basic";
-import NoticeDetails from "./NoticeDetails";
-import NoticeModify from "./NoticeModify"; // NoticeModify 컴포넌트 import
-import { GreenBtn } from "../../styles/ui/buttons";
+import { Link } from "react-router-dom"; // useNavigate 추가
 import { getList } from "../../api/notice/notice_api";
+import { PageTitle } from "../../styles/basic";
+import { GreenBtn } from "../../styles/ui/buttons";
 
 const { Search } = Input;
 
@@ -25,7 +23,6 @@ const pageSize = 10;
 
 const NoticeList = () => {
   const [current, setCurrent] = useState(1);
-  const [currentPageData, setCurrentPageData] = useState([]);
   const [listData, setListData] = useState(initData);
 
   const onChange = page => {
@@ -42,7 +39,7 @@ const NoticeList = () => {
   };
 
   useEffect(() => {
-    // updateCurrentPageData(current);
+    updateCurrentPageData(current);
     const page = 1;
     getList({ page, successFn, failFn, errorFn });
   }, [current]);

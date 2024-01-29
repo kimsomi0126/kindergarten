@@ -294,7 +294,7 @@ function App() {
               }
             />
             <Route
-              path="modify"
+              path="/notice/modify/:tno"
               element={
                 <Suspense fallback={<Loading />}>
                   <NoticeModify />

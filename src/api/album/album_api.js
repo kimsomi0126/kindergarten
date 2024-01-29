@@ -8,13 +8,14 @@ const path = `${SERVER_URL}/api/album`;
 // ialbumComment = 세부 댓글 넘버
 
 // 활동앨범 상세조회 get
-export const getAlbum = async ({ ialbum, successFn, failFn, errorFn }) => {
+export const getAlbum = async ({ pno, successFn, failFn, errorFn }) => {
   try {
-    const res = await jwtAxios.get(`${path}/?ialbum=${ialbum}`);
+    const res = await jwtAxios.get(`${path}?ialbum=${pno}`);
+    console.log("res", res);
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
       console.log("res.data임 : ", res.data);
-      successFn(res.data);
+      successFn(...res.data);
     } else {
       failFn("자료 호출 에러입니다.");
     }

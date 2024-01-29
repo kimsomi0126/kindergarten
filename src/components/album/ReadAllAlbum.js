@@ -101,6 +101,7 @@ const ReadAllAlbum = ({ pno }) => {
             <ul className="image-grid">
               <li className="image-item">
                 <img
+                  height={400}
                   src={`http://192.168.0.144:5224/pic/album/${item.ialbum}/${item.albumPic}`}
                   alt={item.albumTitle}
                 />

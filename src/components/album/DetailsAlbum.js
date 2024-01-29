@@ -24,97 +24,121 @@ import {
 } from "../../styles/album/album";
 import { BlueBtn, GreenBtn, PinkBtn } from "../../styles/ui/buttons";
 import Comment from "../common/Comment";
+import { getAlbum } from "../../api/album/album_api";
+import Loading from "../loading/Loading";
 
 // import required modules
 const initAlbumCommnet = [
   {
-    ialbum: 0,
-    albumComment: "string",
-    iteacher: 0,
-    iparent: 0,
+    albumTitle: "",
+    albumContents: "",
+    albumPic: [],
+    albumComments: [],
+    createdAt: "",
   },
 ];
-const data = [
-  { id: 1, pic: ["https://swiperjs.com/demos/images/nature-1.jpg"] },
-  { id: 2, pic: ["https://swiperjs.com/demos/images/nature-2.jpg"] },
-  { id: 3, pic: ["https://swiperjs.com/demos/images/nature-3.jpg"] },
-  { id: 4, pic: ["https://swiperjs.com/demos/images/nature-4.jpg"] },
-  { id: 5, pic: ["https://swiperjs.com/demos/images/nature-5.jpg"] },
-  { id: 6, pic: ["https://swiperjs.com/demos/images/nature-6.jpg"] },
-  { id: 7, pic: ["https://swiperjs.com/demos/images/nature-7.jpg"] },
-  { id: 8, pic: ["https://swiperjs.com/demos/images/nature-8.jpg"] },
-  { id: 1, pic: ["https://swiperjs.com/demos/images/nature-1.jpg"] },
-  { id: 2, pic: ["https://swiperjs.com/demos/images/nature-2.jpg"] },
-  { id: 3, pic: ["https://swiperjs.com/demos/images/nature-3.jpg"] },
-  { id: 4, pic: ["https://swiperjs.com/demos/images/nature-4.jpg"] },
-  { id: 5, pic: ["https://swiperjs.com/demos/images/nature-5.jpg"] },
-  { id: 6, pic: ["https://swiperjs.com/demos/images/nature-6.jpg"] },
-  { id: 7, pic: ["https://swiperjs.com/demos/images/nature-7.jpg"] },
-  { id: 8, pic: ["https://swiperjs.com/demos/images/nature-8.jpg"] },
-  { id: 1, pic: ["https://swiperjs.com/demos/images/nature-1.jpg"] },
-  { id: 2, pic: ["https://swiperjs.com/demos/images/nature-2.jpg"] },
-  { id: 3, pic: ["https://swiperjs.com/demos/images/nature-3.jpg"] },
-  { id: 4, pic: ["https://swiperjs.com/demos/images/nature-4.jpg"] },
-  { id: 5, pic: ["https://swiperjs.com/demos/images/nature-5.jpg"] },
-  { id: 6, pic: ["https://swiperjs.com/demos/images/nature-6.jpg"] },
-  { id: 7, pic: ["https://swiperjs.com/demos/images/nature-7.jpg"] },
-  { id: 8, pic: ["https://swiperjs.com/demos/images/nature-8.jpg"] },
-  { id: 1, pic: ["https://swiperjs.com/demos/images/nature-1.jpg"] },
-  { id: 2, pic: ["https://swiperjs.com/demos/images/nature-2.jpg"] },
-  { id: 3, pic: ["https://swiperjs.com/demos/images/nature-3.jpg"] },
-  { id: 4, pic: ["https://swiperjs.com/demos/images/nature-4.jpg"] },
-  { id: 5, pic: ["https://swiperjs.com/demos/images/nature-5.jpg"] },
-  { id: 6, pic: ["https://swiperjs.com/demos/images/nature-6.jpg"] },
-  { id: 7, pic: ["https://swiperjs.com/demos/images/nature-7.jpg"] },
-  { id: 8, pic: ["https://swiperjs.com/demos/images/nature-8.jpg"] },
-  { id: 1, pic: ["https://swiperjs.com/demos/images/nature-1.jpg"] },
-  { id: 2, pic: ["https://swiperjs.com/demos/images/nature-2.jpg"] },
-  { id: 3, pic: ["https://swiperjs.com/demos/images/nature-3.jpg"] },
-  { id: 4, pic: ["https://swiperjs.com/demos/images/nature-4.jpg"] },
-  { id: 5, pic: ["https://swiperjs.com/demos/images/nature-5.jpg"] },
-  { id: 6, pic: ["https://swiperjs.com/demos/images/nature-6.jpg"] },
-  { id: 7, pic: ["https://swiperjs.com/demos/images/nature-7.jpg"] },
-  { id: 8, pic: ["https://swiperjs.com/demos/images/nature-8.jpg"] },
-  { id: 1, pic: ["https://swiperjs.com/demos/images/nature-1.jpg"] },
-  { id: 2, pic: ["https://swiperjs.com/demos/images/nature-2.jpg"] },
-  { id: 3, pic: ["https://swiperjs.com/demos/images/nature-3.jpg"] },
-  { id: 4, pic: ["https://swiperjs.com/demos/images/nature-4.jpg"] },
-  { id: 5, pic: ["https://swiperjs.com/demos/images/nature-5.jpg"] },
-  { id: 6, pic: ["https://swiperjs.com/demos/images/nature-6.jpg"] },
-  { id: 7, pic: ["https://swiperjs.com/demos/images/nature-7.jpg"] },
-  { id: 8, pic: ["https://swiperjs.com/demos/images/nature-8.jpg"] },
-  { id: 1, pic: ["https://swiperjs.com/demos/images/nature-1.jpg"] },
-  { id: 2, pic: ["https://swiperjs.com/demos/images/nature-2.jpg"] },
-  { id: 3, pic: ["https://swiperjs.com/demos/images/nature-3.jpg"] },
-  { id: 4, pic: ["https://swiperjs.com/demos/images/nature-4.jpg"] },
-  { id: 5, pic: ["https://swiperjs.com/demos/images/nature-5.jpg"] },
-  { id: 6, pic: ["https://swiperjs.com/demos/images/nature-6.jpg"] },
-  { id: 7, pic: ["https://swiperjs.com/demos/images/nature-7.jpg"] },
-  { id: 8, pic: ["https://swiperjs.com/demos/images/nature-8.jpg"] },
-  { id: 1, pic: ["https://swiperjs.com/demos/images/nature-1.jpg"] },
-  { id: 2, pic: ["https://swiperjs.com/demos/images/nature-2.jpg"] },
-  { id: 3, pic: ["https://swiperjs.com/demos/images/nature-3.jpg"] },
-  { id: 4, pic: ["https://swiperjs.com/demos/images/nature-4.jpg"] },
-  { id: 5, pic: ["https://swiperjs.com/demos/images/nature-5.jpg"] },
-  { id: 6, pic: ["https://swiperjs.com/demos/images/nature-6.jpg"] },
-  { id: 7, pic: ["https://swiperjs.com/demos/images/nature-7.jpg"] },
-  { id: 8, pic: ["https://swiperjs.com/demos/images/nature-8.jpg"] },
-  { id: 1, pic: ["https://swiperjs.com/demos/images/nature-1.jpg"] },
-  { id: 2, pic: ["https://swiperjs.com/demos/images/nature-2.jpg"] },
-  { id: 3, pic: ["https://swiperjs.com/demos/images/nature-3.jpg"] },
-  { id: 4, pic: ["https://swiperjs.com/demos/images/nature-4.jpg"] },
-  { id: 5, pic: ["https://swiperjs.com/demos/images/nature-5.jpg"] },
-  { id: 6, pic: ["https://swiperjs.com/demos/images/nature-6.jpg"] },
-  { id: 7, pic: ["https://swiperjs.com/demos/images/nature-7.jpg"] },
-  { id: 8, pic: ["https://swiperjs.com/demos/images/nature-8.jpg"] },
-];
+// const data = [
+//   { id: 1, pic: ["https://swiperjs.com/demos/images/nature-1.jpg"] },
+//   { id: 2, pic: ["https://swiperjs.com/demos/images/nature-2.jpg"] },
+//   { id: 3, pic: ["https://swiperjs.com/demos/images/nature-3.jpg"] },
+//   { id: 4, pic: ["https://swiperjs.com/demos/images/nature-4.jpg"] },
+//   { id: 5, pic: ["https://swiperjs.com/demos/images/nature-5.jpg"] },
+//   { id: 6, pic: ["https://swiperjs.com/demos/images/nature-6.jpg"] },
+//   { id: 7, pic: ["https://swiperjs.com/demos/images/nature-7.jpg"] },
+//   { id: 8, pic: ["https://swiperjs.com/demos/images/nature-8.jpg"] },
+//   { id: 1, pic: ["https://swiperjs.com/demos/images/nature-1.jpg"] },
+//   { id: 2, pic: ["https://swiperjs.com/demos/images/nature-2.jpg"] },
+//   { id: 3, pic: ["https://swiperjs.com/demos/images/nature-3.jpg"] },
+//   { id: 4, pic: ["https://swiperjs.com/demos/images/nature-4.jpg"] },
+//   { id: 5, pic: ["https://swiperjs.com/demos/images/nature-5.jpg"] },
+//   { id: 6, pic: ["https://swiperjs.com/demos/images/nature-6.jpg"] },
+//   { id: 7, pic: ["https://swiperjs.com/demos/images/nature-7.jpg"] },
+//   { id: 8, pic: ["https://swiperjs.com/demos/images/nature-8.jpg"] },
+//   { id: 1, pic: ["https://swiperjs.com/demos/images/nature-1.jpg"] },
+//   { id: 2, pic: ["https://swiperjs.com/demos/images/nature-2.jpg"] },
+//   { id: 3, pic: ["https://swiperjs.com/demos/images/nature-3.jpg"] },
+//   { id: 4, pic: ["https://swiperjs.com/demos/images/nature-4.jpg"] },
+//   { id: 5, pic: ["https://swiperjs.com/demos/images/nature-5.jpg"] },
+//   { id: 6, pic: ["https://swiperjs.com/demos/images/nature-6.jpg"] },
+//   { id: 7, pic: ["https://swiperjs.com/demos/images/nature-7.jpg"] },
+//   { id: 8, pic: ["https://swiperjs.com/demos/images/nature-8.jpg"] },
+//   { id: 1, pic: ["https://swiperjs.com/demos/images/nature-1.jpg"] },
+//   { id: 2, pic: ["https://swiperjs.com/demos/images/nature-2.jpg"] },
+//   { id: 3, pic: ["https://swiperjs.com/demos/images/nature-3.jpg"] },
+//   { id: 4, pic: ["https://swiperjs.com/demos/images/nature-4.jpg"] },
+//   { id: 5, pic: ["https://swiperjs.com/demos/images/nature-5.jpg"] },
+//   { id: 6, pic: ["https://swiperjs.com/demos/images/nature-6.jpg"] },
+//   { id: 7, pic: ["https://swiperjs.com/demos/images/nature-7.jpg"] },
+//   { id: 8, pic: ["https://swiperjs.com/demos/images/nature-8.jpg"] },
+//   { id: 1, pic: ["https://swiperjs.com/demos/images/nature-1.jpg"] },
+//   { id: 2, pic: ["https://swiperjs.com/demos/images/nature-2.jpg"] },
+//   { id: 3, pic: ["https://swiperjs.com/demos/images/nature-3.jpg"] },
+//   { id: 4, pic: ["https://swiperjs.com/demos/images/nature-4.jpg"] },
+//   { id: 5, pic: ["https://swiperjs.com/demos/images/nature-5.jpg"] },
+//   { id: 6, pic: ["https://swiperjs.com/demos/images/nature-6.jpg"] },
+//   { id: 7, pic: ["https://swiperjs.com/demos/images/nature-7.jpg"] },
+//   { id: 8, pic: ["https://swiperjs.com/demos/images/nature-8.jpg"] },
+//   { id: 1, pic: ["https://swiperjs.com/demos/images/nature-1.jpg"] },
+//   { id: 2, pic: ["https://swiperjs.com/demos/images/nature-2.jpg"] },
+//   { id: 3, pic: ["https://swiperjs.com/demos/images/nature-3.jpg"] },
+//   { id: 4, pic: ["https://swiperjs.com/demos/images/nature-4.jpg"] },
+//   { id: 5, pic: ["https://swiperjs.com/demos/images/nature-5.jpg"] },
+//   { id: 6, pic: ["https://swiperjs.com/demos/images/nature-6.jpg"] },
+//   { id: 7, pic: ["https://swiperjs.com/demos/images/nature-7.jpg"] },
+//   { id: 8, pic: ["https://swiperjs.com/demos/images/nature-8.jpg"] },
+//   { id: 1, pic: ["https://swiperjs.com/demos/images/nature-1.jpg"] },
+//   { id: 2, pic: ["https://swiperjs.com/demos/images/nature-2.jpg"] },
+//   { id: 3, pic: ["https://swiperjs.com/demos/images/nature-3.jpg"] },
+//   { id: 4, pic: ["https://swiperjs.com/demos/images/nature-4.jpg"] },
+//   { id: 5, pic: ["https://swiperjs.com/demos/images/nature-5.jpg"] },
+//   { id: 6, pic: ["https://swiperjs.com/demos/images/nature-6.jpg"] },
+//   { id: 7, pic: ["https://swiperjs.com/demos/images/nature-7.jpg"] },
+//   { id: 8, pic: ["https://swiperjs.com/demos/images/nature-8.jpg"] },
+//   { id: 1, pic: ["https://swiperjs.com/demos/images/nature-1.jpg"] },
+//   { id: 2, pic: ["https://swiperjs.com/demos/images/nature-2.jpg"] },
+//   { id: 3, pic: ["https://swiperjs.com/demos/images/nature-3.jpg"] },
+//   { id: 4, pic: ["https://swiperjs.com/demos/images/nature-4.jpg"] },
+//   { id: 5, pic: ["https://swiperjs.com/demos/images/nature-5.jpg"] },
+//   { id: 6, pic: ["https://swiperjs.com/demos/images/nature-6.jpg"] },
+//   { id: 7, pic: ["https://swiperjs.com/demos/images/nature-7.jpg"] },
+//   { id: 8, pic: ["https://swiperjs.com/demos/images/nature-8.jpg"] },
+//   { id: 1, pic: ["https://swiperjs.com/demos/images/nature-1.jpg"] },
+//   { id: 2, pic: ["https://swiperjs.com/demos/images/nature-2.jpg"] },
+//   { id: 3, pic: ["https://swiperjs.com/demos/images/nature-3.jpg"] },
+//   { id: 4, pic: ["https://swiperjs.com/demos/images/nature-4.jpg"] },
+//   { id: 5, pic: ["https://swiperjs.com/demos/images/nature-5.jpg"] },
+//   { id: 6, pic: ["https://swiperjs.com/demos/images/nature-6.jpg"] },
+//   { id: 7, pic: ["https://swiperjs.com/demos/images/nature-7.jpg"] },
+//   { id: 8, pic: ["https://swiperjs.com/demos/images/nature-8.jpg"] },
+// ];
 
 const DetailsAlbum = ({ pno }) => {
+  const [albumData, setAlbumData] = useState(initAlbumCommnet); // 앨범 데이터 상태
+  const [isLoading, setIsLoading] = useState(true); // 로딩 상태
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isDeleteSuccessModalOpen, setIsDeleteSuccessModalOpen] =
     useState(false);
   const navigate = useNavigate();
+  // 컴포넌트 마운트 시 데이터 불러오기
   console.log("pno", pno);
+  useEffect(() => {
+    getAlbum({
+      pno: pno,
+      successFn: data => {
+        setAlbumData(data); // 앨범 데이터 상태 업데이트
+        setIsLoading(false); // 로딩 상태 업데이트
+      },
+      failFn: message => {
+        console.error(message);
+        setIsLoading(false);
+      },
+      errorFn: data => {
+        console.error(data);
+        setIsLoading(false);
+      },
+    });
+  }, [pno]); // pno 값이 변경될 때마다 getAlbum 함수를 호출
+
   const showDeleteModal = () => {
     setIsDeleteModalOpen(true);
   };
@@ -143,6 +167,7 @@ const DetailsAlbum = ({ pno }) => {
   const [lightbox, setLightbox] = useState({ open: false, imgSrc: "" });
   const openLightbox = imgSrc => setLightbox({ open: true, imgSrc: imgSrc[0] });
   const closeLightbox = () => setLightbox({ open: false, imgSrc: "" });
+
   // Lightbox 상태에 따라 Swiper 높이 조절
   useEffect(() => {
     const swiperElement = document.querySelector(".swiper");
@@ -152,6 +177,8 @@ const DetailsAlbum = ({ pno }) => {
       swiperElement.style.height = "100%";
     }
   }, [lightbox.open]);
+
+  console.log("albumData", albumData);
   return (
     <AlbumWrap paddingTop={40}>
       <AlbumTopBar padding={1}>
@@ -159,8 +186,8 @@ const DetailsAlbum = ({ pno }) => {
       </AlbumTopBar>
       <ContentWrap>
         <TitleWrap>
-          <h3>제목입니다.</h3>
-          <p>2024-01-17</p>
+          <h3>{albumData.albumTitle}</h3>
+          <p>{albumData.createdAt}</p>
         </TitleWrap>
         <MainContent>
           <SwiperWrap>
@@ -184,11 +211,20 @@ const DetailsAlbum = ({ pno }) => {
               className="mySwiper"
               // style={{ transform: `translate3d(0px, 0px, 0px)` }} //
             >
-              {data.map(item => (
-                <SwiperSlide key={item.id}>
-                  <img src={item.pic} onClick={() => openLightbox(item.pic)} />
-                </SwiperSlide>
-              ))}
+              {albumData &&
+                albumData.albumPic &&
+                albumData.albumPic.map((item, index) => (
+                  <SwiperSlide key={index}>
+                    <img
+                      src={`http://192.168.0.144:5224/pic/album/${pno}/${item}`}
+                      onClick={() =>
+                        openLightbox(
+                          `http://192.168.0.144:5224/pic/album/${pno}/${item}`,
+                        )
+                      }
+                    />
+                  </SwiperSlide>
+                ))}
               <LightBox
                 imgSrc={lightbox.imgSrc}
                 open={lightbox.open}
@@ -198,10 +234,7 @@ const DetailsAlbum = ({ pno }) => {
           </SwiperWrap>
 
           <DetailsText>
-            <p>
-              애국가(愛國歌)는 ‘나라를 사랑하는 노래’라는 뜻이에요. 우리나라는
-              애국가에 특별한 이름을 붙이지 않고 국가(國歌)로 사용하고 있어요.
-            </p>
+            <p>{albumData.albumContents}</p>
           </DetailsText>
           <Comment />
         </MainContent>

@@ -72,6 +72,7 @@ export const AlbumList = styled.div`
   gap: 0.4rem;
   margin: 0px auto;
   position: relative;
+  z-index: 2;
 
   .image-grid {
     gap: 1.6rem;
@@ -93,7 +94,6 @@ export const AlbumList = styled.div`
     border-radius: 5%;
     width: 100%;
     text-align: center;
-    height: auto;
   }
 
   .loading {
@@ -134,6 +134,7 @@ export const SwiperWrap = styled.div`
 
   .swiper-slide img {
     width: 100%;
+    height: 100%;
   }
 `;
 
@@ -162,6 +163,7 @@ export const TitleWrap = styled.div`
   align-items: center;
   border-bottom: 1px solid ${colors.grayBar};
   padding: 3.5rem;
+  position: relative;
   h3 {
     display: inline-block;
     font-size: 2.7rem;
@@ -170,6 +172,8 @@ export const TitleWrap = styled.div`
     text-align: center;
   }
   p {
+    position: absolute;
+    right: 2rem;
     font-family: Pretendard;
     font-size: 1.5rem;
     text-align: right;
@@ -188,7 +192,8 @@ export const DetailsText = styled.div`
   overflow: auto;
   width: 100%;
   height: 100%;
-  font-size: 1.6rem;
+  font-family: Pretendard;
+  font-size: 2rem;
 
   p {
     line-height: 1.8;

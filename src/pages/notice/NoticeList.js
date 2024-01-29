@@ -1,56 +1,24 @@
-import { Button, Flex, Input, List, Pagination } from "antd";
+import { Avatar, Button, Flex, Input, List, Pagination } from "antd";
 import React, { useEffect, useState } from "react";
 import { Link, Route, Routes, useNavigate } from "react-router-dom"; // useNavigate 추가
 import { PageTitle } from "../../styles/basic";
 import NoticeDetails from "./NoticeDetails";
 import NoticeModify from "./NoticeModify"; // NoticeModify 컴포넌트 import
 import { GreenBtn } from "../../styles/ui/buttons";
+import { getList } from "../../api/notice/notice_api";
 
 const { Search } = Input;
 
 const onSearch = (value, _e, info) => console.log(info?.source, value);
 
-const data = [
-  "상단 공지 제목",
-  "상단 공지 제목",
-  "상단 공지 제목",
-  "하이",
-  "제목입니다.",
-  "제목입니다.",
-  "제목입니다.",
-  "제목입니다.",
-  "제목입니다.",
-  "제목입니다.",
-  "상단 공지 제목",
-  "상단 공지 제목",
-  "상단 공지 제목",
-  "제목입니다.",
-  "제목입니다.",
-  "제목입니다.",
-  "헬로.",
-  "제목입니다.",
-  "제목입니다.",
-  "제목입니다.",
-  "상단 공지 제목",
-  "상단 공지 제목",
-  "상단 공지 제목",
-  "제목입니다.",
-  "제목입니다.",
-  "제목입니다.",
-  "안녕",
-  "제목입니다.",
-  "제목입니다.",
-  "제목입니다.",
-  "상단 공지 제목",
-  "상단 공지 제목",
-  "상단 공지 제목",
-  "제목입니다.",
-  "제목입니다.",
-  "반갑습니다",
-  "제목입니다.",
-  "제목입니다.",
-  "제목입니다.",
-  "제목입니다.",
+const initData = [
+  {
+    fullTitle: "",
+    writer: "",
+    fullNoticeFix: 0,
+    createdAt: "",
+    ifullNotice: 0,
+  },
 ];
 
 const pageSize = 10;
@@ -58,6 +26,7 @@ const pageSize = 10;
 const NoticeList = () => {
   const [current, setCurrent] = useState(1);
   const [currentPageData, setCurrentPageData] = useState([]);
+  const [listData, setListData] = useState(initData);
 
   const onChange = page => {
     setCurrent(page);
@@ -69,12 +38,27 @@ const NoticeList = () => {
   const updateCurrentPageData = page => {
     const startIndex = (page - 1) * pageSize;
     const endIndex = startIndex + pageSize;
-    setCurrentPageData(data.slice(startIndex, endIndex));
+    // setCurrentPageData(data.slice(startIndex, endIndex));
   };
 
   useEffect(() => {
-    updateCurrentPageData(current);
+    // updateCurrentPageData(current);
+    const page = 1;
+    getList({ page, successFn, failFn, errorFn });
   }, [current]);
+
+  const successFn = result => {
+    console.log(result);
+    setListData([...result]);
+  };
+  const failFn = result => {
+    console.log(result);
+  };
+  const errorFn = result => {
+    console.log(result);
+  };
+
+  console.log(listData);
 
   return (
     <div style={{ marginTop: 60 }}>
@@ -88,7 +72,7 @@ const NoticeList = () => {
         }}
       >
         <PageTitle>유치원소식</PageTitle>
-        <Flex gap="small" alignItems="center">
+        <Flex gap="small" alignitems="center">
           <Search
             placeholder="제목을 입력하세요."
             allowClear
@@ -122,31 +106,41 @@ const NoticeList = () => {
       <List
         size="large"
         itemLayout="vertical"
-        dataSource={currentPageData}
+        style={{
+          width: "100%",
+          margin: "0 auto",
+          background: "white",
+          borderTop: "1px solid #00876D",
+          borderBottom: "1px solid #00876D",
+        }}
+        dataSource={listData}
         renderItem={(item, index) => (
-          <Link to={`/notice/details/${index}`}>
+          <Link
+            to={`/notice/details/${item.ifullNotice}`}
+            key={item.ifullNotice}
+          >
             <List.Item
               style={{
                 borderLeft: "none",
                 borderRight: "none",
                 borderBottom: "1px solid #e8e8e8",
                 padding: "12px 0",
-                background: index < 3 ? "#E7F6ED" : "white",
+                background: item.fullNoticeFix === 1 ? "#E7F6ED" : "white",
                 display: "flex",
                 justifyContent: "space-between",
                 alignItems: "center",
                 cursor: "pointer",
               }}
             >
-              <Link to={`/notice/details/${index}`}>
+              <Link to={`/notice/details/${item.ifullNotice}`}>
                 <span
                   style={{
                     marginLeft: 20,
-                    color: index < 3 ? "#00876D" : "#000000",
-                    fontWeight: index < 3 ? "bold" : "normal",
+                    color: item.fullNoticeFix === 1 ? "#00876D" : "#000000",
+                    fontWeight: item.fullNoticeFix === 1 ? "bold" : "normal",
                   }}
                 >
-                  {item}
+                  {item.fullTitle}
                 </span>
               </Link>
               <div style={{ marginRight: 20, color: "gray" }}>
@@ -155,24 +149,17 @@ const NoticeList = () => {
                   alt=""
                   style={{ height: 30, marginRight: 10 }}
                 />
-                2024-01-15
+                {item.createdAt}
               </div>
             </List.Item>
           </Link>
         )}
-        style={{
-          width: "100%",
-          margin: "0 auto",
-          background: "white",
-          borderTop: "1px solid #00876D",
-          borderBottom: "1px solid #00876D",
-        }}
-      />
+      ></List>
 
       <Pagination
         current={current}
         onChange={onChange}
-        total={data.length}
+        // total={data.length}
         pageSize={pageSize}
         style={{
           marginTop: 35,

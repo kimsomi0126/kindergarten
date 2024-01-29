@@ -10,6 +10,7 @@ import {
 } from "react-router-dom";
 import { getDetail } from "../../api/notice/notice_api";
 import { PageTitle } from "../../styles/basic";
+import "../../styles/notice/gallery.css";
 import { BlueBtn, GreenBtn, PinkBtn } from "../../styles/ui/buttons";
 
 export const obj = {

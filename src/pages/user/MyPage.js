@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ContentInner, PageTitle } from "../../styles/basic";
-import { Form, Select } from "antd";
+import { Button, Dropdown, Form, Input, Select } from "antd";
 import {
   DetailBadge,
   DetailInfo,
@@ -9,26 +9,24 @@ import {
   MypageWrap,
   TitleWrap,
 } from "../../styles/user/mypage";
-import {
-  BtnWrap,
-  GrayBtn,
-  GreenBtn,
-  OrangeBtn,
-  PinkBtn,
-} from "../../styles/ui/buttons";
+import { BtnWrap, GrayBtn, GreenBtn, PinkBtn } from "../../styles/ui/buttons";
 import MyProfileComponent from "../../components/user/mypage/MyProfileComponent";
 import MyPhysicalComponent from "../../components/user/mypage/MyPhysicalComponent";
 import MyBadge from "../../components/user/mypage/MyBadge";
 import useCustomLogin from "../../hooks/useCustomLogin";
 import ModalOneBtn from "../../components/ui/ModalOneBtn";
-import { useNavigate } from "react-router";
-import { getMypage } from "../../api/user/userApi";
+import { useNavigate, useParams } from "react-router";
+import { getMypage, getParentInfo } from "../../api/user/userApi";
+import { DownOutlined } from "@ant-design/icons";
+import { Link, useSearchParams } from "react-router-dom";
+import ModalTwoBtn from "../../components/ui/ModalTwoBtn";
+import ParentEdit from "./ParentEdit";
 
 const initState = {
   kidNm: "",
   iclass: 0,
   gender: 0,
-  profile: "",
+  profile: "546fe34c-bf55-46c1-9f0a-2e715edf8c61.jpg",
   birth: "",
   address: "",
   growths: [
@@ -54,42 +52,166 @@ const initState = {
   emerNm: "",
   emerNb: "",
 };
+
 const MyPage = () => {
   const navigate = useNavigate();
+  const [serchParams, setSearchParams] = useSearchParams();
+  // 현재 출력 년도, kid 값
+  const year = serchParams.get("year");
+  const ikid = serchParams.get("ikid");
+  // 로그인 회원 정보에서 아이 리스트 추출
   const { loginState, isParentLogin } = useCustomLogin();
-  const [ikid, setIkid] = useState(3);
+  const ikidList = loginState.kidList;
+  // ikid 값만 추출하여 파라미터값과 비교
+  const kidCheck = Array.isArray(ikidList) && ikidList.map(item => item.ikid);
+  // 년도 선택
+  const currentYear = new Date().getFullYear();
+  const startYear = 2020;
+  const yearArr = [];
+  for (let yearNum = startYear; yearNum <= currentYear; yearNum++) {
+    yearArr.push({
+      key: yearNum.toString(),
+      label: <a href={`/mypage?year=${yearNum}&ikid=${ikid}`}>{yearNum}</a>,
+    });
+  }
+  // 아이 선택
+  const items =
+    Array.isArray(ikidList) &&
+    ikidList.map(item => {
+      return {
+        key: item.ikid.toString(),
+        label: <a to={`/mypage?year=${year}&ikid=${ikid}`}>{item.kidNm}</a>,
+      };
+    });
+
+  // 아이 마이페이지 데이터
   const [myData, setMyData] = useState(initState);
-  const [year, setYear] = useState("2024");
-  const handleVelueChange = e => {
-    setYear(e);
-  };
+  const [title, setTitle] = useState("");
+  const [subTitle, setSubTitle] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+  const [codeOpen, setCodeOpen] = useState(false);
+  const [isEditOpen, setIsEditOpen] = useState(false);
 
-  const handleOk = () => {
-    navigate("/");
-  };
+  // 마이페이지 데이터 가져오기
   useEffect(() => {
-    getMypage({ year, ikid, successFn, failFn, errorFn });
-  }, []);
+    // 학부모 계정이 아닐경우
+    if (!isParentLogin) {
+      setTitle("학부모 전용페이지");
+      setSubTitle("학부모회원만 이용할 수 있는 서비스 입니다.");
+      setIsOpen(true);
+      return;
+    } else if (!year || !ikid) {
+      setTitle("잘못된 경로");
+      setSubTitle("잘못된 경로입니다. 다시 시도해주세요.");
+      setIsOpen(true);
+      return;
+    } else {
+      getMypage({ year, ikid, successFn, failFn, errorFn });
+    }
+  }, [initState]);
 
+  // 데이터연동 성공
   const successFn = result => {
-    setMyData(result);
+    // 나와 연결된 아이가 맞는지 확인 후 데이터 가져옴
+    if (!kidCheck.includes(parseInt(ikid))) {
+      setTitle("잘못된 경로");
+      setSubTitle("연결된 아이 정보가 없습니다. \n 다시 확인해주세요.");
+      setIsOpen(true);
+      return;
+    } else {
+      setMyData(result);
+    }
   };
+  // 데이터연동 실패
   const failFn = result => {
     console.log(result);
   };
+  // 데이터연동 실패
   const errorFn = result => {
     console.log(result);
   };
+  // 모달창 확인버튼
+  const handleOk = () => {
+    setIsOpen(false);
+    // 메인으로 이동
+    navigate("/");
+  };
+  const handleSubmit = () => {
+    setIsOpen(false);
+    window.location.reload();
+  };
+  const handleCancel = e => {};
 
-  console.log(myData);
+  // 학부모수정버튼 클릭
+  const onParentEditClick = () => {
+    setIsEditOpen(true);
+  };
+  const formRef = useRef();
+  // 아이추가 클릭
+  const onCodeAddClick = () => {
+    setCodeOpen(true);
+    setTitle("아이 추가");
+    setSubTitle("식별코드를 입력해주세요.");
+  };
+  const onFinish = values => {
+    console.log("Form Finished:", values);
+  };
+  const handleExternalSubmit = () => {
+    formRef.current.submit();
+  };
+  // console.log("로그인정보", loginState);
+  // console.log("아이데이터", myData);
+  console.log(isEditOpen);
+
+  //학부모수정 데이터
+  const [parentData, setParentData] = useState(initState);
   return (
     <ContentInner>
-      {!isParentLogin ? (
-        <ModalOneBtn
-          isOpen={true}
-          handleOk={handleOk}
-          title="학부모회원 전용페이지"
-          subTitle="학부모회원만 이용할 수 있는 서비스 입니다."
+      <ModalOneBtn
+        isOpen={isOpen}
+        handleOk={handleOk}
+        title={title}
+        subTitle={subTitle}
+      />
+      <ModalTwoBtn
+        isOpen={codeOpen}
+        handleOk={handleExternalSubmit}
+        handleCancel={handleCancel}
+        title={title}
+        subTitle={subTitle}
+      >
+        <Form
+          name="account"
+          ref={formRef}
+          style={{
+            maxWidth: 600,
+          }}
+          initialValues={{
+            remember: true,
+          }}
+          onFinish={onFinish}
+          autoComplete="off"
+        >
+          <Form.Item
+            name="code"
+            rules={[
+              {
+                required: true,
+                message: "식별코드를 입력해주세요. (15글자)",
+                max: 15,
+              },
+            ]}
+          >
+            <Input size="large" placeholder="코드입력" />
+          </Form.Item>
+        </Form>
+      </ModalTwoBtn>
+      {isEditOpen ? (
+        <ParentEdit
+          isEditOpen={isEditOpen}
+          handleCancel={() => {
+            setIsEditOpen(false);
+          }}
         />
       ) : null}
 
@@ -98,36 +220,34 @@ const MyPage = () => {
         <TitleWrap>
           <PageTitle>마이페이지</PageTitle>
           <FlexBox>
-            <Form
-              onValuesChange={e => {
-                handleVelueChange(e);
-              }}
-              layout="inline"
-              initialValues={{
-                year: "2024",
-              }}
-            >
-              <Form.Item name="year">
-                <Select>
-                  <Select.Option value="2024">2024년</Select.Option>
-                  <Select.Option value="2023">2023년</Select.Option>
-                  <Select.Option value="2022">2022년</Select.Option>
-                  <Select.Option value="2021">2021년</Select.Option>
-                  <Select.Option value="2020">2020년</Select.Option>
-                  <Select.Option value="2019">2019년</Select.Option>
-                </Select>
-              </Form.Item>
-              <Form.Item>
-                <Select label="Select" defaultValue="1">
-                  <Select.Option value="1">신짱구</Select.Option>
-                  <Select.Option value="2">신짱아</Select.Option>
-                </Select>
-              </Form.Item>
-            </Form>
+            <Dropdown menu={{ items: yearArr }}>
+              <Button>
+                {year}
+                <DownOutlined />
+              </Button>
+            </Dropdown>
+            <Dropdown menu={{ items }}>
+              <Button>
+                {myData.kidNm}
+                <DownOutlined />
+              </Button>
+            </Dropdown>
             <BtnWrap>
-              <GrayBtn>아이추가</GrayBtn>
-              <GrayBtn>알림장</GrayBtn>
-              <GreenBtn>학부모정보수정</GreenBtn>
+              <GrayBtn
+                onClick={e => {
+                  onCodeAddClick(e);
+                }}
+              >
+                아이추가
+              </GrayBtn>
+              <GrayBtn
+                onClick={() => {
+                  navigate("/ind");
+                }}
+              >
+                알림장
+              </GrayBtn>
+              <GreenBtn onClick={onParentEditClick}>학부모정보수정</GreenBtn>
               <PinkBtn>회원탈퇴</PinkBtn>
             </BtnWrap>
           </FlexBox>
@@ -135,7 +255,7 @@ const MyPage = () => {
         {/* 마이페이지 내용 시작 */}
         <MyContentWrap>
           {/* 프로필 */}
-          <MyProfileComponent ilevel={parent} myData={myData} />
+          <MyProfileComponent ilevel={parent} ikid={ikid} myData={myData} />
           {/* 연결계정 */}
           {/* 상세정보 */}
           <DetailInfo>
@@ -146,10 +266,30 @@ const MyPage = () => {
             <MyPhysicalComponent myData={myData} />
             {/* 상세정보 - 칭찬뱃지 */}
             <DetailBadge>
-              <MyBadge keywordValue={1} text="활발한 어린이 입니다." />
-              <MyBadge keywordValue={2} text="예의바른 어린이 입니다." />
-              <MyBadge keywordValue={3} text="창의적인 어린이 입니다." />
-              <MyBadge keywordValue={null} text={""} />
+              <MyBadge
+                keywordValue={
+                  myData.growths[0] ? myData.growths[0].growth : null
+                }
+                text={myData.growths[0] ? myData.growths[0].growthMemo : ""}
+              />
+              <MyBadge
+                keywordValue={
+                  myData.growths[1] ? myData.growths[1].growth : null
+                }
+                text={myData.growths[1] ? myData.growths[1].growthMemo : ""}
+              />
+              <MyBadge
+                keywordValue={
+                  myData.growths[2] ? myData.growths[2].growth : null
+                }
+                text={myData.growths[2] ? myData.growths[2].growthMemo : ""}
+              />
+              <MyBadge
+                keywordValue={
+                  myData.growths[3] ? myData.growths[3].growth : null
+                }
+                text={myData.growths[3] ? myData.growths[3].growthMemo : ""}
+              />
             </DetailBadge>
           </DetailInfo>
         </MyContentWrap>

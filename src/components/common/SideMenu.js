@@ -1,8 +1,10 @@
 import { Menu } from "antd";
 import React from "react";
 import { Link } from "react-router-dom";
+import useCustomLogin from "../../hooks/useCustomLogin";
 
 const SideMenu = () => {
+  const { isLogin } = useCustomLogin();
   function getItem(label, key, icon, children, type) {
     return {
       key,
@@ -52,19 +54,24 @@ const SideMenu = () => {
         <img src={process.env.PUBLIC_URL + "/images/common/sidebar/news.svg"} />
       </Link>,
     ),
-    getItem(
-      "관리자",
-      "5",
-      <img
-        src={process.env.PUBLIC_URL + "/images/common/sidebar/manager.svg"}
-      />,
-      [
-        getItem(<Link to="/admin">학부모관리</Link>, "5-1"),
-        getItem(<Link to="/admin/student/list">원생관리</Link>, "5-2"),
-        getItem(<Link to="/admin/student/create">원생등록</Link>, "5-3"),
-      ],
-    ),
   ];
+  if (isLogin) {
+    items.push(
+      getItem(
+        "관리자",
+        "5",
+        <img
+          src={process.env.PUBLIC_URL + "/images/common/sidebar/manager.svg"}
+        />,
+        [
+          getItem(<Link to="/admin">학부모관리</Link>, "5-1"),
+          getItem(<Link to="/admin/student/list">원생관리</Link>, "5-2"),
+          getItem(<Link to="/admin/student/create">원생등록</Link>, "5-3"),
+        ],
+      ),
+    );
+  }
+
   return (
     <Menu
       defaultSelectedKeys={[""]}

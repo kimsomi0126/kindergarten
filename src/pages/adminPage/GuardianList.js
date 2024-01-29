@@ -9,12 +9,21 @@ import {
 import { PageTitle } from "../../styles/basic";
 import { GreenBtn } from "../../styles/ui/buttons";
 import GuardianListComponent from "../../components/adminpage/GuardianListComponent";
+import ModalTwoBtn from "../../components/ui/ModalTwoBtn";
 
 const handleClassChange = value => {
   console.log(value);
 };
 
-const GuardianList = () => {
+const GuardianList = handleOk => {
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const handleDeleteClick = () => {
+    setIsDeleteModalOpen(true);
+  };
+
+  const onDeleteCancel = () => {
+    setIsDeleteModalOpen(false);
+  };
   return (
     <>
       <UserTop>
@@ -60,7 +69,16 @@ const GuardianList = () => {
             }}
             allowClear
           />
-          <GreenBtn>선택회원삭제</GreenBtn>
+          <GreenBtn onClick={handleDeleteClick}>선택회원삭제</GreenBtn>
+          {isDeleteModalOpen && (
+            <ModalTwoBtn
+              isOpen={isDeleteModalOpen}
+              handleOk={handleOk}
+              handleCancel={onDeleteCancel}
+              title="정말 삭제할까요?"
+              subTitle="삭제된 내용은 복구할 수 없습니다."
+            ></ModalTwoBtn>
+          )}
         </UserTopRight>
       </UserTop>
       <GuardianListComponent />

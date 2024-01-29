@@ -37,6 +37,7 @@ export const StudentListItem = styled.li`
   background: ${colors.white};
   padding: 2rem;
   ${shadow}
+  cursor: pointer;
 `;
 export const StudentListBox = styled.div`
   display: flex;

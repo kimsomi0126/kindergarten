@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { PageTitle } from "../../../styles/basic";
 import {
   Button,
@@ -34,6 +34,7 @@ import {
 import { GreenBtn, PinkBtn } from "../../../styles/ui/buttons";
 import ModalTwoBtn from "../../../components/ui/ModalTwoBtn";
 import ModalOneBtn from "../../../components/ui/ModalOneBtn";
+import { postStudentCreate } from "../../../api/adminPage/admin_api";
 
 // 프로필 이미지 첨부
 const props = {
@@ -53,8 +54,78 @@ const props = {
     }
   },
 };
+const initState = [
+  {
+    pic: "",
+    dto: {
+      kidNm: "",
+      iclass: 0,
+      gender: 0,
+      birth: "",
+      address: "",
+      memo: "",
+      emerNm: "",
+      emerNb: "",
+    },
+  },
+];
 
 const StudentCreate = () => {
+  // 등록
+  const [student, setStudent] = useState(initState);
+  // 정보 업데이트
+  const handleChange = e => {
+    student[e.target.name] = e.target.value;
+    setStudent({ ...student });
+  };
+  const uploadRef = useRef(null);
+  // 파일 업로드 실행
+  const handleClick = () => {
+    const files = uploadRef.current.files;
+    if (!files) {
+      // 파일이 선택되지 않은 경우 처리
+      console.error("선택된 파일이 없습니다.");
+      return;
+    }
+    const filesTotal = files.length;
+    const formData = new FormData();
+    for (let i = 0; i < filesTotal; i++) {
+      formData.append("files", files[i]);
+    }
+    formData.append("kidNm", student[0].dto.kidNm);
+    formData.append("iclass", student[0].dto.iclass);
+    formData.append("gender", student[0].dto.gender);
+    formData.append("birth", student[0].dto.birth);
+    formData.append("address", student[0].dto.address);
+    formData.append("memo", student[0].dto.memo);
+    formData.append("emerNm", student[0].dto.emerNm);
+    formData.append("emerNb", student[0].dto.emerNb);
+    console.log(student);
+    // 제품 정보 전송하기
+    postStudentCreate({ student: formData, successFn, failFn, errorFn });
+  };
+  const [resultTitle, setResultTitle] = useState("");
+  const [resultContent, setResultContent] = useState("");
+  const [reDirect, setReDirect] = useState("");
+
+  const successFn = result => {
+    // setResultTitle("이미지 업로드");
+    // setResultContent("이미지 업로드에 성공하였습니다.");
+    // setReDirect(0);
+    console.log(result);
+  };
+  const failFn = result => {
+    // setResultTitle("이미지 업로드 오류");
+    // setResultContent("오류가 발생하였습니다. 잠시 후 시도해주세요");
+    // setReDirect(1);
+    console.log(result);
+  };
+  const errorFn = result => {
+    // setResultTitle("서버 오류");
+    // setResultContent("오류가 발생하였습니다. 관리자에게 문의해주세요.");
+    // setReDirect(1);
+    console.log(result);
+  };
   // 모달창 적용
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
@@ -140,7 +211,7 @@ const StudentCreate = () => {
                   width: "33%",
                 }}
               >
-                <Input placeholder="이름" />
+                <Input placeholder="이름" value={student.kidNm} />
               </Form.Item>
               <Form.Item
                 style={{
@@ -152,6 +223,7 @@ const StudentCreate = () => {
                     width: "100%",
                   }}
                   placeholder="생년월일"
+                  value={student.birth}
                 />
               </Form.Item>
               <Form.Item
@@ -213,7 +285,7 @@ const StudentCreate = () => {
                   disabled
                   type="text"
                   placeholder="주소 입력"
-                  value={address}
+                  value={student.address}
                   onChange={e => setAddress(e.target.value)}
                 />
               </Form.Item>
@@ -236,7 +308,7 @@ const StudentCreate = () => {
         <ClassInfo>
           <p>재원 정보</p>
           <ClassInfoForm>
-            <Form.Item
+            {/* <Form.Item
               style={{
                 width: "33%",
               }}
@@ -247,8 +319,8 @@ const StudentCreate = () => {
                   width: "100%",
                 }}
               />
-            </Form.Item>
-            <Form.Item
+            </Form.Item> */}
+            {/* <Form.Item
               style={{
                 width: "33%",
               }}
@@ -268,7 +340,7 @@ const StudentCreate = () => {
                 <Select.Option value="-1">졸업</Select.Option>
                 <Select.Option value="-2">퇴소</Select.Option>
               </Select>
-            </Form.Item>
+            </Form.Item> */}
             <Form.Item
               style={{
                 width: "33%",
@@ -297,7 +369,7 @@ const StudentCreate = () => {
           <p>프로필 이미지</p>
           <ImgInfoForm>
             <Form.Item>
-              <Upload {...props}>
+              <Upload ref={uploadRef} {...props}>
                 <Button icon={<UploadOutlined />}>파일 첨부</Button>
               </Upload>
             </Form.Item>
@@ -318,7 +390,11 @@ const StudentCreate = () => {
                   width: "50%",
                 }}
               >
-                <Input type="text" placeholder="이름 입력" />
+                <Input
+                  type="text"
+                  placeholder="이름 입력"
+                  value={student.emerNm}
+                />
               </Form.Item>
               <Form.Item
                 name="tel"
@@ -335,13 +411,14 @@ const StudentCreate = () => {
                 <Input
                   type="tel"
                   placeholder="휴대폰 번호 입력 // 하이픈(-) 제외"
+                  value={student.emerNb}
                 />
               </Form.Item>
             </Form>
           </PhoneInfoForm>
         </PhoneInfo>
         {/* 관리자메모 */}
-        <AdminMemo>
+        <AdminMemo value={student.memo}>
           <p>관리자 메모</p>
           <AdminMemoForm>
             <TextArea
@@ -357,7 +434,7 @@ const StudentCreate = () => {
         </AdminMemo>
       </StudFormWrap>
       <BottomBt>
-        <GreenBtn onClick={handleAddClick}>등록</GreenBtn>
+        <GreenBtn onClick={handleClick}>등록</GreenBtn>
         {isAddModalOpen && (
           <ModalOneBtn
             isOpen={isAddModalOpen}

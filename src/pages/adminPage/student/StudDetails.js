@@ -24,6 +24,7 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { DownOutlined } from "@ant-design/icons";
 import useCustomLogin from "../../../hooks/useCustomLogin";
 import { getMyPageInfo } from "../../../api/adminPage/admin_api";
+import { getMypage } from "../../../api/user/userApi";
 
 const initState = {
   kidNm: "",
@@ -57,22 +58,58 @@ const initState = {
 };
 
 const StudDetails = () => {
-  // 아이 정보 가져오기
   const navigate = useNavigate();
-  const [myData, setMyData] = useState(initState);
   const [serchParams, setSearchParams] = useSearchParams();
+  // 현재 출력 년도, kid 값
   const year = serchParams.get("year");
   const ikid = serchParams.get("ikid");
-  const { loginState, isLogin } = useCustomLogin();
+  // 로그인 회원 정보에서 아이 리스트 추출
+  const { loginState, isParentLogin } = useCustomLogin();
+  const ikidList = loginState.kidList;
+  // ikid 값만 추출하여 파라미터값과 비교
+  const kidCheck = Array.isArray(ikidList) && ikidList.map(item => item.ikid);
+  // 년도 선택
   const currentYear = new Date().getFullYear();
   const startYear = 2020;
   const yearArr = [];
   for (let yearNum = startYear; yearNum <= currentYear; yearNum++) {
     yearArr.push({
       key: yearNum.toString(),
-      label: <a href={`/mypage?year=${yearNum}&ikid=${ikid}`}>{yearNum}</a>,
+      label: (
+        <Link to={`/admin/student/details?year=${yearNum}&ikid=${ikid}`}>
+          {yearNum}
+        </Link>
+      ),
     });
   }
+  // 아이 마이페이지 데이터
+  const [myData, setMyData] = useState(initState);
+  const [title, setTitle] = useState("");
+  const [subTitle, setSubTitle] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+  const [codeOpen, setCodeOpen] = useState(false);
+  const [isEditOpen, setIsEditOpen] = useState(false);
+  const [editKey, setEditKey] = useState(0);
+
+  // 마이페이지 데이터 가져오기
+  useEffect(() => {
+    getMypage({ year, ikid, successFn, failFn, errorFn });
+  }, [initState, year, ikid]);
+
+  // 데이터연동 성공
+  const successFn = result => {
+    setMyData(result);
+  };
+  // 데이터연동 실패
+  const failFn = result => {
+    console.log(result);
+  };
+  // 데이터연동 실패
+  const errorFn = result => {
+    setIsOpen(true);
+    setTitle("조회 실패");
+    setSubTitle(result);
+  };
 
   const handleClickList = () => {
     navigate(`/admin/student/list`);
@@ -87,20 +124,7 @@ const StudDetails = () => {
     setComponentSize(size);
     console.log(componentSize);
   };
-  useEffect(() => {
-    getMyPageInfo({ year, ikid, successFn, failFn, errorFn }, [initState]);
-  });
-  const successFn = result => {
-    setMyData(result);
-  };
-  // 데이터연동 실패
-  const failFn = result => {
-    console.log(result);
-  };
-  // 데이터연동 실패
-  const errorFn = result => {
-    console.log(result);
-  };
+
   return (
     <ContentInner>
       <MypageWrap>
@@ -132,7 +156,9 @@ const StudDetails = () => {
             <TitleWrap>
               <PageTitle>상세정보</PageTitle>
               {ilevel === "admin" ? (
-                <Link to="/admin/student/detailsform">
+                <Link
+                  to={`/admin/student/detailsform?year=${year}&ikid=${ikid}`}
+                >
                   <OrangeBtn>상세정보 입력</OrangeBtn>
                 </Link>
               ) : null}

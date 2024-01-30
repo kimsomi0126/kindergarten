@@ -82,9 +82,6 @@ const GuardianList = handleOk => {
         </UserTopRight>
       </UserTop>
       <GuardianListComponent />
-      <PageNum>
-        <Pagination defaultCurrent={1} total={50} />
-      </PageNum>
     </>
   );
 };

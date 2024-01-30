@@ -18,7 +18,7 @@ const initState = {
   upw: "",
 };
 
-const AdminParentEdit = (open, handleCancel) => {
+const AdminParentEdit = ({ open, handleCancel, iparent }) => {
   const navigate = useNavigate();
 
   // 안내창오픈여부
@@ -33,11 +33,13 @@ const AdminParentEdit = (open, handleCancel) => {
 
   const onFinish = value => {
     const obj = {
+      iparent: iparent,
       parentNm: value.parentNm,
       phoneNb: value.phoneNb,
       prEmail: value.prEmail,
       upw: value.upw,
     };
+    // console.log(obj);
     putAdminParentInfo({ obj, successEditFn, failEditFn, errorEditFn });
   };
   const successEditFn = result => {
@@ -58,7 +60,7 @@ const AdminParentEdit = (open, handleCancel) => {
   };
 
   useEffect(() => {
-    getAdminParentInfo({ successFn, failFn, errorFn });
+    getAdminParentInfo({ iparent, successFn, failFn, errorFn });
   }, []);
   const successFn = result => {
     console.log("성공", result);

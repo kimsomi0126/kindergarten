@@ -64,8 +64,11 @@ const SideMenu = () => {
           src={process.env.PUBLIC_URL + "/images/common/sidebar/manager.svg"}
         />,
         [
-          getItem(<Link to="/admin">학부모관리</Link>, "5-1"),
-          getItem(<Link to="/admin/student/list">원생관리</Link>, "5-2"),
+          getItem(<Link to="/admin?page=1&iclass=0">학부모관리</Link>, "5-1"),
+          getItem(
+            <Link to="/admin/student/list?page=1&kidCheck=0">원생관리</Link>,
+            "5-2",
+          ),
           getItem(<Link to="/admin/student/create">원생등록</Link>, "5-3"),
         ],
       ),

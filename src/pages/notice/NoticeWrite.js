@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { UploadOutlined } from "@ant-design/icons";
-import { Button, Checkbox, Form, Input, Upload, Modal } from "antd";
+import { Button, Checkbox, Form, Input, Upload, Modal, Result } from "antd";
 import { PageTitle } from "../../styles/basic";
 import { GreenBtn, PinkBtn } from "../../styles/ui/buttons";
 import { Link, Navigate, useNavigate } from "react-router-dom";
+import { createNotice } from "../../api/notice/notice_api";
 
 const NoticeWrite = () => {
   const [form] = Form.useForm();
@@ -11,6 +12,39 @@ const NoticeWrite = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [setIsDeleteModalOpen] = useState(false);
   const navigate = useNavigate();
+
+  const postWrite = result => {};
+
+  const handleClickPostProduct = async () => {
+    try {
+      // 사용자가 업로드한 파일의 URL을 추출
+      const uploadedFileUrls = fileList.map(file => file.url);
+
+      // Form에서 입력받은 값들
+      const { Input, TextArea, Checkbox } = form.getFieldsValue();
+
+      // 서버로 보낼 데이터 구성
+      const postData = {
+        pics: uploadedFileUrls,
+        dto: {
+          fullTitle: Input,
+          fullContents: TextArea,
+          fullNoticeFix: Checkbox ? 1 : 0, // 체크박스가 선택되면 1, 아니면 0
+          iteacher: 0, // iteacher 값을 필요에 따라 설정
+        },
+      };
+
+      // 서버로 데이터 전송
+      await createNotice({ postWrite, obj: postData });
+
+      // 성공적으로 등록되었을 때 Modal 표시
+      showModal();
+    } catch (error) {
+      console.error("글쓰기 등록 실패:", error);
+      // 실패 시에는 Modal 등의 에러 처리 로직 추가
+      // 예: Modal.error({ title: "에러", content: "글쓰기 등록에 실패했습니다." });
+    }
+  };
 
   const onChange = e => {
     console.log(`checked = ${e.target.checked}`);
@@ -83,7 +117,7 @@ const NoticeWrite = () => {
       <div
         style={{
           width: "100%",
-          height: 560,
+          height: 600,
           padding: 16,
           borderTop: "1.5px solid #00876D",
           borderBottom: "1.5px solid #00876D",
@@ -124,7 +158,7 @@ const NoticeWrite = () => {
             />
           </Form.Item>
 
-          <Upload
+          <Upload.Dragger
             action="http://localhost:3000/notice/write"
             listType="picture"
             fileList={fileList}
@@ -132,9 +166,10 @@ const NoticeWrite = () => {
             customRequest={customRequest}
             className="upload-list-inline"
             maxCount={3}
+            multiple={true}
           >
             <Button icon={<UploadOutlined />}>업로드 (최대 3개 파일)</Button>
-          </Upload>
+          </Upload.Dragger>
         </Form>
       </div>
       <div

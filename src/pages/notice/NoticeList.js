@@ -9,44 +9,46 @@ const { Search } = Input;
 
 const onSearch = (value, _e, info) => console.log(info?.source, value);
 
-const initData = [
-  {
-    fullTitle: "",
-    writer: "",
-    fullNoticeFix: 0,
-    createdAt: "",
-    ifullNotice: 0,
-  },
-];
-
 const pageSize = 10;
 
 const NoticeList = () => {
   const [current, setCurrent] = useState(1);
-  const [listData, setListData] = useState(initData);
+  const [listData, setListData] = useState([]);
+  const [totalCount, setTotalCount] = useState(0);
 
+  // 페이지 변경 처리
   const onChange = page => {
     setCurrent(page);
-    updateCurrentPageData(page);
+    fetchPageData(page); // 새 페이지 데이터를 가져옵니다.
   };
 
   const size = "small";
 
-  const updateCurrentPageData = page => {
-    const startIndex = (page - 1) * pageSize;
-    const endIndex = startIndex + pageSize;
-    // setCurrentPageData(data.slice(startIndex, endIndex));
+  // 페이지 데이터 가져오기
+  const fetchPageData = page => {
+    getList({
+      page,
+      successFn: result => {
+        setListData(result.list); // 현재 페이지의 리스트 데이터 설정
+        setTotalCount(result.noticeCnt); // 전체 공지사항 개수 설정
+      },
+      failFn: result => {
+        console.error("List fetch failed:", result);
+      },
+      errorFn: result => {
+        console.error("Error fetching list:", result);
+      },
+    });
   };
 
+  // 컴포넌트가 마운트될 때 첫 페이지 데이터를 가져옵니다.
   useEffect(() => {
-    updateCurrentPageData(current);
-    const page = 1;
-    getList({ page, successFn, failFn, errorFn });
+    fetchPageData(current);
   }, [current]);
 
   const successFn = result => {
-    console.log(result);
-    setListData([...result]);
+    console.log("성공", result);
+    setListData(result);
   };
   const failFn = result => {
     console.log(result);
@@ -55,7 +57,7 @@ const NoticeList = () => {
     console.log(result);
   };
 
-  console.log(listData);
+  console.log("확인", listData);
 
   return (
     <div style={{ marginTop: 60 }}>
@@ -156,7 +158,7 @@ const NoticeList = () => {
       <Pagination
         current={current}
         onChange={onChange}
-        // total={data.length}
+        total={totalCount}
         pageSize={pageSize}
         style={{
           marginTop: 35,

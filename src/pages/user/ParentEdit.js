@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Form, Input, Modal } from "antd";
-import { getParentInfo } from "../../api/user/userApi";
+import { getParentInfo, putParentInfo } from "../../api/user/userApi";
 import { OrangeBtn, PinkBtn } from "../../styles/ui/buttons";
 import { ModalBody, ModalTitle } from "../../styles/ui/warning";
 import { FlexBox } from "../../styles/user/mypage";
@@ -14,40 +14,66 @@ const initState = {
   prEmail: "",
   upw: "",
 };
-const ParentEdit = ({ isEditOpen, handleCancel }) => {
+const ParentEdit = ({ open, handleCancel }) => {
   const navigate = useNavigate();
-  // 기존회원정보
-  const [parentData, setParentData] = useState(initState);
 
-  // 모달오픈여부
+  // 안내창오픈여부
   const [isOpen, setIsOpen] = useState(false);
+  //수정창 오픈여부
+  const [isEditOpen, setIsEditOpen] = useState(open);
 
   // 모달텍스트
   const [title, setTitle] = useState("");
   const [subTitle, setSubTitle] = useState("");
 
-  const handleClick = value => {};
-
   const [form] = Form.useForm();
+
   const onFinish = value => {
-    console.log("Received values of form: ", value);
-    setParentData(value);
+    const obj = {
+      parentNm: value.parentNm,
+      phoneNb: value.phoneNb,
+      prEmail: value.prEmail,
+      upw: value.upw,
+    };
+    putParentInfo({ obj, successEditFn, failEditFn, errorEditFn });
+  };
+
+  const successEditFn = result => {
+    setIsOpen(true);
+    setTitle("수정 완료");
+    setSubTitle("정보가 수정되었습니다.");
+    setIsEditOpen(false);
+  };
+  const failEditFn = result => {
+    setIsOpen(true);
+    setTitle("수정 실패");
+    setSubTitle(result);
+  };
+  const errorEditFn = result => {
+    setIsOpen(true);
+    setTitle("수정 실패");
+    setSubTitle(result);
   };
 
   useEffect(() => {
     getParentInfo({ successFn, failFn, errorFn });
-    console.log("들어오는값", parentData);
   }, []);
 
   const successFn = result => {
     console.log("성공", result);
-    setParentData(result);
+    form.setFieldsValue(result);
   };
   const failFn = result => {
-    console.log("실패", result);
+    setIsOpen(true);
+    setTitle("데이터 애러");
+    setSubTitle(
+      "데이터를 가져오는데 실패했습니다. \n 잠시후 다시 시도해주세요.",
+    );
   };
-  const errorFn = (code, message) => {
-    console.log("에러", code, message);
+  const errorFn = result => {
+    setIsOpen(true);
+    setTitle("서버 에러");
+    setSubTitle(result);
   };
   const handleOk = () => {
     setIsOpen(false);
@@ -64,15 +90,8 @@ const ParentEdit = ({ isEditOpen, handleCancel }) => {
   };
   return (
     <>
-      <ModalOneBtn>
-        isOpen={isOpen}
-        handleOk={handleOk}
-        title={title}
-        subTitle={subTitle}
-      </ModalOneBtn>
       <Modal
         open={isEditOpen}
-        onOk={handleClick}
         onCancel={handleCancel}
         closeIcon={null}
         width={400}
@@ -83,12 +102,7 @@ const ParentEdit = ({ isEditOpen, handleCancel }) => {
           <h3>학부모 정보 수정</h3>
         </ModalTitle>
         <ModalBody>
-          <Form
-            form={form}
-            name="parentedit"
-            onFinish={onFinish}
-            initialValues={parentData}
-          >
+          <Form form={form} name="parentedit" onFinish={onFinish}>
             <Form.Item
               name="uid"
               style={{ marginBottom: 20 }}
@@ -189,6 +203,13 @@ const ParentEdit = ({ isEditOpen, handleCancel }) => {
           </Form>
         </ModalBody>
       </Modal>
+
+      <ModalOneBtn
+        isOpen={isOpen}
+        handleOk={handleOk}
+        title={title}
+        subTitle={subTitle}
+      />
     </>
   );
 };

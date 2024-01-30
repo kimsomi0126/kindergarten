@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ContentInner, PageTitle } from "../../../styles/basic";
 import {
   DetailBadge,
@@ -8,7 +8,7 @@ import {
   MypageWrap,
   TitleWrap,
 } from "../../../styles/user/mypage";
-import { Form, Select } from "antd";
+import { Button, Dropdown, Form, Select } from "antd";
 import {
   BtnWrap,
   GrayBtn,
@@ -20,22 +20,86 @@ import MyProfileComponent from "../../../components/user/mypage/MyProfileCompone
 import MyAccountComponent from "../../../components/user/mypage/MyAccountComponent";
 import MyPhysicalComponent from "../../../components/user/mypage/MyPhysicalComponent";
 import MyBadge from "../../../components/user/mypage/MyBadge";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { DownOutlined } from "@ant-design/icons";
+import useCustomLogin from "../../../hooks/useCustomLogin";
+import { getMyPageInfo } from "../../../api/adminPage/admin_api";
+
+const initState = {
+  kidNm: "",
+  iclass: 0,
+  gender: 0,
+  profile: "546fe34c-bf55-46c1-9f0a-2e715edf8c61.jpg",
+  birth: "",
+  address: "",
+  growths: [
+    {
+      height: 0,
+      weight: 0,
+      bodyDate: "",
+      growth: 0,
+      growthDate: "",
+      growthMemo: "",
+    },
+  ],
+  parents: [
+    {
+      iparent: 0,
+      uid: "",
+      parentNm: "",
+      phoneNb: "",
+      irelation: 0,
+    },
+  ],
+  memo: ".",
+  emerNm: "",
+  emerNb: "",
+};
 
 const StudDetails = () => {
+  // 아이 정보 가져오기
   const navigate = useNavigate();
+  const [myData, setMyData] = useState(initState);
+  const [serchParams, setSearchParams] = useSearchParams();
+  const year = serchParams.get("year");
+  const ikid = serchParams.get("ikid");
+  const { loginState, isLogin } = useCustomLogin();
+  const currentYear = new Date().getFullYear();
+  const startYear = 2020;
+  const yearArr = [];
+  for (let yearNum = startYear; yearNum <= currentYear; yearNum++) {
+    yearArr.push({
+      key: yearNum.toString(),
+      label: <a href={`/mypage?year=${yearNum}&ikid=${ikid}`}>{yearNum}</a>,
+    });
+  }
+
   const handleClickList = () => {
     navigate(`/admin/student/list`);
   };
   const handleClickCreate = () => {
     navigate(`/admin/student/Create`);
   };
+
   const ilevel = "admin";
-  const [myData, setMyData] = useState("default");
   const [componentSize, setComponentSize] = useState("default");
   const onFormLayoutChange = ({ size }) => {
     setComponentSize(size);
     console.log(componentSize);
+  };
+  useEffect(() => {
+    getMyPageInfo({ year, ikid, successFn, failFn, errorFn }, [initState]);
+  });
+  const successFn = result => {
+    setMyData(result);
+  };
+  // 데이터연동 실패
+  const failFn = result => {
+    console.log(result);
+  };
+  // 데이터연동 실패
+  const errorFn = result => {
+    console.log(result);
   };
   return (
     <ContentInner>
@@ -44,18 +108,12 @@ const StudDetails = () => {
         <TitleWrap>
           <PageTitle>마이페이지</PageTitle>
           <FlexBox>
-            <Form onValuesChange={onFormLayoutChange} layout="inline">
-              <Form.Item>
-                <Select defaultValue="2024">
-                  <Select.Option value="2024">2024년</Select.Option>
-                  <Select.Option value="2023">2023년</Select.Option>
-                  <Select.Option value="2022">2022년</Select.Option>
-                  <Select.Option value="2021">2021년</Select.Option>
-                  <Select.Option value="2020">2020년</Select.Option>
-                  <Select.Option value="2019">2019년</Select.Option>
-                </Select>
-              </Form.Item>
-            </Form>
+            <Dropdown menu={{ items: yearArr }}>
+              <Button>
+                {year}
+                <DownOutlined />
+              </Button>
+            </Dropdown>
             <BtnWrap>
               <GrayBtn>알림장작성</GrayBtn>
               <PurpleBtn onClick={handleClickCreate}>원생정보수정</PurpleBtn>
@@ -66,7 +124,7 @@ const StudDetails = () => {
         {/* 마이페이지 내용 시작 */}
         <MyContentWrap>
           {/* 프로필 */}
-          <MyProfileComponent ilevel={ilevel} myData={myData} />
+          <MyProfileComponent ilevel={ilevel} ikid={ikid} myData={myData} />
           {/* 연결계정 */}
           {ilevel === "admin" ? <MyAccountComponent /> : null}
           {/* 상세정보 */}
@@ -83,10 +141,30 @@ const StudDetails = () => {
             <MyPhysicalComponent myData={myData} />
             {/* 상세정보 - 칭찬뱃지 */}
             <DetailBadge>
-              <MyBadge keywordValue={1} text="활발한 어린이 입니다." />
-              <MyBadge keywordValue={2} text="예의바른 어린이 입니다." />
-              <MyBadge keywordValue={3} text="창의적인 어린이 입니다." />
-              <MyBadge keywordValue={null} text={""} />
+              <MyBadge
+                keywordValue={
+                  myData.growths[0] ? myData.growths[0].growth : null
+                }
+                text={myData.growths[0] ? myData.growths[0].growthMemo : ""}
+              />
+              <MyBadge
+                keywordValue={
+                  myData.growths[1] ? myData.growths[1].growth : null
+                }
+                text={myData.growths[1] ? myData.growths[1].growthMemo : ""}
+              />
+              <MyBadge
+                keywordValue={
+                  myData.growths[2] ? myData.growths[2].growth : null
+                }
+                text={myData.growths[2] ? myData.growths[2].growthMemo : ""}
+              />
+              <MyBadge
+                keywordValue={
+                  myData.growths[3] ? myData.growths[3].growth : null
+                }
+                text={myData.growths[3] ? myData.growths[3].growthMemo : ""}
+              />
             </DetailBadge>
           </DetailInfo>
         </MyContentWrap>

@@ -12,16 +12,19 @@ import { PageNum } from "../../styles/adminstyle/guardianlist";
 import { getAdminStudentList } from "../../api/adminPage/admin_api";
 import { useNavigate } from "react-router";
 
-const initStudentList = [
-  {
-    ikid: 0,
-    iclass: 0,
-    kidNm: "",
-    profile: "",
-  },
-];
+const initStudentList = {
+  kidPage: [
+    {
+      ikid: 0,
+      iclass: 0,
+      kidNm: "",
+      profile: "",
+    },
+  ],
+  totalCnt: 0,
+};
 
-const StudListComponent = ({ selectedClass }) => {
+const StudListComponent = () => {
   const [studentList, setStudentList] = useState(initStudentList);
   const page = 1;
   const kidCheck = 0;
@@ -33,9 +36,8 @@ const StudListComponent = ({ selectedClass }) => {
       errorFn,
       page,
       kidCheck,
-      selectedClass, // 선택된 반 정보를 전달합니다.
     });
-  }, [selectedClass]);
+  }, []);
   const successFn = result => {
     setStudentList(result);
   };
@@ -78,10 +80,7 @@ const StudListComponent = ({ selectedClass }) => {
   const handleClickView = () => {
     navigate(`/admin/student/details`);
   };
-  // 필터
-  const filteredStudentList = selectedClass
-    ? studentList.filter(item => item.iclass.toString() === selectedClass)
-    : studentList;
+
   return (
     <>
       <StudentMain>
@@ -96,42 +95,43 @@ const StudListComponent = ({ selectedClass }) => {
           <label htmlFor="selectAll">전체 선택</label>
         </div>
         <StudentListWrap>
-          {filteredStudentList.map(item => (
-            <StudentListItem key={item.ikid} onClick={handleClickView}>
-              <StudentListBox>
-                <input
-                  type="checkbox"
-                  name="student"
-                  onChange={handleStudentCheckboxChange}
-                />
-                <StudentImg>
-                  <img src={item.profile} />
-                </StudentImg>
-                <StudentInfo>
-                  <p
-                    className={
-                      item.iclass === 1
-                        ? "hibiscus"
+          {Array.isArray(studentList) &&
+            studentList.map(item => (
+              <StudentListItem key={item.ikid} onClick={handleClickView}>
+                <StudentListBox>
+                  <input
+                    type="checkbox"
+                    name="student"
+                    onChange={handleStudentCheckboxChange}
+                  />
+                  <StudentImg>
+                    <img src={item.profile} />
+                  </StudentImg>
+                  <StudentInfo>
+                    <p
+                      className={
+                        item.iclass === 1
+                          ? "hibiscus"
+                          : item.iclass === 2
+                          ? "sunflower"
+                          : item.iclass === 3
+                          ? "rose"
+                          : ""
+                      }
+                    >
+                      {item.iclass === 1
+                        ? "무궁화반"
                         : item.iclass === 2
-                        ? "sunflower"
+                        ? "해바라기반"
                         : item.iclass === 3
-                        ? "rose"
-                        : ""
-                    }
-                  >
-                    {item.iclass === 1
-                      ? "무궁화반"
-                      : item.iclass === 2
-                      ? "해바라기반"
-                      : item.iclass === 3
-                      ? "장미반"
-                      : ""}
-                  </p>
-                  <p className="leaf">{item.kidNm}</p>
-                </StudentInfo>
-              </StudentListBox>
-            </StudentListItem>
-          ))}
+                        ? "장미반"
+                        : ""}
+                    </p>
+                    <p className="leaf">{item.kidNm}</p>
+                  </StudentInfo>
+                </StudentListBox>
+              </StudentListItem>
+            ))}
         </StudentListWrap>
       </StudentMain>
       <PageNum>

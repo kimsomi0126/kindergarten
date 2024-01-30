@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   ChildInfo,
   UserInfo,
@@ -8,12 +8,8 @@ import {
   UserMain,
 } from "../../styles/adminstyle/guardianlist";
 import { GrayBtn } from "../../styles/ui/buttons";
-import {
-  editParentInfo,
-  getAdminParentList,
-} from "../../api/adminPage/admin_api";
-import ModalTwoBtn from "../ui/ModalTwoBtn";
-import { Form, Input } from "antd";
+import { getAdminParentList } from "../../api/adminPage/admin_api";
+import AdminParentEdit from "../../pages/adminPage/AdminParentEdit";
 
 const initParentList = [
   {
@@ -30,15 +26,7 @@ const initParentList = [
   },
 ];
 
-const initState = {
-  iparent: 0,
-  parentNm: "",
-  phoneNb: "",
-  uid: "",
-  prEmail: "",
-};
-
-const GuardianListComponent = ({ handleOk }) => {
+const GuardianListComponent = () => {
   // 학부모 리스트 GET
   const [parentList, setParentList] = useState(initParentList);
   const page = 1;
@@ -59,21 +47,16 @@ const GuardianListComponent = ({ handleOk }) => {
   };
 
   // 학부모 정보 수정
-  const [memberInfo, setMemberInfo] = useState(initState);
-  const handleChange = e => {
-    memberInfo[e.target.name] = e.target.value;
-    setMemberInfo({ ...memberInfo });
+  const [isEditOpen, setIsEditOpen] = useState(false);
+  const [editKey, setEditKey] = useState(0);
+
+  const onAdminParentEditClick = () => {
+    setIsEditOpen(true);
+    setEditKey(prevKey => prevKey + 1);
   };
 
-  // 정보 수정 모달창 적용
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-
-  const handleEditClick = () => {
-    setIsEditModalOpen(true);
-  };
-
-  const onEditCancel = () => {
-    setIsEditModalOpen(false);
+  const handleCancel = () => {
+    setIsEditOpen(false);
   };
 
   // 체크박스 전체 선택
@@ -121,7 +104,7 @@ const GuardianListComponent = ({ handleOk }) => {
           parentList.map(item => (
             <UserListItem key={item.iparent}>
               <UserListBox>
-                <input type="checkbox" name="student" onChange={handleChange} />
+                <input type="checkbox" name="student" />
                 <UserInfo>
                   <span>{item.uid}</span>
                   <p>{item.parentNm}</p>
@@ -146,86 +129,13 @@ const GuardianListComponent = ({ handleOk }) => {
                     ))}
                 </div>
                 <em>{item.phoneNb}</em>
-                <GrayBtn onClick={handleEditClick}>정보 수정</GrayBtn>
-                {isEditModalOpen && (
-                  <ModalTwoBtn
-                    isOpen={isEditModalOpen}
-                    handleOk={handleOk}
-                    handleCancel={onEditCancel}
-                    title="학부모 정보 수정"
-                  >
-                    <Form>
-                      <Form.Item>
-                        <Input
-                          value={memberInfo.uid}
-                          onChange={e => handleChange(e)}
-                          readOnly
-                        />
-                      </Form.Item>
-                      <Form.Item>
-                        <Input
-                          value={memberInfo.parentNm}
-                          onChange={e => handleChange(e)}
-                        />
-                      </Form.Item>
-                      <Form.Item>
-                        <Input
-                          value={memberInfo.phoneNb}
-                          onChange={e => handleChange(e)}
-                        />
-                      </Form.Item>
-                      <Form.Item>
-                        <Input
-                          value={memberInfo.prEmail}
-                          onChange={e => handleChange(e)}
-                        />
-                      </Form.Item>
-
-                      <Form.Item
-                        name="newpassword"
-                        style={{ marginBottom: 20 }}
-                        rules={[
-                          {
-                            required: true,
-                            message: "비밀번호를 입력해주세요.",
-                          },
-                        ]}
-                        hasFeedback
-                      >
-                        <Input.Password placeholder="새로운 비밀번호 입력" />
-                      </Form.Item>
-
-                      <Form.Item
-                        name="newconfirm"
-                        style={{ marginBottom: 20 }}
-                        dependencies={["password"]}
-                        hasFeedback
-                        rules={[
-                          {
-                            required: true,
-                            message: "비밀번호를 한번 더 입력해주세요.",
-                          },
-                          ({ getFieldValue }) => ({
-                            validator(_, value) {
-                              if (
-                                !value ||
-                                getFieldValue("password") === value
-                              ) {
-                                return Promise.resolve();
-                              }
-                              return Promise.reject(
-                                new Error(
-                                  "비밀번호가 일치하지 않습니다. 다시 작성해주세요.",
-                                ),
-                              );
-                            },
-                          }),
-                        ]}
-                      >
-                        <Input.Password placeholder="새로운 비밀번호 확인" />
-                      </Form.Item>
-                    </Form>
-                  </ModalTwoBtn>
+                <GrayBtn onClick={onAdminParentEditClick}>정보 수정</GrayBtn>
+                {isEditOpen && (
+                  <AdminParentEdit
+                    open={isEditOpen}
+                    handleCancel={handleCancel}
+                    key={editKey}
+                  />
                 )}
               </UserListBox>
             </UserListItem>

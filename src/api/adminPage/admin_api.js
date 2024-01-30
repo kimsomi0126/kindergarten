@@ -4,7 +4,8 @@ import jwtAxios from "../../util/jwtUtil";
 const path = `${SERVER_URL}/api/teacher`;
 const host = `${SERVER_URL}/api/kid`;
 
-// 학부모 관리 리스트 GET
+// 학부모 관련
+// 학부모 관리 리스트 GET ㅇ
 export const getAdminParentList = async ({
   successFn,
   failFn,
@@ -30,7 +31,71 @@ export const getAdminParentList = async ({
   }
 };
 
-// 원생 관리 리스트 GET
+// 학부모 정보 수정 전 가져오기 GET
+export const getAdminParentInfo = async ({
+  successFn,
+  failFn,
+  errorFn,
+  iparent,
+}) => {
+  try {
+    const res = await jwtAxios.get(`${path}/parentedit?iparent=${iparent}`);
+    const status = res.status.toString();
+    if (status.charAt(0) === "2") {
+      // 화면처리용
+      successFn(res.data);
+      // RTK 업데이트 처리를 위해 값 전달
+      return res.data;
+    } else {
+      failFn("서버가 불안정합니다. 다시 시도해주세요.");
+    }
+  } catch (error) {
+    errorFn("서버가 불안정합니다.다시 시도해주세요.");
+  }
+};
+
+// 학부모 정보 수정 PUT
+export const putAdminParentInfo = async ({
+  obj,
+  successEditFn,
+  failEditFn,
+  errorEditFn,
+}) => {
+  try {
+    const res = await jwtAxios.put(`${path}/parentedit`, obj);
+    const status = res.status.toString();
+    if (status.charAt(0) === "2") {
+      // 화면처리용
+      successEditFn(res.data);
+      // RTK 업데이트 처리를 위해 값 전달
+      return res.data;
+    } else {
+      failEditFn(res.data);
+    }
+  } catch (error) {
+    errorEditFn("수정에 실패했습니다. 다시 시도해주세요.");
+  }
+};
+
+// 학부모 리스트 삭제 PUT
+export const deleteParentList = async ({ successFn, failFn, errorFn }) => {
+  try {
+    const res = await jwtAxios.put(`${path}/parent`);
+    const status = res.status.toString();
+    if (status.charAt(0) === "2") {
+      successFn(res.data);
+    } else {
+      failFn("자료 호출 에러입니다.");
+    }
+  } catch (error) {
+    const demo = await axios.put(`/guardian.json`);
+    errorFn(demo.data);
+    console.log(error);
+  }
+};
+
+// 원생 관련
+// 원생 관리 리스트 GET ㅇ
 export const getAdminStudentList = async ({
   successFn,
   failFn,
@@ -52,31 +117,6 @@ export const getAdminStudentList = async ({
     const demo = await axios.get(`/student.json`);
     errorFn(demo.data);
     console.log(error);
-  }
-};
-// 학부모 정보 수정 PUT
-export const editParentInfo = async ({
-  memberInfo,
-  successEditFn,
-  failEditFn,
-  errorEditFn,
-}) => {
-  try {
-    const res = await jwtAxios.put(`${path}`, memberInfo);
-    const status = res.status.toString();
-
-    if (status.charAt(0) === "2") {
-      // 화면 처리용
-      successEditFn(res.data);
-      // RTK 업데이트 하기위해서는 리턴을 해서 값을 전달해야 해
-      return res.data;
-    } else {
-      failEditFn("정보수정에 실패하였습니다. 다시 시도해주세요.");
-    }
-  } catch (error) {
-    errorEditFn(
-      "정보수정에 실패하였습니다. 서버가 불안정합니다.다시 시도해주세요.",
-    );
   }
 };
 
@@ -102,19 +142,47 @@ export const postStudentCreate = async ({
   }
 };
 
-// 학부모 리스트 삭제 PUT
-export const deleteParentList = async ({ successFn, failFn, errorFn }) => {
+// 원생 상세 정보 POST
+export const postStudentDetail = async ({
+  successFn,
+  failFn,
+  errorFn,
+  detailData,
+}) => {
   try {
-    const res = await jwtAxios.put(`${path}/parent`);
+    const res = await jwtAxios.post(`${host}/detail`, detailData);
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
+      // 화면처리용
       successFn(res.data);
     } else {
-      failFn("자료 호출 에러입니다.");
+      failFn();
     }
   } catch (error) {
-    const demo = await axios.put(`/guardian.json`);
-    errorFn(demo.data);
-    console.log(error);
+    errorFn();
+  }
+};
+
+// 원생 마이페이지 GET
+export const getMyPageInfo = async ({
+  year,
+  ikid,
+  successFn,
+  failFn,
+  errorFn,
+}) => {
+  try {
+    const res = await jwtAxios.get(`${path}/kid/${year}/${ikid}`);
+    const status = res.status.toString();
+    if (status.charAt(0) === "2") {
+      // 화면처리용
+      successFn(res.data);
+      // RTK 업데이트 처리를 위해 값 전달
+      return res.data;
+    } else {
+      failFn("서버가 불안정합니다. 다시 시도해주세요.");
+    }
+  } catch (error) {
+    errorFn("서버가 불안정합니다.다시 시도해주세요.");
   }
 };

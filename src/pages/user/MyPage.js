@@ -80,10 +80,11 @@ const MyPage = () => {
     ikidList.map(item => {
       return {
         key: item.ikid.toString(),
-        label: <a to={`/mypage?year=${year}&ikid=${ikid}`}>{item.kidNm}</a>,
+        label: (
+          <a href={`/mypage?year=${year}&ikid=${item.ikid}`}>{item.kidNm}</a>
+        ),
       };
     });
-
   // 아이 마이페이지 데이터
   const [myData, setMyData] = useState(initState);
   const [title, setTitle] = useState("");
@@ -95,8 +96,8 @@ const MyPage = () => {
 
   // 마이페이지 데이터 가져오기
   useEffect(() => {
-    // 학부모 계정이 아닐경우
     if (!isParentLogin) {
+      // 학부모 계정이 아닐경우
       setTitle("학부모 전용페이지");
       setSubTitle("학부모회원만 이용할 수 있는 서비스 입니다.");
       setIsOpen(true);
@@ -104,6 +105,11 @@ const MyPage = () => {
     } else if (!year || !ikid) {
       setTitle("잘못된 경로");
       setSubTitle("잘못된 경로입니다. 다시 시도해주세요.");
+      setIsOpen(true);
+      return;
+    } else if (ikid === "0") {
+      setTitle("학부모 전용 페이지");
+      setSubTitle("연결된 원생 정보가 없습니다. \n 관리자에게 문의해주세요.");
       setIsOpen(true);
       return;
     } else {
@@ -115,8 +121,8 @@ const MyPage = () => {
   const successFn = result => {
     // 나와 연결된 아이가 맞는지 확인 후 데이터 가져옴
     if (!kidCheck.includes(parseInt(ikid))) {
-      setTitle("잘못된 경로");
-      setSubTitle("연결된 아이 정보가 없습니다. \n 다시 확인해주세요.");
+      setTitle("조회 실패");
+      setSubTitle("본인의 아이 정보만 확인 가능합니다.");
       setIsOpen(true);
       return;
     } else {
@@ -129,13 +135,15 @@ const MyPage = () => {
   };
   // 데이터연동 실패
   const errorFn = result => {
-    console.log(result);
+    setIsOpen(true);
+    setTitle("조회 실패");
+    setSubTitle(result);
   };
   // 모달창 확인버튼
   const handleOk = () => {
     setIsOpen(false);
     // 메인으로 이동
-    navigate("/");
+    navigate(-1);
   };
 
   const handleCancel = () => {
@@ -197,7 +205,7 @@ const MyPage = () => {
             rules={[
               {
                 required: true,
-                message: "식별코드를 입력해주세요. (15글자)",
+                message: "식별코드를 입력해주세요. (최대 15글자)",
                 max: 15,
               },
             ]}

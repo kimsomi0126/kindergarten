@@ -1,15 +1,42 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Checkbox, Form, Input, Select } from "antd";
-import { GreenBtn } from "../../styles/ui/buttons";
+import { GreenBtn, OrangeBtn } from "../../styles/ui/buttons";
 import { FormWrap } from "../../styles/user/login";
 import { LogoWrap } from "../../styles/basic";
 import PrivacyPolicy from "../../components/user/PrivacyPolicy";
+import { useLocation } from "react-router";
+import { getCheckId } from "../../api/user/userApi";
+import { FlexBox } from "../../styles/user/mypage";
 
 const { Option } = Select;
 
+const initState = {
+  ikid: 0,
+  irelation: 0,
+  isValid: 0,
+  parentNm: "",
+  uid: "",
+  upw: "",
+  phoneNb: "",
+  prEmail: "",
+};
+
+const initKid = {
+  code: "",
+  iclass: 0,
+  ikid: 0,
+  kidNm: "",
+};
 const SignupForm = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const kidName = "신짱구";
+  const [isOpen, setIsOpen] = useState(false);
+  const [registerData, setRegisterData] = useState(initState);
+  const [kidInfo, setKidInfo] = useState(initKid);
+  const [idCheckResult, setIdCheckResult] = useState(false);
+
+  // 식별코드정보값 가져오기
+  const location = useLocation();
+  const res = location.state.res;
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -21,24 +48,39 @@ const SignupForm = () => {
 
   const [form] = Form.useForm();
   const onFinish = values => {
-    console.log("Received values of form: ", values);
+    console.log("onFinish ", values);
   };
-  const prefixSelector = <Form.Item name="prefix" noStyle></Form.Item>;
 
-  const [autoCompleteResult, setAutoCompleteResult] = useState([]);
-  const onWebsiteChange = value => {
-    if (!value) {
-      setAutoCompleteResult([]);
-    } else {
-      setAutoCompleteResult(
-        [".com", ".org", ".net"].map(domain => `${value}${domain}`),
-      );
-    }
+  const onValuesChanged = (changeValues, allValues) => {
+    setRegisterData(allValues);
   };
-  const websiteOptions = autoCompleteResult.map(website => ({
-    label: website,
-    value: website,
-  }));
+
+  const successFn = res => {
+    console.log(res);
+    alert(res.message);
+    setIdCheckResult(true);
+  };
+  const errorFn = res => {
+    console.log(res);
+    alert(res);
+    setIdCheckResult(false);
+  };
+
+  const handleClickIdCheck = () => {
+    const uid = registerData.uid;
+    console.log(">>>", uid);
+    getCheckId({ uid, successFn, errorFn });
+  };
+  useEffect(() => {
+    // 식별코드정보 체크
+    if (!res) {
+      console.log("식별정보값 없음");
+    } else {
+      console.log("식별정보있음");
+      setKidInfo(res);
+    }
+  }, [registerData, idCheckResult]);
+
   return (
     <div>
       <FormWrap>
@@ -50,22 +92,24 @@ const SignupForm = () => {
           form={form}
           name="register"
           onFinish={onFinish}
+          onValuesChange={(changeValues, allValues) => {
+            onValuesChanged(changeValues, allValues);
+          }}
           style={{
             maxWidth: 600,
           }}
           scrollToFirstError
         >
           <Form.Item
-            name="gender"
+            name="irelation"
             rules={[
               {
                 required: true,
-                message: `${kidName}와의 관계를 선택해주세요.`,
+                message: `${kidInfo.kidNm} 어린이와의 관계를 선택해주세요.`,
               },
             ]}
           >
-            {/* 가족관계 = 1 : 부, 2 : 모, 3 : 조부, 4 : 조모, 5 : 형제/자매, 6 : 그 외 */}
-            <Select placeholder={kidName + "어린이와의 관계"}>
+            <Select placeholder={kidInfo.kidNm + " 어린이와의 관계"}>
               <Option value="1">부</Option>
               <Option value="2">모</Option>
               <Option value="3">조부</Option>
@@ -74,20 +118,29 @@ const SignupForm = () => {
               <Option value="6">그 외</Option>
             </Select>
           </Form.Item>
+          <div className="ipt_box">
+            <Form.Item
+              name="uid"
+              style={{ marginBottom: 20 }}
+              rules={[
+                {
+                  required: true,
+                  message: "아이디를 입력해주세요.",
+                },
+                // {
+                //   pattern: /^[a-zA-Z]+[0-9]+$/,
+                //   message: "아이디는 영어와 숫자 조합으로 입력해주세요",
+                // },
+              ]}
+            >
+              <Input placeholder="아이디 입력" />
+            </Form.Item>
+            <OrangeBtn type="button" onClick={handleClickIdCheck}>
+              중복확인
+            </OrangeBtn>
+          </div>
           <Form.Item
-            name="id"
-            style={{ marginBottom: 20 }}
-            rules={[
-              {
-                required: true,
-                message: "아이디를 입력해주세요.",
-              },
-            ]}
-          >
-            <Input placeholder="아이디 입력" />
-          </Form.Item>
-          <Form.Item
-            name="name"
+            name="parentNm"
             style={{ marginBottom: 20 }}
             rules={[
               {
@@ -100,7 +153,7 @@ const SignupForm = () => {
           </Form.Item>
 
           <Form.Item
-            name="password"
+            name="upw"
             style={{ marginBottom: 20 }}
             rules={[
               {
@@ -110,13 +163,13 @@ const SignupForm = () => {
             ]}
             hasFeedback
           >
-            <Input.Password placeholder="비밀번호 입력" />
+            <Input.Password autoComplete="false" placeholder="비밀번호 입력" />
           </Form.Item>
 
           <Form.Item
             name="confirm"
             style={{ marginBottom: 20 }}
-            dependencies={["password"]}
+            dependencies={["upw"]}
             hasFeedback
             rules={[
               {
@@ -125,7 +178,7 @@ const SignupForm = () => {
               },
               ({ getFieldValue }) => ({
                 validator(_, value) {
-                  if (!value || getFieldValue("password") === value) {
+                  if (!value || getFieldValue("upw") === value) {
                     return Promise.resolve();
                   }
                   return Promise.reject(
@@ -137,11 +190,11 @@ const SignupForm = () => {
               }),
             ]}
           >
-            <Input.Password placeholder="비밀번호 확인" />
+            <Input.Password autoComplete="false" placeholder="비밀번호 확인" />
           </Form.Item>
 
           <Form.Item
-            name="phone"
+            name="phoneNb"
             style={{ marginBottom: 20 }}
             rules={[
               {
@@ -153,7 +206,7 @@ const SignupForm = () => {
             <Input placeholder="전화번호 입력" />
           </Form.Item>
           <Form.Item
-            name="email"
+            name="prEmail"
             style={{ marginBottom: 20 }}
             rules={[
               {

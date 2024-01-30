@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   MainAlbum,
   MainAlbumImage,
@@ -7,30 +7,50 @@ import {
 } from "../../styles/main";
 import { PageTitle } from "../../styles/basic";
 import { Link } from "react-router-dom";
-import { AlbumDate } from "../common/TemporaryData";
+import { IMG_URL } from "../../api/config";
+import useCustomLogin from "../../hooks/useCustomLogin";
 
-const MainAlbumComponent = () => {
+const MainAlbumComponent = ({ albumDate }) => {
+  // 로그인 체크
+  const { isLogin, isParentLogin } = useCustomLogin();
+  useEffect(() => {
+    // 배열 거꾸로 순서변경
+    if (Array.isArray(albumDate)) {
+      albumDate.reverse();
+    }
+  }, []);
   return (
     <MainAlbum>
-      <PageTitle>활동앨범</PageTitle>
+      <PageTitle>
+        <Link to="/album">활동앨범</Link>
+      </PageTitle>
       <MainAlbumList>
-        {Array.isArray(AlbumDate) &&
-          AlbumDate.reverse().map(item => {
+        {albumDate[0].ialbum === 0 ? (
+          <div style={{ textAlign: "center", marginTop: "5rem" }}>
+            게시글이 없습니다.
+          </div>
+        ) : (
+          Array.isArray(albumDate) &&
+          albumDate.map(item => {
             return (
               <li key={item.ialbum}>
                 <Link to={`/album/details/${item.ialbum}`}>
                   <MainAlbumImage>
-                    <img src={process.env.PUBLIC_URL + item.album_pic} />
+                    <img
+                      src={`${IMG_URL}/pic/album/${item.ialbum}/${item.albumPic}`}
+                    />
+                    {!isLogin && !isParentLogin ? <div></div> : null}
                   </MainAlbumImage>
                   <MainAlbumText>
-                    <b>{item.album_title}</b>
-                    <p>{item.album_content}</p>
-                    <span>{item.create_at}</span>
+                    <b>{item.albumTitle}</b>
+                    <p>{item.albumContents}</p>
+                    <span>{item.createdAt}</span>
                   </MainAlbumText>
                 </Link>
               </li>
             );
-          })}
+          })
+        )}
       </MainAlbumList>
     </MainAlbum>
   );

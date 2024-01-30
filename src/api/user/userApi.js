@@ -31,7 +31,8 @@ export const postParentLogin = async ({
       failFn(res.data);
     }
   } catch (error) {
-    errorFn("로그인에 실패하였습니다. \n 다시 시도해주세요.");
+    const res = error.response.data;
+    errorFn(res.message);
   }
 };
 
@@ -64,24 +65,44 @@ export const postTeacherLogin = async ({
       failFn(res.data);
     }
   } catch (error) {
-    errorFn("로그인에 실패하였습니다. \n 다시 시도해주세요.");
+    const res = error.response.data;
+    errorFn(res.message);
   }
 };
 
 // 부모님 회원가입 - 식별코드체크
-export const getCheckCode = async ({ successFn, failFn, errorFn }) => {
+export const getCheckCode = async ({ code, successFn, failFn, errorFn }) => {
   try {
-    const res = await axios();
+    const res = await axios(`${path}/parent/check?code=${code}`);
+    const status = res.status.toString();
+
+    if (status.charAt(0) === "2") {
+      // 화면처리용
+      successFn(res.data);
+      // RTK 업데이트 처리를 위해 값 전달
+      return res.data;
+    } else {
+      failFn(res.data);
+    }
   } catch (error) {
-    errorFn("서버가 불안정합니다.다시 시도해주세요.");
+    const res = error.response.data;
+    errorFn(res.message);
   }
 };
 // 부모닙 회원가입 - 아이디 중복체크
-export const getCheckId = async ({ successFn, failFn, errorFn }) => {
+export const getCheckId = async ({ uid, successFn, failFn, errorFn }) => {
   try {
-    const res = await axios.get();
+    const res = await axios(`${path}/parent/signup?uid=${uid}`);
+    const status = res.status.toString();
+
+    if (status.charAt(0) === "2") {
+      successFn(res.data);
+    } else {
+      failFn(res.data);
+    }
   } catch (error) {
-    errorFn("서버가 불안정합니다.다시 시도해주세요.");
+    const res = error.response.data;
+    errorFn(res.message);
   }
 };
 // 부모님 회원가입 - 회원가입 정보
@@ -99,7 +120,8 @@ export const postParentSigup = async ({ successFn, failFn, errorFn }) => {
       failFn("서버가 불안정합니다. 다시 시도해주세요.");
     }
   } catch (error) {
-    errorFn("서버가 불안정합니다.다시 시도해주세요.");
+    const res = error.response.data;
+    errorFn(res.message);
   }
 };
 
@@ -117,7 +139,8 @@ export const getMypage = async ({ year, ikid, successFn, failFn, errorFn }) => {
       failFn("서버가 불안정합니다. 다시 시도해주세요.");
     }
   } catch (error) {
-    errorFn("서버가 불안정합니다.다시 시도해주세요.");
+    const res = error.response.data;
+    errorFn(res.message);
   }
 };
 
@@ -135,7 +158,8 @@ export const getParentInfo = async ({ successFn, failFn, errorFn }) => {
       failFn("서버가 불안정합니다. 다시 시도해주세요.");
     }
   } catch (error) {
-    errorFn("서버가 불안정합니다.다시 시도해주세요.");
+    const res = error.response.data;
+    errorFn(res.message);
   }
 };
 
@@ -158,6 +182,7 @@ export const putParentInfo = async ({
       failEditFn(res.data);
     }
   } catch (error) {
-    errorEditFn("수정에 실패했습니다. 다시 시도해주세요.");
+    const res = error.response.data;
+    errorEditFn(res.message);
   }
 };

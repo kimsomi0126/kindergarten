@@ -44,6 +44,7 @@ export const MainAlbumList = styled.ul`
   }
 `;
 export const MainAlbumImage = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
   overflow: hidden;
@@ -52,6 +53,21 @@ export const MainAlbumImage = styled.div`
   img {
     width: 100%;
     transition: 0.2s;
+  }
+  div {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(30px);
+    &:after {
+      content: "로그인 후 확인하세요";
+      color: #555;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
   }
 `;
 
@@ -116,6 +132,9 @@ export const MainNoticeTitle = styled.h3`
     no-repeat left 0.25rem/2.8rem;
   color: ${colors.greenDeep};
   margin-right: 2rem;
+  a {
+    color: ${colors.greenDeep};
+  }
 `;
 
 export const MainNoticeList = styled.div`

@@ -20,9 +20,12 @@ export const GreetingWrap = styled.div`
   flex-wrap: wrap;
   padding: 0 5%;
   margin: 0 auto 8rem;
+  > div {
+    width: 40%;
+  }
 `;
 export const GreetingText = styled.div`
-  width: 55%;
+  width: 60% !important;
   padding-left: 5%;
   font-size: 1.6rem;
   h3 {
@@ -44,12 +47,13 @@ export const TeacherWrap = styled.div`
 `;
 export const TeacherList = styled.ul`
   display: flex;
-  flex-wrap: wrap;
+  /* flex-wrap: wrap; */
   justify-content: space-between;
   text-align: center;
+  gap: 2rem;
 
   li {
-    width: 32%;
+    width: 24%;
     background: #fff;
     ${shadow}
   }
@@ -59,7 +63,7 @@ export const TeacherList = styled.ul`
 `;
 
 export const TeacherDesc = styled.div`
-  padding: 2rem 0;
+  padding: 2rem 3rem;
 
   h4 {
     margin-bottom: 1rem;
@@ -104,8 +108,20 @@ export const KidsInfo = styled.div`
   text-align: center;
   background: ${colors.white};
   border: 1px solid ${colors.grayLight};
+  margin: 1px;
+  margin-bottom: 1rem;
   h4 {
     padding: 2rem 0;
+  }
+  .kid_img {
+    aspect-ratio: 1/1;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  img {
+    min-height: 100%;
   }
 `;
 

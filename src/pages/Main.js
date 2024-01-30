@@ -56,7 +56,7 @@ const Main = () => {
         {/* 유치원소식 */}
         <MainNoticeComponent noticeDate={mainData.fullNoticeVoList} />
         {/* 배너 */}
-        <MainBannerComponent albumDate={mainData.albumMainVoList} />
+        <MainBannerComponent />
         <MainFlexWrap>
           {/* 팝업존 */}
           <MainPopComponent />
@@ -67,7 +67,7 @@ const Main = () => {
         </MainFlexWrap>
       </MainContainer>
       {/* 활동앨범 */}
-      <MainAlbumComponent />
+      <MainAlbumComponent albumDate={mainData.albumMainVoList} />
     </MainInner>
   );
 };

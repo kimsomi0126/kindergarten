@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../../styles/information/info_class.css";
 
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -17,103 +17,200 @@ import {
 import { MyClassWrap } from "../../styles/user/mypage";
 import MyClass from "../../components/user/MyClass";
 import { ImgBox } from "../../styles/main";
+import { getKid } from "../../api/information/informationApi";
+import { IMG_URL } from "../../api/config";
+import ModalOneBtn from "../../components/ui/ModalOneBtn";
+import useCustomLogin from "../../hooks/useCustomLogin";
+import { useNavigate } from "react-router";
+
+const initData = [
+  {
+    iclass: 0,
+    kidNm: "",
+    profile: "",
+  },
+];
 
 const InfoClass = () => {
-  const kidsData = [{ iclass: 0, kidNm: "string", profile: "string" }];
+  const navigate = useNavigate();
+  // 원생전체정보
+  const [kidsData, setKidData] = useState(initData);
+  // iclass에 따라 배열 재분배
+  const classHibiscus = kidsData.filter(kidsData => kidsData.iclass === 1);
+  const classSunflower = kidsData.filter(kidsData => kidsData.iclass === 2);
+  const classRose = kidsData.filter(kidsData => kidsData.iclass === 3);
+  // 안내창 state
+  const [title, setTitle] = useState("");
+  const [subTitle, setSubTitle] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+
+  // 로그인 체크
+  const { isLogin, isParentLogin } = useCustomLogin();
+
+  useEffect(() => {
+    if (!isLogin && !isParentLogin) {
+      setTitle("회원 전용 페이지");
+      setSubTitle("로그인 회원만 접근 가능합니다.");
+      setIsOpen(true);
+      return;
+    } else {
+      getKid({ successFn, failFn, errorFn });
+    }
+  }, []);
+  const successFn = res => {
+    setKidData([...res]);
+  };
+  const failFn = res => {
+    console.log(res);
+  };
+  const errorFn = res => {
+    console.log(res);
+  };
+  // 모달창 확인버튼
+  const handleOk = () => {
+    setIsOpen(false);
+    // 로그인페이지로 이동
+    navigate("/login");
+  };
   return (
     <InfoClassWrap>
+      <ModalOneBtn
+        isOpen={isOpen}
+        handleOk={handleOk}
+        title={title}
+        subTitle={subTitle}
+      />
       {/* 무궁화반 */}
       <ClassWrap className="class1">
         <MyClassWrap state={1}>
           <MyClass state={1} />
-          <div className="pagination"></div>
+          <div className="pagination page1"></div>
         </MyClassWrap>
-        <Swiper
-          slidesPerView={4}
-          slidesPerGroup={1}
-          spaceBetween="30"
-          loop="true"
-          speed={800}
-          pagination={{
-            el: ".pagination",
-          }}
-          autoplay={{
-            delay: 3000,
-            disableOnInteraction: false,
-          }}
-          modules={[Autoplay, Pagination]}
-          className="class1"
-        >
-          <SwiperSlide>
-            <KidsInfo>
-              <ImgBox>
-                <img src="/images/information/kids01.jpg" alt="이름"></img>
-              </ImgBox>
-              <h4>이름</h4>
-            </KidsInfo>
-          </SwiperSlide>
-        </Swiper>
+
+        {classHibiscus.length !== 0 ? (
+          <Swiper
+            slidesPerView={4}
+            spaceBetween="30"
+            loop="true"
+            speed={800}
+            pagination={{
+              el: ".page1",
+            }}
+            autoplay={{
+              delay: 3000,
+              disableOnInteraction: false,
+            }}
+            modules={[Autoplay, Pagination]}
+            className="class1"
+          >
+            {Array.isArray(classHibiscus) &&
+              classHibiscus.map((item, index) => (
+                <SwiperSlide key={`class1_${index}`}>
+                  <KidsInfo>
+                    <ImgBox className="kid_img">
+                      <img
+                        src={`${IMG_URL}/pic/kid/profile/${item.profile}`}
+                        alt={item.kidNm}
+                      ></img>
+                    </ImgBox>
+                    <h4>{item.kidNm}</h4>
+                  </KidsInfo>
+                </SwiperSlide>
+              ))}
+          </Swiper>
+        ) : (
+          <div style={{ textAlign: "center", marginTop: "2rem" }}>
+            등록된 원생이 없습니다.
+          </div>
+        )}
       </ClassWrap>
       {/* 해바라기반 */}
       <ClassWrap className="class2">
         <MyClassWrap state={2}>
           <MyClass state={2} />
+          <div className="pagination page2"></div>
         </MyClassWrap>
-        <Swiper
-          slidesPerView={4}
-          slidesPerGroup={1}
-          spaceBetween="30"
-          loop="true"
-          speed={800}
-          pagination={{
-            el: ".pagination",
-          }}
-          autoplay={{
-            delay: 3000,
-            disableOnInteraction: false,
-          }}
-          modules={[Autoplay, Pagination]}
-        >
-          <SwiperSlide>
-            <KidsInfo>
-              <ImgBox>
-                <img src="/images/information/kids01.jpg" alt="이름"></img>
-              </ImgBox>
-              <h4>이름</h4>
-            </KidsInfo>
-          </SwiperSlide>
-        </Swiper>
+        {classSunflower.length !== 0 ? (
+          <Swiper
+            slidesPerView={4}
+            slidesPerGroup={1}
+            spaceBetween="30"
+            loop="true"
+            speed={800}
+            pagination={{
+              el: ".page2",
+            }}
+            autoplay={{
+              delay: 3000,
+              disableOnInteraction: false,
+            }}
+            modules={[Autoplay, Pagination]}
+          >
+            {Array.isArray(classSunflower) &&
+              classSunflower.map((item, index) => (
+                <SwiperSlide key={`class1_${index}`}>
+                  <KidsInfo>
+                    <ImgBox className="kid_img">
+                      <img
+                        src={`${IMG_URL}/pic/kid/profile/${item.profile}`}
+                        alt={item.kidNm}
+                      ></img>
+                    </ImgBox>
+                    <h4>{item.kidNm}</h4>
+                  </KidsInfo>
+                </SwiperSlide>
+              ))}
+          </Swiper>
+        ) : (
+          <div style={{ textAlign: "center", marginTop: "2rem" }}>
+            등록된 원생이 없습니다.
+          </div>
+        )}
       </ClassWrap>
       {/* 장미반 */}
+
       <ClassWrap className="class3">
         <MyClassWrap state={3}>
           <MyClass state={3} />
+          <div className="pagination page3"></div>
         </MyClassWrap>
-        <Swiper
-          slidesPerView={4}
-          slidesPerGroup={1}
-          spaceBetween="30"
-          loop="true"
-          speed={800}
-          pagination={{
-            el: ".pagination",
-          }}
-          autoplay={{
-            delay: 3000,
-            disableOnInteraction: false,
-          }}
-          modules={[Autoplay, Pagination]}
-          className="class3"
-        >
-          <SwiperSlide>
-            <KidsInfo>
-              <ImgBox>
-                <img src="/images/information/kids01.jpg" alt="이름"></img>
-              </ImgBox>
-              <h4>이름</h4>
-            </KidsInfo>
-          </SwiperSlide>
-        </Swiper>
+        {classRose.length !== 0 ? (
+          <Swiper
+            slidesPerView={4}
+            slidesPerGroup={1}
+            spaceBetween="30"
+            loop="true"
+            speed={800}
+            pagination={{
+              el: ".page3",
+            }}
+            autoplay={{
+              delay: 3000,
+              disableOnInteraction: false,
+            }}
+            modules={[Autoplay, Pagination]}
+            className="class3"
+          >
+            {Array.isArray(classRose) &&
+              classRose.map((item, index) => (
+                <SwiperSlide key={`class1_${index}`}>
+                  <KidsInfo>
+                    <ImgBox className="kid_img">
+                      <img
+                        src={`${IMG_URL}/pic/kid/profile/${item.profile}`}
+                        alt={item.kidNm}
+                      ></img>
+                    </ImgBox>
+                    <h4>{item.kidNm}</h4>
+                  </KidsInfo>
+                </SwiperSlide>
+              ))}
+          </Swiper>
+        ) : (
+          <div style={{ textAlign: "center", marginTop: "2rem" }}>
+            등록된 원생이 없습니다.
+          </div>
+        )}
       </ClassWrap>
     </InfoClassWrap>
   );

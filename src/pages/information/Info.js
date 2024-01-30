@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import "../../styles/information/info.css";
 import {
@@ -11,34 +11,34 @@ import {
 } from "../../styles/information/info";
 import { PageTitle } from "../../styles/basic";
 import { ImgBox } from "../../styles/main";
+import { IMG_URL } from "../../api/config";
+import { getTeacher } from "../../api/information/informationApi";
+
+const initData = [
+  {
+    iclass: 0,
+    teacherNm: "",
+    teacherProfile: "",
+    teacherIntroduce: "",
+  },
+];
 
 const Info = () => {
-  const teacherData = [
-    {
-      iclass: "1",
-      teacher_profile: `${
-        process.env.PUBLIC_URL + "/images/information/teacher01.jpg"
-      }`,
-      teacher_nm: "선생님1",
-      teacher_introduce: "소개글입니다.",
-    },
-    {
-      iclass: "2",
-      teacher_profile: `${
-        process.env.PUBLIC_URL + "/images/information/teacher02.jpg"
-      }`,
-      teacher_nm: "선생님2",
-      teacher_introduce: "소개글입니다.",
-    },
-    {
-      iclass: "3",
-      teacher_profile: `${
-        process.env.PUBLIC_URL + "/images/information/teacher03.jpg"
-      }`,
-      teacher_nm: "선생님3",
-      teacher_introduce: "소개글입니다.",
-    },
-  ];
+  const [teacherData, SetTeacherData] = useState(initData);
+
+  useEffect(() => {
+    getTeacher({ successFn, failFn, errorFn });
+  }, [initData]);
+
+  const successFn = res => {
+    SetTeacherData([...res]);
+  };
+  const failFn = res => {
+    console.log(res);
+  };
+  const errorFn = res => {
+    console.log(res);
+  };
   return (
     <InfoWrap>
       <GreetingWrap>
@@ -68,15 +68,19 @@ const Info = () => {
       <TeacherWrap>
         <PageTitle>선생님 소개</PageTitle>
         <TeacherList>
-          {teacherData.map(item => (
-            <li key={item.iclass}>
-              <img src={item.teacher_profile} alt={item.teacher_nm} />
-              <TeacherDesc className={`class${item.iclass}`}>
-                <h4>{item.teacher_nm}</h4>
-                <p>{item.teacher_introduce}</p>
-              </TeacherDesc>
-            </li>
-          ))}
+          {Array.isArray(teacherData) &&
+            teacherData.map(item => (
+              <li key={item.iclass}>
+                <img
+                  src={`${IMG_URL}/pic/preschool/teacher/${item.teacherProfile}`}
+                  alt={item.teacherNm}
+                />
+                <TeacherDesc className={`class${item.iclass}`}>
+                  <h4>{item.teacherNm}</h4>
+                  <p>{item.teacherIntroduce}</p>
+                </TeacherDesc>
+              </li>
+            ))}
         </TeacherList>
       </TeacherWrap>
     </InfoWrap>

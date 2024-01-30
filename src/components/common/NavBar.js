@@ -15,6 +15,7 @@ const NavBar = () => {
   const { loginState, isLogin, isParentLogin } = useCustomLogin();
   const currentYear = new Date().getFullYear();
   const ikidList = loginState.kidList;
+  // console.log(loginState);
   const handleLogout = () => {
     doLogout();
     moveToPath("/");
@@ -48,7 +49,11 @@ const NavBar = () => {
             <GrayBtn onClick={e => navigate("/ind")}>알림장</GrayBtn>
             <OrangeBtn
               onClick={e =>
-                navigate(`/mypage?year=${currentYear}&ikid=${ikidList[0].ikid}`)
+                navigate(
+                  `/mypage?year=${currentYear}&ikid=${
+                    ikidList[0] ? ikidList[0].ikid : 0
+                  }`,
+                )
               }
             >
               마이페이지

@@ -72,8 +72,8 @@ const WriteAlbum = () => {
   const handleCancleOk = () => {
     // 여기에 삭제 처리 로직을 추가할 수 있습니다.
 
-    // 예시: 삭제 처리 후 /notice 페이지로 이동
-    navigate("/notice");
+    // 예시: 삭제 처리 후 /album 페이지로 이동
+    navigate("/album");
 
     setIsModalVisible(false);
   };

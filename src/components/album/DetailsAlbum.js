@@ -26,7 +26,7 @@ import { BlueBtn, GreenBtn, PinkBtn } from "../../styles/ui/buttons";
 import Comment from "../common/Comment";
 import { getAlbum } from "../../api/album/album_api";
 import Loading from "../loading/Loading";
-
+const host = `http://192.168.0.144:5224/pic/album/`;
 // import required modules
 const initAlbumCommnet = [
   {
@@ -165,7 +165,7 @@ const DetailsAlbum = ({ pno }) => {
     setIsDeleteSuccessModalOpen(false);
   };
   const [lightbox, setLightbox] = useState({ open: false, imgSrc: "" });
-  const openLightbox = imgSrc => setLightbox({ open: true, imgSrc: imgSrc[0] });
+  const openLightbox = imgSrc => setLightbox({ open: true, imgSrc: imgSrc });
   const closeLightbox = () => setLightbox({ open: false, imgSrc: "" });
 
   // Lightbox 상태에 따라 Swiper 높이 조절
@@ -216,12 +216,8 @@ const DetailsAlbum = ({ pno }) => {
                 albumData.albumPic.map((item, index) => (
                   <SwiperSlide key={index}>
                     <img
-                      src={`http://192.168.0.144:5224/pic/album/${pno}/${item}`}
-                      onClick={() =>
-                        openLightbox(
-                          `http://192.168.0.144:5224/pic/album/${pno}/${item}`,
-                        )
-                      }
+                      src={`${host}${pno}/${item}`}
+                      onClick={() => openLightbox(`${host}/${pno}/${item}`)}
                     />
                   </SwiperSlide>
                 ))}

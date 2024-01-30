@@ -4,9 +4,9 @@ import { Button, Checkbox, Form, Input, Upload, Modal } from "antd";
 import { PageTitle } from "../../styles/basic";
 import { GreenBtn, PinkBtn } from "../../styles/ui/buttons";
 import { Link, Navigate, useNavigate } from "react-router-dom";
-import { SearchBar } from "../../styles/album/album";
+import { AlbumWrap, FileListStyle, SearchBar } from "../../styles/album/album";
 
-const WriteAlbum = () => {
+const WriteAlbum = ({ submit }) => {
   const [form] = Form.useForm();
   const [fileList, setFileList] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -77,8 +77,14 @@ const WriteAlbum = () => {
 
     setIsModalVisible(false);
   };
+
+  // 업로드 칸 스타일을 수정하기 위한 변수
+  const uploadAreaStyle = {
+    height: "150px",
+    lineHeight: "150px",
+  };
   return (
-    <div>
+    <AlbumWrap paddingTop={40} width={100} height={100}>
       <PageTitle>활동앨범</PageTitle>
       <div
         style={{
@@ -119,18 +125,20 @@ const WriteAlbum = () => {
               style={{ height: "150px" }}
             />
           </Form.Item>
-
-          <Upload
-            action="http://localhost:3000/notice/write"
-            listType="picture"
-            fileList={fileList}
-            onChange={handleChange}
-            customRequest={customRequest}
-            className="upload-list-inline"
-            maxCount={3}
-          >
-            <Button icon={<UploadOutlined />}>업로드 (최대 3개 파일)</Button>
-          </Upload>
+          <FileListStyle>
+            <Upload.Dragger
+              action="http://localhost:3000/notice/write"
+              listType="picture"
+              fileList={fileList}
+              onChange={handleChange}
+              customRequest={customRequest}
+              className="upload-list-inline"
+              multiple={true}
+              style={uploadAreaStyle}
+            >
+              <Button icon={<UploadOutlined />}>업로드 </Button>
+            </Upload.Dragger>
+          </FileListStyle>
         </Form>
       </div>
       <div
@@ -141,17 +149,17 @@ const WriteAlbum = () => {
         }}
       >
         <GreenBtn htmlType="submit" onClick={onFinish}>
-          등록
+          {submit}
         </GreenBtn>
         <PinkBtn onClick={handleCancelConfirmation} style={{ marginLeft: 20 }}>
           취소
         </PinkBtn>
       </div>
 
-      <Link to="/notice">
+      <Link to="/album">
         <Modal
           title="등록 완료"
-          visible={isModalVisible}
+          open={isModalVisible}
           onOk={handleOk}
           onCancel={handleCancel}
           okText="확인"
@@ -161,7 +169,7 @@ const WriteAlbum = () => {
           <p>성공적으로 등록되었습니다.</p>
         </Modal>
       </Link>
-    </div>
+    </AlbumWrap>
   );
 };
 

@@ -11,7 +11,7 @@ const initAlbumWrite = [
 ];
 
 const AlbumWrite = () => {
-  return <WriteAlbum />;
+  return <WriteAlbum submit="등록" />;
 };
 
 export default AlbumWrite;

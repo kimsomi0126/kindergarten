@@ -217,3 +217,8 @@ export const CommentWrap = styled.div`
   background-color: #fafafa;
   padding-bottom: 2rem;
 `;
+
+export const FileListStyle = styled.div`
+  max-height: 300px;
+  overflow-y: auto;
+`;

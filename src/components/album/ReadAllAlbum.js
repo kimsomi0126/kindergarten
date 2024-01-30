@@ -1,9 +1,8 @@
 import Search from "antd/es/input/Search";
-import React, { useEffect, useRef, useState } from "react";
-import { Navigate, useNavigate } from "react-router";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import { getlistAll } from "../../api/album/album_api";
-import { AlbumData } from "../../components/common/TemporaryData";
 import Loading from "../../components/loading/Loading";
 import { UserTopRight } from "../../styles/adminstyle/guardianlist";
 import {
@@ -14,27 +13,34 @@ import {
 } from "../../styles/album/album";
 import { PageTitle } from "../../styles/basic";
 import { GreenBtn } from "../../styles/ui/buttons";
-
-const ReadAllAlbum = ({ pno }) => {
-  const [items, setItems] = useState([]); // 이미지 데이터 상태
-  const [loading, setLoading] = useState(false); // 로딩 상태
-  const [hasMore, setHasMore] = useState(true); // 더 불러올 데이터가 있는지 여부
-  const [page, setPage] = useState(1); // 'useNavigate' hook을 사용하여 페이지 이동 처리
+const host = `http://192.168.0.144:5224/pic/album/`;
+const ReadAllAlbum = () => {
+  const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+  const [totalAlbumCount, setTotalAlbumCount] = useState(null);
+  const [page, setPage] = useState(1);
   const loaderRef = useRef(null);
   const navigate = useNavigate();
-  const loadImages = async () => {
-    if (loading || !hasMore) return; // 이미 로딩중이거나 더 이상 불러올 데이터가 없으면 실행 중단
 
-    setLoading(true); // 로딩 시작
+  const loadImages = useCallback(async () => {
+    // 로딩 중이거나 모든 데이터가 로드되었다면 함수를 종료합니다.
+    if (
+      loading ||
+      (totalAlbumCount !== null && items.length >= totalAlbumCount)
+    ) {
+      return;
+    }
+
+    setLoading(true);
     getlistAll({
-      page: page,
+      page,
       successFn: data => {
-        setItems(prevItems => [...prevItems, ...data]); // 기존 아이템에 새 데이터 추가
-        setPage(prevPage => prevPage + 1); // 페이지 번호 증가
+        setTotalAlbumCount(data.albumCnt);
+        setItems(prevItems => [...prevItems, ...data.list]);
+        setPage(prevPage => prevPage + 1);
+        setHasMore(data.list.length > 0);
         setLoading(false);
-        if (data.length === 0 || data.length < 10) {
-          setHasMore(false); // 데이터가 없거나 마지막 페이지인 경우
-        }
       },
       failFn: message => {
         console.error(message);
@@ -47,30 +53,33 @@ const ReadAllAlbum = ({ pno }) => {
         setHasMore(false);
       },
     });
-  };
-
-  // Intersection Observer Callback
-  const handleObserver = entities => {
-    const target = entities[0];
-    if (target.isIntersecting && hasMore) {
-      loadImages(); // 추가 이미지 로드
-    }
-  };
+  }, [loading, totalAlbumCount, items, page]);
 
   // Observer 설정
+  const handleObserver = useCallback(
+    entities => {
+      const target = entities[0];
+      if (target.isIntersecting && hasMore && !loading) {
+        loadImages();
+      }
+    },
+    [loadImages, hasMore, loading],
+  );
+
+  // Observer 인스턴스 생성
   useEffect(() => {
     const observerOptions = {
       root: null,
-      rootMargin: "20px",
-      threshold: 0,
+      rootMargin: "0px", // 하단 감지 영역을 위로 올립니다.
+      threshold: 0.5, // 필요에 따라 threshold 조정
     };
     const observer = new IntersectionObserver(handleObserver, observerOptions);
     if (loaderRef.current) observer.observe(loaderRef.current);
 
-    return () => observer.disconnect(); // 컴포넌트 언마운트 시 observer 해제
-  }, [hasMore]);
+    return () => observer.disconnect();
+  }, [handleObserver]);
 
-  // 컴포넌트 마운트 시 초기 이미지 로드
+  // 컴포넌트 마운트 시 첫 페이지 데이터 로드
   useEffect(() => {
     loadImages();
   }, []);
@@ -97,12 +106,16 @@ const ReadAllAlbum = ({ pno }) => {
       </AlbumTopBar>
       <AlbumList>
         {items.map(item => (
-          <Link key={item.ialbum} to={`/album/details/${item.ialbum}`}>
+          <Link
+            ref={loaderRef}
+            key={item.ialbum}
+            to={`/album/details/${item.ialbum}`}
+          >
             <ul className="image-grid">
               <li className="image-item">
                 <img
                   height={400}
-                  src={`http://192.168.0.144:5224/pic/album/${item.ialbum}/${item.albumPic}`}
+                  src={`${host}${item.ialbum}/${item.albumPic}`}
                   alt={item.albumTitle}
                 />
               </li>
@@ -111,7 +124,6 @@ const ReadAllAlbum = ({ pno }) => {
           </Link>
         ))}
         {loading && <Loading className="loading" />}
-        <div ref={loaderRef} /> {/* 'loading' ref를 이 div에 할당 */}
       </AlbumList>
     </AlbumWrap>
   );

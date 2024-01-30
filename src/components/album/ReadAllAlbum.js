@@ -13,7 +13,8 @@ import {
 } from "../../styles/album/album";
 import { PageTitle } from "../../styles/basic";
 import { GreenBtn } from "../../styles/ui/buttons";
-const host = `http://192.168.0.144:5224/pic/album/`;
+import { IMG_URL } from "../../api/config";
+const path = `${IMG_URL}/pic/album`;
 const ReadAllAlbum = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -115,7 +116,7 @@ const ReadAllAlbum = () => {
               <li className="image-item">
                 <img
                   height={400}
-                  src={`${host}${item.ialbum}/${item.albumPic}`}
+                  src={`${path}/${item.ialbum}/${item.albumPic}`}
                   alt={item.albumTitle}
                 />
               </li>

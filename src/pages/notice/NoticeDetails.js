@@ -12,7 +12,8 @@ import { getDetail } from "../../api/notice/notice_api";
 import { PageTitle } from "../../styles/basic";
 import "../../styles/notice/gallery.css";
 import { BlueBtn, GreenBtn, PinkBtn } from "../../styles/ui/buttons";
-
+import { IMG_URL } from "../../api/config";
+const path = `${IMG_URL}/pic/fullnotice`;
 export const obj = {
   fullTitle: "",
   fullContents: "",
@@ -53,8 +54,8 @@ const NoticeDetails = () => {
     setDetailData(result);
     const pics = result.pics;
     const newImages = pics.map((pic, index) => ({
-      original: `http://192.168.0.144:5224/pic/fullnotice/${tno}/` + pic,
-      thumbnail: `http://192.168.0.144:5224/pic/fullnotice/${tno}/` + pic,
+      original: `${path}/${tno}/` + pic,
+      thumbnail: `${path}/${tno}/` + pic,
     }));
 
     setDetailImage(prevDetailImage => [...prevDetailImage, ...newImages]);

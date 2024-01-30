@@ -10,7 +10,9 @@ import {
 import { Pagination } from "antd";
 import { PageNum } from "../../styles/adminstyle/guardianlist";
 import { getAdminStudentList } from "../../api/adminPage/admin_api";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
+import useCustomLogin from "../../hooks/useCustomLogin";
+import { useSearchParams } from "react-router-dom";
 
 const initStudentList = {
   kidPage: [
@@ -26,8 +28,12 @@ const initStudentList = {
 
 const StudListComponent = () => {
   const [studentList, setStudentList] = useState(initStudentList);
-  const page = 1;
-  const kidCheck = 0;
+  const { loginState } = useCustomLogin();
+  const currentYear = new Date().getFullYear();
+  const ikidList = loginState.kidList;
+  const [serchParams, setSearchParams] = useSearchParams();
+  const page = serchParams.get("page");
+  const kidCheck = serchParams.get("kidCheck");
 
   useEffect(() => {
     getAdminStudentList({
@@ -37,7 +43,7 @@ const StudListComponent = () => {
       page,
       kidCheck,
     });
-  }, []);
+  }, [page]);
   const successFn = result => {
     setStudentList(result);
   };
@@ -80,6 +86,11 @@ const StudListComponent = () => {
   const handleClickView = () => {
     navigate(`/admin/student/details`);
   };
+  // 페이지네이션
+  const handleChangePage = page => {
+    console.log(page);
+    navigate(`/admin/student/list?page=${page}&kidCheck=${kidCheck}`);
+  };
 
   return (
     <>
@@ -95,9 +106,16 @@ const StudListComponent = () => {
           <label htmlFor="selectAll">전체 선택</label>
         </div>
         <StudentListWrap>
-          {Array.isArray(studentList) &&
-            studentList.map(item => (
-              <StudentListItem key={item.ikid} onClick={handleClickView}>
+          {Array.isArray(studentList.kidPage) &&
+            studentList.kidPage.map(item => (
+              <StudentListItem
+                key={item.ikid}
+                onClick={e =>
+                  navigate(
+                    `/admin/student/details?year=${currentYear}&ikid=${item.ikid}`,
+                  )
+                }
+              >
                 <StudentListBox>
                   <input
                     type="checkbox"
@@ -135,7 +153,11 @@ const StudListComponent = () => {
         </StudentListWrap>
       </StudentMain>
       <PageNum>
-        <Pagination defaultCurrent={1} total={50} />
+        <Pagination
+          defaultCurrent={page}
+          total={studentList.totalCnt}
+          onChange={handleChangePage}
+        />
       </PageNum>
     </>
   );

@@ -144,9 +144,9 @@ export const postStudentCreate = async ({
 
 // 원생 상세 정보 POST
 export const postStudentDetail = async ({
-  successFn,
-  failFn,
-  errorFn,
+  successAddFn,
+  failAddFn,
+  errorAddFn,
   detailData,
 }) => {
   try {
@@ -154,15 +154,38 @@ export const postStudentDetail = async ({
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
       // 화면처리용
-      successFn(res.data);
+      successAddFn(res.data);
     } else {
-      failFn();
+      failAddFn();
     }
   } catch (error) {
-    errorFn();
+    errorAddFn();
   }
 };
 
+// 원생 상세정보 GET
+export const getDetailInfo = async ({
+  successFn,
+  failFn,
+  errorFn,
+  ikid,
+  year,
+}) => {
+  try {
+    const res = await jwtAxios.get(`${host}/detail/edit/${ikid}?year=${year}`);
+    const status = res.status.toString();
+    if (status.charAt(0) === "2") {
+      // 화면처리용
+      successFn(res.data);
+      // RTK 업데이트 처리를 위해 값 전달
+      return res.data;
+    } else {
+      failFn("서버가 불안정합니다. 다시 시도해주세요.");
+    }
+  } catch (error) {
+    errorFn("서버가 불안정합니다.다시 시도해주세요.");
+  }
+};
 // 원생 마이페이지 GET
 export const getMyPageInfo = async ({
   year,
@@ -172,7 +195,7 @@ export const getMyPageInfo = async ({
   errorFn,
 }) => {
   try {
-    const res = await jwtAxios.get(`${path}/kid/${year}/${ikid}`);
+    const res = await jwtAxios.get(`${path}/${year}/${ikid}`);
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
       // 화면처리용

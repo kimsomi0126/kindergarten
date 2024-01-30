@@ -12,8 +12,11 @@ import {
 import { GreenBtn, PinkBtn } from "../../../styles/ui/buttons";
 import ModalTwoBtn from "../../../components/ui/ModalTwoBtn";
 import ModalOneBtn from "../../../components/ui/ModalOneBtn";
-import { useNavigate } from "react-router-dom";
-import { postStudentDetail } from "../../../api/adminPage/admin_api";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import {
+  getDetailInfo,
+  postStudentDetail,
+} from "../../../api/adminPage/admin_api";
 
 const initDetailData = {
   ikid: 0,
@@ -25,8 +28,42 @@ const initDetailData = {
   bodyDate: "",
 };
 
+const initDetailInfo = {
+  kidNm: "",
+  iclass: 0,
+  gender: 0,
+  birth: "",
+  growths: [
+    {
+      height: 0,
+      weight: 0,
+      bodyDate: "",
+      growth: 0,
+      growthDate: "",
+      growthMemo: "",
+    },
+  ],
+};
+
 const StudDetailsForm = ({ handleOk }) => {
   const navigate = useNavigate();
+  // 상세 정보 Get
+  const [detailInfo, setDetailInfo] = useState(initDetailInfo);
+  const [serchParams, setSearchParams] = useSearchParams();
+  useEffect(() => {
+    getDetailInfo({ successFn, failFn, errorFn, ikid, year });
+  }, []);
+  const ikid = serchParams.get("ikid");
+  const year = serchParams.get("year");
+  const successFn = result => {
+    setDetailInfo(result);
+  };
+  const failFn = result => {
+    setDetailInfo(result);
+  };
+  const errorFn = result => {
+    setDetailInfo(result);
+  };
 
   // 상세 정보 Post
   const [allDetailData, setAllDetailData] = useState(initDetailData);
@@ -69,19 +106,19 @@ const StudDetailsForm = ({ handleOk }) => {
   const handleAddClick = () => {
     postStudentDetail({
       allDetailData,
-      successFn,
-      failFn,
-      errorFn,
+      successAddFn,
+      failAddFn,
+      errorAddFn,
     });
     console.log(postStudentDetail);
   };
-  const successFn = result => {
+  const successAddFn = result => {
     console.log(result);
   };
-  const failFn = result => {
+  const failAddFn = result => {
     console.log(result);
   };
-  const errorFn = result => {
+  const errorAddFn = result => {
     console.log(result);
   };
 
@@ -105,7 +142,7 @@ const StudDetailsForm = ({ handleOk }) => {
       {/* 상세정보 */}
       <StudDetailWrap>
         <TitleWrap>
-          <PageTitle>2024년 상세정보 입력</PageTitle>
+          <PageTitle>{detailInfo.year}년 상세정보 입력</PageTitle>
         </TitleWrap>
         <DetailFormTable className="TableWrap">
           <table>
@@ -125,10 +162,10 @@ const StudDetailsForm = ({ handleOk }) => {
             </thead>
             <tbody>
               <tr>
-                <td>해바라기반</td>
-                <td>신짱구</td>
-                <td>남</td>
-                <td>2019-05-05</td>
+                <td>{detailInfo.iclass}</td>
+                <td>{detailInfo.kidNm}</td>
+                <td>{detailInfo.gender}</td>
+                <td>{detailInfo.birth}</td>
               </tr>
             </tbody>
           </table>

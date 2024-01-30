@@ -6,6 +6,10 @@ import { GreenBtn, PinkBtn } from "../../styles/ui/buttons";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { AlbumWrap, FileListStyle, SearchBar } from "../../styles/album/album";
 
+import jwtAxios from "../../util/jwtUtil";
+import { IMG_URL, SERVER_URL } from "../../api/config";
+const path = `${SERVER_URL}/api/album`;
+
 const WriteAlbum = ({ submit }) => {
   const [form] = Form.useForm();
   const [fileList, setFileList] = useState([]);
@@ -127,7 +131,7 @@ const WriteAlbum = ({ submit }) => {
           </Form.Item>
           <FileListStyle>
             <Upload.Dragger
-              action="http://localhost:3000/notice/write"
+              action={`{${IMG_URL}/album/write}`}
               listType="picture"
               fileList={fileList}
               onChange={handleChange}

@@ -26,7 +26,8 @@ import { BlueBtn, GreenBtn, PinkBtn } from "../../styles/ui/buttons";
 import Comment from "../common/Comment";
 import { getAlbum } from "../../api/album/album_api";
 import Loading from "../loading/Loading";
-const host = `http://192.168.0.144:5224/pic/album/`;
+import { IMG_URL } from "../../api/config";
+const path = `${IMG_URL}/pic/album`;
 // import required modules
 const initAlbumCommnet = [
   {
@@ -37,80 +38,6 @@ const initAlbumCommnet = [
     createdAt: "",
   },
 ];
-// const data = [
-//   { id: 1, pic: ["https://swiperjs.com/demos/images/nature-1.jpg"] },
-//   { id: 2, pic: ["https://swiperjs.com/demos/images/nature-2.jpg"] },
-//   { id: 3, pic: ["https://swiperjs.com/demos/images/nature-3.jpg"] },
-//   { id: 4, pic: ["https://swiperjs.com/demos/images/nature-4.jpg"] },
-//   { id: 5, pic: ["https://swiperjs.com/demos/images/nature-5.jpg"] },
-//   { id: 6, pic: ["https://swiperjs.com/demos/images/nature-6.jpg"] },
-//   { id: 7, pic: ["https://swiperjs.com/demos/images/nature-7.jpg"] },
-//   { id: 8, pic: ["https://swiperjs.com/demos/images/nature-8.jpg"] },
-//   { id: 1, pic: ["https://swiperjs.com/demos/images/nature-1.jpg"] },
-//   { id: 2, pic: ["https://swiperjs.com/demos/images/nature-2.jpg"] },
-//   { id: 3, pic: ["https://swiperjs.com/demos/images/nature-3.jpg"] },
-//   { id: 4, pic: ["https://swiperjs.com/demos/images/nature-4.jpg"] },
-//   { id: 5, pic: ["https://swiperjs.com/demos/images/nature-5.jpg"] },
-//   { id: 6, pic: ["https://swiperjs.com/demos/images/nature-6.jpg"] },
-//   { id: 7, pic: ["https://swiperjs.com/demos/images/nature-7.jpg"] },
-//   { id: 8, pic: ["https://swiperjs.com/demos/images/nature-8.jpg"] },
-//   { id: 1, pic: ["https://swiperjs.com/demos/images/nature-1.jpg"] },
-//   { id: 2, pic: ["https://swiperjs.com/demos/images/nature-2.jpg"] },
-//   { id: 3, pic: ["https://swiperjs.com/demos/images/nature-3.jpg"] },
-//   { id: 4, pic: ["https://swiperjs.com/demos/images/nature-4.jpg"] },
-//   { id: 5, pic: ["https://swiperjs.com/demos/images/nature-5.jpg"] },
-//   { id: 6, pic: ["https://swiperjs.com/demos/images/nature-6.jpg"] },
-//   { id: 7, pic: ["https://swiperjs.com/demos/images/nature-7.jpg"] },
-//   { id: 8, pic: ["https://swiperjs.com/demos/images/nature-8.jpg"] },
-//   { id: 1, pic: ["https://swiperjs.com/demos/images/nature-1.jpg"] },
-//   { id: 2, pic: ["https://swiperjs.com/demos/images/nature-2.jpg"] },
-//   { id: 3, pic: ["https://swiperjs.com/demos/images/nature-3.jpg"] },
-//   { id: 4, pic: ["https://swiperjs.com/demos/images/nature-4.jpg"] },
-//   { id: 5, pic: ["https://swiperjs.com/demos/images/nature-5.jpg"] },
-//   { id: 6, pic: ["https://swiperjs.com/demos/images/nature-6.jpg"] },
-//   { id: 7, pic: ["https://swiperjs.com/demos/images/nature-7.jpg"] },
-//   { id: 8, pic: ["https://swiperjs.com/demos/images/nature-8.jpg"] },
-//   { id: 1, pic: ["https://swiperjs.com/demos/images/nature-1.jpg"] },
-//   { id: 2, pic: ["https://swiperjs.com/demos/images/nature-2.jpg"] },
-//   { id: 3, pic: ["https://swiperjs.com/demos/images/nature-3.jpg"] },
-//   { id: 4, pic: ["https://swiperjs.com/demos/images/nature-4.jpg"] },
-//   { id: 5, pic: ["https://swiperjs.com/demos/images/nature-5.jpg"] },
-//   { id: 6, pic: ["https://swiperjs.com/demos/images/nature-6.jpg"] },
-//   { id: 7, pic: ["https://swiperjs.com/demos/images/nature-7.jpg"] },
-//   { id: 8, pic: ["https://swiperjs.com/demos/images/nature-8.jpg"] },
-//   { id: 1, pic: ["https://swiperjs.com/demos/images/nature-1.jpg"] },
-//   { id: 2, pic: ["https://swiperjs.com/demos/images/nature-2.jpg"] },
-//   { id: 3, pic: ["https://swiperjs.com/demos/images/nature-3.jpg"] },
-//   { id: 4, pic: ["https://swiperjs.com/demos/images/nature-4.jpg"] },
-//   { id: 5, pic: ["https://swiperjs.com/demos/images/nature-5.jpg"] },
-//   { id: 6, pic: ["https://swiperjs.com/demos/images/nature-6.jpg"] },
-//   { id: 7, pic: ["https://swiperjs.com/demos/images/nature-7.jpg"] },
-//   { id: 8, pic: ["https://swiperjs.com/demos/images/nature-8.jpg"] },
-//   { id: 1, pic: ["https://swiperjs.com/demos/images/nature-1.jpg"] },
-//   { id: 2, pic: ["https://swiperjs.com/demos/images/nature-2.jpg"] },
-//   { id: 3, pic: ["https://swiperjs.com/demos/images/nature-3.jpg"] },
-//   { id: 4, pic: ["https://swiperjs.com/demos/images/nature-4.jpg"] },
-//   { id: 5, pic: ["https://swiperjs.com/demos/images/nature-5.jpg"] },
-//   { id: 6, pic: ["https://swiperjs.com/demos/images/nature-6.jpg"] },
-//   { id: 7, pic: ["https://swiperjs.com/demos/images/nature-7.jpg"] },
-//   { id: 8, pic: ["https://swiperjs.com/demos/images/nature-8.jpg"] },
-//   { id: 1, pic: ["https://swiperjs.com/demos/images/nature-1.jpg"] },
-//   { id: 2, pic: ["https://swiperjs.com/demos/images/nature-2.jpg"] },
-//   { id: 3, pic: ["https://swiperjs.com/demos/images/nature-3.jpg"] },
-//   { id: 4, pic: ["https://swiperjs.com/demos/images/nature-4.jpg"] },
-//   { id: 5, pic: ["https://swiperjs.com/demos/images/nature-5.jpg"] },
-//   { id: 6, pic: ["https://swiperjs.com/demos/images/nature-6.jpg"] },
-//   { id: 7, pic: ["https://swiperjs.com/demos/images/nature-7.jpg"] },
-//   { id: 8, pic: ["https://swiperjs.com/demos/images/nature-8.jpg"] },
-//   { id: 1, pic: ["https://swiperjs.com/demos/images/nature-1.jpg"] },
-//   { id: 2, pic: ["https://swiperjs.com/demos/images/nature-2.jpg"] },
-//   { id: 3, pic: ["https://swiperjs.com/demos/images/nature-3.jpg"] },
-//   { id: 4, pic: ["https://swiperjs.com/demos/images/nature-4.jpg"] },
-//   { id: 5, pic: ["https://swiperjs.com/demos/images/nature-5.jpg"] },
-//   { id: 6, pic: ["https://swiperjs.com/demos/images/nature-6.jpg"] },
-//   { id: 7, pic: ["https://swiperjs.com/demos/images/nature-7.jpg"] },
-//   { id: 8, pic: ["https://swiperjs.com/demos/images/nature-8.jpg"] },
-// ];
 
 const DetailsAlbum = ({ pno }) => {
   const [albumData, setAlbumData] = useState(initAlbumCommnet); // 앨범 데이터 상태
@@ -216,8 +143,8 @@ const DetailsAlbum = ({ pno }) => {
                 albumData.albumPic.map((item, index) => (
                   <SwiperSlide key={index}>
                     <img
-                      src={`${host}${pno}/${item}`}
-                      onClick={() => openLightbox(`${host}/${pno}/${item}`)}
+                      src={`${path}/${pno}/${item}`}
+                      onClick={() => openLightbox(`${path}/${pno}/${item}`)}
                     />
                   </SwiperSlide>
                 ))}

@@ -1,15 +1,11 @@
-import axios from "axios";
-// import { API_SERVER_HOST } from "../pages/album/Album";
-
-import jwtAxios from "../util/jwtUtil";
-
-// 앨범 API
-const host = `http://112.222.157.156:5224/api/album`;
+import { SERVER_URL } from "../config";
+import jwtAxios from "../../util/jwtUtil";
+const path = `${SERVER_URL}/api/album`;
 
 // 목록 가져오기
 export const getList = async ({ param, successFn, failFn, errorFn }) => {
   try {
-    const res = await jwtAxios.get(`${host}/listall`, { params: param });
+    const res = await jwtAxios.get(`${path}/listall`, { params: param });
 
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
@@ -28,7 +24,7 @@ export const postAdd = async ({ product, successFn, failFn, errorFn }) => {
     // 파일 업로드시 준비할 것이 있습니다.
     // 반드시 복수형으로 { headers } 작성 필요
     const header = { headers: { "Content-Type": "multipart/form-data" } };
-    const res = await jwtAxios.post(`${host}/`, product, header);
+    const res = await jwtAxios.post(`${path}/`, product, header);
 
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
@@ -44,7 +40,7 @@ export const postAdd = async ({ product, successFn, failFn, errorFn }) => {
 // 하나의 상세 정보 가져오기
 export const getOne = async ({ pno, successFn, failFn, errorFn }) => {
   try {
-    const res = await jwtAxios.get(`${host}/${pno}`);
+    const res = await jwtAxios.get(`${path}/${pno}`);
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
       successFn(res.data);
@@ -62,7 +58,7 @@ export const putOne = async ({ pno, product, successFn, failFn, errorFn }) => {
     // 여기서도 이미지가 추가될 수 있어요.
     // header 가 필요합니다.
     const header = { headers: { "Content-Type": "multipart/form-data" } };
-    const res = await jwtAxios.put(`${host}/${pno}`, product, header);
+    const res = await jwtAxios.put(`${path}/${pno}`, product, header);
 
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
@@ -80,7 +76,7 @@ export const deleteOne = async ({ pno, successFn, failFn, errorFn }) => {
   try {
     // 여기서도 이미지가 추가될 수 있어요.
     // header 가 필요합니다.
-    const res = await jwtAxios.delete(`${host}/${pno}`);
+    const res = await jwtAxios.delete(`${path}/${pno}`);
 
     const status = res.status.toString();
     if (status.charAt(0) === "2") {

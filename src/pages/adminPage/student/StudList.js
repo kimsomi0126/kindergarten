@@ -10,11 +10,13 @@ import { BlueBtn, OrangeBtn, PurpleBtn } from "../../../styles/ui/buttons";
 import StudListComponent from "../../../components/adminpage/StudListComponent";
 import ModalTwoBtn from "../../../components/ui/ModalTwoBtn";
 
-const handleClassChange = value => {
-  console.log(value);
-};
-
 const StudList = ({ handleOk }) => {
+  // 반 별 셀렉트
+  const [selectedClass, setSelectedClass] = useState("");
+  const handleClassChange = item => {
+    console.log(item.iclass);
+    setSelectedClass(item.iclass);
+  };
   // 반 변경 모달창
   const [UpgradeModalOpen, setUpgradeModalOpen] = useState(false);
   const handleUpgradeClick = () => {
@@ -130,7 +132,7 @@ const StudList = ({ handleOk }) => {
           )}
         </StudentTopRight>
       </StudentTop>
-      <StudListComponent />
+      <StudListComponent selectedClass={selectedClass} />
     </>
   );
 };

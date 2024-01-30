@@ -80,7 +80,7 @@ const StudDetails = () => {
               ) : null}
             </TitleWrap>
             {/* 상세정보 - 신체정보 */}
-            <MyPhysicalComponent />
+            <MyPhysicalComponent myData={myData} />
             {/* 상세정보 - 칭찬뱃지 */}
             <DetailBadge>
               <MyBadge keywordValue={1} text="활발한 어린이 입니다." />

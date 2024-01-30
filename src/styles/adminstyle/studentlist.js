@@ -38,6 +38,9 @@ export const StudentListItem = styled.li`
   padding: 2rem;
   ${shadow}
   cursor: pointer;
+  input {
+    z-index: 999;
+  }
 `;
 export const StudentListBox = styled.div`
   display: flex;

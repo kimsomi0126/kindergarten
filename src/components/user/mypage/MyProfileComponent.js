@@ -19,7 +19,7 @@ const MyProfileComponent = ({ ilevel, myData, ikid }) => {
       <ProfileWrap>
         <ProfileImg>
           <img
-            src={`${IMG_URL}/pic/kid/${ikid}/${my.profile}`}
+            src={`${IMG_URL}/pic/kid/profile/${my.profile}`}
             alt={my.kidNm}
           />
         </ProfileImg>

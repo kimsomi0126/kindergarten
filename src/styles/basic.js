@@ -213,4 +213,7 @@ export const PageTitle = styled.h3`
   background: url(${process.env.PUBLIC_URL + "/images/information/logo1.svg"})
     no-repeat left 0.25rem/2.3rem;
   color: ${colors.greenDeep};
+  a {
+    color: ${colors.greenDeep};
+  }
 `;

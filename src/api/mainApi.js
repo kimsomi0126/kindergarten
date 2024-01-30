@@ -4,7 +4,6 @@ import jwtAxios from "../util/jwtUtil";
 const path = `${SERVER_URL}/api`;
 
 // 메인 최신글
-// 부모님 - 정보가져오기
 export const getMain = async ({ successFn, failFn, errorFn }) => {
   try {
     const res = await jwtAxios.get(`${path}/main?page=1`);
@@ -18,7 +17,7 @@ export const getMain = async ({ successFn, failFn, errorFn }) => {
       failFn(res.data);
     }
   } catch (error) {
-    console.log(error);
-    errorFn("서버가 불안정합니다.다시 시도해주세요.");
+    const res = error.response.data;
+    errorFn(res.message);
   }
 };

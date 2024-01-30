@@ -29,6 +29,20 @@ export const FormWrap = styled.div`
   .ant-form-item .ant-form-item-explain-error {
     font-size: 1.2rem;
   }
+
+  .ipt_box {
+    position: relative;
+    button {
+      position: absolute;
+      right: 0;
+      top: 0;
+      height: 3.2rem;
+      line-height: 3.2rem;
+      padding: 0;
+      z-index: 9;
+      border-radius: 0.5rem;
+    }
+  }
 `;
 
 export const PrivacyWrap = styled.div`

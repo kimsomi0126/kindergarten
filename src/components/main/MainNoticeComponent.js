@@ -13,7 +13,9 @@ import "swiper/css";
 export const MainNoticeComponent = ({ noticeDate }) => {
   return (
     <MainNoticeWrap>
-      <MainNoticeTitle>유치원소식</MainNoticeTitle>
+      <MainNoticeTitle>
+        <Link to="/notice">유치원소식</Link>
+      </MainNoticeTitle>
       <MainNoticeList>
         <Swiper
           direction={"vertical"}
@@ -29,9 +31,9 @@ export const MainNoticeComponent = ({ noticeDate }) => {
           {Array.isArray(noticeDate) &&
             noticeDate.map((item, index) => {
               return (
-                <SwiperSlide key={index}>
+                <SwiperSlide key={item.ifullNotice}>
                   <MainNoticeItem>
-                    <Link to={`/notice/details/${index}`}>
+                    <Link to={`/notice/details/${item.ifullNotice}`}>
                       <p>{item.fullTitle}</p>
                       <span>{item.createdAt}</span>
                     </Link>

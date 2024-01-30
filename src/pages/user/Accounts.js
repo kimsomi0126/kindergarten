@@ -1,18 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 import { FormWrap } from "../../styles/user/login";
 import { ContentInner, LogoWrap } from "../../styles/basic";
 import { Form, Input } from "antd";
 import { GreenBtn } from "../../styles/ui/buttons";
 import { useNavigate } from "react-router";
+import { getCheckCode } from "../../api/user/userApi";
 
 const Accounts = () => {
   const navigate = useNavigate();
+  const [code, setCode] = useState("");
   const onFinish = values => {
-    console.log("Success:", values);
-    navigate("/user/signup");
+    console.log("Success:", values.code);
+    getCheckCode({ code, successFn, failFn, errorFn });
+  };
+  const onValuesChange = values => {
+    setCode(values.code);
   };
   const onFinishFailed = errorInfo => {
     console.log("Failed:", errorInfo);
+  };
+  const successFn = res => {
+    console.log(res);
+    navigate("/user/signup", { state: { res } });
+  };
+  const failFn = res => {
+    console.log(res);
+  };
+  const errorFn = res => {
+    console.log(res);
   };
   return (
     <ContentInner>
@@ -30,6 +45,7 @@ const Accounts = () => {
             remember: true,
           }}
           onFinish={onFinish}
+          onValuesChange={onValuesChange}
           onFinishFailed={onFinishFailed}
           autoComplete="off"
         >
@@ -38,7 +54,7 @@ const Accounts = () => {
             rules={[
               {
                 required: true,
-                message: "식별코드를 입력해주세요. (15글자)",
+                message: "식별코드를 입력해주세요. (최대 15글자)",
                 max: 15,
               },
             ]}

@@ -23,13 +23,13 @@ export const obj = {
 
 const NoticeDetails = () => {
   const params = useSearchParams();
+  const slideInterval = 1700;
 
   const [postNumber, setPostNumber] = useState(0);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [detailData, setDetailData] = useState(obj);
   const [detailImage, setDetailImage] = useState([]);
   const { tno } = useParams();
-  console.log("tno:", tno);
   const navigate = useNavigate();
 
   const showDeleteModal = () => {
@@ -117,7 +117,11 @@ const NoticeDetails = () => {
               key={postNumber}
               style={{ margin: 40, maxWidth: 500, display: "inline-block" }}
             >
-              <ImageGallery items={detailImage} thumbnailPosition="left" />
+              <ImageGallery
+                items={detailImage}
+                thumbnailPosition="left"
+                slideInterval={slideInterval}
+              />
             </div>
           </div>
           <p style={{ margin: 30, textAlign: "center", fontSize: 20 }}>

@@ -1,21 +1,25 @@
 import React, { useState, useEffect } from "react";
-import { UploadOutlined } from "@ant-design/icons";
+import { UploadOutlined, DeleteOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Form, Input, Upload, Modal } from "antd";
 import { PageTitle } from "../../styles/basic";
 import { GreenBtn, PinkBtn } from "../../styles/ui/buttons";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { getDetail } from "../../api/notice/notice_api";
+import { getDetail, putNotice } from "../../api/notice/notice_api";
+import { SERVER_URL } from "../../api/config";
+
+const path = `${SERVER_URL}/api/full`;
 
 const NoticeModify = () => {
   const [form] = Form.useForm();
   const [fileList, setFileList] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const navigate = useNavigate();
-  const { tno } = useParams(); // URL 파라미터에서 tno 가져오기
+  const { tno } = useParams();
 
   const [initialData, setInitialData] = useState({
     fullTitle: "",
     fullContents: "",
+    pics: [],
   });
 
   const onChange = e => {
@@ -25,16 +29,20 @@ const NoticeModify = () => {
   const handleChange = info => {
     let fileList = [...info.fileList];
 
-    // 사진 파일이 업로드된 경우 fileList 업데이트
     fileList = fileList.map(file => {
       if (file.response) {
-        // 서버에서 응답이 오면, 파일 URL을 fileList에 추가
         file.url = file.response.url;
       }
       return file;
     });
 
     setFileList(fileList);
+  };
+
+  const handleImageRemove = index => {
+    const newFileList = [...fileList];
+    newFileList.splice(index, 1);
+    setFileList(newFileList);
   };
 
   const customRequest = ({ file, onSuccess }) => {
@@ -66,49 +74,64 @@ const NoticeModify = () => {
     });
   };
 
-  const onFinish = () => {
-    form
-      .validateFields()
-      .then(() => {
-        const { Input, TextArea } = form.getFieldsValue();
-        if (!Input || !TextArea) {
-          Modal.warning({
-            title: "입력 오류",
-            content: "제목과 내용을 입력해주세요.",
-          });
-        } else {
-          showModal();
-        }
-      })
-      .catch(errorInfo => {
-        console.log("Validation failed:", errorInfo);
+  const onFinish = async data => {
+    try {
+      const formData = new FormData();
+      const dto = new Blob(
+        [
+          JSON.stringify({
+            iteacher: 1,
+            fullTitle: data.fullTitle,
+            fullContents: data.fullContents,
+          }),
+        ],
+        { type: "application/json" },
+      );
+      formData.append("dto", dto);
+      fileList.forEach(file => {
+        formData.append("pics", file.originFileObj);
       });
+      putNotice({
+        product: formData,
+        successFn: handleSuccess,
+        failFn: handleFail,
+        errorFn: handleError,
+      });
+    } catch (error) {
+      console.error("수정 에러:", error);
+    }
+  };
+
+  const handleSuccess = data => {
+    setIsModalVisible(true);
+    console.log("게시글 수정 성공:", data);
+  };
+
+  const handleFail = error => {
+    console.error("게시글 수정 실패:", error);
+  };
+
+  const handleError = error => {
+    console.error("게시글 수정 에러:", error);
   };
 
   const handleCancelOk = () => {
-    // 여기에 삭제 처리 로직을 추가할 수 있습니다.
-    // 예시: 삭제 처리 후 /notice 페이지로 이동
     navigate("/notice");
     setIsModalVisible(false);
   };
 
   useEffect(() => {
-    // getDetail 함수를 이용하여 상세 정보 가져오기
-    // 여기에서 가져온 데이터로 form을 세팅합니다.
     const fetchData = async () => {
       try {
         const result = await getDetail({
           tno,
           successFn: data => {
             console.log("데이터 가져오기 성공:", data);
-
-            // 데이터 구조 확인 후 수정
             setInitialData({
               fullTitle: data.fullTitle,
               fullContents: data.fullContents,
+              pics: data.pics,
             });
-
-            // form의 필드값을 직접 세팅
             form.setFieldsValue({
               fullTitle: data.fullTitle,
               fullContents: data.fullContents,
@@ -127,7 +150,7 @@ const NoticeModify = () => {
     };
 
     fetchData();
-  }, []); // 페이지 로드 시에만 실행
+  }, [tno]);
 
   return (
     <div>
@@ -149,7 +172,7 @@ const NoticeModify = () => {
 
         <Form form={form} onFinish={onFinish} initialValues={initialData}>
           <Form.Item
-            name="fullTitle" // 이 부분 수정
+            name="fullTitle"
             rules={[{ required: true, message: "제목을 입력해주세요!" }]}
           >
             <Input placeholder="제목 입력" />
@@ -157,7 +180,7 @@ const NoticeModify = () => {
 
           <Form.Item
             style={{ height: "150px" }}
-            name="fullContents" // 이 부분 수정
+            name="fullContents"
             rules={[{ required: true, message: "내용을 입력해주세요!" }]}
           >
             <Input.TextArea
@@ -167,7 +190,7 @@ const NoticeModify = () => {
           </Form.Item>
 
           <Upload
-            action="http://localhost:3000/notice/modify"
+            action={`${path}`}
             listType="picture"
             fileList={fileList}
             onChange={handleChange}
@@ -177,6 +200,24 @@ const NoticeModify = () => {
           >
             <Button icon={<UploadOutlined />}>업로드 (최대 3개 파일)</Button>
           </Upload>
+
+          {initialData.pics.length > 0 && (
+            <div style={{ marginTop: 20, display: "flex" }}>
+              {initialData.pics.map((pic, index) => (
+                <div key={index} style={{ marginBottom: 10 }}>
+                  <img
+                    src={`${SERVER_URL}/pic/fullnotice/${tno}/${pic}`}
+                    alt={`file-${index}`}
+                    style={{ width: 100, height: 100, marginRight: 10 }}
+                  />
+                  <Button
+                    icon={<DeleteOutlined />}
+                    onClick={() => handleImageRemove(index)}
+                  />
+                </div>
+              ))}
+            </div>
+          )}
         </Form>
       </div>
       <div
@@ -197,7 +238,7 @@ const NoticeModify = () => {
       <Link to="/notice">
         <Modal
           title="수정 완료"
-          visible={isModalVisible}
+          open={isModalVisible}
           onOk={handleOk}
           onCancel={handleCancel}
           okText="확인"

@@ -4,6 +4,7 @@ import { Link } from "react-router-dom"; // useNavigate 추가
 import { getList } from "../../api/notice/notice_api";
 import { PageTitle } from "../../styles/basic";
 import { GreenBtn } from "../../styles/ui/buttons";
+import { putNotice } from "../../api/notice/notice_api";
 
 const { Search } = Input;
 

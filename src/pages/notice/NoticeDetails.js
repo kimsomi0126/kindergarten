@@ -158,7 +158,14 @@ const NoticeDetails = () => {
             </Link>
           </div>
           <div style={{ marginRight: 10 }}>
-            <Link to={`/notice/modify/${tno}`}>
+            <Link
+              to={{
+                pathname: `/notice/modify/${tno}`,
+                state: {
+                  detailData: detailData,
+                },
+              }}
+            >
               <BlueBtn>수정</BlueBtn>
             </Link>
           </div>

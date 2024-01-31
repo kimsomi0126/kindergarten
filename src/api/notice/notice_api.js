@@ -72,11 +72,10 @@ export const deleteNotice = async ({ successFn, failFn, errorFn }) => {
 };
 
 // 유치원소식 게시글 수정하기
-export const putNotice = async ({ tno, data, successFn, failFn, errorFn }) => {
+export const putNotice = async ({ data, successFn, failFn, errorFn }) => {
   try {
-    const res = await jwtAxios.put(`${path}`, data, {
-      headers: { "Content-Type": "multipart/form-data" },
-    });
+    const header = { headers: { "Content-Type": "multipart/form-data" } };
+    const res = await jwtAxios.put(`${path}`, data, header);
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
       successFn(res.data);

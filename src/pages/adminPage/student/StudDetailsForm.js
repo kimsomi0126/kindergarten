@@ -17,7 +17,10 @@ import {
   getDetailInfo,
   postStudentDetail,
 } from "../../../api/adminPage/admin_api";
+import dayjs from "dayjs";
+import { useForm } from "antd/lib/form/Form";
 
+// 상세정보 POST
 const initDetailData = {
   ikid: 0,
   height: 0,
@@ -28,6 +31,7 @@ const initDetailData = {
   bodyDate: "",
 };
 
+// 상세정보 GET
 const initDetailInfo = {
   kidNm: "",
   iclass: 0,
@@ -46,17 +50,27 @@ const initDetailInfo = {
 };
 
 const StudDetailsForm = ({ handleOk }) => {
+  const [form] = Form.useForm();
+  console.log("form", form);
   const navigate = useNavigate();
+
   // 상세 정보 Get
   const [detailInfo, setDetailInfo] = useState(initDetailInfo);
   const [serchParams, setSearchParams] = useSearchParams();
+  const detailGrowths = detailInfo.growths;
   useEffect(() => {
     getDetailInfo({ successFn, failFn, errorFn, ikid, year });
   }, []);
+
   const ikid = serchParams.get("ikid");
   const year = serchParams.get("year");
   const successFn = result => {
     setDetailInfo(result);
+    form.setFieldsValue({
+      weight1: result.growths[0].weight,
+      weight2: result.growths[1].weight,
+      // weight3: result.growths[2].weight,
+    });
   };
   const failFn = result => {
     setDetailInfo(result);
@@ -64,7 +78,8 @@ const StudDetailsForm = ({ handleOk }) => {
   const errorFn = result => {
     setDetailInfo(result);
   };
-
+  // console.log(detailInfo.growths[1].height);
+  console.log(detailInfo);
   // 상세 정보 Post
   const [allDetailData, setAllDetailData] = useState(initDetailData);
   const firstObject = {};
@@ -98,19 +113,51 @@ const StudDetailsForm = ({ handleOk }) => {
   const onValuesChange = (changeValue, allValue) => {
     setAllDetailData({ ...allValue });
   };
-  console.log("1번", firstObject);
-  console.log("2번", secondObject);
-  console.log("3번", thirdObject);
-  console.log("4번", forthObject);
+  // console.log("1번", firstObject);
+  // console.log("2번", secondObject);
+  // console.log("3번", thirdObject);
+  // console.log("4번", forthObject);
 
   const handleAddClick = () => {
+    const sendServerData = [];
+    if (firstObject.bodyDate || firstObject.growthDate) {
+      firstObject.bodyDate = dayjs(firstObject.bodyDate).format("YYYY-MM-DD");
+      firstObject.growthDate = dayjs(firstObject.growthDate).format(
+        "YYYY-MM-DD",
+      );
+      sendServerData.push(firstObject);
+    }
+    if (secondObject.bodyDate || secondObject.growthDate) {
+      secondObject.bodyDate = dayjs(secondObject.bodyDate).format("YYYY-MM-DD");
+      secondObject.growthDate = dayjs(secondObject.growthDate).format(
+        "YYYY-MM-DD",
+      );
+      sendServerData.push(secondObject);
+    }
+    if (thirdObject.bodyDate || thirdObject.growthDate) {
+      thirdObject.bodyDate = dayjs(thirdObject.bodyDate).format("YYYY-MM-DD");
+      thirdObject.growthDate = dayjs(thirdObject.growthDate).format(
+        "YYYY-MM-DD",
+      );
+      sendServerData.push(thirdObject);
+    }
+    if (forthObject.bodyDate || forthObject.growthDate) {
+      forthObject.bodyDate = dayjs(forthObject.bodyDate).format("YYYY-MM-DD");
+      forthObject.growthDate = dayjs(forthObject.growthDate).format(
+        "YYYY-MM-DD",
+      );
+      sendServerData.push(forthObject);
+    }
+
+    console.log(sendServerData);
+    console.log("전체 보낼 데이터 : ", sendServerData);
+
     postStudentDetail({
-      allDetailData,
+      allDetailData: sendServerData,
       successAddFn,
       failAddFn,
       errorAddFn,
     });
-    console.log(postStudentDetail);
   };
   const successAddFn = result => {
     console.log(result);
@@ -136,13 +183,38 @@ const StudDetailsForm = ({ handleOk }) => {
   const onCancel = () => {
     setIsCancelModalOpen(false);
   };
-
+  // const initialValues = {
+  //   bodyDate1: "",
+  //   bodyDate2: "",
+  //   bodyDate3: "",
+  //   bodyDate4: "",
+  //   height1: detailGrowths[0].height,
+  //   height2: "",
+  //   height3: "",
+  //   height4: "",
+  //   weight1: "",
+  //   weight2: "",
+  //   weight3: "",
+  //   weight4: "",
+  //   growthDate1: "",
+  //   growthDate2: "",
+  //   growthDate3: "",
+  //   growthDate4: "",
+  //   growth1: "",
+  //   growth2: "",
+  //   growth3: "",
+  //   growth4: "",
+  //   growthMemo1: "",
+  //   growthMemo2: "",
+  //   growthMemo3: "",
+  //   growthMemo4: "",
+  // };
   return (
     <>
       {/* 상세정보 */}
       <StudDetailWrap>
         <TitleWrap>
-          <PageTitle>{detailInfo.year}년 상세정보 입력</PageTitle>
+          <PageTitle>{year}년 상세정보 입력</PageTitle>
         </TitleWrap>
         <DetailFormTable className="TableWrap">
           <table>
@@ -162,9 +234,16 @@ const StudDetailsForm = ({ handleOk }) => {
             </thead>
             <tbody>
               <tr>
-                <td>{detailInfo.iclass}</td>
+                <td>
+                  {detailInfo.iclass === 1
+                    ? "무궁화반"
+                    : detailInfo.iclass === 2
+                    ? "해바라기반"
+                    : "장미반"}
+                </td>
+
                 <td>{detailInfo.kidNm}</td>
-                <td>{detailInfo.gender}</td>
+                <td>{detailInfo.gender === 0 ? "여자" : "남자"}</td>
                 <td>{detailInfo.birth}</td>
               </tr>
             </tbody>
@@ -173,6 +252,8 @@ const StudDetailsForm = ({ handleOk }) => {
       </StudDetailWrap>
       {/* 신체정보 */}
       <Form
+        form={form}
+        // initialValues={initialValues}
         onValuesChange={(changeValue, allValue) => {
           onValuesChange(changeValue, allValue);
         }}
@@ -247,7 +328,10 @@ const StudDetailsForm = ({ handleOk }) => {
                           },
                         ]}
                       >
-                        <Input type="text" placeholder="신장 입력 (숫자만)" />
+                        <Input
+                          type="text"
+                          placeholder="신장 입력 (숫자만)"
+                        ></Input>
                       </Form.Item>
                     </td>
                     <td>

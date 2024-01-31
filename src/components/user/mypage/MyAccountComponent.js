@@ -3,7 +3,8 @@ import { GrayBtn } from "../../../styles/ui/buttons";
 import { AccountInfo, TableWrap, TitleWrap } from "../../../styles/user/mypage";
 import { PageTitle } from "../../../styles/basic";
 
-const MyAccountComponent = () => {
+const MyAccountComponent = ({ myData }) => {
+  const my = myData;
   return (
     <AccountInfo>
       <TitleWrap>
@@ -28,24 +29,37 @@ const MyAccountComponent = () => {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>bong11</td>
-              <td>봉미선</td>
-              <td>01000000000</td>
-              <td>부</td>
-              <td>
-                <GrayBtn>연결삭제</GrayBtn>
-              </td>
-            </tr>
-            <tr>
-              <td>bong11</td>
-              <td>봉미선</td>
-              <td>01000000000</td>
-              <td>부</td>
-              <td>
-                <GrayBtn>연결삭제</GrayBtn>
-              </td>
-            </tr>
+            {my.parents.map((parent, index) => (
+              <tr key={index}>
+                <td>{parent ? parent.uid : ""}</td>
+                <td>{parent ? parent.parentNm : ""}</td>
+                <td>{parent ? parent.phoneNb : ""}</td>
+                <td>
+                  {parent
+                    ? (() => {
+                        const irelation = parent.irelation;
+                        switch (irelation) {
+                          case 1:
+                            return "부";
+                          case 2:
+                            return "모";
+                          case 3:
+                            return "조부";
+                          case 4:
+                            return "조모";
+                          case 5:
+                            return "형제/자매";
+                          default:
+                            return "그 외";
+                        }
+                      })()
+                    : ""}
+                </td>
+                <td>
+                  <GrayBtn>연결삭제</GrayBtn>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </TableWrap>

@@ -30,7 +30,7 @@ const MyProfileComponent = ({ ilevel, myData, ikid }) => {
               <IdentCodeWrap>
                 <dl>
                   <dt>식별코드</dt>
-                  <dd>00000</dd>
+                  <dd>{my.code}</dd>
                 </dl>
                 <OrangeBtn>식별코드수정</OrangeBtn>
               </IdentCodeWrap>
@@ -66,7 +66,7 @@ const MyProfileComponent = ({ ilevel, myData, ikid }) => {
         <AdminMemo>
           <dt>관리자메모</dt>
           <dd>
-            <div>입력한내용이 없습니다.</div>
+            <div>{my.memo}</div>
           </dd>
         </AdminMemo>
       ) : null}

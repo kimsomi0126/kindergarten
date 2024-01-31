@@ -13,6 +13,7 @@ import { getAdminStudentList } from "../../api/adminPage/admin_api";
 import { useNavigate } from "react-router-dom";
 import useCustomLogin from "../../hooks/useCustomLogin";
 import { useSearchParams } from "react-router-dom";
+import { IMG_URL } from "../../api/config";
 
 const initStudentList = {
   kidPage: [
@@ -123,7 +124,7 @@ const StudListComponent = () => {
                     onChange={handleStudentCheckboxChange}
                   />
                   <StudentImg>
-                    <img src={item.profile} />
+                    <img src={`${IMG_URL}/pic/kid/profile/${item.profile}`} />
                   </StudentImg>
                   <StudentInfo>
                     <p

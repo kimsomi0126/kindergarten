@@ -5,7 +5,7 @@ import { FormWrap } from "../../styles/user/login";
 import { LogoWrap } from "../../styles/basic";
 import PrivacyPolicy from "../../components/user/PrivacyPolicy";
 import { useLocation } from "react-router";
-import { getCheckId } from "../../api/user/userApi";
+import { getCheckId, postParentSigup } from "../../api/user/userApi";
 import { FlexBox } from "../../styles/user/mypage";
 
 const { Option } = Select;
@@ -32,7 +32,7 @@ const SignupForm = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [registerData, setRegisterData] = useState(initState);
   const [kidInfo, setKidInfo] = useState(initKid);
-  const [idCheckResult, setIdCheckResult] = useState(false);
+  const [idCheckResult, setIdCheckResult] = useState(0);
 
   // 식별코드정보값 가져오기
   const location = useLocation();
@@ -48,28 +48,52 @@ const SignupForm = () => {
 
   const [form] = Form.useForm();
   const onFinish = values => {
-    console.log("onFinish ", values);
+    const obj = {
+      ikid: kidInfo.ikid,
+      irelation: parseInt(values.irelation),
+      isValid: idCheckResult,
+      parentNm: values.parentNm,
+      uid: values.uid,
+      upw: values.upw,
+      phoneNb: values.phoneNb,
+      prEmail: values.prEmail,
+    };
+    console.log("onFinish ", obj);
+    postParentSigup({ obj, successFn, errorFn });
+  };
+
+  const successFn = res => {
+    console.log(res);
+    alert(res.message);
+  };
+  const errorFn = res => {
+    console.log(res);
+    alert(res);
   };
 
   const onValuesChanged = (changeValues, allValues) => {
     setRegisterData(allValues);
   };
 
-  const successFn = res => {
+  const successIdFn = res => {
     console.log(res);
     alert(res.message);
-    setIdCheckResult(true);
+    setIdCheckResult(1);
   };
-  const errorFn = res => {
+  const errorIdFn = res => {
     console.log(res);
     alert(res);
-    setIdCheckResult(false);
+    setIdCheckResult(0);
   };
 
   const handleClickIdCheck = () => {
     const uid = registerData.uid;
     console.log(">>>", uid);
-    getCheckId({ uid, successFn, errorFn });
+    if (!uid) {
+      alert("아이디를 입력해주세요");
+    } else {
+      getCheckId({ uid, successIdFn, errorIdFn });
+    }
   };
   useEffect(() => {
     // 식별코드정보 체크
@@ -200,6 +224,10 @@ const SignupForm = () => {
               {
                 required: true,
                 message: "전화번호를 입력해주세요.",
+              },
+              {
+                pattern: /^\d{3}\d{3,4}\d{4}$/,
+                message: "하이픈없이 숫자만 입력해주세요.",
               },
             ]}
           >

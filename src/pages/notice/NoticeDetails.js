@@ -8,18 +8,21 @@ import {
   useParams,
   useSearchParams,
 } from "react-router-dom";
-import { getDetail } from "../../api/notice/notice_api";
+import { deleteNotice, getDetail } from "../../api/notice/notice_api";
 import { PageTitle } from "../../styles/basic";
 import "../../styles/notice/gallery.css";
 import { BlueBtn, GreenBtn, PinkBtn } from "../../styles/ui/buttons";
 import { IMG_URL } from "../../api/config";
 const path = `${IMG_URL}/pic/fullnotice`;
 export const obj = {
-  fullTitle: "",
-  fullContents: "",
-  writer: "",
-  createdAt: "",
   pics: [""],
+  dto: {
+    ifullNotice: 0,
+    fullTitle: "",
+    fullContents: "",
+    fullNoticeFix: 0,
+    iteacher: 0,
+  },
 };
 
 const NoticeDetails = () => {
@@ -37,13 +40,25 @@ const NoticeDetails = () => {
     setIsDeleteModalOpen(true);
   };
 
-  const handleDeleteOk = () => {
-    // 여기에 삭제 처리 로직을 추가할 수 있습니다.
-
-    // 예시: 삭제 처리 후 /notice 페이지로 이동
-    navigate("/notice");
-
-    setIsDeleteModalOpen(false);
+  const handleDeleteOk = async () => {
+    try {
+      await deleteNotice({
+        tno,
+        successFn: () => {
+          navigate("/notice");
+        },
+        failFn: error => {
+          console.error("삭제실패:", error);
+        },
+        errorFn: error => {
+          console.error("삭제 에러:", error);
+          // 에러 시, 필요한 처리를 추가할 수 있습니다.
+        },
+      });
+      setIsDeleteModalOpen(false);
+    } catch (error) {
+      console.error("삭제 처리 중 에러 발생:", error);
+    }
   };
 
   const handleDeleteCancel = () => {

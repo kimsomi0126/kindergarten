@@ -25,11 +25,11 @@ const NoticeWrite = () => {
 
       // 서버로 보낼 데이터 구성
       const postData = {
-        pics: uploadedFileUrls,
+        pics: "",
         dto: {
-          fullTitle: Input,
-          fullContents: TextArea,
-          fullNoticeFix: Checkbox ? 1 : 0, // 체크박스가 선택되면 1, 아니면 0
+          fullTitle: "",
+          fullContents: "",
+          fullNoticeFix: 0, // 체크박스가 선택되면 1, 아니면 0
           iteacher: 0, // iteacher 값을 필요에 따라 설정
         },
       };
@@ -179,7 +179,7 @@ const NoticeWrite = () => {
           justifyContent: "flex-end",
         }}
       >
-        <GreenBtn htmlType="submit" onClick={onFinish}>
+        <GreenBtn htmlType="submit" onClick={handleClickPostProduct}>
           등록
         </GreenBtn>
         <PinkBtn onClick={handleCancelConfirmation} style={{ marginLeft: 20 }}>

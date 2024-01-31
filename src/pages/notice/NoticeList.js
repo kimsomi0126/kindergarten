@@ -126,29 +126,53 @@ const NoticeList = () => {
                 padding: "12px 0",
                 background: item.fullNoticeFix === 1 ? "#E7F6ED" : "white",
                 display: "flex",
-                justifyContent: "space-between",
+                justifyContent: "flex-start",
                 alignItems: "center",
                 cursor: "pointer",
               }}
             >
-              <Link to={`/notice/details/${item.ifullNotice}`}>
-                <span
+              {/* 고정글 아이콘 */}
+              {item.fullNoticeFix === 1 && (
+                <img
+                  src="/images/common/notice/loudSpeaker.svg"
+                  alt="고정글"
                   style={{
-                    marginLeft: 20,
-                    color: item.fullNoticeFix === 1 ? "#00876D" : "#000000",
-                    fontWeight: item.fullNoticeFix === 1 ? "bold" : "normal",
+                    marginRight: 60,
+                    marginLeft: 60,
+                    width: 20,
+                    height: 20,
                   }}
-                >
-                  {item.fullTitle}
-                </span>
-              </Link>
-              <div style={{ marginRight: 20, color: "gray" }}>
+                />
+              )}
+
+              {/* 게시글 번호, 제목, 날짜 표시 (최상단 고정글에는 번호 표시 안 함) */}
+              {item.fullNoticeFix !== 1 && (
+                <div style={{ marginRight: 60, marginLeft: 60, color: "gray" }}>
+                  {item.ifullNotice}
+                </div>
+              )}
+              <div style={{ flex: 1 }}>
+                <Link to={`/notice/details/${item.ifullNotice}`}>
+                  <span
+                    style={{
+                      color: item.fullNoticeFix === 1 ? "#00876D" : "#000000",
+                      fontWeight: item.fullNoticeFix === 1 ? "bold" : "normal",
+                    }}
+                  >
+                    {item.fullTitle}
+                  </span>
+                </Link>
+              </div>
+              <div
+                style={{ color: "gray", textAlign: "right", marginRight: 30 }}
+              >
                 <img
                   src="/images/common/notice/clock.svg"
                   alt=""
                   style={{ height: 30, marginRight: 10 }}
                 />
-                {item.createdAt}
+                {/* 시간 부분 제외하고 날짜만 표시 */}
+                {item.createdAt.substring(0, 10)}
               </div>
             </List.Item>
           </Link>

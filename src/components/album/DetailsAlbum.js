@@ -24,7 +24,7 @@ import {
 } from "../../styles/album/album";
 import { BlueBtn, GreenBtn, PinkBtn } from "../../styles/ui/buttons";
 import Comment from "../common/Comment";
-import { getAlbum } from "../../api/album/album_api";
+import { deleteAlbum, getAlbum } from "../../api/album/album_api";
 import Loading from "../loading/Loading";
 import { IMG_URL } from "../../api/config";
 const path = `${IMG_URL}/pic/album`;
@@ -71,17 +71,37 @@ const DetailsAlbum = ({ pno }) => {
   };
 
   const handleDeleteOk = () => {
-    // 여기에 삭제 처리 로직을 추가할 수 있습니다.
+    setIsDeleteModalOpen(false); // 삭제 확인 모달 닫기
 
-    // 예시: 삭제 처리 로직이 완료되면 성공 모달을 띄우고 페이지 이동
-    setIsDeleteModalOpen(false);
-    setIsDeleteSuccessModalOpen(true);
+    deleteAlbum({
+      ialbum: pno,
+      successFn: res => {
+        // 삭제 성공 시 처리
+        console.log("Album deleted:", res);
+        setIsDeleteSuccessModalOpen(true); // 삭제 성공 모달 열기
 
-    // 예시: 2초 후에 성공 모달을 닫고ce 페이지로 이동
-    setTimeout(() => {
-      setIsDeleteSuccessModalOpen(false);
-      navigate("/album");
-    }, 2000);
+        // 2초 후에 성공 모달을 닫고 앨범 목록 페이지로 이동
+        setTimeout(() => {
+          setIsDeleteSuccessModalOpen(false);
+          navigate("/album");
+        }, 2000);
+      },
+      failFn: error => {
+        // 삭제 실패 시 처리
+        Modal.error({
+          title: "앨범 삭제 실패",
+          content: "앨범 삭제에 실패했습니다. 다시 시도해 주세요.",
+        });
+      },
+      errorFn: error => {
+        console.error("Error deleting album:", error);
+        Modal.error({
+          title: "오류 발생",
+          content:
+            "서버 오류로 인해 삭제에 실패했습니다. 잠시 후 다시 시도해 주세요.",
+        });
+      },
+    });
   };
 
   const handleDeleteCancel = () => {
@@ -178,6 +198,7 @@ const DetailsAlbum = ({ pno }) => {
           title="삭제 완료"
           open={isDeleteSuccessModalOpen}
           onOk={handleDeleteSuccessOk}
+          cancelButtonProps={{ style: { display: "none" } }}
           okText="확인"
         >
           <p>삭제가 완료되었습니다.</p>

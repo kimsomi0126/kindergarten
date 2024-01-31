@@ -91,21 +91,21 @@ export const putEditAlbum = async ({
 
 // 앨범 등록 POST
 // path
-export const postAlbumWrite = async ({ successFn, failFn, errorFn }) => {
+// 글, 사진 등록(비동기 통신)(커뮤니티 등록)
+export const postAlbum = async ({ product, successFn, failFn, errorFn }) => {
   try {
+    console.log("Add 컴포넌트에서 글 작성한거", product);
     const header = { headers: { "Content-Type": "multipart/form-data" } };
-    const res = await jwtAxios.post();
-    const status = res.status.toString();
+    const response = await jwtAxios.post(`${path}`, product, header);
+    const status = response.status.toString();
     if (status.charAt(0) === "2") {
-      // 화면처리용
-      successFn(res.data);
+      successFn(response.data);
     } else {
-      failFn("앨범 등록에 실패하였습니다. 다시 시도해주세요.");
+      failFn("글 등록 오류", response.statusText);
     }
   } catch (error) {
-    errorFn(
-      "앨범 등록에 실패하였습니다. 서버가 불안정하니 잠시 후 다시 시도해주세요.",
-    );
+    console.log("글 등록 서버오류", error.response.data);
+    errorFn("글 등록 서버오류", error.response.data);
   }
 };
 

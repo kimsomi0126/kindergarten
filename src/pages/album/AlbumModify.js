@@ -1,8 +1,8 @@
 import React from "react";
-import WriteAlbum from "../../components/album/WriteAlbum";
+import ModifyAlbum from "../../components/album/ModifyAlbum";
 
-const AlbumModify = ({ pno }) => {
-  <WriteAlbum pno={pno} submit="수정" />;
+const AlbumModify = ({ albumdata }) => {
+  <ModifyAlbum albumdata={albumdata} />;
 };
 
 export default AlbumModify;

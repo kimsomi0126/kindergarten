@@ -1,6 +1,6 @@
 import { UploadOutlined } from "@ant-design/icons";
 import { Button, Form, Input, Modal, Upload } from "antd";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AlbumWrap, FileListStyle } from "../../styles/album/album";
 import { PageTitle } from "../../styles/basic";
@@ -18,12 +18,37 @@ const initState = {
   albumContents: "",
 };
 
-const WriteAlbum = ({ albumData, submit }) => {
+const ModifyAlbum = ({ albumData }) => {
+  // Props를 구조 분해 할당으로 받음
   const [form] = Form.useForm();
-  const [product, setProduct] = useState(initState);
-  const [fileList, setFileList] = useState([]);
+  const [product, setProduct] = useState({ ...initState, ...albumData }); // albumData로 초기 상태 설정
+  const [fileList, setFileList] = useState(
+    albumData.albumPics.map(pic => ({
+      uid: pic.id, // 고유 ID
+      name: pic.name, // 파일 이름
+      status: "done", // 업로드 상태
+      url: pic.url, // 파일 URL
+    })),
+  );
   const [isModalVisible, setIsModalVisible] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // form 필드에 albumData 적용
+    form.setFieldsValue({
+      albumTitle: albumData.albumTitle,
+      albumContents: albumData.albumContents,
+    });
+    // 이미지 리스트를 업데이트
+    setFileList(
+      albumData.albumPics.map(pic => ({
+        uid: pic.id,
+        name: pic.name,
+        status: "done",
+        url: pic.url,
+      })),
+    );
+  }, [albumData, form]);
 
   const onChange = e => {
     console.log(`checked = ${e.target.checked}`);
@@ -149,6 +174,7 @@ const WriteAlbum = ({ albumData, submit }) => {
         <Form form={form} onFinish={onFinish}>
           <Form.Item
             name="albumTitle"
+            initialValue={albumData.albumTitle}
             rules={[
               {
                 required: true,
@@ -160,8 +186,9 @@ const WriteAlbum = ({ albumData, submit }) => {
           </Form.Item>
 
           <Form.Item
-            style={{ height: "150px" }}
             name="albumContents"
+            initialValue={albumData.albumContents} // 초기값 설정
+            style={{ height: "150px" }}
             rules={[
               {
                 required: true,
@@ -196,7 +223,7 @@ const WriteAlbum = ({ albumData, submit }) => {
               // background: "red",
             }}
           >
-            <GreenBtn htmlType="submit">{submit}</GreenBtn>
+            <GreenBtn htmlType="submit">완료</GreenBtn>
 
             <PinkBtn
               onClick={handleCancelConfirmation}
@@ -225,4 +252,4 @@ const WriteAlbum = ({ albumData, submit }) => {
   );
 };
 
-export default WriteAlbum;
+export default ModifyAlbum;

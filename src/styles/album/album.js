@@ -205,8 +205,11 @@ export const DetailsText = styled.div`
 export const Footer = styled.div`
   text-align: right;
   width: 100%;
-  margin-top: 2rem;
+  height: 100%;
+  margin-top: 1.8rem;
   margin-bottom: 9rem;
+  position: relative;
+  z-index: 10;
 
   button {
     margin-left: 1rem;
@@ -222,3 +225,8 @@ export const FileListStyle = styled.div`
   max-height: 300px;
   overflow-y: auto;
 `;
+
+export const buttonStyle = {
+  position: "relative",
+  zIndex: 100,
+};

@@ -1,14 +1,13 @@
-import React, { useState } from "react";
 import { UploadOutlined } from "@ant-design/icons";
-import { Button, Checkbox, Form, Input, Upload, Modal } from "antd";
+import { Button, Form, Input, Modal, Upload } from "antd";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { AlbumWrap, FileListStyle } from "../../styles/album/album";
 import { PageTitle } from "../../styles/basic";
 import { GreenBtn, PinkBtn } from "../../styles/ui/buttons";
-import { Link, Navigate, useNavigate } from "react-router-dom";
-import { AlbumWrap, FileListStyle, SearchBar } from "../../styles/album/album";
 
-import jwtAxios from "../../util/jwtUtil";
-import { IMG_URL, SERVER_URL } from "../../api/config";
 import { postAlbum } from "../../api/album/album_api";
+import { SERVER_URL } from "../../api/config";
 const path = `${SERVER_URL}/api/album`;
 
 //초기값
@@ -177,7 +176,7 @@ const WriteAlbum = ({ submit }) => {
           </Form.Item>
           <FileListStyle>
             <Upload.Dragger
-              action={`${path}/api/album}`}
+              action={`${path}`}
               listType="picture"
               fileList={fileList}
               onChange={handleChange}

@@ -8,13 +8,22 @@ import { AlbumWrap, FileListStyle, SearchBar } from "../../styles/album/album";
 
 import jwtAxios from "../../util/jwtUtil";
 import { IMG_URL, SERVER_URL } from "../../api/config";
+import { postAlbum } from "../../api/album/album_api";
 const path = `${SERVER_URL}/api/album`;
+
+//초기값
+const initState = {
+  pics: [],
+  iteacher: 1,
+  albumTitle: "",
+  albumContents: "",
+};
 
 const WriteAlbum = ({ submit }) => {
   const [form] = Form.useForm();
+  const [product, setProduct] = useState(initState);
   const [fileList, setFileList] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [setIsDeleteModalOpen] = useState(false);
   const navigate = useNavigate();
 
   const onChange = e => {
@@ -22,14 +31,12 @@ const WriteAlbum = ({ submit }) => {
   };
 
   const handleChange = info => {
-    let fileList = [...info.fileList];
+    let fileList = [...info.fileList].filter(file => !!file.status);
     setFileList(fileList);
   };
 
-  const customRequest = ({ file, onSuccess }) => {
-    setTimeout(() => {
-      onSuccess();
-    }, 1000);
+  const customRequest = ({ onSuccess }) => {
+    onSuccess("ok");
   };
 
   const showModal = () => {
@@ -55,24 +62,41 @@ const WriteAlbum = ({ submit }) => {
     });
   };
 
-  const onFinish = () => {
-    form
-      .validateFields()
-      .then(() => {
-        const { Input, TextArea } = form.getFieldsValue();
-        if (!Input || !TextArea) {
-          Modal.warning({
-            title: "입력 오류",
-            content: "제목과 내용을 입력해주세요.",
-          });
-        } else {
-          showModal();
-        }
-      })
-      .catch(errorInfo => {
-        console.log("Validation failed:", errorInfo);
-      });
+  const onFinish = async data => {
+    console.log("fileList", fileList);
+    const formData = new FormData();
+    console.log("data", data);
+    // 글 정보를 담은 dto Blob객체 생성
+    const dto = new Blob(
+      [
+        JSON.stringify({
+          iteacher: 1,
+          albumTitle: data.albumTitle,
+          albumContents: data.albumContents,
+        }),
+      ],
+      // JSON 형식으로 설정
+      { type: "application/json" },
+    );
+
+    // dto 객체를 FormData에 추가
+    formData.append("dto", dto);
+
+    // fileList에 있는 각 파일을 formData에 추가
+    fileList.forEach(file => {
+      // originFileObj가 실제 파일 데이터를 가지고 있음
+      formData.append("pics", file.originFileObj);
+    });
+
+    // formData를 서버에 전송
+    postAlbum({
+      product: formData,
+      successFn: handleSuccess,
+      failFn: handleFailure,
+      errorFn: handleError,
+    });
   };
+
   const handleCancleOk = () => {
     // 여기에 삭제 처리 로직을 추가할 수 있습니다.
 
@@ -80,6 +104,28 @@ const WriteAlbum = ({ submit }) => {
     navigate("/album");
 
     setIsModalVisible(false);
+  };
+
+  const handleSuccess = response => {
+    setIsModalVisible(true);
+    // 성공적으로 업로드 완료 후 처리할 작업을 추가할 수 있습니다.
+  };
+
+  const handleFailure = errorMessage => {
+    // 업로드 실패 시 처리할 작업을 추가할 수 있습니다.
+    Modal.error({
+      title: "앨범 업로드 실패",
+      content: errorMessage,
+    });
+  };
+
+  const handleError = error => {
+    console.error("앨범 업로드 오류:", error);
+    Modal.error({
+      title: "앨범 업로드 중 오류 발생",
+      content:
+        "서버 오류 또는 네트워크 문제가 발생했습니다. 다시 시도해주세요.",
+    });
   };
 
   // 업로드 칸 스타일을 수정하기 위한 변수
@@ -103,7 +149,7 @@ const WriteAlbum = ({ submit }) => {
       >
         <Form form={form} onFinish={onFinish}>
           <Form.Item
-            name="Input"
+            name="albumTitle"
             rules={[
               {
                 required: true,
@@ -116,7 +162,7 @@ const WriteAlbum = ({ submit }) => {
 
           <Form.Item
             style={{ height: "150px" }}
-            name="TextArea"
+            name="albumContents"
             rules={[
               {
                 required: true,
@@ -131,7 +177,7 @@ const WriteAlbum = ({ submit }) => {
           </Form.Item>
           <FileListStyle>
             <Upload.Dragger
-              action={`{${IMG_URL}/album/write}`}
+              action={`${path}/api/album}`}
               listType="picture"
               fileList={fileList}
               onChange={handleChange}
@@ -143,21 +189,24 @@ const WriteAlbum = ({ submit }) => {
               <Button icon={<UploadOutlined />}>업로드 </Button>
             </Upload.Dragger>
           </FileListStyle>
+          <div
+            style={{
+              paddingTop: 15,
+              float: "right",
+              // position: "absolute",
+              // background: "red",
+            }}
+          >
+            <GreenBtn htmlType="submit">{submit}</GreenBtn>
+
+            <PinkBtn
+              onClick={handleCancelConfirmation}
+              style={{ marginLeft: 20 }}
+            >
+              취소
+            </PinkBtn>
+          </div>
         </Form>
-      </div>
-      <div
-        style={{
-          marginTop: 35,
-          display: "flex",
-          justifyContent: "flex-end",
-        }}
-      >
-        <GreenBtn htmlType="submit" onClick={onFinish}>
-          {submit}
-        </GreenBtn>
-        <PinkBtn onClick={handleCancelConfirmation} style={{ marginLeft: 20 }}>
-          취소
-        </PinkBtn>
       </div>
 
       <Link to="/album">

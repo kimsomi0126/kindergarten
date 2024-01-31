@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { ContentInner, PageTitle } from "../../styles/basic";
-import { Button, Dropdown, Form, Input, Select } from "antd";
+import { Button, Dropdown, Form, Input } from "antd";
 import {
   DetailBadge,
   DetailInfo,
@@ -15,12 +15,13 @@ import MyPhysicalComponent from "../../components/user/mypage/MyPhysicalComponen
 import MyBadge from "../../components/user/mypage/MyBadge";
 import useCustomLogin from "../../hooks/useCustomLogin";
 import ModalOneBtn from "../../components/ui/ModalOneBtn";
-import { useNavigate, useParams } from "react-router";
-import { getMypage, getParentInfo } from "../../api/user/userApi";
+import { useNavigate } from "react-router";
+import { getMypage, patchParent, postKidCode } from "../../api/user/userApi";
 import { DownOutlined } from "@ant-design/icons";
 import { Link, useSearchParams } from "react-router-dom";
 import ModalTwoBtn from "../../components/ui/ModalTwoBtn";
 import ParentEdit from "./ParentEdit";
+import { refreshJWT } from "../../util/jwtUtil";
 
 const initState = {
   kidNm: "",
@@ -56,14 +57,17 @@ const initState = {
 const MyPage = () => {
   const navigate = useNavigate();
   const [serchParams, setSearchParams] = useSearchParams();
-  // 현재 출력 년도, kid 값
+  // 현재 출력 년도, kid 값 체크
   const year = serchParams.get("year");
   const ikid = serchParams.get("ikid");
+
   // 로그인 회원 정보에서 아이 리스트 추출
-  const { loginState, isParentLogin } = useCustomLogin();
+  const { loginState, isParentLogin, doLogout } = useCustomLogin();
   const ikidList = loginState.kidList;
+
   // ikid 값만 추출하여 파라미터값과 비교
   const kidCheck = Array.isArray(ikidList) && ikidList.map(item => item.ikid);
+
   // 년도 선택
   const currentYear = new Date().getFullYear();
   const startYear = 2020;
@@ -74,6 +78,7 @@ const MyPage = () => {
       label: <Link to={`/mypage?year=${yearNum}&ikid=${ikid}`}>{yearNum}</Link>,
     });
   }
+
   // 아이 선택
   const items =
     Array.isArray(ikidList) &&
@@ -87,36 +92,42 @@ const MyPage = () => {
         ),
       };
     });
+
   // 아이 마이페이지 데이터
   const [myData, setMyData] = useState(initState);
+
+  // 모달창 내용
   const [title, setTitle] = useState("");
   const [subTitle, setSubTitle] = useState("");
   const [isOpen, setIsOpen] = useState(false);
-  const [codeOpen, setCodeOpen] = useState(false);
-  const [isEditOpen, setIsEditOpen] = useState(false);
-  const [editKey, setEditKey] = useState(0);
-  const [code, setCode] = useState("");
+  const [isNavigate, setIsNavigate] = useState();
 
   // 마이페이지 데이터 가져오기
   useEffect(() => {
+    // 예외처리
     if (!isParentLogin) {
       // 학부모 계정이 아닐경우
       setTitle("학부모 전용페이지");
       setSubTitle("학부모회원만 이용할 수 있는 서비스 입니다.");
       setIsOpen(true);
+      setIsNavigate(-1);
       return;
     } else if (!year || !ikid) {
+      // 년도, 아이 pk 가 주소에 없을경우
       setTitle("잘못된 경로");
       setSubTitle("잘못된 경로입니다. 다시 시도해주세요.");
       setIsOpen(true);
+      setIsNavigate(-1);
       return;
     } else if (ikid === "0") {
+      // 연결된 아이가 없을경우
       setTitle("학부모 전용 페이지");
       setSubTitle("연결된 원생 정보가 없습니다. \n 관리자에게 문의해주세요.");
+      setIsNavigate(-1);
       setIsOpen(true);
       return;
     } else {
-      getMypage({ year, ikid, successFn, failFn, errorFn });
+      getMypage({ year, ikid, successFn, errorFn });
     }
   }, [initState, year, ikid]);
 
@@ -127,58 +138,110 @@ const MyPage = () => {
       setTitle("조회 실패");
       setSubTitle("본인의 아이 정보만 확인 가능합니다.");
       setIsOpen(true);
+      setIsNavigate(-1);
       return;
     } else {
       setMyData(result);
     }
   };
-  // 데이터연동 실패
-  const failFn = result => {
-    console.log(result);
-  };
+
   // 데이터연동 실패
   const errorFn = result => {
     setIsOpen(true);
     setTitle("조회 실패");
     setSubTitle(result);
+    setIsNavigate(-1);
   };
+
   // 모달창 확인버튼
   const handleOk = () => {
     setIsOpen(false);
-    // 메인으로 이동
-    navigate(-1);
+    // 링크이동
+    if (isNavigate) {
+      navigate(isNavigate);
+    }
   };
-
+  // 모달창 취소
   const handleCancel = () => {
     setIsEditOpen(false);
+    setCodeOpen(false);
+    setDelOpen(false);
   };
 
-  // 학부모수정버튼 클릭
+  // 학부모수정
+  const [isEditOpen, setIsEditOpen] = useState(false);
+  const [editKey, setEditKey] = useState(0);
   const onParentEditClick = () => {
     setIsEditOpen(true);
     setEditKey(prevKey => prevKey + 1);
   };
-  const formRef = useRef();
-  // 아이추가 클릭
+
+  // 아이추가
+  const [codeOpen, setCodeOpen] = useState(false);
+  const [code, setCode] = useState({ code: "" });
   const onCodeAddClick = () => {
     setCodeOpen(true);
     setTitle("아이 추가");
     setSubTitle("식별코드를 입력해주세요.");
   };
-  const onFinish = values => {
-    console.log("Form Finished:", values);
-  };
+  const formRef = useRef();
   const handleExternalSubmit = () => {
     formRef.current.submit();
   };
   const onValuesChange = values => {
-    setCode(values.code);
+    setCode(values);
   };
   const onFinishFailed = errorInfo => {
-    console.log("Failed:", errorInfo);
+    // console.log("Failed:", errorInfo);
   };
-  // console.log("로그인정보", loginState);
-  // console.log("아이데이터", myData);
+  const onFinish = values => {
+    postKidCode({ code, successAddFn, errorAddFn });
+  };
+
+  // 아이추가 결과
+  const successAddFn = res => {
+    setCodeOpen(false);
+    setIsOpen(true);
+    setTitle("추가 완료");
+    setSubTitle(
+      "추가가 완료되었습니다. \n 업데이트를 위하여 다시 로그인해주세요.",
+    );
+    setIsNavigate("/login");
+    doLogout();
+  };
+  const errorAddFn = res => {
+    setIsOpen(true);
+    setTitle("추가 실패");
+    setSubTitle(res);
+    setCodeOpen(false);
+  };
+  // 회원탈퇴
+  const [delOpen, setDelOpen] = useState(false);
+  const handleClickDelete = () => {
+    console.log("탈퇴");
+
+    setDelOpen(true);
+    setTitle("정말 탈퇴할까요?");
+    setSubTitle("삭제된 계정은 복구할 수 없습니다. \n 정말 탈퇴하시겠습니까?");
+  };
+  const handleDelOk = () => {
+    patchParent({ successDelFn, errorDelFn });
+  };
+
+  const successDelFn = res => {
+    console.log(res);
+    setIsOpen(true);
+    setTitle("탈퇴 완료");
+    setSubTitle("탈퇴가 완료되었습니다. \n 메인페이지로 이동합니다.");
+    setIsNavigate("/");
+    doLogout();
+  };
+  const errorDelFn = res => {
+    console.log(res);
+    setIsOpen(true);
+    setTitle("탈퇴 실패");
+    setSubTitle(res);
+  };
 
   return (
     <ContentInner>
@@ -198,6 +261,7 @@ const MyPage = () => {
         subTitle={subTitle}
       >
         <Form
+          ref={formRef}
           name="account"
           style={{
             maxWidth: 600,
@@ -232,7 +296,13 @@ const MyPage = () => {
           key={editKey}
         />
       )}
-
+      <ModalTwoBtn
+        isOpen={delOpen}
+        handleOk={handleDelOk}
+        handleCancel={handleCancel}
+        title={title}
+        subTitle={subTitle}
+      />
       <MypageWrap>
         {/* 마이페이지 상단 버튼 */}
         <TitleWrap>
@@ -266,7 +336,7 @@ const MyPage = () => {
                 알림장
               </GrayBtn>
               <GreenBtn onClick={onParentEditClick}>학부모정보수정</GreenBtn>
-              <PinkBtn>회원탈퇴</PinkBtn>
+              <PinkBtn onClick={handleClickDelete}>회원탈퇴</PinkBtn>
             </BtnWrap>
           </FlexBox>
         </TitleWrap>
@@ -278,7 +348,7 @@ const MyPage = () => {
           {/* 상세정보 */}
           <DetailInfo>
             <TitleWrap>
-              <PageTitle>상세정보</PageTitle>
+              <PageTitle>{year}년 상세정보</PageTitle>
             </TitleWrap>
             {/* 상세정보 - 신체정보 */}
             <MyPhysicalComponent myData={myData} />

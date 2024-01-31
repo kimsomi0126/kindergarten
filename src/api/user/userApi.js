@@ -90,7 +90,7 @@ export const getCheckCode = async ({ code, successFn, failFn, errorFn }) => {
   }
 };
 
-// 부모닙 회원가입 - 아이디 중복체크
+// 부모님 회원가입 - 아이디 중복체크
 export const getCheckId = async ({ uid, successIdFn, failIdFn, errorIdFn }) => {
   try {
     const res = await axios(`${path}/parent/signup?uid=${uid}`);
@@ -145,6 +145,31 @@ export const getMypage = async ({ year, ikid, successFn, failFn, errorFn }) => {
   }
 };
 
+// 부모님 - 아이 추가
+export const postKidCode = async ({
+  code,
+  successAddFn,
+  failAddFn,
+  errorAddFn,
+}) => {
+  try {
+    const res = await jwtAxios.post(`${path}/parent/kidadd`, code);
+
+    const status = res.status.toString();
+    if (status.charAt(0) === "2") {
+      // 화면처리용
+      successAddFn(res.data);
+      // RTK 업데이트 처리를 위해 값 전달
+      return res.data;
+    } else {
+      failAddFn(res.data);
+    }
+  } catch (error) {
+    const res = error.response.data;
+    errorAddFn(res.message);
+  }
+};
+
 // 부모님 - 정보가져오기
 export const getParentInfo = async ({ successFn, failFn, errorFn }) => {
   try {
@@ -185,5 +210,22 @@ export const putParentInfo = async ({
   } catch (error) {
     const res = error.response.data;
     errorEditFn(res.message);
+  }
+};
+
+// 부모님 - 회원탈퇴하기
+export const patchParent = async ({ successDelFn, failDelFn, errorDelFn }) => {
+  try {
+    const res = await jwtAxios.patch(`${path}/parent`);
+    const status = res.status.toString();
+    if (status.charAt(0) === "2") {
+      successDelFn(res.data);
+      return res.data;
+    } else {
+      failDelFn(res.data);
+    }
+  } catch (error) {
+    const res = error.response.data;
+    errorDelFn(res.message);
   }
 };

@@ -28,7 +28,7 @@ const SideBar = () => {
         </LogoWrap>
         <SideMenu />
         <AllBtn type="text" onClick={() => setCollapsed(!collapsed)}>
-          {collapsed ? "접기" : "펼치기"}
+          {collapsed ? "펼치기" : "접기"}
         </AllBtn>
       </Sider>
     </SideBarWrap>

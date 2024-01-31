@@ -39,7 +39,7 @@ const requestFail = err => {
 
 // Refresh Token
 // 액세스 요청 실패시 무조건 시도해 봄
-const refreshJWT = async (accessToken, refreshToken) => {
+export const refreshJWT = async (accessToken, refreshToken) => {
   const host = SERVER_URL;
   const header = { headers: { Authorization: `Bearer ${accessToken}` } };
   // API 백엔드 Refresh 해줄 주소(URI)를 요청

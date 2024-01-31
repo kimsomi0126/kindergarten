@@ -31,7 +31,7 @@ export const MainNoticeComponent = ({ noticeDate }) => {
           {Array.isArray(noticeDate) &&
             noticeDate.map((item, index) => {
               return (
-                <SwiperSlide key={item.ifullNotice}>
+                <SwiperSlide key={`key_${item.ifullNotice}`}>
                   <MainNoticeItem>
                     <Link to={`/notice/details/${item.ifullNotice}`}>
                       <p>{item.fullTitle}</p>

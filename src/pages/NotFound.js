@@ -5,13 +5,19 @@ const NotFound = () => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        fontSize: 64,
-        position: "absolute",
-        width: "100%",
-        height: "100%",
+        margin: "5rem auto 0",
+        background: "#fff",
+        padding: "10rem 0",
+        boxShadow: "0px 0px 10px 0px rgba(0, 0, 0, 0.05)",
+        borderRadius: "2rem",
+        maxWidth: "1440px",
       }}
     >
-      존재하지 않는 페이지입니다.
+      <img
+        src={process.env.PUBLIC_URL + "/images/common/404.png"}
+        alt="page not found"
+        style={{ maxWidth: "60%" }}
+      />
     </div>
   );
 };

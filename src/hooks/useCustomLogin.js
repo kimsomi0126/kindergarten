@@ -5,6 +5,8 @@ import {
   logout,
   postParentLoginAsync,
 } from "../slices/loginSlice";
+import { getCookie, setCookie } from "../util/cookieUtil";
+import { refreshJWT } from "../util/jwtUtil";
 
 const useCustomLogin = () => {
   // 패스 이동하기
@@ -61,6 +63,24 @@ const useCustomLogin = () => {
     return <Navigate replace to="/login" />;
   };
 
+  // 액세스 토큰 리프레시 및 업데이트
+  const refreshAccessToken = async () => {
+    const memberInfo = getCookie("member");
+    const { accessToken, refreshToken } = memberInfo;
+
+    try {
+      const newTokens = await refreshJWT(accessToken, refreshToken);
+      // 새로운 액세스 토큰으로 기존 쿠키의 accessToken 값만 업데이트
+      memberInfo.accessToken = newTokens.accessToken;
+      setCookie("member", memberInfo, 1);
+      return newTokens.accessToken;
+    } catch (error) {
+      // 리프레시 실패 처리
+      console.error("토큰 리프레시 실패:", error);
+      throw error; // 실패한 경우 예외를 다시 던져서 호출자가 처리할 수 있도록 함
+    }
+  };
+
   return {
     loginState,
     isLogin,
@@ -71,6 +91,7 @@ const useCustomLogin = () => {
     doParentLogin,
     moveToPath,
     moveToLogin,
+    refreshAccessToken,
   };
 };
 

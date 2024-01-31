@@ -4,9 +4,10 @@ import { GreenBtn, OrangeBtn } from "../../styles/ui/buttons";
 import { FormWrap } from "../../styles/user/login";
 import { LogoWrap } from "../../styles/basic";
 import PrivacyPolicy from "../../components/user/PrivacyPolicy";
-import { useLocation } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { getCheckId, postParentSigup } from "../../api/user/userApi";
 import { FlexBox } from "../../styles/user/mypage";
+import ModalOneBtn from "../../components/ui/ModalOneBtn";
 
 const { Option } = Select;
 
@@ -28,15 +29,28 @@ const initKid = {
   kidNm: "",
 };
 const SignupForm = () => {
+  const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
   const [registerData, setRegisterData] = useState(initState);
   const [kidInfo, setKidInfo] = useState(initKid);
   const [idCheckResult, setIdCheckResult] = useState(0);
 
+  // 모달창 state
+  const [title, setTitle] = useState("");
+  const [subTitle, setSubTitle] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+  const [isNavigate, setIsNavigate] = useState("");
+
+  // 모달창 확인버튼
+  const handleOk = () => {
+    setIsOpen(false);
+    if (isNavigate) {
+      navigate(isNavigate);
+    }
+  };
+
   // 식별코드정보값 가져오기
   const location = useLocation();
-  const res = location.state.res;
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -44,6 +58,7 @@ const SignupForm = () => {
 
   const handleCancel = () => {
     setIsModalOpen(false);
+    setIsOpen(false);
   };
 
   const [form] = Form.useForm();
@@ -58,17 +73,19 @@ const SignupForm = () => {
       phoneNb: values.phoneNb,
       prEmail: values.prEmail,
     };
-    console.log("onFinish ", obj);
     postParentSigup({ obj, successFn, errorFn });
   };
 
   const successFn = res => {
-    console.log(res);
-    alert(res.message);
+    setIsOpen(true);
+    setTitle("회원가입 성공");
+    setSubTitle("회원가입에 성공했습니다. \n 메인페이지로 이동합니다.");
+    setIsNavigate("/");
   };
   const errorFn = res => {
-    console.log(res);
-    alert(res);
+    setIsOpen(true);
+    setTitle("회원가입 실패");
+    setSubTitle("회원가입에 실패했습니다. \n 다시 시도해주세요.");
   };
 
   const onValuesChanged = (changeValues, allValues) => {
@@ -76,16 +93,17 @@ const SignupForm = () => {
   };
 
   const successIdFn = res => {
-    console.log(res);
-    alert(res.message);
     setIdCheckResult(1);
+    setIsOpen(true);
+    setTitle("사용 가능");
+    setSubTitle(res.message + "입니다.");
   };
   const errorIdFn = res => {
-    console.log(res);
-    alert(res);
     setIdCheckResult(0);
+    setIsOpen(true);
+    setTitle("사용 불가");
+    setSubTitle(res);
   };
-
   const handleClickIdCheck = () => {
     const uid = registerData.uid;
     console.log(">>>", uid);
@@ -96,17 +114,27 @@ const SignupForm = () => {
     }
   };
   useEffect(() => {
-    // 식별코드정보 체크
-    if (!res) {
-      console.log("식별정보값 없음");
+    console.log(location.state);
+    if (location.state === null) {
+      setIsOpen(true);
+      setTitle("식별코드 입력필요");
+      setSubTitle(
+        "식별코드 인증 후 가입 가능합니다. \n 식별코드 입력 페이지로 이동합니다.",
+      );
+      setIsNavigate("/user/accounts");
     } else {
-      console.log("식별정보있음");
-      setKidInfo(res);
+      setKidInfo(location.state.res);
     }
   }, [registerData, idCheckResult]);
 
   return (
     <div>
+      <ModalOneBtn
+        isOpen={isOpen}
+        handleOk={handleOk}
+        title={title}
+        subTitle={subTitle}
+      />
       <FormWrap>
         <LogoWrap>
           <h3>학부모 회원가입</h3>
@@ -151,10 +179,6 @@ const SignupForm = () => {
                   required: true,
                   message: "아이디를 입력해주세요.",
                 },
-                // {
-                //   pattern: /^[a-zA-Z]+[0-9]+$/,
-                //   message: "아이디는 영어와 숫자 조합으로 입력해주세요",
-                // },
               ]}
             >
               <Input placeholder="아이디 입력" />

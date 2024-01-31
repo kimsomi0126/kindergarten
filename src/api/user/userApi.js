@@ -89,26 +89,27 @@ export const getCheckCode = async ({ code, successFn, failFn, errorFn }) => {
     errorFn(res.message);
   }
 };
+
 // 부모닙 회원가입 - 아이디 중복체크
-export const getCheckId = async ({ uid, successFn, failFn, errorFn }) => {
+export const getCheckId = async ({ uid, successIdFn, failIdFn, errorIdFn }) => {
   try {
     const res = await axios(`${path}/parent/signup?uid=${uid}`);
     const status = res.status.toString();
 
     if (status.charAt(0) === "2") {
-      successFn(res.data);
+      successIdFn(res.data);
     } else {
-      failFn(res.data);
+      failIdFn(res.data);
     }
   } catch (error) {
     const res = error.response.data;
-    errorFn(res.message);
+    errorIdFn(res.message);
   }
 };
 // 부모님 회원가입 - 회원가입 정보
-export const postParentSigup = async ({ successFn, failFn, errorFn }) => {
+export const postParentSigup = async ({ obj, successFn, failFn, errorFn }) => {
   try {
-    const res = await axios.post();
+    const res = await axios.post(`${path}/parent/signup`, obj);
 
     const status = res.status.toString();
     if (status.charAt(0) === "2") {

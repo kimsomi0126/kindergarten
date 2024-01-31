@@ -71,7 +71,7 @@ const MyPage = () => {
   for (let yearNum = startYear; yearNum <= currentYear; yearNum++) {
     yearArr.push({
       key: yearNum.toString(),
-      label: <a href={`/mypage?year=${yearNum}&ikid=${ikid}`}>{yearNum}</a>,
+      label: <Link to={`/mypage?year=${yearNum}&ikid=${ikid}`}>{yearNum}</Link>,
     });
   }
   // 아이 선택
@@ -81,7 +81,9 @@ const MyPage = () => {
       return {
         key: item.ikid.toString(),
         label: (
-          <a href={`/mypage?year=${year}&ikid=${item.ikid}`}>{item.kidNm}</a>
+          <Link to={`/mypage?year=${year}&ikid=${item.ikid}`}>
+            {item.kidNm}
+          </Link>
         ),
       };
     });
@@ -93,6 +95,7 @@ const MyPage = () => {
   const [codeOpen, setCodeOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [editKey, setEditKey] = useState(0);
+  const [code, setCode] = useState("");
 
   // 마이페이지 데이터 가져오기
   useEffect(() => {
@@ -115,7 +118,7 @@ const MyPage = () => {
     } else {
       getMypage({ year, ikid, successFn, failFn, errorFn });
     }
-  }, [initState]);
+  }, [initState, year, ikid]);
 
   // 데이터연동 성공
   const successFn = result => {
@@ -168,6 +171,12 @@ const MyPage = () => {
   const handleExternalSubmit = () => {
     formRef.current.submit();
   };
+  const onValuesChange = values => {
+    setCode(values.code);
+  };
+  const onFinishFailed = errorInfo => {
+    console.log("Failed:", errorInfo);
+  };
   // console.log("로그인정보", loginState);
   // console.log("아이데이터", myData);
 
@@ -190,7 +199,6 @@ const MyPage = () => {
       >
         <Form
           name="account"
-          ref={formRef}
           style={{
             maxWidth: 600,
           }}
@@ -198,6 +206,8 @@ const MyPage = () => {
             remember: true,
           }}
           onFinish={onFinish}
+          onValuesChange={onValuesChange}
+          onFinishFailed={onFinishFailed}
           autoComplete="off"
         >
           <Form.Item

@@ -150,7 +150,9 @@ const StudDetails = () => {
           {/* 프로필 */}
           <MyProfileComponent ilevel={ilevel} ikid={ikid} myData={myData} />
           {/* 연결계정 */}
-          {ilevel === "admin" ? <MyAccountComponent /> : null}
+          {ilevel === "admin" ? (
+            <MyAccountComponent ilevel={ilevel} ikid={ikid} myData={myData} />
+          ) : null}
           {/* 상세정보 */}
           <DetailInfo>
             <TitleWrap>

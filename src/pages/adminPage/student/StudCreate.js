@@ -36,7 +36,7 @@ import ModalTwoBtn from "../../../components/ui/ModalTwoBtn";
 import ModalOneBtn from "../../../components/ui/ModalOneBtn";
 import { postStudentCreate } from "../../../api/adminPage/admin_api";
 
-// 프로필 이미지 첨부
+// 프로필 이미지 첨부 (AntDesign)
 const props = {
   name: "file",
   action: "https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188",
@@ -54,21 +54,20 @@ const props = {
     }
   },
 };
-const initState = [
-  {
-    pic: "",
-    dto: {
-      kidNm: "",
-      iclass: 0,
-      gender: 0,
-      birth: "",
-      address: "",
-      memo: "",
-      emerNm: "",
-      emerNb: "",
-    },
+
+const initState = {
+  pic: "",
+  dto: {
+    kidNm: "",
+    iclass: 0,
+    gender: 0,
+    birth: "",
+    address: "",
+    memo: "",
+    emerNm: "",
+    emerNb: "",
   },
-];
+};
 
 const StudentCreate = () => {
   // 등록
@@ -81,49 +80,35 @@ const StudentCreate = () => {
   const uploadRef = useRef(null);
   // 파일 업로드 실행
   const handleClick = () => {
-    const files = uploadRef.current.files;
-    // if (!files) {
-    //   // 파일이 선택되지 않은 경우 처리
-    //   console.error("선택된 파일이 없습니다.");
-    //   return;
-    // }
-    // const filesTotal = files.length;
+    // const files = uploadRef.current.files;
+    const files = uploadRef.current.fileList;
+    // console.log(uploadRef.current.fileList[0]);
+    const filesTotal = files.length;
     const formData = new FormData();
-    // for (let i = 0; i < filesTotal; i++) {
-    //   formData.append("files", files[i]);
-    // }
-    // formData.append("kidNm", student[0].dto.kidNm);
-    // formData.append("iclass", student[0].dto.iclass);
-    // formData.append("gender", student[0].dto.gender);
-    // formData.append("birth", student[0].dto.birth);
-    // formData.append("address", student[0].dto.address);
-    // formData.append("memo", student[0].dto.memo);
-    // formData.append("emerNm", student[0].dto.emerNm);
-    // formData.append("emerNb", student[0].dto.emerNb);
+    for (let i = 0; i < filesTotal; i++) {
+      formData.append("files", files[i]);
+    }
+    formData.append("pic", files[0].name);
+    formData.append("kidNm", student.kidNm);
+    formData.append("iclass", student.iclass);
+    formData.append("gender", student.gender);
+    formData.append("birth", student.birth);
+    formData.append("address", student.address);
+    formData.append("memo", student.memo);
+    formData.append("emerNm", student.emerNm);
+    formData.append("emerNb", student.emerNb);
     console.log(student);
     // 제품 정보 전송하기
-    postStudentCreate({ student: formData, successFn, failFn, errorFn });
+    // postStudentCreate({ student: formData, successFn, failFn, errorFn });
   };
-  const [resultTitle, setResultTitle] = useState("");
-  const [resultContent, setResultContent] = useState("");
-  const [reDirect, setReDirect] = useState("");
 
   const successFn = result => {
-    // setResultTitle("이미지 업로드");
-    // setResultContent("이미지 업로드에 성공하였습니다.");
-    // setReDirect(0);
     console.log(result);
   };
   const failFn = result => {
-    // setResultTitle("이미지 업로드 오류");
-    // setResultContent("오류가 발생하였습니다. 잠시 후 시도해주세요");
-    // setReDirect(1);
     console.log(result);
   };
   const errorFn = result => {
-    // setResultTitle("서버 오류");
-    // setResultContent("오류가 발생하였습니다. 관리자에게 문의해주세요.");
-    // setReDirect(1);
     console.log(result);
   };
   // 모달창 적용
@@ -170,7 +155,6 @@ const StudentCreate = () => {
     setAddress(address);
     console.log(data);
   };
-
   const closeHandler = state => {
     if (state === "FORCE_CLOSE") {
       setIsOpen(false);
@@ -178,10 +162,8 @@ const StudentCreate = () => {
       setIsOpen(false);
     }
   };
-
   const toggleHandler = () => {
     setIsOpen(prevOpenState => !prevOpenState);
-
     setIsModalOpen(true);
   };
   const inputChangeHandler = event => {
@@ -190,7 +172,6 @@ const StudentCreate = () => {
   const handleOk = () => {
     setIsModalOpen(false);
   };
-
   const handleCancel = () => {
     setIsModalOpen(false);
   };
@@ -207,6 +188,8 @@ const StudentCreate = () => {
           <BasicInfoForm>
             <BasicInfoItem>
               <Form.Item
+                name="kidNm"
+                onChange={e => handleChange(e)}
                 style={{
                   width: "33%",
                 }}
@@ -214,6 +197,8 @@ const StudentCreate = () => {
                 <Input placeholder="이름" value={student.kidNm} />
               </Form.Item>
               <Form.Item
+                name="birth"
+                onChange={e => handleChange(e)}
                 style={{
                   width: "33%",
                 }}
@@ -227,6 +212,8 @@ const StudentCreate = () => {
                 />
               </Form.Item>
               <Form.Item
+                name="gender"
+                onChange={e => handleChange(e)}
                 style={{
                   width: "33%",
                 }}
@@ -248,7 +235,7 @@ const StudentCreate = () => {
               </Form.Item>
             </BasicInfoItem>
             <BasicInfoCode>
-              <Form.Item>
+              <Form.Item name="adress" onChange={e => handleChange(e)}>
                 <Input
                   disabled
                   type="text"
@@ -285,7 +272,7 @@ const StudentCreate = () => {
                   disabled
                   type="text"
                   placeholder="주소 입력"
-                  value={student.address}
+                  value={address}
                   onChange={e => setAddress(e.target.value)}
                 />
               </Form.Item>
@@ -342,6 +329,8 @@ const StudentCreate = () => {
               </Select>
             </Form.Item> */}
             <Form.Item
+              name="iclass"
+              onChange={e => handleChange(e)}
               style={{
                 width: "33%",
               }}

@@ -42,7 +42,7 @@ const GuardianListComponent = () => {
 
   useEffect(() => {
     getAdminParentList({ successFn, failFn, errorFn, page, iclass });
-  }, []);
+  }, [page]);
 
   const successFn = result => {
     setParentList(result);
@@ -56,7 +56,7 @@ const GuardianListComponent = () => {
   // 페이지네이션
   const handleChangePage = page => {
     console.log(page);
-    navigate(`/admin/teacher/parent?page=${page}&iclass=${iclass}`);
+    navigate(`/admin?page=${page}&iclass=${iclass}`);
   };
 
   // 학부모 정보 수정

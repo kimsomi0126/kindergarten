@@ -147,10 +147,10 @@ export const postStudentDetail = async ({
   successAddFn,
   failAddFn,
   errorAddFn,
-  detailData,
+  allDetailData,
 }) => {
   try {
-    const res = await jwtAxios.post(`${host}/detail`, detailData);
+    const res = await jwtAxios.post(`${host}/detail`, allDetailData);
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
       // 화면처리용
@@ -177,6 +177,7 @@ export const getDetailInfo = async ({
     if (status.charAt(0) === "2") {
       // 화면처리용
       successFn(res.data);
+      // console.log(res.data);
       // RTK 업데이트 처리를 위해 값 전달
       return res.data;
     } else {
@@ -200,6 +201,7 @@ export const getMyPageInfo = async ({
     if (status.charAt(0) === "2") {
       // 화면처리용
       successFn(res.data);
+
       // RTK 업데이트 처리를 위해 값 전달
       return res.data;
     } else {

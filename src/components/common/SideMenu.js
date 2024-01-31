@@ -19,7 +19,7 @@ const SideMenu = () => {
       "유치원 안내",
       "1",
       <img
-        src={process.env.PUBLIC_URL + "/images/common/sidebar/introduce.svg"}
+        src={process.env.PUBLIC_URL + "/images/common/sidebar/info_icon.svg"}
       />,
       [
         getItem(<Link to="/info/">유치원 소개</Link>, "1-1"),

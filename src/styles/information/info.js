@@ -56,9 +56,18 @@ export const TeacherList = styled.ul`
     width: 24%;
     background: #fff;
     ${shadow}
+    .teacher_img {
+      aspect-ratio: 4/3;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fafafa;
+    }
   }
   img {
-    width: 100%;
+    width: auto;
+    height: 100%;
   }
 `;
 

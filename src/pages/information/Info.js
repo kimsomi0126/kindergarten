@@ -71,10 +71,12 @@ const Info = () => {
           {Array.isArray(teacherData) &&
             teacherData.map(item => (
               <li key={item.iclass}>
-                <img
-                  src={`${IMG_URL}/pic/preschool/teacher/${item.teacherProfile}`}
-                  alt={item.teacherNm}
-                />
+                <ImgBox className="teacher_img">
+                  <img
+                    src={`${IMG_URL}/pic/user/${item.iteacher}/${item.teacherProfile}`}
+                    alt={item.teacherNm}
+                  />
+                </ImgBox>
                 <TeacherDesc className={`class${item.iclass}`}>
                   <h4>{item.teacherNm}</h4>
                   <p>{item.teacherIntroduce}</p>

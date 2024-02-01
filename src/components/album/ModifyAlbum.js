@@ -1,142 +1,101 @@
+// ModifyAlbum.js
 import { UploadOutlined } from "@ant-design/icons";
 import { Button, Form, Input, Modal, Upload } from "antd";
-import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { getAlbum, putAlbum } from "../../api/album/album_api";
+import { IMG_URL } from "../../api/config";
 import { AlbumWrap, FileListStyle } from "../../styles/album/album";
 import { PageTitle } from "../../styles/basic";
 import { GreenBtn, PinkBtn } from "../../styles/ui/buttons";
-
-import { postAlbum } from "../../api/album/album_api";
-import { SERVER_URL } from "../../api/config";
-const path = `${SERVER_URL}/api/album`;
-
-//초기값
-const initState = {
-  pics: [],
-  iteacher: 1,
-  albumTitle: "",
-  albumContents: "",
+const path = `${IMG_URL}/api/album`;
+const imgpath = `${IMG_URL}/pic/album`;
+const customRequest = ({ onSuccess }) => {
+  onSuccess("ok");
 };
+const initAlbumCommnet = [
+  {
+    albumTitle: "",
+    albumContents: "",
+    albumPic: [],
+    albumComments: [],
+    createdAt: "",
+  },
+];
+const ModifyAlbum = () => {
+  const { pno } = useParams();
+  const formRef = useRef();
+  const [albumData, setAlbumData] = useState(initAlbumCommnet); // albumData 상태를 추가
 
-const ModifyAlbum = ({ albumData }) => {
-  // Props를 구조 분해 할당으로 받음
   const [form] = Form.useForm();
-  const [product, setProduct] = useState({ ...initState, ...albumData }); // albumData로 초기 상태 설정
-  const [fileList, setFileList] = useState(
-    albumData.albumPics.map(pic => ({
-      uid: pic.id, // 고유 ID
-      name: pic.name, // 파일 이름
-      status: "done", // 업로드 상태
-      url: pic.url, // 파일 URL
-    })),
-  );
+  const [fileList, setFileList] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    // form 필드에 albumData 적용
-    form.setFieldsValue({
-      albumTitle: albumData.albumTitle,
-      albumContents: albumData.albumContents,
-    });
-    // 이미지 리스트를 업데이트
-    setFileList(
-      albumData.albumPics.map(pic => ({
-        uid: pic.id,
-        name: pic.name,
-        status: "done",
-        url: pic.url,
-      })),
-    );
-  }, [albumData, form]);
-
-  const onChange = e => {
-    console.log(`checked = ${e.target.checked}`);
-  };
 
   const handleChange = info => {
     let fileList = [...info.fileList].filter(file => !!file.status);
     setFileList(fileList);
   };
 
-  const customRequest = ({ onSuccess }) => {
-    onSuccess("ok");
+  const uploadAreaStyle = {
+    height: "150px",
+    lineHeight: "150px",
   };
-
-  const showModal = () => {
-    setIsModalVisible(true);
-  };
-
-  const handleOk = () => {
-    setIsModalVisible(false);
-  };
-
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
-
-  const handleCancelConfirmation = () => {
-    Modal.confirm({
-      title: "정말 취소할까요?",
-      content: "작성된 내용은 저장되지 않습니다.",
-      onOk: handleCancleOk,
-      okText: "확인",
-      cancelText: "취소",
-      onCancel: () => {},
-    });
+  const handleGreenButtonClick = () => {
+    formRef.current.submit(); // Form의 submit 메서드 호출
   };
 
   const onFinish = async data => {
-    console.log("fileList", fileList);
     const formData = new FormData();
-    console.log("data", data);
-    // 글 정보를 담은 dto Blob객체 생성
     const dto = new Blob(
       [
         JSON.stringify({
           iteacher: 1,
           albumTitle: data.albumTitle,
           albumContents: data.albumContents,
+          ialbum: pno,
         }),
       ],
-      // JSON 형식으로 설정
       { type: "application/json" },
     );
-
-    // dto 객체를 FormData에 추가
     formData.append("dto", dto);
 
-    // fileList에 있는 각 파일을 formData에 추가
+    // 새로 추가된 이미지 파일을 FormData에 추가
     fileList.forEach(file => {
-      // originFileObj가 실제 파일 데이터를 가지고 있음
-      formData.append("pics", file.originFileObj);
+      if (file.originFileObj) {
+        // originFileObj 속성이 있으면 새로운 파일이므로 FormData에 추가
+        formData.append("pics", file.originFileObj);
+      }
     });
 
-    // formData를 서버에 전송
-    postAlbum({
-      product: formData,
-      successFn: handleSuccess,
-      failFn: handleFailure,
-      errorFn: handleError,
+    // 기존 이미지 파일을 FormData에 추가
+    albumData.albumPic.forEach(pic => {
+      // 여기서 pic는 기존 이미지 파일의 이름(또는 경로)입니다.
+      // 이를 서버가 인식할 수 있는 형식의 File 객체로 변환해서 추가해야 합니다.
+      // 예시: fetch를 사용하여 이미지를 blob으로 가져오고, 이를 File 객체로 변환해서 추가
+      // 주의: 이는 비동기 작업이므로, 모든 파일을 처리한 후에 putAlbum을 호출해야 합니다.
+      fetch(`${imgpath}/${pno}/${pic}`).then(response => {
+        response.blob().then(blob => {
+          const file = new File([blob], pic, { type: "image/jpeg" }); // MIME 타입 설정이 필요
+          formData.append("pics", file);
+        });
+      });
     });
-  };
 
-  const handleCancleOk = () => {
-    // 여기에 삭제 처리 로직을 추가할 수 있습니다.
-
-    // 예시: 삭제 처리 후 /album 페이지로 이동
-    navigate("/album");
-
-    setIsModalVisible(false);
+    // 모든 파일 처리가 완료되면, putAlbum을 호출
+    // 주의: 비동기 작업을 동기적으로 처리해야 하므로, Promise.all 또는 async/await 구조를 사용할 필요가 있음
+    // putAlbum 호출 부분은 모든 파일이 formData에 추가된 후에 위치해야 합니다.
   };
 
   const handleSuccess = response => {
     setIsModalVisible(true);
+    console.log("수정이 성공적으로 완료되었습니다.", response);
     // 성공적으로 업로드 완료 후 처리할 작업을 추가할 수 있습니다.
+    // 예를 들어, 수정된 앨범의 상세 페이지로 리디렉션할 수 있습니다.
+    navigate(`/album/details/${pno}`);
   };
 
   const handleFailure = errorMessage => {
-    // 업로드 실패 시 처리할 작업을 추가할 수 있습니다.
     Modal.error({
       title: "앨범 업로드 실패",
       content: errorMessage,
@@ -152,11 +111,76 @@ const ModifyAlbum = ({ albumData }) => {
     });
   };
 
-  // 업로드 칸 스타일을 수정하기 위한 변수
-  const uploadAreaStyle = {
-    height: "150px",
-    lineHeight: "150px",
+  const handleOk = () => {
+    setIsModalVisible(false);
   };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancelConfirmation = () => {
+    Modal.confirm({
+      title: "정말 취소하시겠습니까?",
+      content: "수정 내용이 저장되지 않습니다.",
+      onOk: () => {
+        console.log("취소가 확인되었습니다.");
+        navigate("/album"); // 사용자를 앨범 목록 페이지로 이동
+      },
+      okText: "확인",
+      cancelText: "계속 수정",
+    });
+  };
+
+  useEffect(() => {
+    const fetchAlbumData = async () => {
+      getAlbum({
+        pno: pno,
+        successFn: data => {
+          setAlbumData(data); // Set the album data in state
+
+          // Update form fields with the album data
+          form.setFieldsValue({
+            albumTitle: data.albumTitle,
+            albumContents: data.albumContents,
+          });
+
+          // Transform album pictures for the fileList state
+          const transformedFileList = data.albumPic.map((pic, index) => ({
+            uid: index.toString(), // uid is required to be unique
+            name: pic, // file name
+            status: "done", // upload status
+            url: `${imgpath}/${pno}/${pic}`, // file URL, adjust the path as needed
+          }));
+          setFileList(transformedFileList);
+        },
+        failFn: errorMessage => {
+          console.error("Album fetch failed:", errorMessage);
+          // Handle failure (show error message to user, etc.)
+        },
+        errorFn: errorData => {
+          console.error("Error fetching album:", errorData);
+          // Handle error (show error message to user, etc.)
+        },
+      });
+    };
+
+    fetchAlbumData();
+  }, [pno, form]);
+
+  const beforeUpload = file => {
+    // 새로 업로드되는 파일을 fileList에 추가
+    const newFileList = [...fileList, file];
+    setFileList(newFileList);
+    return false; // 자동 업로드를 방지
+  };
+
+  const onRemove = file => {
+    // 파일이 제거될 때 fileList에서 해당 파일을 제거
+    const newFileList = fileList.filter(item => item.uid !== file.uid);
+    setFileList(newFileList);
+  };
+
   return (
     <AlbumWrap paddingTop={40} width={100} height={100}>
       <PageTitle>활동앨범</PageTitle>
@@ -171,30 +195,20 @@ const ModifyAlbum = ({ albumData }) => {
           marginTop: 30,
         }}
       >
-        <Form form={form} onFinish={onFinish}>
+        <Form ref={formRef} form={form} onFinish={onFinish}>
           <Form.Item
             name="albumTitle"
-            initialValue={albumData.albumTitle}
-            rules={[
-              {
-                required: true,
-                message: "제목을 입력해주세요!",
-              },
-            ]}
+            initialValue={albumData.albumTitle} // 기존 값 설정
+            rules={[{ required: true, message: "제목을 입력해주세요!" }]}
           >
             <Input placeholder="제목 입력" />
           </Form.Item>
 
           <Form.Item
             name="albumContents"
-            initialValue={albumData.albumContents} // 초기값 설정
+            initialValue={albumData.albumContents} // 기존 값 설정
             style={{ height: "150px" }}
-            rules={[
-              {
-                required: true,
-                message: "내용을 입력해주세요!",
-              },
-            ]}
+            rules={[{ required: true, message: "내용을 입력해주세요!" }]}
           >
             <Input.TextArea
               placeholder="내용 입력"
@@ -206,38 +220,41 @@ const ModifyAlbum = ({ albumData }) => {
               action={`${path}`}
               listType="picture"
               fileList={fileList}
+              beforeUpload={beforeUpload}
+              onRemove={onRemove}
               onChange={handleChange}
               customRequest={customRequest}
               className="upload-list-inline"
               multiple={true}
               style={uploadAreaStyle}
+              // onPreview={handlePreview}
             >
               <Button icon={<UploadOutlined />}>업로드 </Button>
             </Upload.Dragger>
           </FileListStyle>
-          <div
-            style={{
-              paddingTop: 15,
-              float: "right",
-              // position: "absolute",
-              // background: "red",
-            }}
-          >
-            <GreenBtn htmlType="submit">완료</GreenBtn>
-
-            <PinkBtn
-              onClick={handleCancelConfirmation}
-              style={{ marginLeft: 20 }}
-            >
-              취소
-            </PinkBtn>
-          </div>
         </Form>
+        <div
+          style={{
+            paddingTop: 15,
+            float: "right",
+            // position: "absolute",
+            // background: "red",
+          }}
+        >
+          <GreenBtn onClick={handleGreenButtonClick}>수정</GreenBtn>
+
+          <PinkBtn
+            onClick={handleCancelConfirmation}
+            style={{ marginLeft: 20 }}
+          >
+            취소
+          </PinkBtn>
+        </div>
       </div>
 
       <Link to="/album">
         <Modal
-          title="등록 완료"
+          title="수정 완료"
           open={isModalVisible}
           onOk={handleOk}
           onCancel={handleCancel}
@@ -245,7 +262,7 @@ const ModifyAlbum = ({ albumData }) => {
           cancelButtonProps={{ style: { display: "none" } }}
           width={350}
         >
-          <p>성공적으로 등록되었습니다.</p>
+          <p>성공적으로 수정되었습니다.</p>
         </Modal>
       </Link>
     </AlbumWrap>

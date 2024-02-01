@@ -10,24 +10,11 @@ import { postAlbum } from "../../api/album/album_api";
 import { SERVER_URL } from "../../api/config";
 const path = `${SERVER_URL}/api/album`;
 
-//초기값
-const initState = {
-  pics: [],
-  iteacher: 1,
-  albumTitle: "",
-  albumContents: "",
-};
-
 const WriteAlbum = ({ albumData, submit }) => {
   const [form] = Form.useForm();
-  const [product, setProduct] = useState(initState);
   const [fileList, setFileList] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const navigate = useNavigate();
-
-  const onChange = e => {
-    console.log(`checked = ${e.target.checked}`);
-  };
 
   const handleChange = info => {
     let fileList = [...info.fileList].filter(file => !!file.status);
@@ -36,10 +23,6 @@ const WriteAlbum = ({ albumData, submit }) => {
 
   const customRequest = ({ onSuccess }) => {
     onSuccess("ok");
-  };
-
-  const showModal = () => {
-    setIsModalVisible(true);
   };
 
   const handleOk = () => {
@@ -62,9 +45,7 @@ const WriteAlbum = ({ albumData, submit }) => {
   };
 
   const onFinish = async data => {
-    console.log("fileList", fileList);
     const formData = new FormData();
-    console.log("data", data);
     // 글 정보를 담은 dto Blob객체 생성
     const dto = new Blob(
       [
@@ -119,7 +100,6 @@ const WriteAlbum = ({ albumData, submit }) => {
   };
 
   const handleError = error => {
-    console.error("앨범 업로드 오류:", error);
     Modal.error({
       title: "앨범 업로드 중 오류 발생",
       content:
@@ -196,7 +176,7 @@ const WriteAlbum = ({ albumData, submit }) => {
               // background: "red",
             }}
           >
-            <GreenBtn htmlType="submit">{submit}</GreenBtn>
+            <GreenBtn htmlType="submit">등록</GreenBtn>
 
             <PinkBtn
               onClick={handleCancelConfirmation}

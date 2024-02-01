@@ -4,10 +4,6 @@ export const API_SERVER_HOST = "";
 const host = `${API_SERVER_HOST}/api/album/listall`;
 
 const Album = () => {
-  return (
-    <div>
-      <ReadAllAlbum />
-    </div>
-  );
+  return <ReadAllAlbum />;
 };
 export default Album;

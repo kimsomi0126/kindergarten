@@ -11,10 +11,10 @@ const path = `${SERVER_URL}/api/album`;
 export const getAlbum = async ({ pno, successFn, failFn, errorFn }) => {
   try {
     const res = await jwtAxios.get(`${path}?ialbum=${pno}`);
-    console.log("res", res);
+    // console.log("res", res);
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
-      console.log("res.data임 : ", res.data);
+      // console.log("res.data임 : ", res.data);
       successFn(...res.data);
     } else {
       failFn("자료 호출 에러입니다.");
@@ -66,14 +66,11 @@ export const getEditAlbum = async ({ ialbum, successFn, failFn, errorFn }) => {
 };
 
 // 수정한 앨범 put 하기.
-export const putEditAlbum = async ({
-  albumInfo,
-  successFn,
-  failFn,
-  errorFn,
-}) => {
+export const putAlbum = async ({ product, successFn, failFn, errorFn }) => {
+  console.log("product", product);
   try {
-    const res = await jwtAxios.put(`${path}`, albumInfo);
+    const header = { headers: { "Content-Type": "multipart/form-data" } };
+    const res = await jwtAxios.put(`${path}`, product, header);
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
       console.log("res.data : ", res.data);

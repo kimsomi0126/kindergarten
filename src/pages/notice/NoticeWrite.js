@@ -1,64 +1,42 @@
-import React, { useState } from "react";
 import { UploadOutlined } from "@ant-design/icons";
-import { Button, Checkbox, Form, Input, Upload, Modal, Result } from "antd";
+import { Button, Checkbox, Form, Input, Modal, Upload } from "antd";
+import React, { useRef, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { FileListStyle } from "../../styles/album/album";
 import { PageTitle } from "../../styles/basic";
 import { GreenBtn, PinkBtn } from "../../styles/ui/buttons";
-import { Link, Navigate, useNavigate } from "react-router-dom";
-import { createNotice } from "../../api/notice/notice_api";
 
-const NoticeWrite = () => {
+import { postNotice } from "../../api/notice/notice_api";
+import { SERVER_URL } from "../../api/config";
+const path = `${SERVER_URL}/api/full`;
+
+// 서버로 보낼 데이터 구성
+
+const NoticeWrite = ({ location }) => {
   const [form] = Form.useForm();
   const [fileList, setFileList] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [setIsDeleteModalOpen] = useState(false);
+  const [fullNoticeFix, setFullNoticeFix] = useState(false); // 새로운 상태 추가
   const navigate = useNavigate();
 
-  const postWrite = result => {};
+  const formRef = useRef(); // Form 컴포넌트에 대한 ref 생성
 
-  const handleClickPostProduct = async () => {
-    try {
-      // 사용자가 업로드한 파일의 URL을 추출
-      const uploadedFileUrls = fileList.map(file => file.url);
-
-      // Form에서 입력받은 값들
-      const { Input, TextArea, Checkbox } = form.getFieldsValue();
-
-      // 서버로 보낼 데이터 구성
-      const postData = {
-        pics: "",
-        dto: {
-          fullTitle: "",
-          fullContents: "",
-          fullNoticeFix: 0, // 체크박스가 선택되면 1, 아니면 0
-          iteacher: 0, // iteacher 값을 필요에 따라 설정
-        },
-      };
-
-      // 서버로 데이터 전송
-      await createNotice({ postWrite, obj: postData });
-
-      // 성공적으로 등록되었을 때 Modal 표시
-      showModal();
-    } catch (error) {
-      console.error("글쓰기 등록 실패:", error);
-      // 실패 시에는 Modal 등의 에러 처리 로직 추가
-      // 예: Modal.error({ title: "에러", content: "글쓰기 등록에 실패했습니다." });
-    }
+  const handleGreenButtonClick = () => {
+    formRef.current.submit(); // Form의 submit 메서드 호출
   };
 
   const onChange = e => {
     console.log(`checked = ${e.target.checked}`);
+    setFullNoticeFix(e.target.checked);
   };
 
   const handleChange = info => {
-    let fileList = [...info.fileList];
+    let fileList = [...info.fileList].filter(file => !!file.status);
     setFileList(fileList);
   };
 
-  const customRequest = ({ file, onSuccess }) => {
-    setTimeout(() => {
-      onSuccess();
-    }, 1000);
+  const customRequest = ({ onSuccess }) => {
+    onSuccess("ok");
   };
 
   const showModal = () => {
@@ -77,38 +55,79 @@ const NoticeWrite = () => {
     Modal.confirm({
       title: "정말 취소할까요?",
       content: "작성된 내용은 저장되지 않습니다.",
-      onOk: handleCancleOk,
+      onOk: () => handleCancelOk(),
       okText: "확인",
       cancelText: "취소",
       onCancel: () => {},
     });
   };
 
-  const onFinish = () => {
-    form
-      .validateFields()
-      .then(() => {
-        const { Input, TextArea } = form.getFieldsValue();
-        if (!Input || !TextArea) {
-          Modal.warning({
-            title: "입력 오류",
-            content: "제목과 내용을 입력해주세요.",
-          });
-        } else {
-          showModal();
-        }
-      })
-      .catch(errorInfo => {
-        console.log("Validation failed:", errorInfo);
-      });
+  const onFinish = async data => {
+    console.log("fileList", fileList);
+    console.log("fullNoticeFix", fullNoticeFix); // 확인용 로그
+
+    const formData = new FormData();
+
+    // 글 정보를 담은 dto Blob객체 생성
+    const dto = new Blob(
+      [
+        JSON.stringify({
+          iteacher: 1,
+          fullTitle: data.fullTitle,
+          fullContents: data.fullContents,
+          fullNoticeFix: fullNoticeFix ? 1 : 0,
+        }),
+      ],
+      // JSON 형식으로 설정
+      { type: "application/json" },
+    );
+
+    // dto 객체를 FormData에 추가
+    formData.append("dto", dto);
+
+    // fileList에 있는 각 파일을 formData에 추가
+    fileList.forEach(file => {
+      // originFileObj가 실제 파일 데이터를 가지고 있음
+      formData.append("pics", file.originFileObj);
+    });
+
+    // formData를 서버에 전송
+    postNotice({
+      product: formData,
+      successFn: handleSuccess,
+      failFn: handleFail,
+      errorFn: handleError,
+    });
   };
-  const handleCancleOk = () => {
+
+  const handleCancelOk = () => {
     // 여기에 삭제 처리 로직을 추가할 수 있습니다.
 
     // 예시: 삭제 처리 후 /notice 페이지로 이동
     navigate("/notice");
 
     setIsModalVisible(false);
+  };
+
+  const handleSuccess = response => {
+    setIsModalVisible(true);
+    // 성공적으로 업로드 완료 후 처리할 작업을 추가할 수 있습니다.
+  };
+
+  const handleFail = errorMessage => {
+    // 업로드 실패 시 처리할 작업을 추가할 수 있습니다.
+    Modal.error({
+      title: "유치원소식 업로드 실패",
+      content: errorMessage,
+    });
+  };
+
+  const handleError = error => {
+    console.error("유치원소식 업로드 오류:", error);
+    Modal.error({
+      title: "유치원소식 업로드 중 오류 발생",
+      content: error,
+    });
   };
 
   return (
@@ -129,9 +148,9 @@ const NoticeWrite = () => {
           상단고정
         </Checkbox>
 
-        <Form form={form} onFinish={onFinish}>
+        <Form ref={formRef} form={form} onFinish={onFinish}>
           <Form.Item
-            name="Input"
+            name="fullTitle"
             rules={[
               {
                 required: true,
@@ -144,7 +163,7 @@ const NoticeWrite = () => {
 
           <Form.Item
             style={{ height: "150px" }}
-            name="TextArea"
+            name="fullContents"
             rules={[
               {
                 required: true,
@@ -158,39 +177,43 @@ const NoticeWrite = () => {
             />
           </Form.Item>
 
-          <Upload.Dragger
-            action="http://localhost:3000/notice/write"
-            listType="picture"
-            fileList={fileList}
-            onChange={handleChange}
-            customRequest={customRequest}
-            className="upload-list-inline"
-            maxCount={3}
-            multiple={true}
-          >
-            <Button icon={<UploadOutlined />}>업로드 (최대 3개 파일)</Button>
-          </Upload.Dragger>
+          <FileListStyle>
+            <Upload.Dragger
+              action={`${path}`}
+              listType="picture"
+              fileList={fileList}
+              onChange={handleChange}
+              customRequest={customRequest}
+              className="upload-list-inline"
+              // maxCount={3}
+              multiple={true}
+            >
+              <Button icon={<UploadOutlined />}>업로드</Button>
+            </Upload.Dragger>
+          </FileListStyle>
         </Form>
-      </div>
-      <div
-        style={{
-          marginTop: 35,
-          display: "flex",
-          justifyContent: "flex-end",
-        }}
-      >
-        <GreenBtn htmlType="submit" onClick={handleClickPostProduct}>
-          등록
-        </GreenBtn>
-        <PinkBtn onClick={handleCancelConfirmation} style={{ marginLeft: 20 }}>
-          취소
-        </PinkBtn>
+
+        <div
+          style={{
+            marginTop: 35,
+            display: "flex",
+            justifyContent: "flex-end",
+          }}
+        >
+          <GreenBtn onClick={handleGreenButtonClick}>등록</GreenBtn>
+          <PinkBtn
+            onClick={handleCancelConfirmation}
+            style={{ marginLeft: 20 }}
+          >
+            취소
+          </PinkBtn>
+        </div>
       </div>
 
       <Link to="/notice">
         <Modal
           title="등록 완료"
-          visible={isModalVisible}
+          open={isModalVisible}
           onOk={handleOk}
           onCancel={handleCancel}
           okText="확인"

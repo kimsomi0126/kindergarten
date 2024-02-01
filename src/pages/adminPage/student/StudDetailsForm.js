@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { PageTitle } from "../../../styles/basic";
+import { ContentInner, PageTitle } from "../../../styles/basic";
 import { DetailPhysical, TitleWrap } from "../../../styles/user/mypage";
 import { DatePicker, Form, Input, Select } from "antd";
 import {
@@ -12,10 +12,15 @@ import {
 import { GreenBtn, PinkBtn } from "../../../styles/ui/buttons";
 import ModalTwoBtn from "../../../components/ui/ModalTwoBtn";
 import ModalOneBtn from "../../../components/ui/ModalOneBtn";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import {
+  createRoutesFromChildren,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 import {
   getDetailInfo,
   postStudentDetail,
+  putDetailEdit,
 } from "../../../api/adminPage/admin_api";
 import dayjs from "dayjs";
 import { useForm } from "antd/lib/form/Form";
@@ -51,35 +56,79 @@ const initDetailInfo = {
 
 const StudDetailsForm = ({ handleOk }) => {
   const [form] = Form.useForm();
-  console.log("form", form);
   const navigate = useNavigate();
 
   // 상세 정보 Get
   const [detailInfo, setDetailInfo] = useState(initDetailInfo);
   const [serchParams, setSearchParams] = useSearchParams();
-  const detailGrowths = detailInfo.growths;
+  const [editState, setEditState] = useState(false);
+
   useEffect(() => {
     getDetailInfo({ successFn, failFn, errorFn, ikid, year });
   }, []);
 
   const ikid = serchParams.get("ikid");
   const year = serchParams.get("year");
+
   const successFn = result => {
+    if (result.growths[0]) {
+      setEditState(true);
+    }
+
     setDetailInfo(result);
-    form.setFieldsValue({
-      weight1: result.growths[0].weight,
-      weight2: result.growths[1].weight,
-      // weight3: result.growths[2].weight,
-    });
+    const values = {};
+    for (let i = 0; i < 4; i++) {
+      const bodyDateValue = result.growths[i]?.bodyDate
+        ? dayjs(result.growths[i]?.bodyDate)
+        : null;
+      const growthDateValue = result.growths[i]?.growthDate
+        ? dayjs(result.growths[i]?.growthDate)
+        : null;
+      values[`ikid${i + 1}`] = ikid;
+      values[`bodyDate${i + 1}`] = bodyDateValue;
+      values[`height${i + 1}`] = result.growths[i]?.height;
+      values[`weight${i + 1}`] = result.growths[i]?.weight;
+      values[`growthDate${i + 1}`] = growthDateValue;
+      values[`growth${i + 1}`] = {
+        label:
+          result.growths[i]?.growth === 1
+            ? "활발한"
+            : result.growths[i]?.growth === 2
+            ? "예의바른"
+            : result.growths[i]?.growth === 3
+            ? "창의적인"
+            : result.growths[i]?.growth === 4
+            ? "호기심 많은"
+            : result.growths[i]?.growth === 5
+            ? "착한"
+            : result.growths[i]?.growth === 6
+            ? "씩씩한"
+            : result.growths[i]?.growth === 7
+            ? "성실한"
+            : result.growths[i]?.growth === 8
+            ? "편식없는"
+            : result.growths[i]?.growth === 9
+            ? "깔끔한"
+            : result.growths[i]?.growth === 10
+            ? "튼튼한"
+            : "키워드 입력",
+        value: result.growths[i]?.growth,
+        key: result.growths[i]?.growth,
+      };
+      values[`growthMemo${i + 1}`] = result.growths[i]?.growthMemo;
+    }
+    console.log("기존정보", values);
+    form.setFieldsValue(values);
+    setAllDetailData(values);
   };
+
   const failFn = result => {
     setDetailInfo(result);
   };
   const errorFn = result => {
     setDetailInfo(result);
   };
-  // console.log(detailInfo.growths[1].height);
-  console.log(detailInfo);
+
   // 상세 정보 Post
   const [allDetailData, setAllDetailData] = useState(initDetailData);
   const firstObject = {};
@@ -113,10 +162,6 @@ const StudDetailsForm = ({ handleOk }) => {
   const onValuesChange = (changeValue, allValue) => {
     setAllDetailData({ ...allValue });
   };
-  // console.log("1번", firstObject);
-  // console.log("2번", secondObject);
-  // console.log("3번", thirdObject);
-  // console.log("4번", forthObject);
 
   const handleAddClick = () => {
     const sendServerData = [];
@@ -125,6 +170,12 @@ const StudDetailsForm = ({ handleOk }) => {
       firstObject.growthDate = dayjs(firstObject.growthDate).format(
         "YYYY-MM-DD",
       );
+      if (firstObject.growth.value) {
+        firstObject.growth = parseInt(firstObject.growth.value);
+      } else {
+        firstObject.growth = parseInt(firstObject.growth);
+      }
+      firstObject.ikid = parseInt(firstObject.ikid);
       sendServerData.push(firstObject);
     }
     if (secondObject.bodyDate || secondObject.growthDate) {
@@ -132,6 +183,12 @@ const StudDetailsForm = ({ handleOk }) => {
       secondObject.growthDate = dayjs(secondObject.growthDate).format(
         "YYYY-MM-DD",
       );
+      if (secondObject.growth.value) {
+        secondObject.growth = parseInt(secondObject.growth.value);
+      } else {
+        secondObject.growth = parseInt(secondObject.growth);
+      }
+      secondObject.ikid = parseInt(secondObject.ikid);
       sendServerData.push(secondObject);
     }
     if (thirdObject.bodyDate || thirdObject.growthDate) {
@@ -139,6 +196,12 @@ const StudDetailsForm = ({ handleOk }) => {
       thirdObject.growthDate = dayjs(thirdObject.growthDate).format(
         "YYYY-MM-DD",
       );
+      if (thirdObject.growth.value) {
+        thirdObject.growth = parseInt(thirdObject.growth.value);
+      } else {
+        thirdObject.growth = parseInt(forthObject.growth);
+      }
+      thirdObject.ikid = parseInt(thirdObject.ikid);
       sendServerData.push(thirdObject);
     }
     if (forthObject.bodyDate || forthObject.growthDate) {
@@ -146,6 +209,12 @@ const StudDetailsForm = ({ handleOk }) => {
       forthObject.growthDate = dayjs(forthObject.growthDate).format(
         "YYYY-MM-DD",
       );
+      if (forthObject.growth.value) {
+        forthObject.growth = forthObject.growth.value;
+      } else {
+        forthObject.growth = parseInt(forthObject.growth);
+      }
+      forthObject.ikid = parseInt(forthObject.ikid);
       sendServerData.push(forthObject);
     }
 
@@ -183,34 +252,102 @@ const StudDetailsForm = ({ handleOk }) => {
   const onCancel = () => {
     setIsCancelModalOpen(false);
   };
-  // const initialValues = {
-  //   bodyDate1: "",
-  //   bodyDate2: "",
-  //   bodyDate3: "",
-  //   bodyDate4: "",
-  //   height1: detailGrowths[0].height,
-  //   height2: "",
-  //   height3: "",
-  //   height4: "",
-  //   weight1: "",
-  //   weight2: "",
-  //   weight3: "",
-  //   weight4: "",
-  //   growthDate1: "",
-  //   growthDate2: "",
-  //   growthDate3: "",
-  //   growthDate4: "",
-  //   growth1: "",
-  //   growth2: "",
-  //   growth3: "",
-  //   growth4: "",
-  //   growthMemo1: "",
-  //   growthMemo2: "",
-  //   growthMemo3: "",
-  //   growthMemo4: "",
-  // };
+  let sendServerData = [];
+  const parseAndPushData = object => {
+    if (object.bodyDate || object.growthDate) {
+      object.bodyDate = dayjs(object.bodyDate).format("YYYY-MM-DD");
+      object.growthDate = dayjs(object.growthDate).format("YYYY-MM-DD");
+      object.height = parseInt(object.height); // 변환 추가
+      object.weight = parseInt(object.weight); // 변환 추가
+      if (object.growth.value) {
+        object.growth = parseInt(object.growth.value);
+      } else {
+        object.growth = parseInt(object.growth);
+      }
+      object.ikid = parseInt(object.ikid);
+      sendServerData.push(object);
+    }
+  };
+
+  const handleEditClick = () => {
+    // const sendServerData = [];
+    // if (firstObject.bodyDate || firstObject.growthDate) {
+    //   firstObject.bodyDate = dayjs(firstObject.bodyDate).format("YYYY-MM-DD");
+    //   firstObject.growthDate = dayjs(firstObject.growthDate).format(
+    //     "YYYY-MM-DD",
+    //   );
+    //   if (firstObject.growth.value) {
+    //     firstObject.growth = parseInt(firstObject.growth.value);
+    //   } else {
+    //     firstObject.growth = parseInt(firstObject.growth);
+    //   }
+    //   firstObject.ikid = parseInt(firstObject.ikid);
+    //   sendServerData.push(firstObject);
+    // }
+    // if (secondObject.bodyDate || secondObject.growthDate) {
+    //   secondObject.bodyDate = dayjs(secondObject.bodyDate).format("YYYY-MM-DD");
+    //   secondObject.growthDate = dayjs(secondObject.growthDate).format(
+    //     "YYYY-MM-DD",
+    //   );
+    //   if (secondObject.growth.value) {
+    //     secondObject.growth = parseInt(secondObject.growth.value);
+    //   } else {
+    //     secondObject.growth = parseInt(secondObject.growth);
+    //   }
+    //   secondObject.ikid = parseInt(secondObject.ikid);
+    //   sendServerData.push(secondObject);
+    // }
+    // if (thirdObject.bodyDate || thirdObject.growthDate) {
+    //   thirdObject.bodyDate = dayjs(thirdObject.bodyDate).format("YYYY-MM-DD");
+    //   thirdObject.growthDate = dayjs(thirdObject.growthDate).format(
+    //     "YYYY-MM-DD",
+    //   );
+    //   if (thirdObject.growth.value) {
+    //     thirdObject.growth = parseInt(thirdObject.growth.value);
+    //   } else {
+    //     thirdObject.growth = parseInt(forthObject.growth);
+    //   }
+    //   thirdObject.ikid = parseInt(thirdObject.ikid);
+    //   sendServerData.push(thirdObject);
+    // }
+    // if (forthObject.bodyDate || forthObject.growthDate) {
+    //   forthObject.bodyDate = dayjs(forthObject.bodyDate).format("YYYY-MM-DD");
+    //   forthObject.growthDate = dayjs(forthObject.growthDate).format(
+    //     "YYYY-MM-DD",
+    //   );
+    //   if (forthObject.growth.value) {
+    //     forthObject.growth = forthObject.growth.value;
+    //   } else {
+    //     forthObject.growth = parseInt(forthObject.growth);
+    //   }
+    //   forthObject.ikid = parseInt(forthObject.ikid);
+    //   sendServerData.push(forthObject);
+    // }
+    parseAndPushData(firstObject);
+    parseAndPushData(secondObject);
+    parseAndPushData(thirdObject);
+    parseAndPushData(forthObject);
+    console.log("수정완", sendServerData);
+
+    putDetailEdit({
+      allDetailData: sendServerData,
+      successEditFn,
+      failEditFn,
+      errorEditFn,
+    });
+  };
+  const successEditFn = result => {
+    console.log(result);
+  };
+  const failEditFn = result => {
+    console.log(result);
+  };
+  const errorEditFn = result => {
+    console.log(result);
+  };
+
   return (
-    <>
+    <ContentInner>
       {/* 상세정보 */}
       <StudDetailWrap>
         <TitleWrap>
@@ -253,11 +390,25 @@ const StudDetailsForm = ({ handleOk }) => {
       {/* 신체정보 */}
       <Form
         form={form}
-        // initialValues={initialValues}
         onValuesChange={(changeValue, allValue) => {
           onValuesChange(changeValue, allValue);
         }}
       >
+        <Form.Item name="ikid1" style={{ display: "none" }}>
+          {" "}
+          <Input disabled />
+        </Form.Item>
+        <Form.Item name="ikid2" style={{ display: "none" }}>
+          {" "}
+          <Input disabled />
+        </Form.Item>
+        <Form.Item name="ikid3" style={{ display: "none" }}>
+          {" "}
+          <Input disabled />
+        </Form.Item>
+        <Form.Item name="ikid4" style={{ display: "none" }}>
+          <Input disabled />
+        </Form.Item>
         <StudDetailWrap>
           <TitleWrap>
             <PageTitle>키/몸무게</PageTitle>
@@ -467,17 +618,7 @@ const StudDetailsForm = ({ handleOk }) => {
                   </td>
                   <td>
                     <Form.Item name="growth1">
-                      <Select
-                        labelInValue
-                        defaultValue={{
-                          value: "",
-                          label: (
-                            <span style={{ color: " rgba(0, 0, 0, 0.25) " }}>
-                              키워드 선택
-                            </span>
-                          ),
-                        }}
-                      >
+                      <Select>
                         <Select.Option value="1">활발한</Select.Option>
                         <Select.Option value="2">예의바른</Select.Option>
                         <Select.Option value="3">창의적인</Select.Option>
@@ -643,7 +784,12 @@ const StudDetailsForm = ({ handleOk }) => {
           </KeywordTable>
         </StudDetailWrap>
         <StudDetailsFormFooter>
-          <GreenBtn onClick={handleAddClick}>등록</GreenBtn>
+          {editState ? (
+            <GreenBtn onClick={handleEditClick}>수정</GreenBtn>
+          ) : (
+            <GreenBtn onClick={handleAddClick}>등록</GreenBtn>
+          )}
+
           {isAddModalOpen && (
             <ModalOneBtn
               isOpen={isAddModalOpen}
@@ -665,7 +811,7 @@ const StudDetailsForm = ({ handleOk }) => {
           )}
         </StudDetailsFormFooter>
       </Form>
-    </>
+    </ContentInner>
   );
 };
 

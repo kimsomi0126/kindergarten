@@ -139,7 +139,7 @@ export const WrapMain = styled.div`
 export const WrapContent = styled.div`
   position: relative;
   min-height: 100%;
-  margin: 0 auto;
+  margin: 0 auto 5rem;
   z-index: 12;
 
   input::placeholder,

@@ -2,9 +2,29 @@ import React from "react";
 import { GrayBtn } from "../../../styles/ui/buttons";
 import { AccountInfo, TableWrap, TitleWrap } from "../../../styles/user/mypage";
 import { PageTitle } from "../../../styles/basic";
+import { deleteAccount } from "../../../api/adminPage/admin_api";
 
-const MyAccountComponent = ({ myData }) => {
+const MyAccountComponent = ({ myData, iparent, ikid }) => {
   const my = myData;
+  const handleClickDelete = () => {
+    deleteAccount({
+      successDeleteFn,
+      failDeleteFn,
+      errorDeleteFn,
+      iparent,
+      ikid,
+    });
+  };
+  const successDeleteFn = result => {
+    console.log(result);
+  };
+  const failDeleteFn = result => {
+    console.log(result);
+  };
+  const errorDeleteFn = result => {
+    console.log(result);
+  };
+
   return (
     <AccountInfo>
       <TitleWrap>
@@ -56,7 +76,7 @@ const MyAccountComponent = ({ myData }) => {
                     : ""}
                 </td>
                 <td>
-                  <GrayBtn>연결삭제</GrayBtn>
+                  <GrayBtn onClick={handleClickDelete}>연결삭제</GrayBtn>
                 </td>
               </tr>
             ))}

@@ -39,9 +39,8 @@ const NoticeModify = () => {
     setFileList(fileList);
   };
 
-  const handleImageRemove = index => {
-    const newFileList = [...fileList];
-    newFileList.splice(index, 1);
+  const handleImageRemove = file => {
+    const newFileList = fileList.filter(item => item.uid !== file.uid);
     setFileList(newFileList);
   };
 

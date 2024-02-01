@@ -77,7 +77,7 @@ export const putAdminParentInfo = async ({
   }
 };
 
-// 학부모 리스트 삭제 PUT
+// 학부모 정보 삭제 PUT
 export const deleteParentList = async ({ successFn, failFn, errorFn }) => {
   try {
     const res = await jwtAxios.put(`${path}/parent`);
@@ -88,8 +88,7 @@ export const deleteParentList = async ({ successFn, failFn, errorFn }) => {
       failFn("자료 호출 에러입니다.");
     }
   } catch (error) {
-    const demo = await axios.put(`/guardian.json`);
-    errorFn(demo.data);
+    errorFn("서버가 불안정합니다.다시 시도해주세요.");
     console.log(error);
   }
 };
@@ -114,9 +113,7 @@ export const getAdminStudentList = async ({
       failFn("자료 호출 에러입니다.");
     }
   } catch (error) {
-    const demo = await axios.get(`/student.json`);
-    errorFn(demo.data);
-    console.log(error);
+    errorFn("서버가 불안정합니다.다시 시도해주세요.");
   }
 };
 
@@ -212,7 +209,7 @@ export const putDetailEdit = async ({
   }
 };
 
-// 학부모 연결 삭제
+// 학부모 연결 삭제 ㅇ
 export const deleteAccount = async ({
   successDeleteFn,
   failDeleteFn,
@@ -221,7 +218,7 @@ export const deleteAccount = async ({
   ikid,
 }) => {
   try {
-    const res = await jwtAxios.put(
+    const res = await jwtAxios.delete(
       `${path}/Disconnent?iparent=${iparent}&ikid=${ikid}`,
     );
     const status = res.status.toString();
@@ -234,6 +231,6 @@ export const deleteAccount = async ({
       failDeleteFn(res.data);
     }
   } catch (error) {
-    errorDeleteFn("수정에 실패했습니다. 다시 시도해주세요.");
+    errorDeleteFn("삭제에 실패했습니다. 다시 시도해주세요.");
   }
 };

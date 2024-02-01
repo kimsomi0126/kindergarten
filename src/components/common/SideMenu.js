@@ -66,7 +66,7 @@ const SideMenu = () => {
         [
           getItem(<Link to="/admin?page=1&iclass=0">학부모관리</Link>, "5-1"),
           getItem(
-            <Link to="/admin/student/list?page=1&kidCheck=0">원생관리</Link>,
+            <Link to="/admin/student?page=1&kidCheck=0">원생관리</Link>,
             "5-2",
           ),
           getItem(<Link to="/admin/student/create">원생등록</Link>, "5-3"),

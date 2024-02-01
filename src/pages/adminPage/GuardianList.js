@@ -1,6 +1,6 @@
 import { Pagination, Select } from "antd";
 import Search from "antd/es/input/Search";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   PageNum,
   UserTop,
@@ -24,6 +24,12 @@ const GuardianList = handleOk => {
   const onDeleteCancel = () => {
     setIsDeleteModalOpen(false);
   };
+  const [checkedItems, setCheckedItems] = useState([]);
+  const oncheckedClick = item => {
+    setCheckedItems(item);
+  };
+  console.log(checkedItems);
+
   return (
     <>
       <UserTop>
@@ -81,7 +87,10 @@ const GuardianList = handleOk => {
           )}
         </UserTopRight>
       </UserTop>
-      <GuardianListComponent />
+      <GuardianListComponent
+        oncheckedClick={oncheckedClick}
+        checkedItems={checkedItems}
+      />
     </>
   );
 };

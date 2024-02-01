@@ -13,6 +13,7 @@ import { getAdminParentList } from "../../api/adminPage/admin_api";
 import AdminParentEdit from "../../pages/adminPage/AdminParentEdit";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Pagination } from "antd";
+import Item from "antd/es/list/Item";
 
 const initParentList = {
   totalCnt: 0,
@@ -32,8 +33,11 @@ const initParentList = {
   ],
 };
 
-const GuardianListComponent = () => {
+const GuardianListComponent = ({ checkedItems, oncheckedClick }) => {
   const navigate = useNavigate();
+  const [selectAllChecked, setSelectAllChecked] = useState(false);
+  // const [checkedItems, setCheckedItems] = useState([]);
+
   // 학부모 리스트 GET
   const [parentList, setParentList] = useState(initParentList);
   const [serchParams, setSearchParams] = useSearchParams();
@@ -42,7 +46,7 @@ const GuardianListComponent = () => {
 
   useEffect(() => {
     getAdminParentList({ successFn, failFn, errorFn, page, iclass });
-  }, [page]);
+  }, [page, checkedItems]);
 
   const successFn = result => {
     setParentList(result);
@@ -73,32 +77,32 @@ const GuardianListComponent = () => {
     setIsEditOpen(false);
   };
 
-  // 체크박스 전체 선택
-  const [selectAllChecked, setSelectAllChecked] = useState(false);
-
+  // 체크박스 전체 선택 시 pk값 수집
   const handleSelectAllChange = e => {
     const checked = e.target.checked;
     setSelectAllChecked(checked);
 
     const checkboxes = document.querySelectorAll(
-      'input[type="checkbox"][name^="student"]',
+      'input[type="checkbox"][name^="iparent"]',
     );
+    const updatedCheckedItems = Array.from(checkboxes)
+      .filter((checkbox, index) => index !== 0 && (checkbox.checked = checked))
+      .map(checkbox => (checked ? parseInt(checkbox.value) : null))
+      .filter(value => value !== null);
 
-    checkboxes.forEach(checkbox => {
-      checkbox.checked = checked;
-    });
+    // setCheckedItems(updatedCheckedItems);
+    oncheckedClick(updatedCheckedItems);
   };
 
-  const handleStudentCheckboxChange = () => {
-    const checkboxes = document.querySelectorAll(
-      'input[type="checkbox"][name^="student"]',
-    );
-
-    const allChecked = Array.from(checkboxes).every(
-      checkbox => checkbox.checked,
-    );
-
-    setSelectAllChecked(allChecked);
+  // 개별 선택 시 pk값 수집
+  const handleChangeCheck = e => {
+    const value = parseInt(e.target.value);
+    if (!e.target.checked) {
+      oncheckedClick(prevItems => prevItems.filter(item => item !== value));
+    } else {
+      oncheckedClick([...checkedItems, value]);
+    }
+    // oncheckedClick(checkedItems);
   };
 
   return (
@@ -108,7 +112,7 @@ const GuardianListComponent = () => {
           <input
             type="checkbox"
             id="selectAll"
-            name="student"
+            name="iparent"
             checked={selectAllChecked}
             onChange={handleSelectAllChange}
           />
@@ -119,7 +123,14 @@ const GuardianListComponent = () => {
             parentList.parentPage.map(item => (
               <UserListItem key={item.iparent}>
                 <UserListBox>
-                  <input type="checkbox" name="student" />
+                  <input
+                    type="checkbox"
+                    name="iparent"
+                    value={item.iparent}
+                    onChange={e => {
+                      handleChangeCheck(e);
+                    }}
+                  />
                   <UserInfo>
                     <span>{item.uid}</span>
                     <p>{item.parentNm}</p>

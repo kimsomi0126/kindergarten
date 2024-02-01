@@ -40,7 +40,7 @@ const NavBar = () => {
               학부모관리
             </PurpleBtn>
             <OrangeBtn
-              onClick={e => navigate("/admin/student/list?page=1&kidCheck=0")}
+              onClick={e => navigate("/admin/student?page=1&kidCheck=0")}
             >
               원생관리
             </OrangeBtn>

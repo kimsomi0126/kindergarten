@@ -23,8 +23,6 @@ const Accounts = lazy(() => import("./pages/user/Accounts"));
 //회원 상세가입
 const SignupForm = lazy(() => import("./pages/user/SignupForm"));
 const MyPage = lazy(() => import("./pages/user/MyPage"));
-//회원탈퇴
-const Withdraw = lazy(() => import("./pages/user/Withdraw"));
 
 // 유치원 안내 영역
 const Info = lazy(() => import("./pages/information/Info"));
@@ -57,16 +55,17 @@ const StudDetails = lazy(() => import("./pages/adminPage/student/StudDetails"));
 const StudList = lazy(() => import("./pages/adminPage/student/StudList"));
 
 //알림장 영역
+const IndivNotiList = lazy(() =>
+  import("./pages/individualNotice/IndivNotiList"),
+);
+const IndivNotidetails = lazy(() =>
+  import("./pages/individualNotice/IndivNotiDetails"),
+);
 const IndivNotiModify = lazy(() =>
   import("./pages/individualNotice/IndivNotiModify"),
 );
-
-const IndivNotiHistory = lazy(() =>
-  import("./pages/individualNotice/IndivNotiHistory"),
-);
-
-const IndivNotiList = lazy(() =>
-  import("./pages/individualNotice/IndivNotiList"),
+const IndivNotiWrite = lazy(() =>
+  import("./pages/individualNotice/IndivNotiWrite"),
 );
 
 function App() {
@@ -136,15 +135,6 @@ function App() {
             element={
               <Suspense fallback={<Loading />}>
                 <MyPage />
-              </Suspense>
-            }
-          />
-          {/* 회원탈툅 */}
-          <Route
-            path="withdraw"
-            element={
-              <Suspense fallback={<Loading />}>
-                <Withdraw />
               </Suspense>
             }
           />
@@ -286,7 +276,7 @@ function App() {
               }
             />
             <Route
-              path="/notice/details/:tno"
+              path="details/:tno"
               element={
                 <Suspense fallback={<Loading />}>
                   <NoticeDetails />
@@ -294,7 +284,7 @@ function App() {
               }
             />
             <Route
-              path="/notice/modify/:tno"
+              path="modify/:tno"
               element={
                 <Suspense fallback={<Loading />}>
                   <NoticeModify />
@@ -321,6 +311,16 @@ function App() {
                 </Suspense>
               }
             />
+            {/* 원생 관리 리스트*/}
+            <Route
+              path="student "
+              element={
+                <Suspense fallback={<Loading />}>
+                  <StudList />
+                </Suspense>
+              }
+            />
+            {/* 원생 관리 상세 */}
             <Route
               path="student/detailsform"
               element={
@@ -329,6 +329,18 @@ function App() {
                 </Suspense>
               }
             />
+
+            {/* 원아관리 상세정보입력*/}
+            <Route
+              path="student/details"
+              element={
+                <Suspense fallback={<Loading />}>
+                  <StudDetails />
+                </Suspense>
+              }
+            />
+
+            {/* 원생 등록 */}
             <Route
               path="student/create"
               element={
@@ -337,19 +349,13 @@ function App() {
                 </Suspense>
               }
             />
+
+            {/* 원생 수정 */}
             <Route
-              path="student/list"
+              path="student/modify"
               element={
                 <Suspense fallback={<Loading />}>
-                  <StudList />
-                </Suspense>
-              }
-            />
-            <Route
-              path="student/details"
-              element={
-                <Suspense fallback={<Loading />}>
-                  <StudDetails />
+                  <StudCreate />
                 </Suspense>
               }
             />
@@ -372,15 +378,23 @@ function App() {
               }
             />
             <Route
-              path="history"
+              path="write "
               element={
                 <Suspense fallback={<Loading />}>
-                  <IndivNotiHistory />
+                  <IndivNotiWrite />
                 </Suspense>
               }
             />
             <Route
-              path="form"
+              path="details/:tno "
+              element={
+                <Suspense fallback={<Loading />}>
+                  <IndivNotidetails />
+                </Suspense>
+              }
+            />
+            <Route
+              path="modify:tno"
               element={
                 <Suspense fallback={<Loading />}>
                   <IndivNotiModify />

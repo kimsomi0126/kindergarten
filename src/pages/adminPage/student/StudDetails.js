@@ -23,7 +23,6 @@ import MyBadge from "../../../components/user/mypage/MyBadge";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { DownOutlined } from "@ant-design/icons";
 import useCustomLogin from "../../../hooks/useCustomLogin";
-import { getMyPageInfo } from "../../../api/adminPage/admin_api";
 import { getMypage } from "../../../api/user/userApi";
 
 const initState = {
@@ -130,7 +129,7 @@ const StudDetails = () => {
       <MypageWrap>
         {/* 마이페이지 상단 버튼 */}
         <TitleWrap>
-          <PageTitle>마이페이지</PageTitle>
+          <PageTitle>기본정보</PageTitle>
           <FlexBox>
             <Dropdown menu={{ items: yearArr }}>
               <Button>

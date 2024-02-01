@@ -35,6 +35,7 @@ const NavBar = () => {
             <GrayBtn onClick={e => navigate(`/ind?year=${currentYear}&page=1`)}>
               알림장목록
             </GrayBtn>
+
             <PurpleBtn onClick={e => navigate("/admin?page=1&iclass=0")}>
               학부모관리
             </PurpleBtn>

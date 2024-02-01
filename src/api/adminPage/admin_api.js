@@ -4,7 +4,7 @@ import jwtAxios from "../../util/jwtUtil";
 const path = `${SERVER_URL}/api/teacher`;
 const host = `${SERVER_URL}/api/kid`;
 
-// 학부모 관련
+// 학부모 관리 페이지
 // 학부모 관리 리스트 GET ㅇ
 export const getAdminParentList = async ({
   successFn,
@@ -31,7 +31,7 @@ export const getAdminParentList = async ({
   }
 };
 
-// 학부모 정보 수정 전 가져오기 GET
+// 학부모 정보 수정 전 가져오기 GET ㅇ
 export const getAdminParentInfo = async ({
   successFn,
   failFn,
@@ -54,7 +54,7 @@ export const getAdminParentInfo = async ({
   }
 };
 
-// 학부모 정보 수정 PUT
+// 학부모 정보 수정 PUT ㅇ
 export const putAdminParentInfo = async ({
   obj,
   successEditFn,
@@ -94,7 +94,7 @@ export const deleteParentList = async ({ successFn, failFn, errorFn }) => {
   }
 };
 
-// 원생 관련
+// 원생 관리 페이지
 // 원생 관리 리스트 GET ㅇ
 export const getAdminStudentList = async ({
   successFn,
@@ -142,7 +142,8 @@ export const postStudentCreate = async ({
   }
 };
 
-// 원생 상세 정보 POST
+// 원생 상세 정보 & 원생 상세 정보 등록 페이지
+// 원생 상세 정보 POST ㅇ
 export const postStudentDetail = async ({
   successAddFn,
   failAddFn,
@@ -163,7 +164,7 @@ export const postStudentDetail = async ({
   }
 };
 
-// 원생 상세정보 GET
+// 원생 상세정보 GET ㅇ
 export const getDetailInfo = async ({
   successFn,
   failFn,
@@ -187,27 +188,52 @@ export const getDetailInfo = async ({
     errorFn("서버가 불안정합니다.다시 시도해주세요.");
   }
 };
-// 원생 마이페이지 GET
-export const getMyPageInfo = async ({
-  year,
-  ikid,
-  successFn,
-  failFn,
-  errorFn,
+
+// 원생 상세정보 수정 PUT ㅇ
+export const putDetailEdit = async ({
+  successEditFn,
+  failEditFn,
+  errorEditFn,
+  allDetailData,
 }) => {
   try {
-    const res = await jwtAxios.get(`${path}/${year}/${ikid}`);
+    const res = await jwtAxios.put(`${host}/detail`, allDetailData);
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
       // 화면처리용
-      successFn(res.data);
-
+      successEditFn(res.data);
       // RTK 업데이트 처리를 위해 값 전달
       return res.data;
     } else {
-      failFn("서버가 불안정합니다. 다시 시도해주세요.");
+      failEditFn(res.data);
     }
   } catch (error) {
-    errorFn("서버가 불안정합니다.다시 시도해주세요.");
+    errorEditFn("수정에 실패했습니다. 다시 시도해주세요.");
+  }
+};
+
+// 학부모 연결 삭제
+export const deleteAccount = async ({
+  successDeleteFn,
+  failDeleteFn,
+  errorDeleteFn,
+  iparent,
+  ikid,
+}) => {
+  try {
+    const res = await jwtAxios.put(
+      `${path}/Disconnent?iparent=${iparent}&ikid=${ikid}`,
+    );
+    const status = res.status.toString();
+    if (status.charAt(0) === "2") {
+      // 화면처리용
+      successDeleteFn(res.data);
+      // RTK 업데이트 처리를 위해 값 전달
+      return res.data;
+    } else {
+      failDeleteFn(res.data);
+    }
+  } catch (error) {
+    errorDeleteFn("수정에 실패했습니다. 다시 시도해주세요.");
   }
 };

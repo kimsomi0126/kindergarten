@@ -32,8 +32,12 @@ const NavBar = () => {
       <HeaderBtn>
         {isLogin ? (
           <>
-            <PurpleBtn onClick={e => navigate("/admin")}>학부모관리</PurpleBtn>
-            <OrangeBtn onClick={e => navigate("/admin/student/list")}>
+            <PurpleBtn onClick={e => navigate("/admin?page=1&iclass=0")}>
+              학부모관리
+            </PurpleBtn>
+            <OrangeBtn
+              onClick={e => navigate("/admin/student/list?page=1&kidCheck=0")}
+            >
               원생관리
             </OrangeBtn>
             <GreenBtn

@@ -12,7 +12,7 @@ const path = `${SERVER_URL}/api/full`;
 
 // 서버로 보낼 데이터 구성
 
-const NoticeWrite = ({ location }) => {
+const NoticeWrite = () => {
   const [form] = Form.useForm();
   const [fileList, setFileList] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);

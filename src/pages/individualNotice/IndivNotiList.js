@@ -1,81 +1,112 @@
-import { Pagination, Select } from "antd";
-import Search from "antd/es/input/Search";
-import React from "react";
-import {
-  PageNum,
-  UserTop,
-  UserTopRight,
-} from "../../styles/adminstyle/guardianlist";
+import { Button, Dropdown, Pagination, Select } from "antd";
+import React, { useEffect } from "react";
+import { PageNum } from "../../styles/adminstyle/guardianlist";
 import { PageTitle } from "../../styles/basic";
-import { GreenBtn } from "../../styles/ui/buttons";
 import GuardianListComponent from "../../components/adminpage/GuardianListComponent";
-
-const handleChange = value => {
-  console.log(value);
-};
-const handlePageChange = (page, pageSize) => {
-  // 페이지 변경 시 처리할 로직을 추가할 수 있습니다.
-  console.log("Page:", page, "PageSize:", pageSize);
-};
+import { IndWrap } from "../../styles/individualNotice/ind";
+import { FlexBox, TitleWrap } from "../../styles/user/mypage";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import useCustomLogin from "../../hooks/useCustomLogin";
+import { DownOutlined } from "@ant-design/icons";
+import IndListComponent from "../../components/individualNotice/IndListComponent";
+import { getIndList } from "../../api/individualNotice/indivNoticeApi";
 
 const IndivNotiList = () => {
+  const navigate = useNavigate();
+  const [serchParams, setSearchParams] = useSearchParams();
+  // 현재 출력 년도, kid 값 체크
+  const year = serchParams.get("year");
+  const ikid = serchParams.get("ikid");
+  const page = serchParams.get("page");
+
+  // 로그인 회원 정보에서 아이 리스트 추출
+  const { loginState, isParentLogin, doLogout } = useCustomLogin();
+  const ikidList = loginState.kidList;
+
+  // ikid 값만 추출하여 파라미터값과 비교
+  const kidCheck = Array.isArray(ikidList) && ikidList.map(item => item.ikid);
+
+  // 년도 선택
+  const currentYear = new Date().getFullYear();
+  const startYear = 2020;
+  const yearArr = [];
+  for (let yearNum = startYear; yearNum <= currentYear; yearNum++) {
+    yearArr.push({
+      key: yearNum.toString(),
+      label: <Link to={`/mypage?year=${yearNum}&ikid=${ikid}`}>{yearNum}</Link>,
+    });
+  }
+
+  // 아이 선택
+  const items =
+    Array.isArray(ikidList) &&
+    ikidList.map(item => {
+      return {
+        key: item.ikid.toString(),
+        label: (
+          <Link to={`/mypage?year=${year}&ikid=${item.ikid}`}>
+            {item.kidNm}
+          </Link>
+        ),
+      };
+    });
+
+  const handleChange = value => {
+    console.log(value);
+  };
+  const handlePageChange = (page, pageSize) => {
+    console.log("Page:", page, "PageSize:", pageSize);
+  };
+  useEffect(() => {
+    getIndList({ page, year, ikid, errorFn, successFn });
+  }, []);
+
+  const successFn = res => {
+    console.log(res);
+  };
+  const errorFn = res => {
+    console.log(res);
+  };
   return (
-    <>
-      <UserTop>
+    <IndWrap>
+      <TitleWrap>
         <PageTitle>알림장</PageTitle>
-        <UserTopRight>
-          <Select
-            labelInValue
-            defaultValue={{
-              value: "",
-              label: "반 선택",
-            }}
-            style={{
-              width: 100,
-            }}
-            onChange={handleChange}
-            options={[
-              {
-                value: "1",
-                label: "무궁화반",
-              },
-              {
-                value: "2",
-                label: "해바라기반",
-              },
-              {
-                value: "3",
-                label: "장미반",
-              },
-              {
-                value: "-1",
-                label: "졸업",
-              },
-              {
-                value: "-2",
-                label: "퇴소",
-              },
-            ]}
-          />
-          <Search
-            placeholder="검색어를 입력하세요."
-            style={{
-              width: 400,
-            }}
-            allowClear
-          />
-        </UserTopRight>
-      </UserTop>
-      <GuardianListComponent />
+        <FlexBox>
+          <Dropdown menu={{ items: yearArr }}>
+            <Button>
+              {year}
+              <DownOutlined />
+            </Button>
+          </Dropdown>
+          <Dropdown menu={{ items }}>
+            <Button>
+              {" "}
+              이름
+              <DownOutlined />
+            </Button>
+          </Dropdown>
+        </FlexBox>
+      </TitleWrap>
+      <IndListComponent
+        listData={{
+          inotice: 24,
+          noticeTitle: "빨리와 지각!",
+          noticeContents: "string",
+          kidNm: "마림보 ",
+          iclass: 1,
+          picCheck: 1,
+          createdAt: "2024-01-29 20:09:18",
+        }}
+      />
       <PageNum>
         <Pagination
           defaultCurrent={1} // 초기 선택된 페이지
-          total={50} // 전체 아이템 수
-          pageSize={10} // 한 페이지에 보여질 아이템 수
+          total={10} // 전체 아이템 수
+          pageSize={12} // 한 페이지에 보여질 아이템 수
           onChange={handlePageChange} // 페이지 변경 시의 콜백 함수
         />
       </PageNum>
-    </>
+    </IndWrap>
   );
 };
 

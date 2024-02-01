@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 
-import "../../styles/information/info.css";
 import {
   GreetingText,
   GreetingWrap,

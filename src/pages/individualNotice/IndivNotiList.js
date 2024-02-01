@@ -1,5 +1,5 @@
 import { Button, Dropdown, Pagination, Select } from "antd";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { PageNum } from "../../styles/adminstyle/guardianlist";
 import { PageTitle } from "../../styles/basic";
 import GuardianListComponent from "../../components/adminpage/GuardianListComponent";
@@ -14,6 +14,8 @@ import { getIndList } from "../../api/individualNotice/indivNoticeApi";
 const IndivNotiList = () => {
   const navigate = useNavigate();
   const [serchParams, setSearchParams] = useSearchParams();
+  const [indList, setIndList] = useState();
+
   // 현재 출력 년도, kid 값 체크
   const year = serchParams.get("year");
   const ikid = serchParams.get("ikid");
@@ -63,6 +65,7 @@ const IndivNotiList = () => {
 
   const successFn = res => {
     console.log(res);
+    setIndList(res);
   };
   const errorFn = res => {
     console.log(res);
@@ -87,17 +90,7 @@ const IndivNotiList = () => {
           </Dropdown>
         </FlexBox>
       </TitleWrap>
-      <IndListComponent
-        listData={{
-          inotice: 24,
-          noticeTitle: "빨리와 지각!",
-          noticeContents: "string",
-          kidNm: "마림보 ",
-          iclass: 1,
-          picCheck: 1,
-          createdAt: "2024-01-29 20:09:18",
-        }}
-      />
+      <IndListComponent listData={indList} />
       <PageNum>
         <Pagination
           defaultCurrent={1} // 초기 선택된 페이지

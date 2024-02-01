@@ -32,8 +32,15 @@ const NavBar = () => {
       <HeaderBtn>
         {isLogin ? (
           <>
-            <PurpleBtn onClick={e => navigate("/admin")}>학부모관리</PurpleBtn>
-            <OrangeBtn onClick={e => navigate("/admin/student/list")}>
+            <GrayBtn onClick={e => navigate(`/ind?year=${currentYear}&page=1`)}>
+              알림장목록
+            </GrayBtn>
+            <PurpleBtn onClick={e => navigate("/admin?page=1&iclass=0")}>
+              학부모관리
+            </PurpleBtn>
+            <OrangeBtn
+              onClick={e => navigate("/admin/student/list?page=1&kidCheck=0")}
+            >
               원생관리
             </OrangeBtn>
             <GreenBtn
@@ -46,7 +53,17 @@ const NavBar = () => {
           </>
         ) : isParentLogin ? (
           <>
-            <GrayBtn onClick={e => navigate("/ind")}>알림장</GrayBtn>
+            <GrayBtn
+              onClick={e =>
+                navigate(
+                  `/ind?year=${currentYear}&page=1&ikid=${
+                    ikidList[0] ? ikidList[0].ikid : 0
+                  }`,
+                )
+              }
+            >
+              알림장
+            </GrayBtn>
             <OrangeBtn
               onClick={e =>
                 navigate(

@@ -329,8 +329,12 @@ const MyPage = () => {
                 아이추가
               </GrayBtn>
               <GrayBtn
-                onClick={() => {
-                  navigate("/ind");
+                onClick={e => {
+                  navigate(
+                    `/ind?year=${currentYear}&page=1&ikid=${
+                      ikidList[0] ? ikidList[0].ikid : 0
+                    }`,
+                  );
                 }}
               >
                 알림장

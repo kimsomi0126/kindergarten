@@ -3,6 +3,7 @@ import { DetailPhysical, TableWrap } from "../../../styles/user/mypage";
 
 const MyPhysicalComponent = ({ myData }) => {
   const my = myData;
+  console.log(myData);
   return (
     <DetailPhysical>
       <TableWrap className="th_left">

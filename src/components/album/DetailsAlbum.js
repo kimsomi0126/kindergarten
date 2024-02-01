@@ -26,8 +26,10 @@ import { BlueBtn, GreenBtn, PinkBtn } from "../../styles/ui/buttons";
 import Comment from "../common/Comment";
 import { deleteAlbum, getAlbum } from "../../api/album/album_api";
 import Loading from "../loading/Loading";
-import { IMG_URL } from "../../api/config";
+import { IMG_URL, SERVER_URL } from "../../api/config";
 const path = `${IMG_URL}/pic/album`;
+
+const host = `${SERVER_URL}/album`;
 // import required modules
 const initAlbumCommnet = [
   {
@@ -207,7 +209,7 @@ const DetailsAlbum = ({ pno }) => {
           <Link to="/album">
             <GreenBtn>목록보기</GreenBtn>
           </Link>
-          <Link to={`/album/modify/`}>
+          <Link to={`${host}/modify/${pno}`}>
             <BlueBtn>수정</BlueBtn>
           </Link>
           <PinkBtn onClick={showDeleteModal}>삭제</PinkBtn>

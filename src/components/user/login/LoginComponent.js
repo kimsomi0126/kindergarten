@@ -22,10 +22,10 @@ const LoginComponent = () => {
 
   const onFinish = values => {
     if (userState === "2") {
-      console.log(userState, "선생님로그인");
+      // console.log(userState, "선생님로그인");
       doLogin({ loginParam, successFn, failFn, errorFn });
     } else {
-      console.log(userState, "학부모로그인");
+      // console.log(userState, "학부모로그인");
       doParentLogin({ loginParam, successFn, failFn, errorFn });
     }
   };
@@ -78,10 +78,10 @@ const LoginComponent = () => {
             }}
             style={{ textAlign: "center", marginBottom: "2rem" }}
           >
-            <Radio.Button value="1" style={{ width: "50%" }}>
+            <Radio.Button type="primary" value="1" style={{ width: "50%" }}>
               학부모
             </Radio.Button>
-            <Radio.Button value="2" style={{ width: "50%" }}>
+            <Radio.Button type="primary" value="2" style={{ width: "50%" }}>
               선생님
             </Radio.Button>
           </Radio.Group>

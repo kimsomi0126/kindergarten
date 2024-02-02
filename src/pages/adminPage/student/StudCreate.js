@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { PageTitle } from "../../../styles/basic";
 import {
   Button,
@@ -32,28 +32,7 @@ import {
   StudFormWrap,
 } from "../../../styles/adminstyle/studcreate";
 import { GreenBtn, PinkBtn } from "../../../styles/ui/buttons";
-import ModalTwoBtn from "../../../components/ui/ModalTwoBtn";
-import ModalOneBtn from "../../../components/ui/ModalOneBtn";
-import { postStudentCreate } from "../../../api/adminPage/admin_api";
-
-// 프로필 이미지 첨부 (AntDesign)
-const props = {
-  name: "file",
-  action: "https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188",
-  headers: {
-    authorization: "authorization-text",
-  },
-  // onChange(info) {
-  //   if (info.file.status !== "uploading") {
-  //     console.log(info.file, info.fileList);
-  //   }
-  //   if (info.file.status === "done") {
-  //     message.success(`${info.file.name} 파일 첨부 성공`);
-  //   } else if (info.file.status === "error") {
-  //     message.error(`${info.file.name} 파일 첨부 실패`);
-  //   }
-  // },
-};
+import { SERVER_URL } from "../../../api/config";
 
 // 초기값
 const initState = {
@@ -70,96 +49,55 @@ const initState = {
   },
 };
 
+const initDto = {
+  kidNm: "",
+  iclass: 0,
+  gender: 0,
+  birth: "",
+  address: "",
+  memo: "",
+  emerNm: "",
+  emerNb: "",
+};
+
 const StudentCreate = () => {
   // 원생 등록
-  const [student, setStudent] = useState(initState);
-  const [fileList, setFileList] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [dto, setDto] = useState({});
+  const [pic, setPic] = useState();
+  const path = `${SERVER_URL}/api/kid`;
 
-  const handleChange = info => {
-    let fileList = [...info.fileList].filter(file => !!file.status);
-    setFileList(fileList);
+  const onFinish = value => {
+    console.log("data", value);
+    const allAddress = `${value.address.postcode}) ${value.address.detail1}, ${value.address.detail2}`;
+    const values = {
+      ...value,
+      birth: value["birth"].format("YYYY-MM-DD"),
+      address: allAddress,
+      iclass: parseInt(value["iclass"].value),
+      gender: parseInt(value["gender"].value),
+    };
+    console.log(values);
+    setDto(values);
   };
-
-  const onFinish = async data => {
-    console.log("fileList", fileList);
-    const formData = new FormData();
-    console.log("data", data);
-    const dto = new Blob(
-      [
-        JSON.stringify({
-          kidNm: data.kidNm,
-          iclass: data.iclass,
-          gender: data.gender,
-          birth: data.birth,
-          address: data.address,
-          memo: data.memo,
-          emerNm: data.emerNm,
-          emerNb: data.emerNb,
-        }),
-      ],
-      { type: "application/json" },
-    );
-
-    formData.append("dto", dto);
-
-    fileList.forEach(file => {
-      formData.append("pics", file.originFileObj);
-    });
-
-    // formData를 서버에 전송
-    postStudentCreate({
-      successFn: handleSuccess,
-      failFn: handleFailure,
-      errorFn: handleError,
-      studenet: formData,
-    });
-  };
-  const handleSuccess = response => {
-    setIsModalVisible(true);
-    // 성공적으로 업로드 완료 후 처리할 작업을 추가할 수 있습니다.
-  };
-
-  const handleFailure = errorMessage => {
-    // 업로드 실패 시 처리할 작업을 추가할 수 있습니다.
-    // Modal.error({
-    //   title: "앨범 업로드 실패",
-    //   content: errorMessage,
-    // });
-  };
-
-  const handleError = error => {
-    console.error("앨범 업로드 오류:", error);
-    // Modal.error({
-    //   title: "앨범 업로드 중 오류 발생",
-    //   content:
-    //     "서버 오류 또는 네트워크 문제가 발생했습니다. 다시 시도해주세요.",
-    // });
-  };
+  console.log(dto);
 
   // 파일 업로드 실행
   const handleClick = () => {};
 
-  // 모달창 적용
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  // 모달창
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
-  const handleAddClick = () => {
-    setIsAddModalOpen(true);
-  };
+
   const handleCancelClick = () => {
     setIsCancelModalOpen(true);
   };
 
-  const onCancel = () => {
-    setIsCancelModalOpen(false);
-  };
   // 우편번호
-  const [zodecode, setZonecode] = useState("");
+  const [zonecode, setZonecode] = useState("");
   const [address, setAddress] = useState("");
   const [isOpen, setIsOpen] = useState(false);
-  const [detailedAddress, setDetailedAddress] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [value, setValue] = useState("");
+  const [initialValues, setInitialValues] = useState({});
 
   // Daum Post 관련
   const themeObj = {
@@ -174,6 +112,7 @@ const StudentCreate = () => {
     outlineColor: "#FFFFFF", //테두리
   };
 
+  const [form] = Form.useForm();
   const postCodeStyle = {
     width: "480px",
     height: "445px",
@@ -182,7 +121,12 @@ const StudentCreate = () => {
     const { address, zonecode } = data;
     setZonecode(zonecode);
     setAddress(address);
-    console.log(data);
+    setInitialValues({
+      address: {
+        postcode: zonecode,
+        detail1: address,
+      },
+    });
   };
   const closeHandler = state => {
     if (state === "FORCE_CLOSE") {
@@ -195,9 +139,7 @@ const StudentCreate = () => {
     setIsOpen(prevOpenState => !prevOpenState);
     setIsModalOpen(true);
   };
-  const inputChangeHandler = event => {
-    setDetailedAddress(event.target.value);
-  };
+
   const handleOk = () => {
     setIsModalOpen(false);
   };
@@ -205,13 +147,24 @@ const StudentCreate = () => {
     setIsModalOpen(false);
   };
 
+  useEffect(() => {
+    form.setFieldsValue(initialValues);
+  }, [zonecode, address]);
+
   return (
     <>
       <StudFormTop>
         <PageTitle>원생 등록</PageTitle>
       </StudFormTop>
-      <StudFormWrap>
-        <Form onFinish={onFinish}>
+
+      <Form
+        form={form}
+        onFinish={onFinish}
+        // onValuesChange={(changeValue, allValue) => {
+        //   onValuesChange(changeValue, allValue);
+        // }}
+      >
+        <StudFormWrap>
           {/* 기본정보 */}
           <BasicInfo>
             <p>기본 정보</p>
@@ -260,63 +213,46 @@ const StudentCreate = () => {
                   </Select>
                 </Form.Item>
               </BasicInfoItem>
-              <Form.Item name="address">
-                <BasicInfoCode>
-                  <Form.Item>
-                    <Input
-                      disabled
-                      type="text"
-                      value={zodecode}
-                      onChange={e => setZonecode(e.target.value)}
-                      placeholder="우편 번호"
-                    />
-                  </Form.Item>
-                  <button onClick={toggleHandler}>주소 검색</button>
-                  {isOpen && (
-                    <Modal
-                      title="주소 검색"
-                      open={isModalOpen}
-                      onOk={handleOk}
-                      onCancel={handleCancel}
-                      footer={null}
-                    >
-                      <DaumPostcode
-                        theme={themeObj}
-                        style={postCodeStyle}
-                        onComplete={completeHandler}
-                        onClose={closeHandler}
-                      />
-                    </Modal>
-                  )}
-                </BasicInfoCode>
-                <BasicInfoAdress>
-                  <Form.Item
-                    style={{
-                      width: "50%",
-                    }}
+              <BasicInfoCode>
+                <Form.Item name={["address", "postcode"]}>
+                  <Input disabled type="text" placeholder="우편 번호" />
+                </Form.Item>
+                <button onClick={toggleHandler}>주소 검색</button>
+                {isOpen && (
+                  <Modal
+                    title="주소 검색"
+                    open={isModalOpen}
+                    onOk={handleOk}
+                    onCancel={handleCancel}
+                    footer={null}
                   >
-                    <Input
-                      disabled
-                      type="text"
-                      placeholder="주소 입력"
-                      value={address}
-                      onChange={e => setAddress(e.target.value)}
+                    <DaumPostcode
+                      theme={themeObj}
+                      style={postCodeStyle}
+                      onComplete={completeHandler}
+                      onClose={closeHandler}
                     />
-                  </Form.Item>
-                  <Form.Item
-                    style={{
-                      width: "50%",
-                    }}
-                  >
-                    <Input
-                      type="text"
-                      placeholder="상세 주소 입력"
-                      value={detailedAddress}
-                      onChange={inputChangeHandler}
-                    />
-                  </Form.Item>
-                </BasicInfoAdress>
-              </Form.Item>
+                  </Modal>
+                )}
+              </BasicInfoCode>
+              <BasicInfoAdress>
+                <Form.Item
+                  style={{
+                    width: "50%",
+                  }}
+                  name={["address", "detail1"]}
+                >
+                  <Input disabled type="text" placeholder="주소 입력" />
+                </Form.Item>
+                <Form.Item
+                  style={{
+                    width: "50%",
+                  }}
+                  name={["address", "detail2"]}
+                >
+                  <Input type="text" placeholder="상세 주소 입력" />
+                </Form.Item>
+              </BasicInfoAdress>
             </BasicInfoForm>
           </BasicInfo>
           {/* 재원정보 */}
@@ -352,7 +288,7 @@ const StudentCreate = () => {
             <p>프로필 이미지</p>
             <ImgInfoForm>
               <Form.Item>
-                <Upload {...props}>
+                <Upload name="file" action="">
                   <Button icon={<UploadOutlined />}>파일 첨부</Button>
                 </Upload>
               </Form.Item>
@@ -401,41 +337,18 @@ const StudentCreate = () => {
             <p>관리자 메모</p>
             <AdminMemoForm>
               <Form.Item name="memo">
-                <TextArea
-                  value={value}
-                  onChange={e => setValue(e.target.value)}
-                  placeholder="관리자 메모"
-                  autoSize={{
-                    minRows: 4,
-                    maxRows: 5,
-                  }}
-                />
+                <TextArea placeholder="관리자 메모" />
               </Form.Item>
             </AdminMemoForm>
           </AdminMemo>
-        </Form>
-      </StudFormWrap>
-      <BottomBt>
-        <GreenBtn onClick={handleClick}>등록</GreenBtn>
-        {isAddModalOpen && (
-          <ModalOneBtn
-            isOpen={isAddModalOpen}
-            handleOk={handleOk}
-            title="등록 완료"
-            subTitle="성공적으로 등록되었습니다."
-          />
-        )}
-        <PinkBtn onClick={handleCancelClick}>취소</PinkBtn>
-        {isCancelModalOpen && (
-          <ModalTwoBtn
-            isOpen={isCancelModalOpen}
-            handleOk={handleOk}
-            handleCancel={onCancel}
-            title="정말 취소할까요?"
-            subTitle="작성된 내용은 저장되지 않습니다."
-          />
-        )}
-      </BottomBt>
+        </StudFormWrap>
+        <BottomBt>
+          <GreenBtn onClick={handleClick}>등록</GreenBtn>
+          <PinkBtn type="button" onClick={handleCancelClick}>
+            취소
+          </PinkBtn>
+        </BottomBt>
+      </Form>
     </>
   );
 };

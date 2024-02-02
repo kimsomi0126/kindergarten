@@ -1,6 +1,7 @@
 /* eslint-disable no-undef */
 import styled from "@emotion/styled";
 import { animationGo } from "./ui/animations";
+import { Layout } from "antd";
 
 // 기본색상
 export const colors = {
@@ -176,33 +177,33 @@ export const FooterWrap = styled.div`
   left: 0;
   bottom: 0;
   width: 100%;
-  padding-bottom: 10rem;
+  height: 10rem;
   overflow: hidden;
   background: url(${process.env.PUBLIC_URL +
     "/images/common/footer/footer_bg.png"})
-    no-repeat center 150%/100%;
+    no-repeat center 150%/100% 70%;
   text-align: center;
   z-index: 13;
 
   a {
     position: absolute;
     left: 50%;
-    bottom: 1rem;
+    bottom: 0.4rem;
     transform: translateX(-50%);
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     color: #fff;
   }
 `;
 
 export const FooterBus = styled.div`
   position: absolute;
-  bottom: -22%;
+  bottom: -0.5rem;
   left: 0;
-  width: 16.6rem;
-  height: 16.6rem;
+  width: 10rem;
+  height: 10rem;
   background: url(${process.env.PUBLIC_URL +
     "/images/common/footer/footer_bus.svg"})
-    no-repeat center/70%;
+    no-repeat center/100%;
 
   animation: ${animationGo} 10s infinite ease-in-out;
 `;
@@ -215,5 +216,15 @@ export const PageTitle = styled.h3`
   color: ${colors.greenDeep};
   a {
     color: ${colors.greenDeep};
+  }
+`;
+
+export const AllLayout = styled(Layout)`
+  cursor: url(${process.env.PUBLIC_URL + "/images/common/cursor_icon.png"}),
+    auto;
+  a:hover,
+  button:hover {
+    cursor: url(${process.env.PUBLIC_URL + "/images/common/cursor_icon2.png"}),
+      auto;
   }
 `;

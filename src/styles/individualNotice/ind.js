@@ -3,18 +3,26 @@ import { boxStyle, colors, ellipsis } from "../basic";
 
 export const IndWrap = styled.div`
   position: relative;
-  min-height: 80vh;
 `;
 
 export const IndListWrap = styled.div`
+  min-height: 60vh;
+`;
+
+export const IndList = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 1%;
+  gap: 2%;
 `;
+
 export const IndListBox = styled.div`
   width: 32%;
-  padding: 2rem;
+  margin-bottom: 1rem;
   ${boxStyle}
+  a {
+    display: block;
+    padding: 1.5rem 2rem;
+  }
 `;
 
 export const IndTop = styled.div`

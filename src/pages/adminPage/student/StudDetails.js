@@ -156,7 +156,12 @@ const StudDetails = () => {
         {/* 마이페이지 내용 시작 */}
         <MyContentWrap>
           {/* 프로필 */}
-          <MyProfileComponent ilevel={ilevel} ikid={ikid} myData={myData} />
+          <MyProfileComponent
+            ilevel={ilevel}
+            ikid={ikid}
+            myData={myData}
+            onChildClick={handleChildClick}
+          />
           {/* 연결계정 */}
           {ilevel === "admin" ? (
             <MyAccountComponent

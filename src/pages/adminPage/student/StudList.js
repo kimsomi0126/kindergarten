@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Button, Dropdown, Form, Select } from "antd";
 import Search from "antd/es/input/Search";
 import {
@@ -33,8 +33,10 @@ const initStudentList = {
 const StudList = () => {
   const [studentList, setStudentList] = useState(initStudentList);
   const [checkedItems, setCheckedItems] = useState([]);
+  const [changeState, setChangeState] = useState(0);
   const { loginState } = useCustomLogin();
   const [serchParams, setSearchParams] = useSearchParams();
+
   const page = serchParams.get("page");
   const kidCheck = serchParams.get("kidCheck");
 
@@ -93,10 +95,17 @@ const StudList = () => {
 
   // 반 변경 모달창
 
-  // 졸업 모달창
+  // 선택 졸업 & 선택 퇴소 모달
   const [delOpen, setDelOpen] = useState(false);
+  const [ClassOpen, SetClassOpen] = useState(false);
 
-  const handleGraduateClick = () => {
+  const handleClassClick = () => {
+    console.log("선택 졸업");
+    SetClassOpen(true);
+    setTitle("반 일괄 수정");
+    setSubTitle("반 이름을 선택해주세요.");
+  };
+  const handleChangeClick = () => {
     console.log("선택 졸업");
     setDelOpen(true);
     setTitle("정말 변경할까요?");
@@ -105,9 +114,9 @@ const StudList = () => {
   const handleDelOk = () => {
     const obj = {
       ikids: [...checkedItems],
-      kidCheck: -1,
+      kidCheck: changeState,
     };
-    console.log("오비제이", checkedItems);
+    console.log("오비제이", obj);
     patchClass({
       successpatchFn,
       errorpatchFn,
@@ -119,6 +128,7 @@ const StudList = () => {
     setTitle("변경 완료");
     setSubTitle("성공적으로 변경되었습니다.");
     setDelOpen(false);
+    SetClassOpen(false);
     setCheckedItems([]);
   };
   const errorpatchFn = res => {
@@ -129,6 +139,7 @@ const StudList = () => {
   };
   const handleCancel = () => {
     setDelOpen(false);
+    SetClassOpen(false);
   };
   const handleOk = () => {
     setIsOpen(false);
@@ -137,8 +148,27 @@ const StudList = () => {
       Navigate(isNavigate);
     }
   };
+  const formRef = useRef();
+  const handleExternalSubmit = () => {
+    formRef.current.submit();
+  };
+  const onValuesChange = values => {
+    const res = parseInt(values.class);
+    setChangeState(res);
+  };
 
-  // 퇴소 모달창
+  const onFinish = values => {
+    const obj = {
+      ikids: [...checkedItems],
+      kidCheck: changeState,
+    };
+    console.log("오비제이", obj);
+    patchClass({
+      successpatchFn,
+      errorpatchFn,
+      obj,
+    });
+  };
 
   return (
     <>
@@ -170,25 +200,30 @@ const StudList = () => {
             }}
             allowClear
           />
-          <BlueBtn>선택 반 변경</BlueBtn>
-
-          <PurpleBtn onClick={handleGraduateClick}>선택졸업</PurpleBtn>
-          {/* 안내창 */}
-          <ModalOneBtn
-            isOpen={isOpen}
-            handleOk={handleOk}
-            title={title}
-            subTitle={subTitle}
-          />
-          {/* 재원 상태 변경창 */}
-          <ModalTwoBtn
-            isOpen={delOpen}
-            handleOk={handleDelOk}
-            handleCancel={handleCancel}
-            title={title}
-            subTitle={subTitle}
-          />
-          <OrangeBtn>선택퇴소</OrangeBtn>
+          <BlueBtn
+            onClick={() => {
+              setChangeState(-1);
+              handleClassClick();
+            }}
+          >
+            선택 반 변경
+          </BlueBtn>
+          <PurpleBtn
+            onClick={() => {
+              setChangeState(-1);
+              handleChangeClick();
+            }}
+          >
+            선택졸업
+          </PurpleBtn>
+          <OrangeBtn
+            onClick={() => {
+              setChangeState(-2);
+              handleChangeClick();
+            }}
+          >
+            선택퇴소
+          </OrangeBtn>
         </StudentTopRight>
       </StudentTop>
       <StudListComponent
@@ -198,6 +233,50 @@ const StudList = () => {
         oncheckedClick={oncheckedClick}
         checkedItems={checkedItems}
       />
+      {/* 안내창 */}
+      <ModalOneBtn
+        isOpen={isOpen}
+        handleOk={handleOk}
+        title={title}
+        subTitle={subTitle}
+      />
+      {/* 재원 상태 변경창 */}
+      <ModalTwoBtn
+        isOpen={delOpen}
+        handleOk={handleDelOk}
+        handleCancel={handleCancel}
+        title={title}
+        subTitle={subTitle}
+      />
+      {/* 반 상태 변경창 */}
+      <ModalTwoBtn
+        isOpen={ClassOpen}
+        handleOk={handleExternalSubmit}
+        handleCancel={handleCancel}
+        title={title}
+        subTitle={subTitle}
+      >
+        <Form
+          ref={formRef}
+          name="account"
+          style={{
+            maxWidth: 600,
+          }}
+          initialValues={{
+            remember: true,
+          }}
+          onFinish={onFinish}
+          onValuesChange={onValuesChange}
+        >
+          <Form.Item name="class">
+            <Select placeholder="반 선택">
+              <Select.Option value="1">무궁화반</Select.Option>
+              <Select.Option value="2">해바라기반</Select.Option>
+              <Select.Option value="3">장미반</Select.Option>
+            </Select>
+          </Form.Item>
+        </Form>
+      </ModalTwoBtn>
     </>
   );
 };

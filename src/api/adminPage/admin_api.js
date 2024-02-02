@@ -117,7 +117,7 @@ export const getAdminStudentList = async ({
   }
 };
 
-// 원생 승급 PATCH
+// 원생 승급 PATCH ㅇ
 export const patchClass = async ({
   successpatchFn,
   failpatchFn,
@@ -151,7 +151,6 @@ export const postStudentCreate = async ({
     const res = await jwtAxios.post(`${host}`, student, header);
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
-      // 화면처리용
       successFn(res.data);
     } else {
       failFn();
@@ -254,5 +253,27 @@ export const deleteAccount = async ({
     }
   } catch (error) {
     errorDeleteFn("삭제에 실패했습니다. 다시 시도해주세요.");
+  }
+};
+
+// 원생 식별코드 수정
+export const patchCode = async ({
+  successpatchFn,
+  failpatchFn,
+  errorpatchFn,
+  ikid,
+}) => {
+  try {
+    const res = await jwtAxios.patch(`${host}/code/${ikid}`);
+    const status = res.status.toString();
+    if (status.charAt(0) === "2") {
+      successpatchFn(res.data);
+      return res.data;
+    } else {
+      failpatchFn(res.data);
+    }
+  } catch (error) {
+    const res = error.response.data;
+    errorpatchFn(res.message);
   }
 };

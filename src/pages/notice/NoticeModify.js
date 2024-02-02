@@ -13,41 +13,50 @@ const NoticeModify = () => {
   const [form] = Form.useForm();
   const [fileList, setFileList] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [fullNoticeFix, setFullNoticeFix] = useState(false); // 새로운 상태 추가
   const navigate = useNavigate();
   const { tno } = useParams();
 
   const [initialData, setInitialData] = useState({
     fullTitle: "",
     fullContents: "",
+    fullNoticeFix: "",
+    ifullNotice: 0,
     pics: [],
   });
 
   const onChange = e => {
     console.log(`checked = ${e.target.checked}`);
+    setFullNoticeFix(e.target.checked);
+  };
+
+  // const handleChange = info => {
+  //   let fileList = [...info.fileList];
+
+  //   fileList = fileList.map(file => {
+  //     if (file.response) {
+  //       file.url = `file.response.${path}`;
+  //     }
+  //     return file;
+  //   });
+
+  //   setFileList(fileList);
+  // };
+
+  const customRequest = ({ file, onSuccess }) => {
+    setTimeout(() => {
+      onSuccess();
+    }, 1000);
   };
 
   const handleChange = info => {
-    let fileList = [...info.fileList];
-
-    fileList = fileList.map(file => {
-      if (file.response) {
-        file.url = file.response.url;
-      }
-      return file;
-    });
-
+    let fileList = [...info.fileList].filter(file => !!file.status);
     setFileList(fileList);
   };
 
   const handleImageRemove = file => {
     const newFileList = fileList.filter(item => item.uid !== file.uid);
     setFileList(newFileList);
-  };
-
-  const customRequest = ({ file, onSuccess }) => {
-    setTimeout(() => {
-      onSuccess();
-    }, 1000);
   };
 
   const showModal = () => {
@@ -82,6 +91,8 @@ const NoticeModify = () => {
             iteacher: 1,
             fullTitle: data.fullTitle,
             fullContents: data.fullContents,
+            ifullNotice: data.ifullNotice,
+            fullNoticeFix: data.fullNoticeFix,
           }),
         ],
         { type: "application/json" },
@@ -91,7 +102,7 @@ const NoticeModify = () => {
         formData.append("pics", file.originFileObj);
       });
       putNotice({
-        product: formData,
+        data: formData,
         successFn: handleSuccess,
         failFn: handleFail,
         errorFn: handleError,
@@ -101,9 +112,9 @@ const NoticeModify = () => {
     }
   };
 
-  const handleSuccess = data => {
+  const handleSuccess = InitialData => {
     setIsModalVisible(true);
-    console.log("게시글 수정 성공:", data);
+    console.log("게시글 수정 성공:", InitialData);
   };
 
   const handleFail = error => {
@@ -130,10 +141,15 @@ const NoticeModify = () => {
               fullTitle: data.fullTitle,
               fullContents: data.fullContents,
               pics: data.pics,
+              fullNoticeFix: data.fullNoticeFix,
+              ifullNotice: data.ifullNotice,
             });
             form.setFieldsValue({
               fullTitle: data.fullTitle,
               fullContents: data.fullContents,
+              fullNoticeFix: data.fullNoticeFix,
+              ifullNotice: data.ifullNotice,
+              pics: data.pics,
             });
           },
           failFn: error => {
@@ -165,7 +181,11 @@ const NoticeModify = () => {
           marginTop: 30,
         }}
       >
-        <Checkbox onChange={onChange} style={{ marginBottom: 10 }}>
+        <Checkbox
+          onChange={onChange}
+          style={{ marginBottom: 10 }}
+          checked={fullNoticeFix}
+        >
           상단고정
         </Checkbox>
 
@@ -197,7 +217,7 @@ const NoticeModify = () => {
             className="upload-list-inline"
             maxCount={3}
           >
-            <Button icon={<UploadOutlined />}>업로드 (최대 3개 파일)</Button>
+            <Button icon={<UploadOutlined />}>업로드</Button>
           </Upload>
 
           {initialData.pics.length > 0 && (
@@ -211,7 +231,7 @@ const NoticeModify = () => {
                   />
                   <Button
                     icon={<DeleteOutlined />}
-                    onClick={() => handleImageRemove(index)}
+                    onClick={() => handleImageRemove(pic)}
                   />
                 </div>
               ))}

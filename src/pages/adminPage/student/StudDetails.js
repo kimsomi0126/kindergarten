@@ -8,7 +8,7 @@ import {
   MypageWrap,
   TitleWrap,
 } from "../../../styles/user/mypage";
-import { Button, Dropdown, Form, Select } from "antd";
+import { Button, Dropdown } from "antd";
 import {
   BtnWrap,
   GrayBtn,
@@ -118,9 +118,6 @@ const StudDetails = () => {
     setSubTitle(result);
   };
 
-  const handleClickList = () => {
-    navigate(`/admin/student/list`);
-  };
   const handleClickCreate = () => {
     navigate(`/admin/student/Create`);
   };
@@ -148,7 +145,11 @@ const StudDetails = () => {
             <BtnWrap>
               <GrayBtn>알림장작성</GrayBtn>
               <PurpleBtn onClick={handleClickCreate}>원생정보수정</PurpleBtn>
-              <GreenBtn onClick={handleClickList}>목록보기</GreenBtn>
+              <GreenBtn
+                onClick={e => navigate("/admin/student?page=1&kidCheck=0")}
+              >
+                목록보기
+              </GreenBtn>
             </BtnWrap>
           </FlexBox>
         </TitleWrap>

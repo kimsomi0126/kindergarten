@@ -40,15 +40,13 @@ export const StudentListItem = styled.li`
   cursor: pointer;
   input {
     z-index: 999;
-  }
-`;
-export const StudentListBox = styled.div`
-  display: flex;
-  input {
     position: absolute;
     right: 2rem;
     top: 2rem;
   }
+`;
+export const StudentListBox = styled.div`
+  display: flex;
 `;
 export const StudentImg = styled.div`
   width: 8rem;

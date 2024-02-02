@@ -77,10 +77,10 @@ export const putAdminParentInfo = async ({
   }
 };
 
-// 학부모 정보 삭제 PUT
-export const deleteParentList = async ({ successFn, failFn, errorFn }) => {
+// 학부모 정보 삭제 PUT ㅇ
+export const deleteParentList = async ({ successFn, failFn, errorFn, obj }) => {
   try {
-    const res = await jwtAxios.put(`${path}/parent`);
+    const res = await jwtAxios.put(`${path}/parent`, obj);
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
       successFn(res.data);
@@ -114,6 +114,28 @@ export const getAdminStudentList = async ({
     }
   } catch (error) {
     errorFn("서버가 불안정합니다.다시 시도해주세요.");
+  }
+};
+
+// 원생 승급 PATCH
+export const patchClass = async ({
+  successpatchFn,
+  failpatchFn,
+  errorpatchFn,
+  obj,
+}) => {
+  try {
+    const res = await jwtAxios.patch(`${path}/stateorclass`, obj);
+    const status = res.status.toString();
+    if (status.charAt(0) === "2") {
+      successpatchFn(res.data);
+      return res.data;
+    } else {
+      failpatchFn(res.data);
+    }
+  } catch (error) {
+    const res = error.response.data;
+    errorpatchFn(res.message);
   }
 };
 

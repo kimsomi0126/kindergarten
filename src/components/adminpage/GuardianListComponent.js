@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ChildInfo,
   PageNum,
@@ -9,11 +9,9 @@ import {
   UserMain,
 } from "../../styles/adminstyle/guardianlist";
 import { GrayBtn } from "../../styles/ui/buttons";
-import { getAdminParentList } from "../../api/adminPage/admin_api";
 import AdminParentEdit from "../../pages/adminPage/AdminParentEdit";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Pagination } from "antd";
-import Item from "antd/es/list/Item";
 
 const initParentList = {
   totalCnt: 0,
@@ -33,30 +31,16 @@ const initParentList = {
   ],
 };
 
-const GuardianListComponent = ({ checkedItems, oncheckedClick }) => {
+const GuardianListComponent = ({
+  parentList,
+  checkedItems,
+  oncheckedClick,
+  page,
+  iclass,
+}) => {
   const navigate = useNavigate();
   const [selectAllChecked, setSelectAllChecked] = useState(false);
-  // const [checkedItems, setCheckedItems] = useState([]);
 
-  // 학부모 리스트 GET
-  const [parentList, setParentList] = useState(initParentList);
-  const [serchParams, setSearchParams] = useSearchParams();
-  const page = serchParams.get("page");
-  const iclass = serchParams.get("iclass");
-
-  useEffect(() => {
-    getAdminParentList({ successFn, failFn, errorFn, page, iclass });
-  }, [page, checkedItems]);
-
-  const successFn = result => {
-    setParentList(result);
-  };
-  const failFn = result => {
-    setParentList(result);
-  };
-  const errorFn = result => {
-    setParentList(result);
-  };
   // 페이지네이션
   const handleChangePage = page => {
     console.log(page);

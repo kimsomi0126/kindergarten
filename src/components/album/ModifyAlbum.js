@@ -31,7 +31,6 @@ const ModifyAlbum = () => {
   const [fileList, setFileList] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const navigate = useNavigate();
-
   const handleChange = info => {
     let fileList = [...info.fileList].filter(file => !!file.status);
     setFileList(fileList);
@@ -47,44 +46,38 @@ const ModifyAlbum = () => {
 
   const onFinish = async data => {
     const formData = new FormData();
-    const dto = new Blob(
-      [
-        JSON.stringify({
-          iteacher: 1,
-          albumTitle: data.albumTitle,
-          albumContents: data.albumContents,
-          ialbum: pno,
-        }),
-      ],
-      { type: "application/json" },
+    const dto = {
+      iteacher: data.iteacher,
+      albumTitle: data.albumTitle,
+      albumContents: data.albumContents,
+      ialbum: data.ialbum,
+    };
+
+    formData.append(
+      "dto",
+      new Blob([JSON.stringify(dto)], { type: "application/json" }),
     );
-    formData.append("dto", dto);
 
-    // 새로 추가된 이미지 파일을 FormData에 추가
-    fileList.forEach(file => {
-      if (file.originFileObj) {
-        // originFileObj 속성이 있으면 새로운 파일이므로 FormData에 추가
-        formData.append("pics", file.originFileObj);
-      }
-    });
-
-    // 기존 이미지 파일을 FormData에 추가
-    albumData.albumPic.forEach(pic => {
-      // 여기서 pic는 기존 이미지 파일의 이름(또는 경로)입니다.
-      // 이를 서버가 인식할 수 있는 형식의 File 객체로 변환해서 추가해야 합니다.
-      // 예시: fetch를 사용하여 이미지를 blob으로 가져오고, 이를 File 객체로 변환해서 추가
-      // 주의: 이는 비동기 작업이므로, 모든 파일을 처리한 후에 putAlbum을 호출해야 합니다.
-      fetch(`${imgpath}/${pno}/${pic}`).then(response => {
-        response.blob().then(blob => {
-          const file = new File([blob], pic, { type: "image/jpeg" }); // MIME 타입 설정이 필요
-          formData.append("pics", file);
-        });
+    if (data.pics && data.pics.length > 0) {
+      data.pics.forEach(file => {
+        // Check that each item is a file before appending
+        if (file instanceof File) {
+          formData.append("pics", file, file.name);
+        }
       });
-    });
+    } else {
+      // If there are no images, potentially handle the scenario as required by your backend
+      // For example, you might need to append a flag or handle differently if no images are provided
+      console.log("No images to upload.");
+    }
 
-    // 모든 파일 처리가 완료되면, putAlbum을 호출
-    // 주의: 비동기 작업을 동기적으로 처리해야 하므로, Promise.all 또는 async/await 구조를 사용할 필요가 있음
-    // putAlbum 호출 부분은 모든 파일이 formData에 추가된 후에 위치해야 합니다.
+    // formData를 서버에 전송
+    putAlbum({
+      product: formData,
+      successFn: handleSuccess,
+      failFn: handleFailure,
+      errorFn: handleError,
+    });
   };
 
   const handleSuccess = response => {

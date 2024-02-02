@@ -154,10 +154,11 @@ export const postStudentCreate = async ({
       // 화면처리용
       successFn(res.data);
     } else {
-      failFn();
+      failFn(res.data);
     }
   } catch (error) {
-    errorFn();
+    const res = error.response.data;
+    errorFn(res.message);
   }
 };
 

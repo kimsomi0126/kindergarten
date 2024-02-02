@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { PageTitle } from "../../../styles/basic";
 import {
   Button,
@@ -10,6 +10,7 @@ import {
   Upload,
   message,
 } from "antd";
+import dayjs from "dayjs";
 import { UploadOutlined } from "@ant-design/icons";
 import TextArea from "antd/es/input/TextArea";
 import DaumPostcode from "react-daum-postcode";
@@ -32,23 +33,12 @@ import {
   StudFormWrap,
 } from "../../../styles/adminstyle/studcreate";
 import { GreenBtn, PinkBtn } from "../../../styles/ui/buttons";
-import { SERVER_URL } from "../../../api/config";
+import { postStudentCreate } from "../../../api/adminPage/admin_api";
+import ModalOneBtn from "../../../components/ui/ModalOneBtn";
+import ModalTwoBtn from "../../../components/ui/ModalTwoBtn";
+import { useNavigate } from "react-router";
 
-// 초기값
-const initState = {
-  pic: "",
-  dto: {
-    kidNm: "",
-    iclass: 0,
-    gender: 0,
-    birth: "",
-    address: "",
-    memo: "",
-    emerNm: "",
-    emerNb: "",
-  },
-};
-
+// dto 초기값
 const initDto = {
   kidNm: "",
   iclass: 0,
@@ -59,47 +49,49 @@ const initDto = {
   emerNm: "",
   emerNb: "",
 };
-
 const StudentCreate = () => {
-  // 원생 등록
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [dto, setDto] = useState({});
-  const [pic, setPic] = useState();
-  const path = `${SERVER_URL}/api/kid`;
+  const navigate = useNavigate();
+  // 원생 정보 값
+  const [dto, setDto] = useState(initDto);
+  const currentYear = new Date().getFullYear();
 
-  const onFinish = value => {
-    console.log("data", value);
-    const allAddress = `${value.address.postcode}) ${value.address.detail1}, ${value.address.detail2}`;
-    const values = {
-      ...value,
-      birth: value["birth"].format("YYYY-MM-DD"),
-      address: allAddress,
-      iclass: parseInt(value["iclass"].value),
-      gender: parseInt(value["gender"].value),
-    };
-    console.log(values);
-    setDto(values);
-  };
-  console.log(dto);
+  // 모달창 내용
+  const [title, setTitle] = useState("");
+  const [subTitle, setSubTitle] = useState("");
+  const [isNavigate, setIsNavigate] = useState();
 
-  // 파일 업로드 실행
-  const handleClick = () => {};
-
-  // 모달창
-  const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
+  // 모달창 state
+  const [isCancelOpen, setIsCancelOpen] = useState(false);
+  const [isResultOpen, setIsResultOpen] = useState(false);
 
   const handleCancelClick = () => {
-    setIsCancelModalOpen(true);
+    setIsCancelOpen(true);
+    setTitle("정말 취소할까요?");
+    setSubTitle("작성된 내용은 저장되지 않습니다.");
+    setIsNavigate("/admin/student?page=1&kidCheck=0");
+  };
+  // 모달창 확인버튼
+  const handleResultOk = () => {
+    setIsResultOpen(false);
+    // 링크이동
+    if (isNavigate) {
+      navigate(isNavigate);
+    }
+  };
+  // 모달창 취소
+  const handleResultCancel = () => {
+    setIsCancelOpen(false);
+    setIsResultOpen(false);
   };
 
-  // 우편번호
+  // 우편번호 입력
   const [zonecode, setZonecode] = useState("");
   const [address, setAddress] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [initialValues, setInitialValues] = useState({});
 
-  // Daum Post 관련
+  // Daum Post 입력
   const themeObj = {
     bgColor: "#FAFAFA", //바탕 배경색
     searchBgColor: "#00876D", //검색창 배경색
@@ -111,7 +103,6 @@ const StudentCreate = () => {
     emphTextColor: "#FD7900", //강조 글자색
     outlineColor: "#FFFFFF", //테두리
   };
-
   const [form] = Form.useForm();
   const postCodeStyle = {
     width: "480px",
@@ -139,30 +130,107 @@ const StudentCreate = () => {
     setIsOpen(prevOpenState => !prevOpenState);
     setIsModalOpen(true);
   };
-
   const handleOk = () => {
     setIsModalOpen(false);
   };
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-
+  // 주소 api form값에 추가
   useEffect(() => {
     form.setFieldsValue(initialValues);
   }, [zonecode, address]);
 
+  // 프로필 업로드
+  const [fileList, setFileList] = useState([]);
+  const props = {
+    onRemove: file => {
+      const index = fileList.indexOf(file);
+      const newFileList = fileList.slice();
+      newFileList.splice(index, 1);
+      setFileList(newFileList);
+    },
+    beforeUpload: file => {
+      if (fileList.length >= 1) {
+        message.error(`프로필사진은 1개만 업로드 가능합니다.`);
+      } else {
+        setFileList([...fileList, file]);
+      }
+
+      return false;
+    },
+    fileList,
+  };
+
+  // 입력값 담기
+  const onValuesChange = (changeValue, allValue) => {
+    const allAddress = `${allValue.address.postcode}) ${allValue.address.detail1}, ${allValue.address.detail2}`;
+    const genderValue = allValue.gender && parseInt(allValue.gender["value"]);
+    const iclassValue = allValue.iclass && parseInt(allValue.iclass["value"]);
+    const values = {
+      ...allValue,
+      birth: dayjs(allValue.birth).format("YYYY-MM-DD"),
+      address: allAddress,
+      iclass: iclassValue,
+      gender: genderValue,
+    };
+    setDto(values);
+  };
+
+  // 등록 버튼 클릭, 결과
+  const onFinish = value => {
+    console.log("data", value);
+
+    let formData = new FormData();
+    formData.append("pic", fileList[0]);
+    formData.append(
+      "dto",
+      new Blob([JSON.stringify(dto)], { type: "application/json" }),
+    );
+
+    postStudentCreate({ successFn, errorFn, student: formData });
+  };
+  const successFn = res => {
+    setIsResultOpen(true);
+    setTitle("등록 완료");
+    setSubTitle("성공적으로 등록되었습니다.");
+    setIsNavigate(
+      `/admin/student/details?year=${currentYear}&ikid=${res.ikid}`,
+    );
+  };
+  const errorFn = res => {
+    setIsResultOpen(true);
+    setTitle("등록 실패");
+    setSubTitle(`등록에 실패했습니다. \n다시 시도해주세요.`);
+  };
+
   return (
     <>
+      {/* 안내창 */}
+      <ModalOneBtn
+        isOpen={isResultOpen}
+        handleOk={handleResultOk}
+        title={title}
+        subTitle={subTitle}
+      />
+
+      {/* 작성취소 */}
+      <ModalTwoBtn
+        isOpen={isCancelOpen}
+        handleOk={handleResultOk}
+        handleCancel={handleResultCancel}
+        title={title}
+        subTitle={subTitle}
+      />
       <StudFormTop>
         <PageTitle>원생 등록</PageTitle>
       </StudFormTop>
-
       <Form
         form={form}
         onFinish={onFinish}
-        // onValuesChange={(changeValue, allValue) => {
-        //   onValuesChange(changeValue, allValue);
-        // }}
+        onValuesChange={(changeValue, allValue) => {
+          onValuesChange(changeValue, allValue);
+        }}
       >
         <StudFormWrap>
           {/* 기본정보 */}
@@ -175,6 +243,12 @@ const StudentCreate = () => {
                   style={{
                     width: "33%",
                   }}
+                  rules={[
+                    {
+                      required: true,
+                      message: "이름을 입력해주세요.",
+                    },
+                  ]}
                 >
                   <Input placeholder="이름" />
                 </Form.Item>
@@ -183,6 +257,12 @@ const StudentCreate = () => {
                   style={{
                     width: "33%",
                   }}
+                  rules={[
+                    {
+                      required: true,
+                      message: "생년월일을 입력해주세요.",
+                    },
+                  ]}
                 >
                   <DatePicker
                     style={{
@@ -196,6 +276,12 @@ const StudentCreate = () => {
                   style={{
                     width: "33%",
                   }}
+                  rules={[
+                    {
+                      required: true,
+                      message: "성별을 선택해주세요.",
+                    },
+                  ]}
                 >
                   <Select
                     labelInValue
@@ -214,10 +300,20 @@ const StudentCreate = () => {
                 </Form.Item>
               </BasicInfoItem>
               <BasicInfoCode>
-                <Form.Item name={["address", "postcode"]}>
+                <Form.Item
+                  name={["address", "postcode"]}
+                  rules={[
+                    {
+                      required: true,
+                      message: "주소를 입력해주세요.",
+                    },
+                  ]}
+                >
                   <Input disabled type="text" placeholder="우편 번호" />
                 </Form.Item>
-                <button onClick={toggleHandler}>주소 검색</button>
+                <button type="button" onClick={toggleHandler}>
+                  주소 검색
+                </button>
                 {isOpen && (
                   <Modal
                     title="주소 검색"
@@ -249,6 +345,12 @@ const StudentCreate = () => {
                     width: "50%",
                   }}
                   name={["address", "detail2"]}
+                  rules={[
+                    {
+                      required: true,
+                      message: "상세주소를 입력해주세요.",
+                    },
+                  ]}
                 >
                   <Input type="text" placeholder="상세 주소 입력" />
                 </Form.Item>
@@ -264,6 +366,12 @@ const StudentCreate = () => {
                 style={{
                   width: "33%",
                 }}
+                rules={[
+                  {
+                    required: true,
+                    message: "반을 선택해주세요.",
+                  },
+                ]}
               >
                 <Select
                   labelInValue
@@ -287,8 +395,15 @@ const StudentCreate = () => {
           <ImgInfo>
             <p>프로필 이미지</p>
             <ImgInfoForm>
-              <Form.Item>
-                <Upload name="file" action="">
+              <Form.Item
+                rules={[
+                  {
+                    required: true,
+                    message: "프로필이미지를 등록해주세요.",
+                  },
+                ]}
+              >
+                <Upload {...props} required>
                   <Button icon={<UploadOutlined />}>파일 첨부</Button>
                 </Upload>
               </Form.Item>
@@ -309,6 +424,12 @@ const StudentCreate = () => {
                   style={{
                     width: "50%",
                   }}
+                  rules={[
+                    {
+                      required: true,
+                      message: "비상연락처 이름을 입력해주세요.",
+                    },
+                  ]}
                 >
                   <Input type="text" placeholder="이름 입력" />
                 </Form.Item>
@@ -318,6 +439,10 @@ const StudentCreate = () => {
                     {
                       pattern: /^\d{10,11}$/,
                       message: "휴대폰 번호를 올바르게 입력하세요.",
+                    },
+                    {
+                      required: true,
+                      message: "비상연락처 번호를 입력해주세요.",
                     },
                   ]}
                   style={{
@@ -343,7 +468,7 @@ const StudentCreate = () => {
           </AdminMemo>
         </StudFormWrap>
         <BottomBt>
-          <GreenBtn onClick={handleClick}>등록</GreenBtn>
+          <GreenBtn>등록</GreenBtn>
           <PinkBtn type="button" onClick={handleCancelClick}>
             취소
           </PinkBtn>

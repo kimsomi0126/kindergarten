@@ -35,7 +35,7 @@ export const getIndTeacherList = async ({
 }) => {
   try {
     const res = await jwtAxios.get(
-      `${path}/notice?page=${page}&iclass=${iclass}&year=${year}`,
+      `${path}?page=${page}&iclass=${iclass}&year=${year}`,
     );
     const status = res.status.toString();
     if (status.charAt(0) === "2") {

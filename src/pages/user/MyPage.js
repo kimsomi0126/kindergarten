@@ -296,6 +296,7 @@ const MyPage = () => {
           key={editKey}
         />
       )}
+      {/* 회원탈퇴 */}
       <ModalTwoBtn
         isOpen={delOpen}
         handleOk={handleDelOk}

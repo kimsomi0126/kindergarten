@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Form, Pagination, Select } from "antd";
+import React, { useEffect, useState } from "react";
+import { Button, Dropdown, Form, Select } from "antd";
 import Search from "antd/es/input/Search";
 import {
   StudentTop,
@@ -9,72 +9,160 @@ import { PageTitle } from "../../../styles/basic";
 import { BlueBtn, OrangeBtn, PurpleBtn } from "../../../styles/ui/buttons";
 import StudListComponent from "../../../components/adminpage/StudListComponent";
 import ModalTwoBtn from "../../../components/ui/ModalTwoBtn";
+import { Link, Navigate, useSearchParams } from "react-router-dom";
+import useCustomLogin from "../../../hooks/useCustomLogin";
+import {
+  getAdminStudentList,
+  patchClass,
+} from "../../../api/adminPage/admin_api";
+import ModalOneBtn from "../../../components/ui/ModalOneBtn";
+import { DownOutlined } from "@ant-design/icons";
 
-const StudList = ({ handleOk }) => {
-  const handleClassChange = item => {
-    console.log(item.iclass);
+const initStudentList = {
+  kidPage: [
+    {
+      ikid: 0,
+      iclass: 0,
+      kidNm: "",
+      profile: "",
+    },
+  ],
+  totalCnt: 0,
+};
+
+const StudList = () => {
+  const [studentList, setStudentList] = useState(initStudentList);
+  const [checkedItems, setCheckedItems] = useState([]);
+  const { loginState } = useCustomLogin();
+  const [serchParams, setSearchParams] = useSearchParams();
+  const page = serchParams.get("page");
+  const kidCheck = serchParams.get("kidCheck");
+
+  // 원생 리스트 GET
+  useEffect(() => {
+    getAdminStudentList({
+      successFn,
+      failFn,
+      errorFn,
+      page,
+      kidCheck,
+    });
+  }, [page, kidCheck, checkedItems]);
+  const successFn = result => {
+    setStudentList(result);
   };
+  const failFn = result => {
+    setStudentList(result);
+  };
+  const errorFn = result => {
+    setStudentList(result);
+  };
+
+  // 반 선택
+  const classArr = [
+    { kidCheck: 0, classNm: "반 전체" },
+    { kidCheck: 1, classNm: "무궁화반" },
+    { kidCheck: 2, classNm: "해바라기반" },
+    { kidCheck: 3, classNm: "장미반" },
+    { kidCheck: -1, classNm: "졸업" },
+    { kidCheck: -2, classNm: "퇴소" },
+  ];
+
+  const classItems =
+    Array.isArray(classArr) &&
+    classArr.map(item => {
+      return {
+        key: item.kidCheck.toString(),
+        label: (
+          <Link to={`/admin/student?page=${page}&kidCheck=${item.kidCheck}`}>
+            {item.classNm}
+          </Link>
+        ),
+      };
+    });
+  // 모달창 내용
+  const [title, setTitle] = useState("");
+  const [subTitle, setSubTitle] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+  const [isNavigate, setIsNavigate] = useState();
+
+  const oncheckedClick = item => {
+    setCheckedItems(item);
+  };
+  console.log("체크", checkedItems);
+
   // 반 변경 모달창
-  const [UpgradeModalOpen, setUpgradeModalOpen] = useState(false);
-  const handleUpgradeClick = () => {
-    setUpgradeModalOpen(true);
-  };
-  const onUpgradeCancel = () => {
-    setUpgradeModalOpen(false);
-  };
+
   // 졸업 모달창
-  const [GraduateModalOpen, SetGraduateModalOpen] = useState(false);
+  const [delOpen, setDelOpen] = useState(false);
+
   const handleGraduateClick = () => {
-    SetGraduateModalOpen(true);
+    console.log("선택 졸업");
+    setDelOpen(true);
+    setTitle("정말 변경할까요?");
+    setSubTitle("확인하면 원생의 재원 상태가 변경됩니다.");
   };
-  const onGraduateCancel = () => {
-    SetGraduateModalOpen(false);
+  const handleDelOk = () => {
+    const obj = {
+      ikids: [...checkedItems],
+      kidCheck: -1,
+    };
+    console.log("오비제이", checkedItems);
+    patchClass({
+      successpatchFn,
+      errorpatchFn,
+      obj,
+    });
   };
+  const successpatchFn = res => {
+    setIsOpen(true);
+    setTitle("변경 완료");
+    setSubTitle("성공적으로 변경되었습니다.");
+    setDelOpen(false);
+    setCheckedItems([]);
+  };
+  const errorpatchFn = res => {
+    console.log(res);
+    setIsOpen(true);
+    setTitle("변경 실패");
+    setSubTitle("변경을 실패했습니다. 다시 시도해주세요.");
+  };
+  const handleCancel = () => {
+    setDelOpen(false);
+  };
+  const handleOk = () => {
+    setIsOpen(false);
+    // 링크이동
+    if (isNavigate) {
+      Navigate(isNavigate);
+    }
+  };
+
   // 퇴소 모달창
-  const [OutModalOpen, SetOutModalOpen] = useState(false);
-  const handleOutClick = () => {
-    SetOutModalOpen(true);
-  };
-  const onOutCancel = () => {
-    SetOutModalOpen(false);
-  };
+
   return (
     <>
       <StudentTop>
         <PageTitle>원생 관리</PageTitle>
         <StudentTopRight>
-          <Select
-            labelInValue
-            defaultValue={{
-              value: "",
-              label: "반 선택",
-            }}
-            style={{
-              width: 100,
-            }}
-            options={[
-              {
-                value: "1",
-                label: "무궁화반",
-              },
-              {
-                value: "2",
-                label: "해바라기반",
-              },
-              {
-                value: "3",
-                label: "장미반",
-              },
-              {
-                value: "-1",
-                label: "졸업",
-              },
-              {
-                value: "-2",
-                label: "퇴소",
-              },
-            ]}
-          />
+          <Dropdown menu={{ items: classItems }}>
+            <Button>
+              {kidCheck === "0"
+                ? "반 전체"
+                : kidCheck === "1"
+                ? "무궁화반"
+                : kidCheck === "2"
+                ? "해바라기반"
+                : kidCheck === "3"
+                ? "장미반"
+                : kidCheck === "-1"
+                ? "졸업"
+                : kidCheck === "-2"
+                ? "퇴소"
+                : "반 선택"}
+              <DownOutlined />
+            </Button>
+          </Dropdown>
           <Search
             placeholder="검색어를 입력하세요."
             style={{
@@ -82,53 +170,34 @@ const StudList = ({ handleOk }) => {
             }}
             allowClear
           />
-          <BlueBtn onClick={handleUpgradeClick}>선택 반 변경</BlueBtn>
-          {UpgradeModalOpen && (
-            <ModalTwoBtn
-              isOpen={UpgradeModalOpen}
-              handleOk={handleOk}
-              handleCancel={onUpgradeCancel}
-              title="반 일괄수정"
-              subTitle="반 이름을 선택해주세요."
-            >
-              <Form>
-                <Form.Item>
-                  <Select
-                    placeholder="반 선택"
-                    onChange={e => handleClassChange(e)}
-                  >
-                    <Select.Option value="1">무궁화반</Select.Option>
-                    <Select.Option value="2">해바라기반</Select.Option>
-                    <Select.Option value="3">장미반</Select.Option>
-                  </Select>
-                </Form.Item>
-              </Form>
-            </ModalTwoBtn>
-          )}
+          <BlueBtn>선택 반 변경</BlueBtn>
 
           <PurpleBtn onClick={handleGraduateClick}>선택졸업</PurpleBtn>
-          {GraduateModalOpen && (
-            <ModalTwoBtn
-              isOpen={GraduateModalOpen}
-              handleOk={handleOk}
-              handleCancel={onGraduateCancel}
-              title="정말 변경할까요?"
-              subTitle="확인하면 원생의 재원 상태가 변경됩니다."
-            ></ModalTwoBtn>
-          )}
-          <OrangeBtn onClick={handleOutClick}>선택퇴소</OrangeBtn>
-          {OutModalOpen && (
-            <ModalTwoBtn
-              isOpen={OutModalOpen}
-              handleOk={handleOk}
-              handleCancel={onOutCancel}
-              title="정말 변경할까요?"
-              subTitle="확인하면 원생의 재원 상태가 변경됩니다."
-            ></ModalTwoBtn>
-          )}
+          {/* 안내창 */}
+          <ModalOneBtn
+            isOpen={isOpen}
+            handleOk={handleOk}
+            title={title}
+            subTitle={subTitle}
+          />
+          {/* 재원 상태 변경창 */}
+          <ModalTwoBtn
+            isOpen={delOpen}
+            handleOk={handleDelOk}
+            handleCancel={handleCancel}
+            title={title}
+            subTitle={subTitle}
+          />
+          <OrangeBtn>선택퇴소</OrangeBtn>
         </StudentTopRight>
       </StudentTop>
-      <StudListComponent />
+      <StudListComponent
+        page={page}
+        kidCheck={kidCheck}
+        studentList={studentList}
+        oncheckedClick={oncheckedClick}
+        checkedItems={checkedItems}
+      />
     </>
   );
 };

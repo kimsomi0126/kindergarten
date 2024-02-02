@@ -62,6 +62,7 @@ const StudDetails = () => {
   // 현재 출력 년도, kid 값
   const year = serchParams.get("year");
   const ikid = serchParams.get("ikid");
+
   // 로그인 회원 정보에서 아이 리스트 추출
   const { loginState, isParentLogin } = useCustomLogin();
   const ikidList = loginState.kidList;
@@ -90,10 +91,17 @@ const StudDetails = () => {
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [editKey, setEditKey] = useState(0);
 
+  // 연결계정 삭제 후 콜백
+  const [parentState, setParentState] = useState(0);
+  const handleChildClick = () => {
+    // 자식 컴포넌트에서 호출할 함수
+    setParentState(prevState => prevState + 1);
+  };
+
   // 마이페이지 데이터 가져오기
   useEffect(() => {
     getMypage({ year, ikid, successFn, failFn, errorFn });
-  }, [initState, year, ikid]);
+  }, [initState, year, ikid, parentState]);
 
   // 데이터연동 성공
   const successFn = result => {
@@ -150,7 +158,11 @@ const StudDetails = () => {
           <MyProfileComponent ilevel={ilevel} ikid={ikid} myData={myData} />
           {/* 연결계정 */}
           {ilevel === "admin" ? (
-            <MyAccountComponent ilevel={ilevel} ikid={ikid} myData={myData} />
+            <MyAccountComponent
+              ikid={ikid}
+              myData={myData}
+              onChildClick={handleChildClick}
+            />
           ) : null}
           {/* 상세정보 */}
           <DetailInfo>

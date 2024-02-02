@@ -313,7 +313,7 @@ function App() {
             />
             {/* 원생 관리 리스트*/}
             <Route
-              path="student "
+              path="student"
               element={
                 <Suspense fallback={<Loading />}>
                   <StudList />
@@ -378,7 +378,7 @@ function App() {
               }
             />
             <Route
-              path="write "
+              path="write"
               element={
                 <Suspense fallback={<Loading />}>
                   <IndivNotiWrite />
@@ -386,7 +386,7 @@ function App() {
               }
             />
             <Route
-              path="details/:tno "
+              path="details/:tno"
               element={
                 <Suspense fallback={<Loading />}>
                   <IndivNotidetails />

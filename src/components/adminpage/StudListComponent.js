@@ -90,7 +90,7 @@ const StudListComponent = () => {
   // 페이지네이션
   const handleChangePage = page => {
     console.log(page);
-    navigate(`/admin/student/list?page=${page}&kidCheck=${kidCheck}`);
+    navigate(`/admin/student?page=${page}&kidCheck=${kidCheck}`);
   };
 
   return (

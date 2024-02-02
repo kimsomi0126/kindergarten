@@ -1,28 +1,75 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { GrayBtn } from "../../../styles/ui/buttons";
 import { AccountInfo, TableWrap, TitleWrap } from "../../../styles/user/mypage";
 import { PageTitle } from "../../../styles/basic";
 import { deleteAccount } from "../../../api/adminPage/admin_api";
+import ModalTwoBtn from "../../ui/ModalTwoBtn";
+import { useNavigate } from "react-router-dom";
+import ModalOneBtn from "../../ui/ModalOneBtn";
 
-const MyAccountComponent = ({ myData, iparent, ikid }) => {
+const MyAccountComponent = ({ myData, ikid, onChildClick }) => {
+  const navigate = useNavigate();
   const my = myData;
+
+  // 연결된 학부모 계정 pk값
+  const [iparent, setIparent] = useState(0);
+
+  useEffect(() => {
+    console.log(iparent);
+  }, [iparent]);
+
+  // 모달창 내용
+  const [title, setTitle] = useState("");
+  const [subTitle, setSubTitle] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+  const [isNavigate, setIsNavigate] = useState();
+
+  // 모달창 확인버튼
+  const handleOk = () => {
+    setIsOpen(false);
+    // 링크이동
+    if (isNavigate) {
+      navigate(isNavigate);
+    }
+  };
+  // 모달창 취소
+  const handleCancel = () => {
+    setDelOpen(false);
+  };
+
+  // 연결삭제
+  const [delOpen, setDelOpen] = useState(false);
   const handleClickDelete = () => {
+    console.log("탈퇴");
+
+    setDelOpen(true);
+    setTitle("정말 삭제할까요?");
+    setSubTitle("학부모 계정과 연결이 끊어집니다. 정말 삭제할까요?");
+  };
+  const handleDelOk = () => {
     deleteAccount({
       successDeleteFn,
-      failDeleteFn,
       errorDeleteFn,
       iparent,
       ikid,
     });
   };
-  const successDeleteFn = result => {
-    console.log(result);
+
+  const successDeleteFn = res => {
+    console.log(res);
+    setIsOpen(true);
+    setTitle("삭제 완료");
+    setSubTitle("삭제가 완료되었습니다.");
+    setDelOpen(false);
+    onChildClick();
+    // setIsNavigate("/");
+    // doLogout();
   };
-  const failDeleteFn = result => {
-    console.log(result);
-  };
-  const errorDeleteFn = result => {
-    console.log(result);
+  const errorDeleteFn = res => {
+    console.log(res);
+    setIsOpen(true);
+    setTitle("삭제 실패");
+    setSubTitle(res);
   };
 
   return (
@@ -50,7 +97,7 @@ const MyAccountComponent = ({ myData, iparent, ikid }) => {
           </thead>
           <tbody>
             {my.parents.map((parent, index) => (
-              <tr key={index}>
+              <tr key={parent.iparent}>
                 <td>{parent ? parent.uid : ""}</td>
                 <td>{parent ? parent.parentNm : ""}</td>
                 <td>{parent ? parent.phoneNb : ""}</td>
@@ -76,13 +123,36 @@ const MyAccountComponent = ({ myData, iparent, ikid }) => {
                     : ""}
                 </td>
                 <td>
-                  <GrayBtn onClick={handleClickDelete}>연결삭제</GrayBtn>
+                  <GrayBtn
+                    onClick={() => {
+                      setIparent(parent.iparent);
+                      handleClickDelete();
+                    }}
+                  >
+                    연결삭제
+                  </GrayBtn>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       </TableWrap>
+
+      {/* 안내창 */}
+      <ModalOneBtn
+        isOpen={isOpen}
+        handleOk={handleOk}
+        title={title}
+        subTitle={subTitle}
+      />
+      {/* 학부모 연결 삭제창 */}
+      <ModalTwoBtn
+        isOpen={delOpen}
+        handleOk={handleDelOk}
+        handleCancel={handleCancel}
+        title={title}
+        subTitle={subTitle}
+      />
     </AccountInfo>
   );
 };

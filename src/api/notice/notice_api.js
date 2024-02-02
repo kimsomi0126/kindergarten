@@ -36,9 +36,7 @@ export const getList = async ({ page, successFn, failFn, errorFn }) => {
 // 유치원소식 게시글 등록하기
 export const postNotice = async ({ product, successFn, failFn, errorFn }) => {
   try {
-    const header = { headers: { "Content-Type": "multipart/form-data" } };
     const res = await jwtAxios.post(`${path}`, product);
-
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
       successFn(res.data);

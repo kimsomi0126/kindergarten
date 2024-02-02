@@ -1,52 +1,32 @@
-import React, { useState, useEffect } from "react";
-import { UploadOutlined, DeleteOutlined } from "@ant-design/icons";
-import { Button, Checkbox, Form, Input, Upload, Modal } from "antd";
+import { UploadOutlined } from "@ant-design/icons";
+import { Button, Checkbox, Form, Input, Modal, Upload } from "antd";
+import React, { useRef, useState } from "react";
+import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
+import { SERVER_URL } from "../../api/config";
+import { postIndNotice } from "../../api/individualNotice/indivNoticeApi";
+import { FileListStyle } from "../../styles/album/album";
 import { PageTitle } from "../../styles/basic";
 import { GreenBtn, PinkBtn } from "../../styles/ui/buttons";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { getDetail, putNotice } from "../../api/notice/notice_api";
-import { SERVER_URL } from "../../api/config";
 
-const path = `${SERVER_URL}/api/full`;
+const path = `${SERVER_URL}/api/notice`;
 
-const NoticeModify = () => {
+const IndivNotiWrite = () => {
   const [form] = Form.useForm();
   const [fileList, setFileList] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [fullNoticeFix, setFullNoticeFix] = useState(false); // 새로운 상태 추가
   const navigate = useNavigate();
-  const { tno } = useParams();
 
-  const [initialData, setInitialData] = useState({
-    fullTitle: "",
-    fullContents: "",
-    fullNoticeFix: "",
-    ifullNotice: 0,
-    pics: [],
-  });
+  const formRef = useRef(); // Form 컴포넌트에 대한 ref 생성
+
+  const handleGreenButtonClick = () => {
+    formRef.current.submit(); // Form의 submit 메서드 호출
+  };
 
   const onChange = e => {
     console.log(`checked = ${e.target.checked}`);
     setFullNoticeFix(e.target.checked);
-  };
-
-  // const handleChange = info => {
-  //   let fileList = [...info.fileList];
-
-  //   fileList = fileList.map(file => {
-  //     if (file.response) {
-  //       file.url = `file.response.${path}`;
-  //     }
-  //     return file;
-  //   });
-
-  //   setFileList(fileList);
-  // };
-
-  const customRequest = ({ file, onSuccess }) => {
-    setTimeout(() => {
-      onSuccess();
-    }, 1000);
   };
 
   const handleChange = info => {
@@ -54,9 +34,8 @@ const NoticeModify = () => {
     setFileList(fileList);
   };
 
-  const handleImageRemove = file => {
-    const newFileList = fileList.filter(item => item.uid !== file.uid);
-    setFileList(newFileList);
+  const customRequest = ({ onSuccess }) => {
+    onSuccess("ok");
   };
 
   const showModal = () => {
@@ -75,7 +54,7 @@ const NoticeModify = () => {
     Modal.confirm({
       title: "정말 취소할까요?",
       content: "작성된 내용은 저장되지 않습니다.",
-      onOk: handleCancelOk,
+      onOk: () => handleCancelOk(),
       okText: "확인",
       cancelText: "취소",
       onCancel: () => {},
@@ -83,97 +62,79 @@ const NoticeModify = () => {
   };
 
   const onFinish = async data => {
-    try {
-      const formData = new FormData();
-      const dto = new Blob(
-        [
-          JSON.stringify({
-            iteacher: 1,
-            fullTitle: data.fullTitle,
-            fullContents: data.fullContents,
-            ifullNotice: data.ifullNotice,
-            fullNoticeFix: data.fullNoticeFix,
-          }),
-        ],
-        { type: "application/json" },
-      );
-      formData.append("dto", dto);
-      fileList.forEach(file => {
-        formData.append("pics", file.originFileObj);
-      });
-      putNotice({
-        data: formData,
-        successFn: handleSuccess,
-        failFn: handleFail,
-        errorFn: handleError,
-      });
-    } catch (error) {
-      console.error("수정 에러:", error);
-    }
-  };
+    console.log("fileList", fileList);
+    console.log("fullNoticeFix", fullNoticeFix); // 확인용 로그
 
-  const handleSuccess = InitialData => {
-    setIsModalVisible(true);
-    console.log("게시글 수정 성공:", InitialData);
-  };
+    const formData = new FormData();
 
-  const handleFail = error => {
-    console.error("게시글 수정 실패:", error);
-  };
+    // 글 정보를 담은 dto Blob객체 생성
+    const dto = new Blob(
+      [
+        JSON.stringify({
+          ikid: 1,
+          noticeTitle: data.noticeTitle,
+          noticeContents: data.noticeContents,
+        }),
+      ],
+      // JSON 형식으로 설정
+      { type: "application/json" },
+    );
 
-  const handleError = error => {
-    console.error("게시글 수정 에러:", error);
+    // dto 객체를 FormData에 추가
+    formData.append("dto", dto);
+
+    // fileList에 있는 각 파일을 formData에 추가
+    fileList.forEach(file => {
+      // originFileObj가 실제 파일 데이터를 가지고 있음
+      formData.append("pics", file.originFileObj);
+    });
+
+    // formData를 서버에 전송
+    postIndNotice({
+      product: formData,
+      successFn: handleSuccess,
+      failFn: handleFail,
+      errorFn: handleError,
+    });
   };
 
   const handleCancelOk = () => {
-    navigate("/notice");
+    // 여기에 삭제 처리 로직을 추가할 수 있습니다.
+
+    // 예시: 삭제 처리 후 /notice 페이지로 이동
+    navigate("/ind");
+
     setIsModalVisible(false);
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await getDetail({
-          tno,
-          successFn: data => {
-            console.log("데이터 가져오기 성공:", data);
-            setInitialData({
-              fullTitle: data.fullTitle,
-              fullContents: data.fullContents,
-              pics: data.pics,
-              fullNoticeFix: data.fullNoticeFix,
-              ifullNotice: data.ifullNotice,
-            });
-            form.setFieldsValue({
-              fullTitle: data.fullTitle,
-              fullContents: data.fullContents,
-              fullNoticeFix: data.fullNoticeFix,
-              ifullNotice: data.ifullNotice,
-              pics: data.pics,
-            });
-          },
-          failFn: error => {
-            console.error("데이터 가져오기 실패:", error);
-          },
-          errorFn: error => {
-            console.error("데이터 가져오기 에러:", error);
-          },
-        });
-      } catch (error) {
-        console.error("데이터 가져오기 중 에러 발생:", error);
-      }
-    };
+  const handleSuccess = response => {
+    setIsModalVisible(true);
+    // 성공적으로 업로드 완료 후 처리할 작업을 추가할 수 있습니다.
+  };
 
-    fetchData();
-  }, [tno]);
+  const handleFail = errorMessage => {
+    // 업로드 실패 시 처리할 작업을 추가할 수 있습니다.
+    Modal.error({
+      title: "알림장 수정 실패",
+      content: errorMessage,
+    });
+  };
+
+  const handleError = error => {
+    console.error("알림장 수정 오류:", error);
+    Modal.error({
+      title: "알림장 수정 중 오류 발생",
+      content: error,
+    });
+  };
 
   return (
     <div>
-      <PageTitle>유치원 소식 수정</PageTitle>
+      <PageTitle>알림장</PageTitle>
       <div
         style={{
           width: "100%",
-          height: 560,
+          height: 600,
           padding: 16,
           borderTop: "1.5px solid #00876D",
           borderBottom: "1.5px solid #00876D",
@@ -181,26 +142,28 @@ const NoticeModify = () => {
           marginTop: 30,
         }}
       >
-        <Checkbox
-          onChange={onChange}
-          style={{ marginBottom: 10 }}
-          checked={fullNoticeFix}
-        >
-          상단고정
-        </Checkbox>
-
-        <Form form={form} onFinish={onFinish} initialValues={initialData}>
+        <Form ref={formRef} form={form} onFinish={onFinish}>
           <Form.Item
-            name="fullTitle"
-            rules={[{ required: true, message: "제목을 입력해주세요!" }]}
+            name="noticeTitle"
+            rules={[
+              {
+                required: true,
+                message: "제목을 입력해주세요!",
+              },
+            ]}
           >
             <Input placeholder="제목 입력" />
           </Form.Item>
 
           <Form.Item
             style={{ height: "150px" }}
-            name="fullContents"
-            rules={[{ required: true, message: "내용을 입력해주세요!" }]}
+            name="noticeContents"
+            rules={[
+              {
+                required: true,
+                message: "내용을 입력해주세요!",
+              },
+            ]}
           >
             <Input.TextArea
               placeholder="내용 입력"
@@ -208,53 +171,40 @@ const NoticeModify = () => {
             />
           </Form.Item>
 
-          <Upload
-            action={`${path}`}
-            listType="picture"
-            fileList={fileList}
-            onChange={handleChange}
-            customRequest={customRequest}
-            className="upload-list-inline"
-            maxCount={3}
-          >
-            <Button icon={<UploadOutlined />}>업로드</Button>
-          </Upload>
-
-          {initialData.pics.length > 0 && (
-            <div style={{ marginTop: 20, display: "flex" }}>
-              {initialData.pics.map((pic, index) => (
-                <div key={index} style={{ marginBottom: 10 }}>
-                  <img
-                    src={`${SERVER_URL}/pic/fullnotice/${tno}/${pic}`}
-                    alt={`file-${index}`}
-                    style={{ width: 100, height: 100, marginRight: 10 }}
-                  />
-                  <Button
-                    icon={<DeleteOutlined />}
-                    onClick={() => handleImageRemove(pic)}
-                  />
-                </div>
-              ))}
-            </div>
-          )}
+          <FileListStyle>
+            <Upload.Dragger
+              action={`${path}`}
+              listType="picture"
+              fileList={fileList}
+              onChange={handleChange}
+              customRequest={customRequest}
+              className="upload-list-inline"
+              // maxCount={3}
+              multiple={true}
+            >
+              <Button icon={<UploadOutlined />}>업로드</Button>
+            </Upload.Dragger>
+          </FileListStyle>
         </Form>
-      </div>
-      <div
-        style={{
-          marginTop: 35,
-          display: "flex",
-          justifyContent: "flex-end",
-        }}
-      >
-        <GreenBtn htmlType="submit" onClick={onFinish}>
-          수정
-        </GreenBtn>
-        <PinkBtn onClick={handleCancelConfirmation} style={{ marginLeft: 20 }}>
-          취소
-        </PinkBtn>
+
+        <div
+          style={{
+            marginTop: 35,
+            display: "flex",
+            justifyContent: "flex-end",
+          }}
+        >
+          <GreenBtn onClick={handleGreenButtonClick}>수정</GreenBtn>
+          <PinkBtn
+            onClick={handleCancelConfirmation}
+            style={{ marginLeft: 20 }}
+          >
+            취소
+          </PinkBtn>
+        </div>
       </div>
 
-      <Link to="/notice">
+      <Link to="/ind">
         <Modal
           title="수정 완료"
           open={isModalVisible}
@@ -271,4 +221,4 @@ const NoticeModify = () => {
   );
 };
 
-export default NoticeModify;
+export default IndivNotiWrite;

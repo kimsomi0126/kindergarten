@@ -79,10 +79,11 @@ export const ChildInfo = styled.div`
 `;
 
 export const PageNum = styled.div`
-  position: absolute;
-  bottom: 10rem;
+  position: relative;
+  /* bottom: 10rem;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%); */
+  margin-top: 3rem;
   text-align: center;
 
   .ant-pagination-prev {

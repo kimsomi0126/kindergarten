@@ -114,7 +114,6 @@ const SignupForm = () => {
     }
   };
   useEffect(() => {
-    console.log(location.state);
     if (location.state === null) {
       setIsOpen(true);
       setTitle("식별코드 입력필요");

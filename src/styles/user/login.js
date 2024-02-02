@@ -30,6 +30,16 @@ export const FormWrap = styled.div`
     font-size: 1.2rem;
   }
 
+  .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled),
+  .ant-radio-button-wrapper-checked:not(
+      .ant-radio-button-wrapper-disabled
+    ):hover {
+    background: ${colors.greenDeep};
+    border-color: ${colors.greenDeep};
+  }
+  .ant-radio-button-wrapper:hover {
+    color: ${colors.greenDeep};
+  }
   .ipt_box {
     position: relative;
     button {

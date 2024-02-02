@@ -32,7 +32,11 @@ const NavBar = () => {
       <HeaderBtn>
         {isLogin ? (
           <>
-            <GrayBtn onClick={e => navigate(`/ind?year=${currentYear}&page=1`)}>
+            <GrayBtn
+              onClick={e =>
+                navigate(`/ind?year=${currentYear}&page=1&iclass=0`)
+              }
+            >
               알림장목록
             </GrayBtn>
 

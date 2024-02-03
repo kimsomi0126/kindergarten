@@ -139,7 +139,7 @@ export const patchClass = async ({
   }
 };
 
-// 원생 등록 POST
+// 원생 등록 POST ㅇ
 export const postStudentCreate = async ({
   successFn,
   failFn,
@@ -257,7 +257,7 @@ export const deleteAccount = async ({
   }
 };
 
-// 원생 식별코드 수정
+// 원생 식별코드 수정 ㅇ
 export const patchCode = async ({
   successpatchFn,
   failpatchFn,

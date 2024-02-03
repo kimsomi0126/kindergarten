@@ -9,7 +9,7 @@ import { PageTitle } from "../../../styles/basic";
 import { BlueBtn, OrangeBtn, PurpleBtn } from "../../../styles/ui/buttons";
 import StudListComponent from "../../../components/adminpage/StudListComponent";
 import ModalTwoBtn from "../../../components/ui/ModalTwoBtn";
-import { Link, Navigate, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import useCustomLogin from "../../../hooks/useCustomLogin";
 import {
   getAdminStudentList,
@@ -39,23 +39,30 @@ const StudList = () => {
 
   const page = serchParams.get("page");
   const kidCheck = serchParams.get("kidCheck");
-
+  const { isLogin } = useCustomLogin();
+  const navigate = useNavigate();
   // 원생 리스트 GET
   useEffect(() => {
-    getAdminStudentList({
-      successFn,
-      failFn,
-      errorFn,
-      page,
-      kidCheck,
-    });
+    if (!isLogin) {
+      setTitle("관리자 전용 페이지");
+      setSubTitle("관리자만 접근 가능합니다.");
+      setIsOpen(true);
+      setIsNavigate(`/login`);
+      return;
+    } else {
+      getAdminStudentList({
+        successFn,
+        errorFn,
+        page,
+        kidCheck,
+      });
+    }
   }, [page, kidCheck, checkedItems]);
+
   const successFn = result => {
     setStudentList(result);
   };
-  const failFn = result => {
-    setStudentList(result);
-  };
+
   const errorFn = result => {
     setStudentList(result);
   };
@@ -100,16 +107,31 @@ const StudList = () => {
   const [ClassOpen, SetClassOpen] = useState(false);
 
   const handleClassClick = () => {
-    console.log("선택 졸업");
-    SetClassOpen(true);
-    setTitle("반 일괄 수정");
-    setSubTitle("반 이름을 선택해주세요.");
+    if (checkedItems.length === 0) {
+      console.log("변경할 대상이 없습니다");
+      setIsOpen(true);
+      setTitle("변경할 대상이 없습니다.");
+    } else {
+      SetClassOpen(true);
+      setTitle("반 일괄 수정");
+      setSubTitle("반 이름을 선택해주세요.");
+    }
   };
   const handleChangeClick = () => {
-    console.log("선택 졸업");
-    setDelOpen(true);
-    setTitle("정말 변경할까요?");
-    setSubTitle("확인하면 원생의 재원 상태가 변경됩니다.");
+    if (checkedItems.length === 0) {
+      console.log("변경할 대상이 없습니다");
+      setIsOpen(true);
+      setTitle("변경할 대상이 없습니다.");
+    } else {
+      console.log("선택 졸업");
+      setDelOpen(true);
+      setTitle("정말 변경할까요?");
+      setSubTitle("확인하면 원생의 재원 상태가 변경됩니다.");
+    }
+    // console.log("선택 졸업");
+    // setDelOpen(true);
+    // setTitle("정말 변경할까요?");
+    // setSubTitle("확인하면 원생의 재원 상태가 변경됩니다.");
   };
   const handleDelOk = () => {
     const obj = {
@@ -145,9 +167,10 @@ const StudList = () => {
     setIsOpen(false);
     // 링크이동
     if (isNavigate) {
-      Navigate(isNavigate);
+      navigate(isNavigate);
     }
   };
+
   const formRef = useRef();
   const handleExternalSubmit = () => {
     formRef.current.submit();
@@ -156,7 +179,6 @@ const StudList = () => {
     const res = parseInt(values.class);
     setChangeState(res);
   };
-
   const onFinish = values => {
     const obj = {
       ikids: [...checkedItems],

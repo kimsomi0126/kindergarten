@@ -96,8 +96,10 @@ const MyProfileComponent = ({ ilevel, myData, ikid, onChildClick }) => {
             </dl>
             {ilevel === "admin" ? (
               <dl>
-                <dt>비상연락처</dt>
-                <dd>홍길동 01000000000</dd>
+                {/* <dt>{my.address}</dt> */}
+                <dd>
+                  {my.emerNm} {my.emerNb}
+                </dd>
               </dl>
             ) : null}
           </MyInfo>

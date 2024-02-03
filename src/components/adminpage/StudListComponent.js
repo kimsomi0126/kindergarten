@@ -100,6 +100,10 @@ const StudListComponent = ({
                             ? "sunflower"
                             : item.iclass === 3
                             ? "rose"
+                            : item.iclass === -1
+                            ? "graduation"
+                            : item.iclass === -2
+                            ? "discharge"
                             : ""
                         }
                       >
@@ -109,6 +113,10 @@ const StudListComponent = ({
                           ? "해바라기반"
                           : item.iclass === 3
                           ? "장미반"
+                          : item.iclass === -1
+                          ? "졸업"
+                          : item.iclass === -2
+                          ? "퇴소"
                           : ""}
                       </p>
                       <p className="leaf">{item.kidNm}</p>

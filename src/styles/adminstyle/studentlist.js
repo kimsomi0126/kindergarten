@@ -82,7 +82,7 @@ export const StudentInfo = styled.div`
       no-repeat left 0.25rem/2.3rem;
     font-family: ${fonts.kotraHope};
     font-size: 2rem;
-    color: ${colors.orangeDeep};
+    color: #f5062c;
   }
   .hibiscus {
     background: url(${process.env.PUBLIC_URL +
@@ -90,7 +90,17 @@ export const StudentInfo = styled.div`
       no-repeat left 0.25rem/2.3rem;
     font-family: ${fonts.kotraHope};
     font-size: 2rem;
-    color: ${colors.orangeDeep};
+    color: #ff73a1;
+  }
+  .discharge {
+    background-image: url(${process.env.PUBLIC_URL +
+    "/images/user/class_icon_bag.svg"});
+    color: ${colors.grayDeep};
+  }
+  .graduation {
+    background-image: url(${process.env.PUBLIC_URL +
+    "/images/user/class_icon_graduation.svg"});
+    color: ${colors.black};
   }
   .leaf {
     background: url(${process.env.PUBLIC_URL + "/images/information/logo1.svg"})

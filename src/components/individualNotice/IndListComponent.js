@@ -14,7 +14,7 @@ const IndListComponent = ({ listData }) => {
   return (
     <IndListWrap>
       <IndList>
-        {listData[0].inotice === 0 ? (
+        {Array.isArray(listData) && listData[0].inotice === 0 ? (
           <div
             style={{ textAlign: "center", width: "100%", marginTop: "5rem" }}
           >

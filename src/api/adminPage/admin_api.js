@@ -153,10 +153,11 @@ export const postStudentCreate = async ({
     if (status.charAt(0) === "2") {
       successFn(res.data);
     } else {
-      failFn();
+      failFn(res.data);
     }
   } catch (error) {
-    errorFn();
+    const res = error.response.data;
+    errorFn(res.message);
   }
 };
 

@@ -89,7 +89,9 @@ const StudListComponent = ({
                 >
                   <StudentListBox>
                     <StudentImg>
-                      <img src={`${IMG_URL}/pic/kid/profile/${item.profile}`} />
+                      <img
+                        src={`${IMG_URL}/pic/kid/${item.ikid}/${item.profile}`}
+                      />
                     </StudentImg>
                     <StudentInfo>
                       <p

@@ -48,6 +48,7 @@ const NoticeWrite = lazy(() => import("./pages/notice/NoticeWrite"));
 //관리자 영역
 const GuardianList = lazy(() => import("./pages/adminPage/GuardianList"));
 const StudCreate = lazy(() => import("./pages/adminPage/student/StudCreate"));
+const StudModify = lazy(() => import("./pages/adminPage/student/StudModify"));
 const StudDetailsForm = lazy(() =>
   import("./pages/adminPage/student/StudDetailsForm"),
 );
@@ -355,7 +356,7 @@ function App() {
               path="student/modify"
               element={
                 <Suspense fallback={<Loading />}>
-                  <StudCreate />
+                  <StudModify />
                 </Suspense>
               }
             />

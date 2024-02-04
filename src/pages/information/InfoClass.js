@@ -108,7 +108,7 @@ const InfoClass = () => {
                   <KidsInfo>
                     <ImgBox className="kid_img">
                       <img
-                        src={`${IMG_URL}/pic/kid/profile/${item.profile}`}
+                        src={`${IMG_URL}/pic/kid/${item.ikid}/${item.profile}`}
                         alt={item.kidNm}
                       ></img>
                     </ImgBox>
@@ -151,7 +151,7 @@ const InfoClass = () => {
                   <KidsInfo>
                     <ImgBox className="kid_img">
                       <img
-                        src={`${IMG_URL}/pic/kid/profile/${item.profile}`}
+                        src={`${IMG_URL}/pic/kid/${item.ikid}/${item.profile}`}
                         alt={item.kidNm}
                       ></img>
                     </ImgBox>
@@ -196,7 +196,7 @@ const InfoClass = () => {
                   <KidsInfo>
                     <ImgBox className="kid_img">
                       <img
-                        src={`${IMG_URL}/pic/kid/profile/${item.profile}`}
+                        src={`${IMG_URL}/pic/kid/${item.ikid}/${item.profile}`}
                         alt={item.kidNm}
                       ></img>
                     </ImgBox>

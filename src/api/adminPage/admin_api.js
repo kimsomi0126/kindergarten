@@ -160,6 +160,48 @@ export const postStudentCreate = async ({
     errorFn(res.message);
   }
 };
+export const putStudentCreate = async ({
+  successFn,
+  failFn,
+  errorFn,
+  student,
+}) => {
+  try {
+    const header = { headers: { "Content-Type": "multipart/form-data" } };
+    const res = await jwtAxios.put(`${host}`, student, header);
+    const status = res.status.toString();
+    if (status.charAt(0) === "2") {
+      successFn(res.data);
+    } else {
+      failFn(res.data);
+    }
+  } catch (error) {
+    const res = error.response.data;
+    errorFn(res.message);
+  }
+};
+// 원생기본정보 GET
+export const getStudentInfo = async ({
+  successGetFn,
+  failGetFn,
+  errorGetFn,
+  ikid,
+}) => {
+  try {
+    const res = await jwtAxios.get(`${host}/edit/${ikid}`);
+    const status = res.status.toString();
+    if (status.charAt(0) === "2") {
+      // 화면처리용
+      successGetFn(res.data);
+      // RTK 업데이트 처리를 위해 값 전달
+      return res.data;
+    } else {
+      failGetFn("서버가 불안정합니다. 다시 시도해주세요.");
+    }
+  } catch (error) {
+    errorGetFn("서버가 불안정합니다.다시 시도해주세요.");
+  }
+};
 
 // 원생 상세 정보 & 원생 상세 정보 등록 페이지
 // 원생 상세 정보 POST ㅇ

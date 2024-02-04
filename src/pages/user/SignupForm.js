@@ -79,13 +79,13 @@ const SignupForm = () => {
   const successFn = res => {
     setIsOpen(true);
     setTitle("회원가입 성공");
-    setSubTitle("회원가입에 성공했습니다. \n 메인페이지로 이동합니다.");
-    setIsNavigate("/");
+    setSubTitle("회원가입에 성공했습니다. \n 로그인페이지로 이동합니다.");
+    setIsNavigate("/login");
   };
   const errorFn = res => {
     setIsOpen(true);
     setTitle("회원가입 실패");
-    setSubTitle("회원가입에 실패했습니다. \n 다시 시도해주세요.");
+    setSubTitle(`회원가입에 실패했습니다. \n ${res}`);
   };
 
   const onValuesChanged = (changeValues, allValues) => {
@@ -177,6 +177,10 @@ const SignupForm = () => {
                 {
                   required: true,
                   message: "아이디를 입력해주세요.",
+                },
+                {
+                  pattern: /^[a-zA-Z]+[0-9]+$/,
+                  message: "아이디를 영어와 숫자 조합으로 입력해주세요",
                 },
               ]}
             >

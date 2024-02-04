@@ -35,7 +35,7 @@ const IndListComponent = ({ listData }) => {
                 <IndBot>
                   <div className="ind-date">{item.createdAt.split(" ")[0]}</div>
                   <div className="ind-file">
-                    {item.picCheck === 0 ? (
+                    {item.picCheck === 1 ? (
                       <img
                         src={
                           process.env.PUBLIC_URL +

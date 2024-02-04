@@ -191,7 +191,7 @@ const StudList = () => {
       obj,
     });
   };
-
+  console.log(changeState);
   return (
     <>
       <StudentTop>

@@ -217,7 +217,11 @@ const StudModify = () => {
         const response = await fetch(imageUrl, { mode: "no-cors" });
         const blob = await response.blob();
         const imageFile = new File([blob], fileName);
-        setFileList([...fileList, imageFile]);
+        if (fileList.length === 0) {
+          setFileList([...fileList, imageFile]);
+        } else {
+          return;
+        }
       } catch (error) {
         console.error("Error converting image URL to File:", error);
       }
@@ -330,7 +334,7 @@ const StudModify = () => {
                     },
                   ]}
                 >
-                  <Input placeholder="이름" />
+                  <Input placeholder="이름"></Input>
                 </Form.Item>
                 <Form.Item
                   name="birth"

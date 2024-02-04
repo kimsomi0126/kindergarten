@@ -83,7 +83,7 @@ const StudList = () => {
       return {
         key: item.kidCheck.toString(),
         label: (
-          <Link to={`/admin/student?page=${page}&kidCheck=${item.kidCheck}`}>
+          <Link to={`/admin/student?page=1&kidCheck=${item.kidCheck}`}>
             {item.classNm}
           </Link>
         ),
@@ -104,7 +104,8 @@ const StudList = () => {
 
   // 선택 졸업 & 선택 퇴소 모달
   const [delOpen, setDelOpen] = useState(false);
-  const [ClassOpen, SetClassOpen] = useState(false);
+  const [ClassOpen, setClassOpen] = useState(false);
+  const [ChangeOpen, setChangeOpen] = useState(false);
 
   const handleClassClick = () => {
     if (checkedItems.length === 0) {
@@ -112,7 +113,7 @@ const StudList = () => {
       setIsOpen(true);
       setTitle("변경할 대상이 없습니다.");
     } else {
-      SetClassOpen(true);
+      setClassOpen(true);
       setTitle("반 일괄 수정");
       setSubTitle("반 이름을 선택해주세요.");
     }
@@ -123,34 +124,32 @@ const StudList = () => {
       setIsOpen(true);
       setTitle("변경할 대상이 없습니다.");
     } else {
-      console.log("선택 졸업");
-      setDelOpen(true);
-      setTitle("정말 변경할까요?");
-      setSubTitle("확인하면 원생의 재원 상태가 변경됩니다.");
+      console.log("재원상태 변경");
+      setChangeOpen(true);
+      setTitle("재원 상태 수정");
+      setSubTitle("재원 상태를 선택해주세요.");
     }
-    // console.log("선택 졸업");
-    // setDelOpen(true);
-    // setTitle("정말 변경할까요?");
-    // setSubTitle("확인하면 원생의 재원 상태가 변경됩니다.");
   };
   const handleDelOk = () => {
-    const obj = {
-      ikids: [...checkedItems],
-      kidCheck: changeState,
-    };
-    console.log("오비제이", obj);
-    patchClass({
-      successpatchFn,
-      errorpatchFn,
-      obj,
-    });
+    formRef.current.submit();
+    // const obj = {
+    //   ikids: [...checkedItems],
+    //   kidCheck: changeState,
+    // };
+    // console.log("오비제이", obj);
+    // patchClass({
+    //   successpatchFn,
+    //   errorpatchFn,
+    //   obj,
+    // });
   };
   const successpatchFn = res => {
     setIsOpen(true);
     setTitle("변경 완료");
     setSubTitle("성공적으로 변경되었습니다.");
     setDelOpen(false);
-    SetClassOpen(false);
+    setClassOpen(false);
+    setChangeOpen(false);
     setCheckedItems([]);
   };
   const errorpatchFn = res => {
@@ -161,8 +160,13 @@ const StudList = () => {
   };
   const handleCancel = () => {
     setDelOpen(false);
-    SetClassOpen(false);
+    setClassOpen(false);
+    setChangeOpen(false);
   };
+  // const handleChangeCancel = () => {
+  //   setDelOpen(false);
+  //   SetClassOpen(false);
+  // };
   const handleOk = () => {
     setIsOpen(false);
     // 링크이동
@@ -175,6 +179,7 @@ const StudList = () => {
   const handleExternalSubmit = () => {
     formRef.current.submit();
   };
+
   const onValuesChange = values => {
     const res = parseInt(values.class);
     setChangeState(res);
@@ -224,13 +229,19 @@ const StudList = () => {
           />
           <BlueBtn
             onClick={() => {
-              setChangeState(-1);
               handleClassClick();
             }}
           >
             선택 반 변경
           </BlueBtn>
           <PurpleBtn
+            onClick={() => {
+              handleChangeClick();
+            }}
+          >
+            재원 상태 변경
+          </PurpleBtn>
+          {/* <PurpleBtn
             onClick={() => {
               setChangeState(-1);
               handleChangeClick();
@@ -245,7 +256,7 @@ const StudList = () => {
             }}
           >
             선택퇴소
-          </OrangeBtn>
+          </OrangeBtn> */}
         </StudentTopRight>
       </StudentTop>
       <StudListComponent
@@ -263,13 +274,13 @@ const StudList = () => {
         subTitle={subTitle}
       />
       {/* 재원 상태 변경창 */}
-      <ModalTwoBtn
+      {/* <ModalTwoBtn
         isOpen={delOpen}
         handleOk={handleDelOk}
         handleCancel={handleCancel}
         title={title}
         subTitle={subTitle}
-      />
+      /> */}
       {/* 반 상태 변경창 */}
       <ModalTwoBtn
         isOpen={ClassOpen}
@@ -295,6 +306,35 @@ const StudList = () => {
               <Select.Option value="1">무궁화반</Select.Option>
               <Select.Option value="2">해바라기반</Select.Option>
               <Select.Option value="3">장미반</Select.Option>
+            </Select>
+          </Form.Item>
+        </Form>
+      </ModalTwoBtn>
+      {/* 재원 상태 변경창 */}
+      <ModalTwoBtn
+        isOpen={ChangeOpen}
+        handleOk={handleDelOk}
+        handleCancel={handleCancel}
+        title={title}
+        subTitle={subTitle}
+      >
+        <Form
+          ref={formRef}
+          name="account"
+          style={{
+            maxWidth: 600,
+          }}
+          initialValues={{
+            remember: true,
+          }}
+          onFinish={onFinish}
+          onValuesChange={onValuesChange}
+        >
+          <Form.Item name="class">
+            <Select placeholder="재원 상태 선택">
+              <Select.Option value="0">재원</Select.Option>
+              <Select.Option value="-1">졸업</Select.Option>
+              <Select.Option value="-2">퇴소</Select.Option>
             </Select>
           </Form.Item>
         </Form>

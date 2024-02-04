@@ -17,6 +17,7 @@ export const StudentTopRight = styled.div`
 export const StudentMain = styled.div`
   position: relative;
   margin-top: 1rem;
+  min-height: 50vh;
   input {
     margin-right: 0.5rem;
   }

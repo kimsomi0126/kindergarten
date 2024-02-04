@@ -160,6 +160,7 @@ export const postStudentCreate = async ({
     errorFn(res.message);
   }
 };
+// 원생 등록 수정 PUT ㅇ
 export const putStudentCreate = async ({
   successFn,
   failFn,
@@ -283,7 +284,7 @@ export const deleteAccount = async ({
 }) => {
   try {
     const res = await jwtAxios.delete(
-      `${path}/Disconnent?iparent=${iparent}&ikid=${ikid}`,
+      `${path}/disconnect?iparent=${iparent}&ikid=${ikid}`,
     );
     const status = res.status.toString();
     if (status.charAt(0) === "2") {

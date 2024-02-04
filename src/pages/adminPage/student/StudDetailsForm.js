@@ -12,18 +12,13 @@ import {
 import { GreenBtn, PinkBtn } from "../../../styles/ui/buttons";
 import ModalTwoBtn from "../../../components/ui/ModalTwoBtn";
 import ModalOneBtn from "../../../components/ui/ModalOneBtn";
-import {
-  createRoutesFromChildren,
-  useNavigate,
-  useSearchParams,
-} from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import {
   getDetailInfo,
   postStudentDetail,
   putDetailEdit,
 } from "../../../api/adminPage/admin_api";
 import dayjs from "dayjs";
-import { useForm } from "antd/lib/form/Form";
 
 // 상세정보 POST
 const initDetailData = {
@@ -54,9 +49,11 @@ const initDetailInfo = {
   ],
 };
 
-const StudDetailsForm = ({ handleOk }) => {
+const StudDetailsForm = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
+  // 폼 변경값 확인
+  const [formChanged, setFormChanged] = useState(false);
 
   // 상세 정보 Get
   const [detailInfo, setDetailInfo] = useState(initDetailInfo);
@@ -74,7 +71,6 @@ const StudDetailsForm = ({ handleOk }) => {
     if (result.growths[0]) {
       setEditState(true);
     }
-
     setDetailInfo(result);
     const values = {};
     for (let i = 0; i < 4; i++) {
@@ -161,96 +157,113 @@ const StudDetailsForm = ({ handleOk }) => {
   }
   const onValuesChange = (changeValue, allValue) => {
     setAllDetailData({ ...allValue });
+    setFormChanged(true);
   };
-
+  // 모달창 내용
+  const [title, setTitle] = useState("");
+  const [subTitle, setSubTitle] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+  const [isNavigate, setIsNavigate] = useState();
+  const [delOpen, setDelOpen] = useState(false);
+  // 등록
   const handleAddClick = () => {
-    const sendServerData = [];
-    if (firstObject.bodyDate || firstObject.growthDate) {
-      firstObject.bodyDate = dayjs(firstObject.bodyDate).format("YYYY-MM-DD");
-      firstObject.growthDate = dayjs(firstObject.growthDate).format(
-        "YYYY-MM-DD",
-      );
-      if (firstObject.growth.value) {
-        firstObject.growth = parseInt(firstObject.growth.value);
-      } else {
-        firstObject.growth = parseInt(firstObject.growth);
+    if (!formChanged) {
+      setIsOpen(true);
+      setTitle("입력된 내용이 없습니다.");
+    } else {
+      const sendServerData = [];
+      if (firstObject.bodyDate || firstObject.growthDate) {
+        firstObject.bodyDate = dayjs(firstObject.bodyDate).format("YYYY-MM-DD");
+        firstObject.growthDate = dayjs(firstObject.growthDate).format(
+          "YYYY-MM-DD",
+        );
+        if (firstObject.growth.value) {
+          firstObject.growth = parseInt(firstObject.growth.value);
+        } else {
+          firstObject.growth = parseInt(firstObject.growth);
+        }
+        firstObject.ikid = parseInt(firstObject.ikid);
+        sendServerData.push(firstObject);
       }
-      firstObject.ikid = parseInt(firstObject.ikid);
-      sendServerData.push(firstObject);
-    }
-    if (secondObject.bodyDate || secondObject.growthDate) {
-      secondObject.bodyDate = dayjs(secondObject.bodyDate).format("YYYY-MM-DD");
-      secondObject.growthDate = dayjs(secondObject.growthDate).format(
-        "YYYY-MM-DD",
-      );
-      if (secondObject.growth.value) {
-        secondObject.growth = parseInt(secondObject.growth.value);
-      } else {
-        secondObject.growth = parseInt(secondObject.growth);
+      if (secondObject.bodyDate || secondObject.growthDate) {
+        secondObject.bodyDate = dayjs(secondObject.bodyDate).format(
+          "YYYY-MM-DD",
+        );
+        secondObject.growthDate = dayjs(secondObject.growthDate).format(
+          "YYYY-MM-DD",
+        );
+        if (secondObject.growth.value) {
+          secondObject.growth = parseInt(secondObject.growth.value);
+        } else {
+          secondObject.growth = parseInt(secondObject.growth);
+        }
+        secondObject.ikid = parseInt(secondObject.ikid);
+        sendServerData.push(secondObject);
       }
-      secondObject.ikid = parseInt(secondObject.ikid);
-      sendServerData.push(secondObject);
-    }
-    if (thirdObject.bodyDate || thirdObject.growthDate) {
-      thirdObject.bodyDate = dayjs(thirdObject.bodyDate).format("YYYY-MM-DD");
-      thirdObject.growthDate = dayjs(thirdObject.growthDate).format(
-        "YYYY-MM-DD",
-      );
-      if (thirdObject.growth.value) {
-        thirdObject.growth = parseInt(thirdObject.growth.value);
-      } else {
-        thirdObject.growth = parseInt(forthObject.growth);
+      if (thirdObject.bodyDate || thirdObject.growthDate) {
+        thirdObject.bodyDate = dayjs(thirdObject.bodyDate).format("YYYY-MM-DD");
+        thirdObject.growthDate = dayjs(thirdObject.growthDate).format(
+          "YYYY-MM-DD",
+        );
+        if (thirdObject.growth.value) {
+          thirdObject.growth = parseInt(thirdObject.growth.value);
+        } else {
+          thirdObject.growth = parseInt(forthObject.growth);
+        }
+        thirdObject.ikid = parseInt(thirdObject.ikid);
+        sendServerData.push(thirdObject);
       }
-      thirdObject.ikid = parseInt(thirdObject.ikid);
-      sendServerData.push(thirdObject);
-    }
-    if (forthObject.bodyDate || forthObject.growthDate) {
-      forthObject.bodyDate = dayjs(forthObject.bodyDate).format("YYYY-MM-DD");
-      forthObject.growthDate = dayjs(forthObject.growthDate).format(
-        "YYYY-MM-DD",
-      );
-      if (forthObject.growth.value) {
-        forthObject.growth = forthObject.growth.value;
-      } else {
-        forthObject.growth = parseInt(forthObject.growth);
+      if (forthObject.bodyDate || forthObject.growthDate) {
+        forthObject.bodyDate = dayjs(forthObject.bodyDate).format("YYYY-MM-DD");
+        forthObject.growthDate = dayjs(forthObject.growthDate).format(
+          "YYYY-MM-DD",
+        );
+        if (forthObject.growth.value) {
+          forthObject.growth = forthObject.growth.value;
+        } else {
+          forthObject.growth = parseInt(forthObject.growth);
+        }
+        forthObject.ikid = parseInt(forthObject.ikid);
+        sendServerData.push(forthObject);
       }
-      forthObject.ikid = parseInt(forthObject.ikid);
-      sendServerData.push(forthObject);
-    }
 
-    console.log(sendServerData);
-    console.log("전체 보낼 데이터 : ", sendServerData);
+      console.log(sendServerData);
+      console.log("전체 보낼 데이터 : ", sendServerData);
 
-    postStudentDetail({
-      allDetailData: sendServerData,
-      successAddFn,
-      failAddFn,
-      errorAddFn,
-    });
+      postStudentDetail({
+        allDetailData: sendServerData,
+        successAddFn,
+        errorAddFn,
+      });
+    }
   };
   const successAddFn = result => {
-    console.log(result);
+    setIsOpen(true);
+    setTitle("등록 완료");
+    setSubTitle("성공적으로 등록되었습니다.");
+    setIsNavigate(`/admin/student/details?year=${year}&ikid=${ikid}`);
   };
-  const failAddFn = result => {
-    console.log(result);
-  };
+
   const errorAddFn = result => {
-    console.log(result);
+    setIsOpen(true);
+    setTitle("등록 실패");
+    setSubTitle("등록을 실패했습니다. 다시 시도해주세요.");
   };
-
-  // 모달창 적용
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
-
+  // 취소
   const handleCancelClick = () => {
-    setIsCancelModalOpen(true);
+    setDelOpen(true);
+    setTitle("정말 취소할까요?");
+    setSubTitle("작성된 내용은 저장되지 않습니다.");
+    setIsNavigate(`/admin/student/details?year=${year}&ikid=${ikid}`);
   };
-  const onAdd = () => {
-    navigate(`/admin/student/details`);
-    return;
+  const handleDelOk = () => {
+    setDelOpen(false);
+    if (isNavigate) {
+      navigate(isNavigate);
+    }
   };
-  const onCancel = () => {
-    setIsCancelModalOpen(false);
+  const handleCancel = () => {
+    setDelOpen(false);
   };
   let sendServerData = [];
   const parseAndPushData = object => {
@@ -270,82 +283,41 @@ const StudDetailsForm = ({ handleOk }) => {
   };
 
   const handleEditClick = () => {
-    // const sendServerData = [];
-    // if (firstObject.bodyDate || firstObject.growthDate) {
-    //   firstObject.bodyDate = dayjs(firstObject.bodyDate).format("YYYY-MM-DD");
-    //   firstObject.growthDate = dayjs(firstObject.growthDate).format(
-    //     "YYYY-MM-DD",
-    //   );
-    //   if (firstObject.growth.value) {
-    //     firstObject.growth = parseInt(firstObject.growth.value);
-    //   } else {
-    //     firstObject.growth = parseInt(firstObject.growth);
-    //   }
-    //   firstObject.ikid = parseInt(firstObject.ikid);
-    //   sendServerData.push(firstObject);
-    // }
-    // if (secondObject.bodyDate || secondObject.growthDate) {
-    //   secondObject.bodyDate = dayjs(secondObject.bodyDate).format("YYYY-MM-DD");
-    //   secondObject.growthDate = dayjs(secondObject.growthDate).format(
-    //     "YYYY-MM-DD",
-    //   );
-    //   if (secondObject.growth.value) {
-    //     secondObject.growth = parseInt(secondObject.growth.value);
-    //   } else {
-    //     secondObject.growth = parseInt(secondObject.growth);
-    //   }
-    //   secondObject.ikid = parseInt(secondObject.ikid);
-    //   sendServerData.push(secondObject);
-    // }
-    // if (thirdObject.bodyDate || thirdObject.growthDate) {
-    //   thirdObject.bodyDate = dayjs(thirdObject.bodyDate).format("YYYY-MM-DD");
-    //   thirdObject.growthDate = dayjs(thirdObject.growthDate).format(
-    //     "YYYY-MM-DD",
-    //   );
-    //   if (thirdObject.growth.value) {
-    //     thirdObject.growth = parseInt(thirdObject.growth.value);
-    //   } else {
-    //     thirdObject.growth = parseInt(forthObject.growth);
-    //   }
-    //   thirdObject.ikid = parseInt(thirdObject.ikid);
-    //   sendServerData.push(thirdObject);
-    // }
-    // if (forthObject.bodyDate || forthObject.growthDate) {
-    //   forthObject.bodyDate = dayjs(forthObject.bodyDate).format("YYYY-MM-DD");
-    //   forthObject.growthDate = dayjs(forthObject.growthDate).format(
-    //     "YYYY-MM-DD",
-    //   );
-    //   if (forthObject.growth.value) {
-    //     forthObject.growth = forthObject.growth.value;
-    //   } else {
-    //     forthObject.growth = parseInt(forthObject.growth);
-    //   }
-    //   forthObject.ikid = parseInt(forthObject.ikid);
-    //   sendServerData.push(forthObject);
-    // }
-    parseAndPushData(firstObject);
-    parseAndPushData(secondObject);
-    parseAndPushData(thirdObject);
-    parseAndPushData(forthObject);
-    console.log("수정완", sendServerData);
+    if (!formChanged) {
+      setIsOpen(true);
+      setTitle("수정된 내용이 없습니다.");
+    } else {
+      parseAndPushData(firstObject);
+      parseAndPushData(secondObject);
+      parseAndPushData(thirdObject);
+      parseAndPushData(forthObject);
+      console.log("수정완", sendServerData);
 
-    putDetailEdit({
-      allDetailData: sendServerData,
-      successEditFn,
-      failEditFn,
-      errorEditFn,
-    });
+      putDetailEdit({
+        allDetailData: sendServerData,
+        successEditFn,
+        errorEditFn,
+      });
+    }
   };
   const successEditFn = result => {
-    console.log(result);
-  };
-  const failEditFn = result => {
+    setIsOpen(true);
+    setTitle("수정 완료");
+    setSubTitle("성공적으로 수정되었습니다.");
+    setIsNavigate(`/admin/student/details?year=${year}&ikid=${ikid}`);
     console.log(result);
   };
   const errorEditFn = result => {
-    console.log(result);
+    setIsOpen(true);
+    setTitle("수정 실패");
+    setSubTitle("수정을 실패했습니다. 다시 시도해주세요.");
   };
-
+  const handleOk = () => {
+    setIsOpen(false);
+    if (isNavigate) {
+      navigate(isNavigate);
+    }
+  };
   return (
     <ContentInner>
       {/* 상세정보 */}
@@ -790,25 +762,22 @@ const StudDetailsForm = ({ handleOk }) => {
             <GreenBtn onClick={handleAddClick}>등록</GreenBtn>
           )}
 
-          {isAddModalOpen && (
-            <ModalOneBtn
-              isOpen={isAddModalOpen}
-              handleOk={onAdd}
-              title="등록 완료"
-              subTitle="성공적으로 등록되었습니다."
-            />
-          )}
-
+          {/* 안내창 */}
+          <ModalOneBtn
+            isOpen={isOpen}
+            handleOk={handleOk}
+            title={title}
+            subTitle={subTitle}
+          />
           <PinkBtn onClick={handleCancelClick}>취소</PinkBtn>
-          {isCancelModalOpen && (
-            <ModalTwoBtn
-              isOpen={isCancelModalOpen}
-              handleOk={handleOk}
-              handleCancel={onCancel}
-              title="정말 취소할까요?"
-              subTitle="작성된 내용은 저장되지 않습니다."
-            />
-          )}
+
+          <ModalTwoBtn
+            isOpen={delOpen}
+            handleOk={handleDelOk}
+            handleCancel={handleCancel}
+            title={title}
+            subTitle={subTitle}
+          />
         </StudDetailsFormFooter>
       </Form>
     </ContentInner>

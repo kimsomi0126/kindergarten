@@ -11,9 +11,10 @@ import {
   getAdminParentList,
 } from "../../api/adminPage/admin_api";
 import ModalOneBtn from "../../components/ui/ModalOneBtn";
-import { Navigate } from "react-router";
+import { Navigate, useNavigate } from "react-router";
 import { Link, useSearchParams } from "react-router-dom";
 import { DownOutlined } from "@ant-design/icons";
+import useCustomLogin from "../../hooks/useCustomLogin";
 
 const initParentList = {
   totalCnt: 0,
@@ -34,6 +35,7 @@ const initParentList = {
 };
 const GuardianList = () => {
   const [serchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
   const page = serchParams.get("page");
   const iclass = serchParams.get("iclass");
 
@@ -74,10 +76,15 @@ const GuardianList = () => {
   const [delOpen, setDelOpen] = useState(false);
 
   const handleDeleteClick = () => {
-    console.log("학부모 정보 삭제");
-    setDelOpen(true);
-    setTitle("정말 삭제할까요?");
-    setSubTitle("학부모 정보가 삭제됩니다. 정말 삭제할까요?");
+    if (checkedItems.length === 0) {
+      setIsOpen(true);
+      setTitle("변경할 대상이 없습니다.");
+    } else {
+      console.log("학부모 정보 삭제");
+      setDelOpen(true);
+      setTitle("정말 삭제할까요?");
+      setSubTitle("학부모 정보가 삭제됩니다. 정말 삭제할까요?");
+    }
   };
 
   const handleDelOk = () => {
@@ -111,15 +118,23 @@ const GuardianList = () => {
     setIsOpen(false);
     // 링크이동
     if (isNavigate) {
-      Navigate(isNavigate);
+      navigate(isNavigate);
     }
   };
 
   // 학부모 리스트 GET
   const [parentList, setParentList] = useState(initParentList);
-
+  const { isLogin } = useCustomLogin();
   useEffect(() => {
-    getAdminParentList({ successFn: successGetFn, errorGetFn, page, iclass });
+    if (!isLogin) {
+      setTitle("관리자 전용 페이지");
+      setSubTitle("관리자만 접근 가능합니다.");
+      setIsOpen(true);
+      setIsNavigate(`/login`);
+      return;
+    } else {
+      getAdminParentList({ successFn: successGetFn, errorGetFn, page, iclass });
+    }
   }, [page, iclass, checkedItems]);
 
   const successGetFn = result => {

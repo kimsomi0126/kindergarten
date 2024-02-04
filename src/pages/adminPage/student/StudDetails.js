@@ -118,10 +118,6 @@ const StudDetails = () => {
     setSubTitle(result);
   };
 
-  const handleClickCreate = () => {
-    navigate(`/admin/student/Create`);
-  };
-
   const ilevel = "admin";
   const [componentSize, setComponentSize] = useState("default");
   const onFormLayoutChange = ({ size }) => {
@@ -144,7 +140,11 @@ const StudDetails = () => {
             </Dropdown>
             <BtnWrap>
               <GrayBtn>알림장작성</GrayBtn>
-              <PurpleBtn onClick={handleClickCreate}>원생정보수정</PurpleBtn>
+              <PurpleBtn
+                onClick={e => navigate("/admin/student/modify?ikid=${ikid}")}
+              >
+                원생정보수정
+              </PurpleBtn>
               <GreenBtn
                 onClick={e => navigate("/admin/student?page=1&kidCheck=0")}
               >

@@ -1,4 +1,3 @@
-// ModifyAlbum.js
 import { UploadOutlined } from "@ant-design/icons";
 import { Button, Form, Input, Modal, Upload } from "antd";
 import React, { useEffect, useRef, useState } from "react";
@@ -31,10 +30,11 @@ const ModifyAlbum = () => {
   const [fileList, setFileList] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const navigate = useNavigate();
-  const handleChange = info => {
-    let fileList = [...info.fileList].filter(file => !!file.status);
-    setFileList(fileList);
-  };
+  const addedFilesRef = useRef([]);
+  // const handleChange = info => {
+  //   let fileList = [...info.fileList].filter(file => !!file.status);
+  //   setFileList(fileList);
+  // };
 
   const uploadAreaStyle = {
     height: "150px",
@@ -46,38 +46,48 @@ const ModifyAlbum = () => {
 
   const onFinish = async data => {
     const formData = new FormData();
-    const dto = {
-      iteacher: data.iteacher,
-      albumTitle: data.albumTitle,
-      albumContents: data.albumContents,
-      ialbum: data.ialbum,
-    };
-
-    formData.append(
-      "dto",
-      new Blob([JSON.stringify(dto)], { type: "application/json" }),
+    const dto = new Blob(
+      [
+        JSON.stringify({
+          iteacher: 1,
+          albumTitle: data.albumTitle,
+          albumContents: data.albumContents,
+          ialbum: pno,
+        }),
+      ],
+      { type: "application/json" },
     );
+    formData.append("dto", dto);
 
-    if (data.pics && data.pics.length > 0) {
-      data.pics.forEach(file => {
-        // Check that each item is a file before appending
-        if (file instanceof File) {
-          formData.append("pics", file, file.name);
-        }
-      });
-    } else {
-      // If there are no images, potentially handle the scenario as required by your backend
-      // For example, you might need to append a flag or handle differently if no images are provided
-      console.log("No images to upload.");
+    // 새로 추가된 이미지 파일들을 FormData에 추가
+    addedFilesRef.current.forEach(file => {
+      if (file.originFileObj) {
+        formData.append("pics", file.originFileObj);
+      }
+    });
+
+    // 기존 이미지 URL들을 File 객체로 변환하고 FormData에 추가합니다.
+    for (const item of albumData.albumPic) {
+      const fileUrl = `${imgpath}/${pno}/${item}`;
+      const filename = item.split("/").pop(); // URL에서 파일 이름을 추출합니다.
+      const fileObject = await convertUrlToFileObject(fileUrl, filename);
+      formData.append("pics", fileObject);
     }
 
-    // formData를 서버에 전송
-    putAlbum({
-      product: formData,
-      successFn: handleSuccess,
-      failFn: handleFailure,
-      errorFn: handleError,
-    });
+    // 서버에 요청을 보냅니다.
+    try {
+      const response = await putAlbum({
+        product: formData,
+        successFn: handleSuccess,
+        failFn: handleFailure,
+        errorFn: handleError,
+      });
+
+      // 응답 처리
+      console.log("Response from putAlbum:", response);
+    } catch (error) {
+      handleError(error.message);
+    }
   };
 
   const handleSuccess = response => {
@@ -162,16 +172,38 @@ const ModifyAlbum = () => {
   }, [pno, form]);
 
   const beforeUpload = file => {
-    // 새로 업로드되는 파일을 fileList에 추가
-    const newFileList = [...fileList, file];
-    setFileList(newFileList);
-    return false; // 자동 업로드를 방지
+    addedFilesRef.current.push(file); // 새로 추가된 파일을 addedFilesRef에 추가
+    return false; // 파일을 자동으로 업로드하지 않음
+  };
+
+  const handleChange = ({ fileList: updatedFileList, file }) => {
+    if (file.status === "removed") {
+      // 파일이 제거된 경우, addedFilesRef에서 해당 파일 제거
+      const index = addedFilesRef.current.indexOf(file);
+      if (index > -1) {
+        addedFilesRef.current.splice(index, 1);
+      }
+    }
+    setFileList(updatedFileList); // fileList 상태를 업데이트합니다.
   };
 
   const onRemove = file => {
     // 파일이 제거될 때 fileList에서 해당 파일을 제거
     const newFileList = fileList.filter(item => item.uid !== file.uid);
-    setFileList(newFileList);
+    let list = [...fileList, newFileList];
+    setFileList(list);
+  };
+
+  const convertUrlToFileObject = async (url, filename) => {
+    try {
+      const response = await fetch(url); // URL에서 이미지를 가져옵니다.
+      const blob = await response.blob(); // Blob으로 변환합니다.
+      const file = new File([blob], filename, { type: blob.type }); // File 객체를 생성합니다.
+      return file;
+    } catch (error) {
+      console.error("Error fetching file from URL:", error);
+      throw error;
+    }
   };
 
   return (

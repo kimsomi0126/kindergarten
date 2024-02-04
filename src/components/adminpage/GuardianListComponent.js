@@ -157,6 +157,7 @@ const GuardianListComponent = ({
         <Pagination
           defaultCurrent={page}
           total={parentList.totalCnt}
+          pageSize={12}
           onChange={handleChangePage}
         />
       </PageNum>

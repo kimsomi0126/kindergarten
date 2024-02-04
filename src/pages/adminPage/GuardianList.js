@@ -35,6 +35,7 @@ const initParentList = {
 };
 const GuardianList = () => {
   const [serchParams, setSearchParams] = useSearchParams();
+  const [changeInfo, setChangeInfo] = useState(0);
   const navigate = useNavigate();
   const page = serchParams.get("page");
   const iclass = serchParams.get("iclass");

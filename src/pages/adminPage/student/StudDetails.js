@@ -141,7 +141,7 @@ const StudDetails = () => {
             <BtnWrap>
               <GrayBtn>알림장작성</GrayBtn>
               <PurpleBtn
-                onClick={e => navigate("/admin/student/modify?ikid=${ikid}")}
+                onClick={e => navigate(`/admin/student/modify?ikid=${ikid}`)}
               >
                 원생정보수정
               </PurpleBtn>

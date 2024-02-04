@@ -16,7 +16,7 @@ export const UserTopRight = styled.div`
 
 export const UserMain = styled.div`
   position: relative;
-  /* min-height: 60rem; */
+  min-height: 50vh;
   input {
     margin-right: 0.5rem;
   }
@@ -53,6 +53,7 @@ export const UserListBox = styled.div`
   }
   em {
     font-size: 1.5rem;
+    font-style: normal;
   }
 `;
 export const UserInfo = styled.div`

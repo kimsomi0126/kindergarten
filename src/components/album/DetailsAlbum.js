@@ -27,6 +27,7 @@ import Comment from "../common/Comment";
 import { deleteAlbum, getAlbum } from "../../api/album/album_api";
 import Loading from "../loading/Loading";
 import { IMG_URL, SERVER_URL } from "../../api/config";
+import useCustomLogin from "../../hooks/useCustomLogin";
 const path = `${IMG_URL}/pic/album`;
 
 const host = `${SERVER_URL}/album`;
@@ -41,7 +42,7 @@ const initAlbumCommnet = [
   },
 ];
 
-const DetailsAlbum = ({ pno }) => {
+const DetailsAlbum = ({ pno, isLogin }) => {
   const [albumData, setAlbumData] = useState(initAlbumCommnet); // 앨범 데이터 상태
   const [isLoading, setIsLoading] = useState(true); // 로딩 상태
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -127,7 +128,6 @@ const DetailsAlbum = ({ pno }) => {
     }
   }, [lightbox.open]);
 
-  console.log("albumData", albumData);
   return (
     <AlbumWrap paddingTop={40}>
       <AlbumTopBar padding={1}>
@@ -177,7 +177,6 @@ const DetailsAlbum = ({ pno }) => {
               />
             </Swiper>
           </SwiperWrap>
-
           <DetailsText>
             <p>{albumData.albumContents}</p>
           </DetailsText>

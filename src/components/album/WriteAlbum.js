@@ -112,6 +112,7 @@ const WriteAlbum = ({ albumData, submit }) => {
     height: "150px",
     lineHeight: "150px",
   };
+
   return (
     <AlbumWrap paddingTop={40} width={100} height={100}>
       <PageTitle>활동앨범</PageTitle>

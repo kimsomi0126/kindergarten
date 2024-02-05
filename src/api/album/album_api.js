@@ -15,7 +15,7 @@ export const getAlbum = async ({ pno, successFn, failFn, errorFn }) => {
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
       // console.log("res.data임 : ", res.data);
-      successFn(...res.data);
+      successFn({ ...res.data });
     } else {
       failFn("자료 호출 에러입니다.");
     }

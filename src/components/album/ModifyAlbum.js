@@ -21,6 +21,7 @@ const initAlbumCommnet = [
     createdAt: "",
   },
 ];
+
 const ModifyAlbum = () => {
   const { pno } = useParams();
   const formRef = useRef();
@@ -44,52 +45,21 @@ const ModifyAlbum = () => {
     formRef.current.submit(); // Form의 submit 메서드 호출
   };
 
-  const onFinish = async data => {
-    const formData = new FormData();
-    const dto = new Blob(
-      [
-        JSON.stringify({
-          iteacher: 1,
-          albumTitle: data.albumTitle,
-          albumContents: data.albumContents,
-          ialbum: pno,
-        }),
-      ],
-      { type: "application/json" },
-    );
-    formData.append("dto", dto);
-
-    // 새로 추가된 이미지 파일들을 FormData에 추가
-    addedFilesRef.current.forEach(file => {
-      if (file.originFileObj) {
-        formData.append("pics", file.originFileObj);
-      }
-    });
-
-    // 기존 이미지 URL들을 File 객체로 변환하고 FormData에 추가합니다.
-    for (const item of albumData.albumPic) {
-      const fileUrl = `${imgpath}/${pno}/${item}`;
-      const filename = item.split("/").pop(); // URL에서 파일 이름을 추출합니다.
-      const fileObject = await convertUrlToFileObject(fileUrl, filename);
-      formData.append("pics", fileObject);
-    }
-
-    // 서버에 요청을 보냅니다.
+  // URL에서 파일을 생성하고 fileList 상태를 업데이트하는 함수
+  const imageUrlToFile = async imageUrl => {
     try {
-      const response = await putAlbum({
-        product: formData,
-        successFn: handleSuccess,
-        failFn: handleFailure,
-        errorFn: handleError,
-      });
+      console.log("imageUrl", imageUrl);
+      const fileName = imageUrl.substring(imageUrl.lastIndexOf("/") + 1);
+      const response = await fetch(imageUrl, { mode: "no-cors" });
+      const blob = await response.blob();
+      const imageFile = new File([blob], fileName, { type: "image/jpeg" }); // MIME type을 지정할 수 있습니다.
 
-      // 응답 처리
-      console.log("Response from putAlbum:", response);
+      // fileList에 새로운 파일을 추가합니다.
+      setFileList(prevFileList => [...prevFileList, imageFile]);
     } catch (error) {
-      handleError(error.message);
+      console.error("Error converting image URL to File:", error);
     }
   };
-
   const handleSuccess = response => {
     setIsModalVisible(true);
     console.log("수정이 성공적으로 완료되었습니다.", response);
@@ -135,6 +105,50 @@ const ModifyAlbum = () => {
     });
   };
 
+  const onFinish = async data => {
+    const formData = new FormData();
+    const dto = new Blob(
+      [
+        JSON.stringify({
+          iteacher: 1,
+          albumTitle: data.albumTitle,
+          albumContents: data.albumContents,
+          ialbum: pno,
+        }),
+      ],
+      { type: "application/json" },
+    );
+    formData.append("dto", dto);
+
+    // 새로 추가된 이미지 파일을 FormData에 추가합니다.
+    fileList.forEach(async file => {
+      const response = await fetch(file);
+      const data = await response.blob();
+      if (file.originFileObj) {
+        // 새로운 파일인 경우, 파일 데이터를 추가합니다.
+        formData.append("pics", file.originFileObj);
+      } else if (file.url) {
+        // 이미 서버에 존재하는 파일인 경우, 파일 경로를 추가합니다.
+        formData.append("pics", file.url);
+      }
+    });
+
+    // 서버에 요청을 보냅니다.
+    try {
+      const response = await putAlbum({
+        product: formData,
+        successFn: handleSuccess,
+        failFn: handleFailure,
+        errorFn: handleError,
+      });
+
+      // 응답 처리
+      console.log("Response from putAlbum:", response);
+    } catch (error) {
+      handleError(error.message);
+    }
+  };
+
   useEffect(() => {
     const fetchAlbumData = async () => {
       getAlbum({
@@ -172,39 +186,66 @@ const ModifyAlbum = () => {
   }, [pno, form]);
 
   const beforeUpload = file => {
-    addedFilesRef.current.push(file); // 새로 추가된 파일을 addedFilesRef에 추가
+    // 새로 업로드되는 파일을 fileList에 추가
+    const newFileList = [
+      ...fileList,
+      {
+        uid: file.uid, // 파일의 고유 ID
+        name: file.name, // 파일 이름
+        status: "done", // 파일 상태
+        originFileObj: file, // 파일 객체
+      },
+    ];
+    setFileList(newFileList);
     return false; // 파일을 자동으로 업로드하지 않음
   };
 
-  const handleChange = ({ fileList: updatedFileList, file }) => {
-    if (file.status === "removed") {
-      // 파일이 제거된 경우, addedFilesRef에서 해당 파일 제거
-      const index = addedFilesRef.current.indexOf(file);
-      if (index > -1) {
-        addedFilesRef.current.splice(index, 1);
-      }
-    }
-    setFileList(updatedFileList); // fileList 상태를 업데이트합니다.
+  const handleChange = ({ fileList: newFileList }) => {
+    // 업로드된 파일의 상태 변화를 처리
+    setFileList(newFileList);
   };
 
   const onRemove = file => {
     // 파일이 제거될 때 fileList에서 해당 파일을 제거
     const newFileList = fileList.filter(item => item.uid !== file.uid);
-    let list = [...fileList, newFileList];
-    setFileList(list);
+    setFileList(newFileList);
   };
 
-  const convertUrlToFileObject = async (url, filename) => {
-    try {
-      const response = await fetch(url); // URL에서 이미지를 가져옵니다.
-      const blob = await response.blob(); // Blob으로 변환합니다.
-      const file = new File([blob], filename, { type: blob.type }); // File 객체를 생성합니다.
-      return file;
-    } catch (error) {
-      console.error("Error fetching file from URL:", error);
-      throw error;
-    }
-  };
+  // useEffect(() => {
+  //   const fetchAlbumData = async () => {
+  //     getAlbum({
+  //       pno: pno,
+  //       successFn: data => {
+  //         setAlbumData(data); // Set the album data in state
+
+  //         // Update form fields with the album data
+  //         form.setFieldsValue({
+  //           albumTitle: data.albumTitle,
+  //           albumContents: data.albumContents,
+  //         });
+
+  //         // Transform album pictures for the fileList state
+  //         const transformedFileList = data.albumPic.map((pic, index) => ({
+  //           uid: index.toString(), // uid is required to be unique
+  //           name: pic, // file name
+  //           status: "done", // upload status
+  //           url: `${imgpath}/${pno}/${pic}`, // file URL, adjust the path as needed
+  //         }));
+  //         setFileList(transformedFileList);
+  //       },
+  //       failFn: errorMessage => {
+  //         console.error("Album fetch failed:", errorMessage);
+  //         // Handle failure (show error message to user, etc.)
+  //       },
+  //       errorFn: errorData => {
+  //         console.error("Error fetching album:", errorData);
+  //         // Handle error (show error message to user, etc.)
+  //       },
+  //     });
+  //   };
+  //   fetchAlbumData();
+  //   imageUrlToFile(fileList);
+  // }, [pno, form]);
 
   return (
     <AlbumWrap paddingTop={40} width={100} height={100}>

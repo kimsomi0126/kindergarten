@@ -19,6 +19,7 @@ import {
   putDetailEdit,
 } from "../../../api/adminPage/admin_api";
 import dayjs from "dayjs";
+import useCustomLogin from "../../../hooks/useCustomLogin";
 
 // 상세정보 POST
 const initDetailData = {
@@ -52,6 +53,7 @@ const initDetailInfo = {
 const StudDetailsForm = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
+  const { isLogin } = useCustomLogin();
   // 폼 변경값 확인
   const [formChanged, setFormChanged] = useState(false);
 
@@ -61,8 +63,16 @@ const StudDetailsForm = () => {
   const [editState, setEditState] = useState(false);
 
   useEffect(() => {
-    getDetailInfo({ successFn, failFn, errorFn, ikid, year });
-  }, []);
+    if (!isLogin) {
+      setTitle("관리자 전용 페이지");
+      setSubTitle("관리자만 접근 가능합니다.");
+      setIsOpen(true);
+      setIsNavigate(`/login`);
+      return;
+    } else {
+      getDetailInfo({ successFn, failFn, errorFn, ikid, year });
+    }
+  }, [isLogin]);
 
   const ikid = serchParams.get("ikid");
   const year = serchParams.get("year");

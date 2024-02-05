@@ -71,7 +71,6 @@ export const postIndNotice = async ({
   }
 };
 
-
 // 댓글 등록하기
 export const postComment = async ({ product, successFn, failFn, errorFn }) => {
   try {
@@ -111,6 +110,9 @@ export const deleteComment = async ({
       failFn();
     }
   } catch (error) {
+    errorFn(error);
+  }
+};
 
 // 알림장 게시글 삭제하기
 export const deleteNotice = async ({ ikid, successFn, failFn, errorFn }) => {
@@ -125,6 +127,5 @@ export const deleteNotice = async ({ ikid, successFn, failFn, errorFn }) => {
     }
   } catch (error) {
     errorFn(error);
-
   }
 };

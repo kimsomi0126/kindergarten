@@ -112,6 +112,7 @@ const StudList = () => {
       console.log("변경할 대상이 없습니다");
       setIsOpen(true);
       setTitle("변경할 대상이 없습니다.");
+      setSubTitle("변경할 원생을 선택해주세요.");
     } else {
       setClassOpen(true);
       setTitle("반 일괄 수정");

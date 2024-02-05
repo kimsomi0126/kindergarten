@@ -11,10 +11,11 @@ import {
   getAdminParentList,
 } from "../../api/adminPage/admin_api";
 import ModalOneBtn from "../../components/ui/ModalOneBtn";
-import { Navigate, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import { Link, useSearchParams } from "react-router-dom";
 import { DownOutlined } from "@ant-design/icons";
 import useCustomLogin from "../../hooks/useCustomLogin";
+import { useDispatch, useSelector } from "react-redux";
 
 const initParentList = {
   totalCnt: 0,
@@ -39,6 +40,10 @@ const GuardianList = () => {
   const navigate = useNavigate();
   const page = serchParams.get("page");
   const iclass = serchParams.get("iclass");
+  const dispatch = useDispatch();
+
+  // const refresh = useSelector(state => state.refresh);
+  // console.log("refresh", refresh);
 
   // 반 선택
   const classArr = [
@@ -79,7 +84,8 @@ const GuardianList = () => {
   const handleDeleteClick = () => {
     if (checkedItems.length === 0) {
       setIsOpen(true);
-      setTitle("변경할 대상이 없습니다.");
+      setTitle("삭제할 대상이 없습니다.");
+      setSubTitle("삭제할 학부모 계정을 선택해주세요.");
     } else {
       console.log("학부모 정보 삭제");
       setDelOpen(true);
@@ -123,6 +129,14 @@ const GuardianList = () => {
     }
   };
 
+  // 학부모 정보수정
+  const [editState, setEditState] = useState(0);
+  const onChildClick = () => {
+    // 자식 컴포넌트에서 호출할 함수
+    setEditState(prevState => prevState + 1);
+    console.log("돼라");
+  };
+
   // 학부모 리스트 GET
   const [parentList, setParentList] = useState(initParentList);
   const { isLogin } = useCustomLogin();
@@ -136,7 +150,7 @@ const GuardianList = () => {
     } else {
       getAdminParentList({ successFn: successGetFn, errorGetFn, page, iclass });
     }
-  }, [page, iclass, checkedItems]);
+  }, [page, iclass, checkedItems, editState]);
 
   const successGetFn = result => {
     setParentList(result);
@@ -145,6 +159,7 @@ const GuardianList = () => {
   const errorGetFn = result => {
     setParentList(result);
   };
+
   return (
     <>
       <UserTop>
@@ -199,6 +214,7 @@ const GuardianList = () => {
         parentList={parentList}
         oncheckedClick={oncheckedClick}
         checkedItems={checkedItems}
+        onChildClick={onChildClick}
       />
     </>
   );

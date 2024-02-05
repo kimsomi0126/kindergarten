@@ -139,7 +139,9 @@ const StudDetails = () => {
               </Button>
             </Dropdown>
             <BtnWrap>
-              <GrayBtn>알림장작성</GrayBtn>
+              <GrayBtn onClick={e => navigate(`/ind/write?ikid=${ikid}`)}>
+                알림장작성
+              </GrayBtn>
               <PurpleBtn
                 onClick={e => navigate(`/admin/student/modify?ikid=${ikid}`)}
               >

@@ -14,13 +14,13 @@ const MyBadge = ({ keywordValue, text }) => {
     badgeImage = process.env.PUBLIC_URL + "/images/user/badge/delicate.png";
     badgeTitle = "창의적인 어린이";
   } else if (keywordValue === 4) {
-    badgeImage = process.env.PUBLIC_URL + "/images/user/badge/active.png";
+    badgeImage = process.env.PUBLIC_URL + "/images/user/badge/curious.png";
     badgeTitle = "호기심많은 어린이";
   } else if (keywordValue === 5) {
-    badgeImage = process.env.PUBLIC_URL + "/images/user/badge/active.png";
+    badgeImage = process.env.PUBLIC_URL + "/images/user/badge/good.png";
     badgeTitle = "착한 어린이";
   } else if (keywordValue === 6) {
-    badgeImage = process.env.PUBLIC_URL + "/images/user/badge/active.png";
+    badgeImage = process.env.PUBLIC_URL + "/images/user/badge/brave.png";
     badgeTitle = "씩씩한 어린이";
   } else if (keywordValue === 7) {
     badgeImage = process.env.PUBLIC_URL + "/images/user/badge/faithful.png";
@@ -29,10 +29,10 @@ const MyBadge = ({ keywordValue, text }) => {
     badgeImage = process.env.PUBLIC_URL + "/images/user/badge/active.png";
     badgeTitle = "편식없는 어린이";
   } else if (keywordValue === 9) {
-    badgeImage = process.env.PUBLIC_URL + "/images/user/badge/active.png";
+    badgeImage = process.env.PUBLIC_URL + "/images/user/badge/clean.png";
     badgeTitle = "깔끔한 어린이";
   } else if (keywordValue === 10) {
-    badgeImage = process.env.PUBLIC_URL + "/images/user/badge/active.png";
+    badgeImage = process.env.PUBLIC_URL + "/images/user/badge/strong.png";
     badgeTitle = "튼튼한 어린이";
   } else {
     badgeImage = process.env.PUBLIC_URL + "/images/user/badge/blank.png";

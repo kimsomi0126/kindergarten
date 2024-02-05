@@ -58,7 +58,7 @@ export const StudentImg = styled.div`
   align-items: center;
   justify-content: center;
   img {
-    height: 100%;
+    height: 115%;
     margin-right: 1rem;
   }
 `;

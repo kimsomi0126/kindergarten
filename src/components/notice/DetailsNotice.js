@@ -173,8 +173,11 @@ const DetailsNotice = ({ isLogin }) => {
                   <BlueBtn>수정</BlueBtn>
                 </Link> */}
               </div>
+
               <div>
-                <PinkBtn onClick={showDeleteModal}>삭제</PinkBtn>
+                {isLogin ? (
+                  <PinkBtn onClick={showDeleteModal}>삭제</PinkBtn>
+                ) : null}
               </div>
             </>
           ) : null}

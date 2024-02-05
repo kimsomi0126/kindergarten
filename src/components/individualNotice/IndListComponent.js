@@ -9,8 +9,10 @@ import {
   IndTop,
 } from "../../styles/individualNotice/ind";
 import { Link } from "react-router-dom";
+import useCustomLogin from "../../hooks/useCustomLogin";
 
-const IndListComponent = ({ listData }) => {
+const IndListComponent = ({ listData, year, ikid, iclass, page }) => {
+  const { loginState, isLogin, isParentLogin } = useCustomLogin();
   return (
     <IndListWrap>
       <IndList>
@@ -24,7 +26,13 @@ const IndListComponent = ({ listData }) => {
           Array.isArray(listData) &&
           listData.map(item => (
             <IndListBox key={item.inotice}>
-              <Link to={`/ind/details/${item.inotice}`}>
+              <Link
+                to={
+                  isLogin
+                    ? `/ind/details/${item.inotice}?year=${year}&page=${page}&iclass=${iclass}`
+                    : `/ind/details/${item.inotice}?year=${year}&page=${page}&ikid=${ikid}`
+                }
+              >
                 <IndTop>
                   <MyClass state={item.iclass} /> <h4>{item.kidNm}</h4>
                 </IndTop>

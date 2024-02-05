@@ -2,6 +2,7 @@ import jwtAxios from "../../util/jwtUtil";
 import { SERVER_URL } from "../config";
 const path = `${SERVER_URL}/api/notice`;
 
+// 알림장 리스트(학부모)
 export const getIndParentList = async ({
   page,
   year,
@@ -25,6 +26,7 @@ export const getIndParentList = async ({
     errorFn(res.message);
   }
 };
+// 알림장 리스트(선생님)
 export const getIndTeacherList = async ({
   page,
   year,
@@ -115,17 +117,38 @@ export const deleteComment = async ({
 };
 
 // 알림장 게시글 삭제하기
-export const deleteNotice = async ({ ikid, successFn, failFn, errorFn }) => {
+export const deleteIndDetail = async ({
+  tno,
+  successDelFn,
+  failDelFn,
+  errorDelFn,
+}) => {
   try {
-    const res = await jwtAxios.delete(`${path}?inotice=${ikid}`);
+    const res = await jwtAxios.delete(`${path}?inotice=${tno}`);
     const status = res.status.toString();
-
     if (status.charAt(0) === "2") {
-      successFn();
+      successDelFn(res.data);
     } else {
-      failFn("삭제 에러입니다.");
+      failDelFn(res.data);
     }
   } catch (error) {
-    errorFn(error);
+    const res = error.response.data;
+    errorDelFn(res.message);
+  }
+};
+
+// 알림장 상세
+export const getIndDetail = async ({ tno, successFn, failFn, errorFn }) => {
+  try {
+    const res = await jwtAxios.get(`${path}/detail?inotice=${tno}`);
+    const status = res.status.toString();
+    if (status.charAt(0) === "2") {
+      successFn(res.data);
+    } else {
+      failFn(res.data);
+    }
+  } catch (error) {
+    const res = error.response.data;
+    errorFn(res.message);
   }
 };

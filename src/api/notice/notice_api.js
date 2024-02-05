@@ -29,7 +29,8 @@ export const getList = async ({ page, successFn, failFn, errorFn }) => {
       failFn("자료 호출 에러입니다.");
     }
   } catch (error) {
-    errorFn(error);
+    const res = error.response.data;
+    errorFn(res.message);
   }
 };
 

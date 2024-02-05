@@ -71,6 +71,7 @@ export const postIndNotice = async ({
   }
 };
 
+
 // 댓글 등록하기
 export const postComment = async ({ product, successFn, failFn, errorFn }) => {
   try {
@@ -110,6 +111,20 @@ export const deleteComment = async ({
       failFn();
     }
   } catch (error) {
-    errorFn();
+
+// 알림장 게시글 삭제하기
+export const deleteNotice = async ({ ikid, successFn, failFn, errorFn }) => {
+  try {
+    const res = await jwtAxios.delete(`${path}?iteacher=1&ifullNotice=${ikid}`);
+    const status = res.status.toString();
+
+    if (status.charAt(0) === "2") {
+      successFn();
+    } else {
+      failFn("삭제 에러입니다.");
+    }
+  } catch (error) {
+    errorFn(error);
+
   }
 };

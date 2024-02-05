@@ -26,7 +26,7 @@ const MyBadge = ({ keywordValue, text }) => {
     badgeImage = process.env.PUBLIC_URL + "/images/user/badge/faithful.png";
     badgeTitle = "성실한 어린이";
   } else if (keywordValue === 8) {
-    badgeImage = process.env.PUBLIC_URL + "/images/user/badge/active.png";
+    badgeImage = process.env.PUBLIC_URL + "/images/user/badge/eat.png";
     badgeTitle = "편식없는 어린이";
   } else if (keywordValue === 9) {
     badgeImage = process.env.PUBLIC_URL + "/images/user/badge/clean.png";

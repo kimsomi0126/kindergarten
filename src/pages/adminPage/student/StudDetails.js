@@ -139,7 +139,13 @@ const StudDetails = () => {
               </Button>
             </Dropdown>
             <BtnWrap>
-              <GrayBtn onClick={e => navigate(`/ind/write?ikid=${ikid}`)}>
+              <GrayBtn
+                onClick={e =>
+                  navigate(
+                    `/ind/write?ikid=${ikid}&iclass=${myData.iclass}&kidNm=${myData.kidNm}`,
+                  )
+                }
+              >
                 알림장작성
               </GrayBtn>
               <PurpleBtn

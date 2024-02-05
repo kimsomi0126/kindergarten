@@ -10,7 +10,7 @@ const Location = () => {
   useEffect(() => {
     var mapContainer = document.getElementById("map"), // 지도 표시 div
       mapOption = {
-        center: new kakao.maps.LatLng(35.868308904058466, 128.59396835957114), // 지도 좌표
+        center: new kakao.maps.LatLng(37.48047, 126.9398), // 지도 좌표
         level: 3, // 지도 확대 레벨
         mapTypeId: kakao.maps.MapTypeId.ROADMAP, // 지도종류
       };
@@ -33,14 +33,17 @@ const Location = () => {
 
     // 지도에 마커를 생성하고 표시한다
     var marker = new kakao.maps.Marker({
-      position: new kakao.maps.LatLng(35.868308904058466, 128.59396835957114), // 마커의 좌표
+      position: new kakao.maps.LatLng(37.48047, 126.9398), // 마커의 좌표
       image: markerImage, // 마커의 이미지
       map: map, // 마커를 표시할 지도 객체
     });
 
     // 마커클릭시 카카오맵 이동
     kakao.maps.event.addListener(marker, "click", function () {
-      window.open("https://kko.to/oEvShdHKrr", "_blank");
+      window.open(
+        "https://map.kakao.com/?urlX=486689&urlY=1105838&urlLevel=3&itemId=11674464&q=%EB%96%A1%EC%9E%8E%EC%96%B4%EB%A6%B0%EC%9D%B4%EC%A7%91&srcid=11674464&map_type=TYPE_MAP",
+        "_blank",
+      );
     });
   }, []);
   return (
@@ -53,12 +56,12 @@ const Location = () => {
         <li>
           <img src="/images/information/location.svg" alt="주소아이콘" />
           <h4>주소</h4>
-          <p>서울특별시 어쩌구 저쩌동 무슨길 12</p>
+          <p>서울특별시 관악구 장군봉7길 12</p>
         </li>
         <li>
           <img src="/images/information/call.svg" alt="전화아이콘" />
           <h4>전화</h4>
-          <p>02-1234-5678</p>
+          <p>02-879-2844</p>
         </li>
         <li>
           <img src="/images/information/email.svg" alt="이메일아이콘" />

@@ -70,3 +70,46 @@ export const postIndNotice = async ({
     errorFn(res.message);
   }
 };
+
+// 댓글 등록하기
+export const postComment = async ({ product, successFn, failFn, errorFn }) => {
+  try {
+    const header = { headers: { "Content-Type": "multipart/form-data" } };
+    const res = await jwtAxios.post(`${path}/comment`, product, header);
+    const status = res.status.toString();
+    if (status.charAt(0) === "2") {
+      successFn(res.data);
+    } else {
+      failFn("글 등록 오류");
+    }
+  } catch (error) {
+    const res = error.response.data;
+    errorFn(res.message);
+  }
+};
+
+// 댓글 삭제하기
+export const deleteComment = async ({
+  inoticeComment,
+  iteacher,
+  iparent,
+  successFn,
+  failFn,
+  errorFn,
+}) => {
+  try {
+    // header 가 필요합니다.
+    const res = await jwtAxios.delete(
+      `${path}/comment/?$inoticeComment={inoticeComment}&iteacher=${iteacher}iparent={iparent}`,
+    );
+
+    const status = res.status.toString();
+    if (status.charAt(0) === "2") {
+      successFn(res.data);
+    } else {
+      failFn();
+    }
+  } catch (error) {
+    errorFn();
+  }
+};

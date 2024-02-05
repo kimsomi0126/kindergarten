@@ -2,7 +2,7 @@ import { UploadOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Form, Input, Modal, Upload } from "antd";
 import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { SERVER_URL } from "../../api/config";
 import { postNotice } from "../../api/notice/notice_api";
 import { FileListStyle } from "../../styles/album/album";
@@ -13,6 +13,9 @@ import { postIndNotice } from "../../api/individualNotice/indivNoticeApi";
 const path = `${SERVER_URL}/api/notice`;
 
 const IndivNotiWrite = () => {
+  const [serchParams, setSearchParams] = useSearchParams();
+  // 현재 kid 값 체크
+  const ikid = serchParams.get("ikid");
   const [form] = Form.useForm();
   const [fileList, setFileList] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -45,6 +48,7 @@ const IndivNotiWrite = () => {
 
   const handleOk = () => {
     setIsModalVisible(false);
+    navigate(`/ind?year=2024&page=1&iclass=0`);
   };
 
   const handleCancel = () => {
@@ -72,7 +76,7 @@ const IndivNotiWrite = () => {
     const dto = new Blob(
       [
         JSON.stringify({
-          ikid: 1,
+          ikid: ikid,
           noticeTitle: data.noticeTitle,
           noticeContents: data.noticeContents,
         }),
@@ -99,11 +103,11 @@ const IndivNotiWrite = () => {
     });
   };
 
-  const handleCancelOk = () => {
+  const handleCancelOk = res => {
     // 여기에 삭제 처리 로직을 추가할 수 있습니다.
 
     // 예시: 삭제 처리 후 /notice 페이지로 이동
-    navigate("/ind");
+    navigate(`/ind?year=2024&page=1&iclass=0`);
 
     setIsModalVisible(false);
   };
@@ -205,7 +209,7 @@ const IndivNotiWrite = () => {
         </div>
       </div>
 
-      <Link to="/ind">
+      <Link to="/ind?year=2024&page=1&iclass=0">
         <Modal
           title="등록 완료"
           open={isModalVisible}

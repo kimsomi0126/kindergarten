@@ -1,196 +1,52 @@
-import { Flex, Input, List, Pagination } from "antd";
+import { Flex, Input, List, Modal, Pagination } from "antd";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom"; // useNavigate 추가
+import { Link, useNavigate } from "react-router-dom"; // useNavigate 추가
 import { getList } from "../../api/notice/notice_api";
 import { PageTitle } from "../../styles/basic";
 import { GreenBtn } from "../../styles/ui/buttons";
 import { putNotice } from "../../api/notice/notice_api";
-
-const { Search } = Input;
-
-const onSearch = (value, _e, info) => console.log(info?.source, value);
-
-const pageSize = 10;
+import ListNotice from "../../components/notice/ListNotice";
+import useCustomLogin from "../../hooks/useCustomLogin";
+import ModalOneBtn from "../../components/ui/ModalOneBtn";
 
 const NoticeList = () => {
-  const [current, setCurrent] = useState(1);
-  const [listData, setListData] = useState([]);
-  const [totalCount, setTotalCount] = useState(0);
+  const navigate = useNavigate();
+  const { isLogin, isParentLogin } = useCustomLogin();
+  const [isOpen, setIsOpen] = useState(false);
+  const [title, setTitle] = useState("");
+  const [subTitle, setSubTitle] = useState("");
 
-  // 페이지 변경 처리
-  const onChange = page => {
-    setCurrent(page);
-    fetchPageData(page); // 새 페이지 데이터를 가져옵니다.
-  };
-
-  const size = "small";
-
-  // 페이지 데이터 가져오기
-  const fetchPageData = page => {
-    getList({
-      page,
-      successFn: result => {
-        setListData(result.list); // 현재 페이지의 리스트 데이터 설정
-        setTotalCount(result.noticeCnt); // 전체 공지사항 개수 설정
-      },
-      failFn: result => {
-        console.error("List fetch failed:", result);
-      },
-      errorFn: result => {
-        console.error("Error fetching list:", result);
-      },
-    });
-  };
-
-  // 컴포넌트가 마운트될 때 첫 페이지 데이터를 가져옵니다.
   useEffect(() => {
-    fetchPageData(current);
-  }, [current]);
+    if (!isLogin && !isParentLogin) {
+      // 로그인하지 않았을 경우
+      setIsOpen(true);
+      setTitle("회원 전용 페이지");
+      setSubTitle("로그인 회원만 접근 가능합니다.");
+    } else {
+      // 다른 상황에 대한 처리가 필요한 경우 여기에 추가
+      // 예를 들어, 기본 오류 메시지 설정 등
+      // setTitle("에러");
+      // setSubTitle("리스트를 불러오는 중 오류가 발생했습니다.");
+    }
+  }, [isLogin, isParentLogin]);
 
-  const successFn = result => {
-    console.log("성공", result);
-    setListData(result);
+  const handleOk = () => {
+    setIsOpen(false);
+    if (!isLogin && !isParentLogin) {
+      navigate("/login"); // 로그인 페이지로 이동
+    }
   };
-  const failFn = result => {
-    console.log(result);
-  };
-  const errorFn = result => {
-    console.log(result);
-  };
-
-  console.log("확인", listData);
 
   return (
-    <div style={{ marginTop: 60 }}>
-      <Flex
-        gap="small"
-        justify="space-between"
-        style={{
-          width: "100%",
-          marginBottom: 20,
-          alignItems: "center",
-        }}
-      >
-        <PageTitle>유치원소식</PageTitle>
-        <Flex gap="small" alignitems="center">
-          <Search
-            placeholder="제목을 입력하세요."
-            allowClear
-            onSearch={onSearch}
-            style={{
-              width: 330,
-              marginRight: 20,
-            }}
-          />
-          <Link to="/notice/write/">
-            <GreenBtn
-              type="primary"
-              size={size}
-              style={{
-                background: "#D3ECC8",
-                borderColor: "#D3ECC8",
-                padding: "15px 30px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                borderRadius: "1rem",
-                color: "#00876D",
-              }}
-            >
-              글쓰기
-            </GreenBtn>
-          </Link>
-        </Flex>
-      </Flex>
-
-      <List
-        size="large"
-        itemLayout="vertical"
-        style={{
-          width: "100%",
-          margin: "0 auto",
-          background: "white",
-          borderTop: "1px solid #00876D",
-          borderBottom: "1px solid #00876D",
-        }}
-        dataSource={listData}
-        renderItem={(item, index) => (
-          <Link
-            to={`/notice/details/${item.ifullNotice}`}
-            key={item.ifullNotice}
-          >
-            <List.Item
-              style={{
-                borderLeft: "none",
-                borderRight: "none",
-                borderBottom: "1px solid #e8e8e8",
-                padding: "12px 0",
-                background: item.fullNoticeFix === 1 ? "#E7F6ED" : "white",
-                display: "flex",
-                justifyContent: "flex-start",
-                alignItems: "center",
-                cursor: "pointer",
-              }}
-            >
-              {/* 고정글 아이콘 */}
-              {item.fullNoticeFix === 1 && (
-                <img
-                  src="/images/common/notice/loudSpeaker.svg"
-                  alt="고정글"
-                  style={{
-                    marginRight: 60,
-                    marginLeft: 60,
-                    width: 20,
-                    height: 20,
-                  }}
-                />
-              )}
-
-              {/* 게시글 번호, 제목, 날짜 표시 (최상단 고정글에는 번호 표시 안 함) */}
-              {item.fullNoticeFix !== 1 && (
-                <div style={{ marginRight: 60, marginLeft: 60, color: "gray" }}>
-                  {item.ifullNotice}
-                </div>
-              )}
-              <div style={{ flex: 1 }}>
-                <Link to={`/notice/details/${item.ifullNotice}`}>
-                  <span
-                    style={{
-                      color: item.fullNoticeFix === 1 ? "#00876D" : "#000000",
-                      fontWeight: item.fullNoticeFix === 1 ? "bold" : "normal",
-                    }}
-                  >
-                    {item.fullTitle}
-                  </span>
-                </Link>
-              </div>
-              <div
-                style={{ color: "gray", textAlign: "right", marginRight: 30 }}
-              >
-                <img
-                  src="/images/common/notice/clock.svg"
-                  alt=""
-                  style={{ height: 30, marginRight: 10 }}
-                />
-                {/* 시간 부분 제외하고 날짜만 표시 */}
-                {item.createdAt.substring(0, 10)}
-              </div>
-            </List.Item>
-          </Link>
-        )}
-      ></List>
-
-      <Pagination
-        current={current}
-        onChange={onChange}
-        total={totalCount}
-        pageSize={pageSize}
-        style={{
-          marginTop: 35,
-          textAlign: "center",
-        }}
+    <>
+      <ModalOneBtn
+        isOpen={isOpen}
+        handleOk={handleOk}
+        title={title}
+        subTitle={subTitle}
       />
-    </div>
+      <ListNotice isLogin={isLogin} />
+    </>
   );
 };
 

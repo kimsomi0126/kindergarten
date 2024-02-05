@@ -133,11 +133,13 @@ const NoticeDetails = () => {
               key={postNumber}
               style={{ margin: 40, maxWidth: 500, display: "inline-block" }}
             >
-              <ImageGallery
-                items={detailImage}
-                thumbnailPosition="left"
-                slideInterval={slideInterval}
-              />
+              {detailData.pics.length >= 1 ? (
+                <ImageGallery
+                  items={detailImage}
+                  thumbnailPosition="left"
+                  slideInterval={slideInterval}
+                />
+              ) : null}
             </div>
           </div>
           <p style={{ margin: 30, textAlign: "center", fontSize: 20 }}>

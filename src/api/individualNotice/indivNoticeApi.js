@@ -117,7 +117,7 @@ export const deleteComment = async ({
 // 알림장 게시글 삭제하기
 export const deleteNotice = async ({ ikid, successFn, failFn, errorFn }) => {
   try {
-    const res = await jwtAxios.delete(`${path}?iteacher=1&ifullNotice=${ikid}`);
+    const res = await jwtAxios.delete(`${path}?inotice=${ikid}`);
     const status = res.status.toString();
 
     if (status.charAt(0) === "2") {

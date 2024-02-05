@@ -24,6 +24,7 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { DownOutlined } from "@ant-design/icons";
 import useCustomLogin from "../../../hooks/useCustomLogin";
 import { getMypage } from "../../../api/user/userApi";
+import ModalOneBtn from "../../../components/ui/ModalOneBtn";
 
 const initState = {
   kidNm: "",
@@ -58,6 +59,7 @@ const initState = {
 
 const StudDetails = () => {
   const navigate = useNavigate();
+  const { isLogin } = useCustomLogin();
   const [serchParams, setSearchParams] = useSearchParams();
   // 현재 출력 년도, kid 값
   const year = serchParams.get("year");
@@ -84,6 +86,7 @@ const StudDetails = () => {
   }
   // 아이 마이페이지 데이터
   const [myData, setMyData] = useState(initState);
+  const [isNavigate, setIsNavigate] = useState();
   const [title, setTitle] = useState("");
   const [subTitle, setSubTitle] = useState("");
   const [isOpen, setIsOpen] = useState(false);
@@ -100,8 +103,15 @@ const StudDetails = () => {
 
   // 마이페이지 데이터 가져오기
   useEffect(() => {
-    getMypage({ year, ikid, successFn, failFn, errorFn });
-  }, [initState, year, ikid, parentState]);
+    if (!isLogin) {
+      setTitle("관리자 전용 페이지");
+      setSubTitle("관리자만 접근 가능합니다.");
+      setIsOpen(true);
+      setIsNavigate(`/login`);
+    } else {
+      getMypage({ year, ikid, successFn, failFn, errorFn });
+    }
+  }, [initState, year, ikid, parentState, isLogin]);
 
   // 데이터연동 성공
   const successFn = result => {
@@ -117,7 +127,13 @@ const StudDetails = () => {
     setTitle("조회 실패");
     setSubTitle(result);
   };
-
+  const handleOk = () => {
+    setIsOpen(false);
+    // 링크이동
+    if (isNavigate) {
+      navigate(isNavigate);
+    }
+  };
   const ilevel = "admin";
   const [componentSize, setComponentSize] = useState("default");
   const onFormLayoutChange = ({ size }) => {
@@ -127,6 +143,12 @@ const StudDetails = () => {
 
   return (
     <ContentInner>
+      <ModalOneBtn
+        isOpen={isOpen}
+        handleOk={handleOk}
+        title={title}
+        subTitle={subTitle}
+      />
       <MypageWrap>
         {/* 마이페이지 상단 버튼 */}
         <TitleWrap>

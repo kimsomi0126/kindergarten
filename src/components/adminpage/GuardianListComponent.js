@@ -37,6 +37,7 @@ const GuardianListComponent = ({
   oncheckedClick,
   page,
   iclass,
+  onChildClick,
 }) => {
   const navigate = useNavigate();
   const [selectAllChecked, setSelectAllChecked] = useState(false);
@@ -52,6 +53,13 @@ const GuardianListComponent = ({
   const [editKey, setEditKey] = useState(0);
   const [iparent, setIparent] = useState(0);
 
+  const [editState, setEditState] = useState(0);
+  const onStateChange = () => {
+    setEditState(prevState => prevState + 1);
+    onChildClick();
+  };
+
+  console.log("중간체크 ", editState);
   const onAdminParentEditClick = () => {
     setIsEditOpen(true);
     setEditKey(prevKey => prevKey + 1);
@@ -73,8 +81,6 @@ const GuardianListComponent = ({
       .filter((checkbox, index) => index !== 0 && (checkbox.checked = checked))
       .map(checkbox => (checked ? parseInt(checkbox.value) : null))
       .filter(value => value !== null);
-
-    // setCheckedItems(updatedCheckedItems);
     oncheckedClick(updatedCheckedItems);
   };
 
@@ -167,6 +173,7 @@ const GuardianListComponent = ({
           handleCancel={handleCancel}
           key={editKey}
           iparent={iparent}
+          onStateChange={onStateChange}
         />
       )}
     </>

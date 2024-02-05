@@ -16,7 +16,6 @@ const initState = {
 };
 const ParentEdit = ({ open, handleCancel }) => {
   const navigate = useNavigate();
-
   // 안내창오픈여부
   const [isOpen, setIsOpen] = useState(false);
   //수정창 오픈여부
@@ -78,6 +77,7 @@ const ParentEdit = ({ open, handleCancel }) => {
   const handleOk = () => {
     setIsOpen(false);
   };
+
   const modalStyles = {
     footer: {
       display: "flex",

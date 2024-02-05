@@ -121,7 +121,7 @@ const StudModify = () => {
     const { address, zonecode } = data;
     setZonecode(zonecode);
     setAddress(address);
-    setInitialValues({
+    form.setFieldsValue({
       address: {
         postcode: zonecode,
         detail1: address,
@@ -150,7 +150,7 @@ const StudModify = () => {
   useEffect(() => {
     getStudentInfo({ successGetFn, failGetFn, errorGetFn, ikid });
     form.setFieldsValue(initialValues);
-  }, [zonecode, address]);
+  }, []);
 
   // get 결과
   const successGetFn = res => {
@@ -188,7 +188,7 @@ const StudModify = () => {
       birth: dayjs(newData.birth),
       address: parsedAddress,
       gender: {
-        label: newData.gender === 0 ? "남자" : "여자",
+        label: newData.gender === 0 ? "여자" : "남자",
         value: newData.gender,
         key: newData.gender,
       },

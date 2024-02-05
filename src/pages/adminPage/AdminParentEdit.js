@@ -9,6 +9,8 @@ import {
   getAdminParentInfo,
   putAdminParentInfo,
 } from "../../api/adminPage/admin_api";
+import { useDispatch } from "react-redux";
+import { setRefresh } from "../../slices/refreshSlice";
 
 const initState = {
   parentNm: "",
@@ -18,8 +20,9 @@ const initState = {
   upw: "",
 };
 
-const AdminParentEdit = ({ open, handleCancel, iparent }) => {
+const AdminParentEdit = ({ open, handleCancel, iparent, onStateChange }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   // 안내창오픈여부
   const [isOpen, setIsOpen] = useState(false);
@@ -47,7 +50,10 @@ const AdminParentEdit = ({ open, handleCancel, iparent }) => {
     setTitle("수정 완료");
     setSubTitle("정보가 수정되었습니다.");
     setIsEditOpen(false);
+    onStateChange();
+    console.log("ㅠㅠ");
   };
+
   const failEditFn = result => {
     setIsOpen(true);
     setTitle("수정 실패");
@@ -55,7 +61,7 @@ const AdminParentEdit = ({ open, handleCancel, iparent }) => {
   };
   const errorEditFn = result => {
     setIsOpen(true);
-    setTitle("수정 실패");
+    setTitle("에러");
     setSubTitle(result);
   };
 

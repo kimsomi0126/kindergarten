@@ -170,6 +170,7 @@ const StudDetailsForm = () => {
     if (!formChanged) {
       setIsOpen(true);
       setTitle("입력된 내용이 없습니다.");
+      setSubTitle("내용을 입력해주세요.");
     } else {
       const sendServerData = [];
       if (firstObject.bodyDate || firstObject.growthDate) {
@@ -286,6 +287,7 @@ const StudDetailsForm = () => {
     if (!formChanged) {
       setIsOpen(true);
       setTitle("수정된 내용이 없습니다.");
+      setSubTitle("내용을 입력해주세요.");
     } else {
       parseAndPushData(firstObject);
       parseAndPushData(secondObject);

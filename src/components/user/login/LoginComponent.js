@@ -30,7 +30,7 @@ const LoginComponent = () => {
     }
   };
   const onFinishFailed = errorInfo => {
-    console.log("Failed:", errorInfo);
+    // console.log("Failed:", errorInfo);
   };
   const onValuesChanged = (changeValues, allValues) => {
     setLoginParam({ ...allValues });

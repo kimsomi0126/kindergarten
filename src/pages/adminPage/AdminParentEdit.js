@@ -51,7 +51,7 @@ const AdminParentEdit = ({ open, handleCancel, iparent, onStateChange }) => {
     setSubTitle("정보가 수정되었습니다.");
     setIsEditOpen(false);
     onStateChange();
-    console.log("ㅠㅠ");
+    // console.log("ㅠㅠ");
   };
 
   const failEditFn = result => {
@@ -69,7 +69,7 @@ const AdminParentEdit = ({ open, handleCancel, iparent, onStateChange }) => {
     getAdminParentInfo({ iparent, successFn, failFn, errorFn });
   }, []);
   const successFn = result => {
-    console.log("성공", result);
+    // console.log("성공", result);
     form.setFieldsValue(result);
   };
   const failFn = result => {

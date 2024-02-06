@@ -28,7 +28,7 @@ const MyProfileComponent = ({ ilevel, myData, ikid, onChildClick }) => {
       errorpatchFn,
       ikid,
     });
-    console.log("아이키드", ikid);
+    // console.log("아이키드", ikid);
   };
   const successpatchFn = res => {
     setIsOpen(true);
@@ -37,7 +37,7 @@ const MyProfileComponent = ({ ilevel, myData, ikid, onChildClick }) => {
     onChildClick();
   };
   const errorpatchFn = res => {
-    console.log(res);
+    // console.log(res);
     setIsOpen(true);
     setTitle("변경 실패");
     setSubTitle("변경을 실패했습니다. 다시 시도해주세요.");

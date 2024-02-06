@@ -25,7 +25,7 @@ const NoticeModify = () => {
   });
 
   const onChange = e => {
-    console.log(`checked = ${e.target.checked}`);
+    // console.log(`checked = ${e.target.checked}`);
     setFullNoticeFix(e.target.checked);
   };
 
@@ -101,21 +101,21 @@ const NoticeModify = () => {
         errorFn: handleError,
       });
     } catch (error) {
-      console.error("수정 에러:", error);
+      // console.error("수정 에러:", error);
     }
   };
 
   const handleSuccess = data => {
     setIsModalVisible(true);
-    console.log("게시글 수정 성공:", data);
+    // console.log("게시글 수정 성공:", data);
   };
 
   const handleFail = error => {
-    console.error("게시글 수정 실패:", error);
+    // console.error("게시글 수정 실패:", error);
   };
 
   const handleError = error => {
-    console.error("게시글 수정 에러:", error);
+    // console.error("게시글 수정 에러:", error);
   };
 
   const handleCancelOk = () => {
@@ -129,7 +129,7 @@ const NoticeModify = () => {
         const result = await getDetail({
           tno,
           successFn: data => {
-            console.log("데이터 가져오기 성공:", data);
+            // console.log("데이터 가져오기 성공:", data);
             setInitialData({
               fullTitle: data.fullTitle,
               fullContents: data.fullContents,

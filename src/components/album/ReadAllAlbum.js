@@ -99,7 +99,7 @@ const ReadAllAlbum = () => {
               }}
               size={"large"}
               allowClear
-              onSearch={value => console.log(value)}
+              // onSearch={value => console.log(value)}
             />
             <GreenBtn onClick={e => navigate("write")}>글쓰기</GreenBtn>
           </UserTopRight>

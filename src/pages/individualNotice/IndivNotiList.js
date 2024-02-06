@@ -51,7 +51,7 @@ const IndivNotiList = () => {
 
   // 페이지네이션
   const handleChange = value => {
-    console.log(value);
+    // console.log(value);
   };
   const handlePageChange = (page, pageSize) => {
     if (isLogin) {
@@ -107,7 +107,7 @@ const IndivNotiList = () => {
     setCount(res.noticeCnt);
   };
   const errorFn = res => {
-    console.log(res);
+    // console.log(res);
 
     setIsOpen(true);
     setTitle("데이터 없음");

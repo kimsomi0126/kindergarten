@@ -19,7 +19,7 @@ export const loginPostAsync = createAsyncThunk(
       });
       return res;
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   },
 );
@@ -35,7 +35,7 @@ export const postParentLoginAsync = createAsyncThunk(
       });
       return res;
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   },
 );
@@ -79,7 +79,7 @@ const loginSlice = createSlice({
         // action : 받아온 값
         // console.log("fulfilled");
         const payload = action.payload;
-        console.log(action);
+        // console.log(action);
         if (payload) {
           //정보 보관
           setCookie("member", JSON.stringify(payload));
@@ -104,7 +104,7 @@ const loginSlice = createSlice({
         // action : 받아온 값
         // console.log("fulfilled");
         const payload = action.payload;
-        console.log(action);
+        // console.log(action);
         if (payload) {
           //정보 보관
           setCookie("member", JSON.stringify(payload));
@@ -121,7 +121,7 @@ const loginSlice = createSlice({
         // 외부 연동 실패
         // state : 기존 값(store 의 loginSate)
         // action : 받아온 값
-        console.log("rejected");
+        // console.log("rejected");
       });
   },
 });

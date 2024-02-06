@@ -56,17 +56,17 @@ const NoticeList = () => {
   }, [current]);
 
   const successFn = result => {
-    console.log("성공", result);
+    // console.log("성공", result);
     setListData(result);
   };
   const failFn = result => {
-    console.log(result);
+    // console.log(result);
   };
   const errorFn = result => {
-    console.log(result);
+    // console.log(result);
   };
 
-  console.log("확인", listData);
+  // console.log("확인", listData);
 
   return (
     <div style={{ marginTop: 60 }}>

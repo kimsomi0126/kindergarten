@@ -15,7 +15,7 @@ const MyAccountComponent = ({ myData, ikid, onChildClick }) => {
   const [iparent, setIparent] = useState(0);
 
   useEffect(() => {
-    console.log(iparent);
+    // console.log(iparent);
   }, [iparent]);
 
   // 모달창 내용
@@ -40,7 +40,7 @@ const MyAccountComponent = ({ myData, ikid, onChildClick }) => {
   // 연결삭제
   const [delOpen, setDelOpen] = useState(false);
   const handleClickDelete = () => {
-    console.log("탈퇴");
+    // console.log("탈퇴");
 
     setDelOpen(true);
     setTitle("정말 삭제할까요?");
@@ -56,7 +56,7 @@ const MyAccountComponent = ({ myData, ikid, onChildClick }) => {
   };
 
   const successDeleteFn = res => {
-    console.log(res);
+    // console.log(res);
     setIsOpen(true);
     setTitle("삭제 완료");
     setSubTitle("삭제가 완료되었습니다.");
@@ -66,7 +66,7 @@ const MyAccountComponent = ({ myData, ikid, onChildClick }) => {
     // doLogout();
   };
   const errorDeleteFn = res => {
-    console.log(res);
+    // console.log(res);
     setIsOpen(true);
     setTitle("삭제 실패");
     setSubTitle(res);

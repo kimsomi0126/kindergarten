@@ -113,7 +113,7 @@ const StudDetailsForm = () => {
       };
       values[`growthMemo${i + 1}`] = result.growths[i]?.growthMemo;
     }
-    console.log("기존정보", values);
+    // console.log("기존정보", values);
     form.setFieldsValue(values);
     setAllDetailData(values);
   };
@@ -228,8 +228,8 @@ const StudDetailsForm = () => {
         sendServerData.push(forthObject);
       }
 
-      console.log(sendServerData);
-      console.log("전체 보낼 데이터 : ", sendServerData);
+      // console.log(sendServerData);
+      // console.log("전체 보낼 데이터 : ", sendServerData);
 
       postStudentDetail({
         allDetailData: sendServerData,
@@ -293,7 +293,7 @@ const StudDetailsForm = () => {
       parseAndPushData(secondObject);
       parseAndPushData(thirdObject);
       parseAndPushData(forthObject);
-      console.log("수정완", sendServerData);
+      // console.log("수정완", sendServerData);
 
       putDetailEdit({
         allDetailData: sendServerData,
@@ -307,7 +307,7 @@ const StudDetailsForm = () => {
     setTitle("수정 완료");
     setSubTitle("성공적으로 수정되었습니다.");
     setIsNavigate(`/admin/student/details?year=${year}&ikid=${ikid}`);
-    console.log(result);
+    // console.log(result);
   };
   const errorEditFn = result => {
     setIsOpen(true);

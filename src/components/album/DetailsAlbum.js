@@ -50,7 +50,7 @@ const DetailsAlbum = ({ pno, isLogin }) => {
     useState(false);
   const navigate = useNavigate();
   // 컴포넌트 마운트 시 데이터 불러오기
-  console.log("pno", pno);
+  // console.log("pno", pno);
   useEffect(() => {
     getAlbum({
       pno: pno,
@@ -80,7 +80,7 @@ const DetailsAlbum = ({ pno, isLogin }) => {
       ialbum: pno,
       successFn: res => {
         // 삭제 성공 시 처리
-        console.log("Album deleted:", res);
+        // console.log("Album deleted:", res);
         setIsDeleteSuccessModalOpen(true); // 삭제 성공 모달 열기
 
         // 2초 후에 성공 모달을 닫고 앨범 목록 페이지로 이동
@@ -180,7 +180,7 @@ const DetailsAlbum = ({ pno, isLogin }) => {
           <DetailsText>
             <p>{albumData.albumContents}</p>
           </DetailsText>
-          <Comment />
+          {/* <Comment /> */}
         </MainContent>
         {/* 삭제 모달 */}
         <Modal

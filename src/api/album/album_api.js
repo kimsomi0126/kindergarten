@@ -22,7 +22,7 @@ export const getAlbum = async ({ pno, successFn, failFn, errorFn }) => {
   } catch (error) {
     const demo = await axios.get(`/`);
     errorFn(demo.data);
-    console.log(error);
+    // console.log(error);
   }
 };
 
@@ -34,7 +34,7 @@ export const getlistAll = async ({ page, successFn, failFn, errorFn }) => {
     const res = await jwtAxios.get(`${path}/listall?page=${page}`);
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
-      console.log("res.data : ", res.data);
+      // console.log("res.data : ", res.data);
       successFn(res.data);
     } else {
       failFn("자료 호출 에러입니다.");
@@ -42,7 +42,7 @@ export const getlistAll = async ({ page, successFn, failFn, errorFn }) => {
   } catch (error) {
     const demo = await axios.get(`/`);
     errorFn(demo.data);
-    console.log(error);
+    // console.log(error);
   }
 };
 
@@ -53,7 +53,7 @@ export const getEditAlbum = async ({ ialbum, successFn, failFn, errorFn }) => {
     const res = await jwtAxios.get(`${path}/edit?ialbum=${ialbum}`);
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
-      console.log("res.data : ", res.data);
+      // console.log("res.data : ", res.data);
       successFn(res.data);
     } else {
       failFn("자료 호출 에러입니다.");
@@ -61,19 +61,19 @@ export const getEditAlbum = async ({ ialbum, successFn, failFn, errorFn }) => {
   } catch (error) {
     const demo = await axios.get(`/`);
     errorFn(demo.data);
-    console.log(error);
+    // console.log(error);
   }
 };
 
 // 수정한 앨범 put 하기.
 export const putAlbum = async ({ product, successFn, failFn, errorFn }) => {
-  console.log("product", product);
+  // console.log("product", product);
   try {
     const header = { headers: { "Content-Type": "multipart/form-data" } };
     const res = await jwtAxios.put(`${path}`, product, header);
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
-      console.log("res.data : ", res.data);
+      // console.log("res.data : ", res.data);
       successFn(res.data);
       return res.data;
     } else {
@@ -91,7 +91,7 @@ export const putAlbum = async ({ product, successFn, failFn, errorFn }) => {
 // 글, 사진 등록(비동기 통신)(커뮤니티 등록)
 export const postAlbum = async ({ product, successFn, failFn, errorFn }) => {
   try {
-    console.log("Add 컴포넌트에서 글 작성한거", product);
+    // console.log("Add 컴포넌트에서 글 작성한거", product);
     const header = { headers: { "Content-Type": "multipart/form-data" } };
     const response = await jwtAxios.post(`${path}`, product, header);
     const status = response.status.toString();
@@ -101,7 +101,7 @@ export const postAlbum = async ({ product, successFn, failFn, errorFn }) => {
       failFn("글 등록 오류", response.statusText);
     }
   } catch (error) {
-    console.log("글 등록 서버오류", error.response.data);
+    // console.log("글 등록 서버오류", error.response.data);
     errorFn("글 등록 서버오류", error.response.data);
   }
 };

@@ -218,7 +218,7 @@ const MyPage = () => {
   // 회원탈퇴
   const [delOpen, setDelOpen] = useState(false);
   const handleClickDelete = () => {
-    console.log("탈퇴");
+    // console.log("탈퇴");
 
     setDelOpen(true);
     setTitle("정말 탈퇴할까요?");
@@ -229,7 +229,7 @@ const MyPage = () => {
   };
 
   const successDelFn = res => {
-    console.log(res);
+    // console.log(res);
     setIsOpen(true);
     setTitle("탈퇴 완료");
     setSubTitle("탈퇴가 완료되었습니다. \n 메인페이지로 이동합니다.");
@@ -237,7 +237,7 @@ const MyPage = () => {
     doLogout();
   };
   const errorDelFn = res => {
-    console.log(res);
+    // console.log(res);
     setIsOpen(true);
     setTitle("탈퇴 실패");
     setSubTitle(res);

@@ -37,6 +37,7 @@ import { postStudentCreate } from "../../../api/adminPage/admin_api";
 import ModalOneBtn from "../../../components/ui/ModalOneBtn";
 import ModalTwoBtn from "../../../components/ui/ModalTwoBtn";
 import { useNavigate } from "react-router";
+import useCustomLogin from "../../../hooks/useCustomLogin";
 
 // dto 초기값
 const initDto = {
@@ -54,7 +55,7 @@ const StudentCreate = () => {
   // 원생 정보 값
   const [dto, setDto] = useState(initDto);
   const currentYear = new Date().getFullYear();
-
+  const { isLogin } = useCustomLogin();
   // 모달창 내용
   const [title, setTitle] = useState("");
   const [subTitle, setSubTitle] = useState("");
@@ -63,6 +64,15 @@ const StudentCreate = () => {
   // 모달창 state
   const [isCancelOpen, setIsCancelOpen] = useState(false);
   const [isResultOpen, setIsResultOpen] = useState(false);
+
+  useEffect(() => {
+    if (!isLogin) {
+      setIsResultOpen(true);
+      setTitle("관리자 전용 페이지");
+      setSubTitle("관리자만 접근 가능합니다.");
+      setIsNavigate(`/login`);
+    }
+  }, [isLogin]);
 
   const handleCancelClick = () => {
     setIsCancelOpen(true);

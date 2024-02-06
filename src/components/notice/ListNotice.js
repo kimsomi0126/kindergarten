@@ -5,6 +5,7 @@ import { getList } from "../../api/notice/notice_api";
 import { PageTitle } from "../../styles/basic";
 import { GreenBtn } from "../../styles/ui/buttons";
 import { putNotice } from "../../api/notice/notice_api";
+import useCustomLogin from "../../hooks/useCustomLogin";
 
 const { Search } = Input;
 
@@ -19,6 +20,8 @@ const NoticeList = () => {
   const [current, setCurrent] = useState(1);
   const [listData, setListData] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
+  // 선생님 로그인 체크
+  const { isLogin } = useCustomLogin();
 
   // 페이지 변경 처리
   const onChange = page => {
@@ -69,7 +72,7 @@ const NoticeList = () => {
   // console.log("확인", listData);
 
   return (
-    <div style={{ marginTop: 60 }}>
+    <div style={{ marginTop: 30 }}>
       <Flex
         gap="small"
         justify="space-between"
@@ -90,24 +93,27 @@ const NoticeList = () => {
               marginRight: 20,
             }}
           />
-          <Link to="/notice/write/">
-            <GreenBtn
-              type="primary"
-              size={size}
-              style={{
-                background: "#D3ECC8",
-                borderColor: "#D3ECC8",
-                padding: "15px 30px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                borderRadius: "1rem",
-                color: "#00876D",
-              }}
-            >
-              글쓰기
-            </GreenBtn>
-          </Link>
+
+          {isLogin ? (
+            <Link to="/notice/write/">
+              <GreenBtn
+                type="primary"
+                size={size}
+                style={{
+                  background: "#D3ECC8",
+                  borderColor: "#D3ECC8",
+                  padding: "15px 30px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderRadius: "1rem",
+                  color: "#00876D",
+                }}
+              >
+                글쓰기
+              </GreenBtn>
+            </Link>
+          ) : null}
         </Flex>
       </Flex>
 

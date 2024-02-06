@@ -1,13 +1,8 @@
-import { Flex, Input, List, Modal, Pagination } from "antd";
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom"; // useNavigate 추가
-import { getList } from "../../api/notice/notice_api";
-import { PageTitle } from "../../styles/basic";
-import { GreenBtn } from "../../styles/ui/buttons";
-import { putNotice } from "../../api/notice/notice_api";
+import { useNavigate } from "react-router-dom"; // useNavigate 추가
 import ListNotice from "../../components/notice/ListNotice";
-import useCustomLogin from "../../hooks/useCustomLogin";
 import ModalOneBtn from "../../components/ui/ModalOneBtn";
+import useCustomLogin from "../../hooks/useCustomLogin";
 
 const NoticeList = () => {
   const navigate = useNavigate();

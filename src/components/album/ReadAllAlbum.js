@@ -14,6 +14,7 @@ import {
 import { PageTitle } from "../../styles/basic";
 import { GreenBtn } from "../../styles/ui/buttons";
 import { IMG_URL } from "../../api/config";
+import useCustomLogin from "../../hooks/useCustomLogin";
 const path = `${IMG_URL}/pic/album`;
 const ReadAllAlbum = () => {
   const [items, setItems] = useState([]);
@@ -23,6 +24,8 @@ const ReadAllAlbum = () => {
   const [page, setPage] = useState(1);
   const loaderRef = useRef(null);
   const navigate = useNavigate();
+
+  const { isLogin } = useCustomLogin();
 
   const loadImages = useCallback(async () => {
     // 로딩 중이거나 모든 데이터가 로드되었다면 함수를 종료합니다.
@@ -101,7 +104,9 @@ const ReadAllAlbum = () => {
               allowClear
               // onSearch={value => console.log(value)}
             />
-            <GreenBtn onClick={e => navigate("write")}>글쓰기</GreenBtn>
+            {isLogin ? (
+              <GreenBtn onClick={e => navigate("write")}>글쓰기</GreenBtn>
+            ) : null}
           </UserTopRight>
         </SearchBar>
       </AlbumTopBar>

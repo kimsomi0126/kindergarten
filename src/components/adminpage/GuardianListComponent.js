@@ -126,11 +126,12 @@ const GuardianListComponent = ({
                     <p>{item.parentNm}</p>
                   </UserInfo>
                   <div style={{ display: "flex", gap: 10 }}>
-                    {Array.isArray(item.kids) &&
-                      item.kids.map((kidsitem, index) => (
-                        <div key={`${item.iparent}_${index}`}>
-                          <ChildInfo>
-                            <p>
+                    <div>
+                      <ChildInfo>
+                        {!item.kids ? <p>연결된 아이가 없습니다.</p> : null}
+                        {Array.isArray(item.kids) &&
+                          item.kids.map((kidsitem, index) => (
+                            <p key={`${item.iparent}_${index}`}>
                               {kidsitem.iclass === 1
                                 ? "무궁화반"
                                 : kidsitem.iclass === 2
@@ -140,10 +141,11 @@ const GuardianListComponent = ({
                                 : ""}{" "}
                               {kidsitem.kidNm}
                             </p>
-                          </ChildInfo>
-                        </div>
-                      ))}
+                          ))}
+                      </ChildInfo>
+                    </div>
                   </div>
+
                   <em>{item.phoneNb}</em>
                   <GrayBtn
                     onClick={() => {

@@ -154,7 +154,7 @@ const StudModify = () => {
 
   // get 결과
   const successGetFn = res => {
-    console.log(res);
+    // console.log(res);
     const newData = Object.keys(res).reduce((acc, key) => {
       if (key !== "profile") {
         acc[key] = res[key];
@@ -181,7 +181,7 @@ const StudModify = () => {
       }
     };
     const parsedAddress = parseAddress(res.address);
-    console.log("test", parsedAddress); // 결과 출력
+    // console.log("test", parsedAddress); // 결과 출력
 
     const values = {
       ...newData,
@@ -231,10 +231,10 @@ const StudModify = () => {
   };
 
   const failGetFn = res => {
-    console.log(res);
+    // console.log(res);
   };
   const errorGetFn = res => {
-    console.log(res);
+    // console.log(res);
   };
 
   // 프로필 업로드

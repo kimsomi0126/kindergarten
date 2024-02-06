@@ -60,10 +60,10 @@ const InfoClass = () => {
     setKidData([...res]);
   };
   const failFn = res => {
-    console.log(res);
+    // console.log(res);
   };
   const errorFn = res => {
-    console.log(res);
+    // console.log(res);
   };
   // 모달창 확인버튼
   const handleOk = () => {

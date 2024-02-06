@@ -19,7 +19,7 @@ export const getAdminParentList = async ({
     );
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
-      console.log("res.data임 : ", res.data);
+      // console.log("res.data임 : ", res.data);
       successFn(res.data);
     } else {
       failFn("자료 호출 에러입니다.");
@@ -27,7 +27,7 @@ export const getAdminParentList = async ({
   } catch (error) {
     const demo = await axios.get(`/guardian.json`);
     errorFn(demo.data);
-    console.log(error);
+    // console.log(error);
   }
 };
 
@@ -89,7 +89,7 @@ export const deleteParentList = async ({ successFn, failFn, errorFn, obj }) => {
     }
   } catch (error) {
     errorFn("서버가 불안정합니다.다시 시도해주세요.");
-    console.log(error);
+    // console.log(error);
   }
 };
 

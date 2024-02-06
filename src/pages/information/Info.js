@@ -33,10 +33,10 @@ const Info = () => {
     SetTeacherData([...res]);
   };
   const failFn = res => {
-    console.log(res);
+    // console.log(res);
   };
   const errorFn = res => {
-    console.log(res);
+    // console.log(res);
   };
   return (
     <InfoWrap>

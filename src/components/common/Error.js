@@ -6,8 +6,8 @@ const Error = () => {
   const [search, setSearch] = useSearchParams();
   const name = search.get("name");
   const message = search.get("message");
-  console.log(name);
-  console.log(message);
+  // console.log(name);
+  // console.log(message);
   return (
     <ErrorWrap>
       <ErrorTop>

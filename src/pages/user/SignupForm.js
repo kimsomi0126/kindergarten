@@ -106,7 +106,7 @@ const SignupForm = () => {
   };
   const handleClickIdCheck = () => {
     const uid = registerData.uid;
-    console.log(">>>", uid);
+    // console.log(">>>", uid);
     if (!uid) {
       alert("아이디를 입력해주세요");
     } else {

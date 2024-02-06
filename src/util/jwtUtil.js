@@ -33,7 +33,7 @@ const beforeReq = config => {
 
 // fail Request 요청보내서 실패했을 때
 const requestFail = err => {
-  console.log("요청후 실패시 .... ", err);
+  // console.log("요청후 실패시 .... ", err);
   return Promise.reject(err);
 };
 
@@ -45,9 +45,9 @@ export const refreshJWT = async (accessToken, refreshToken) => {
   // API 백엔드 Refresh 해줄 주소(URI)를 요청
   const res = await axios.get(`${host}/api/parent/refresh-token`, header);
 
-  console.log("1. refreshToken 토큰 요청");
+  // console.log("1. refreshToken 토큰 요청");
   // 새로 만든 AccessToken 과 RefereshToken 리턴
-  console.log("2. 백엔드에서 새로 준 값", res.data);
+  // console.log("2. 백엔드에서 새로 준 값", res.data);
   return res.data;
 };
 
@@ -71,7 +71,7 @@ const beforeRes = async res => {
       memberInfo.accessToken,
       memberInfo.refreshToken,
     );
-    console.log("8. 요청 이후 되돌아와서 새로운 정보로 쿠키를 업데이트 ");
+    // console.log("8. 요청 이후 되돌아와서 새로운 정보로 쿠키를 업데이트 ");
     (memberInfo.accessToken = result.accessToken),
       (memberInfo.refreshToken = result.refreshToken),
       setCookie("member", JSON.stringify(memberInfo));
@@ -88,7 +88,7 @@ const beforeRes = async res => {
 };
 // Response Fail 처리
 const responseFail = err => {
-  console.log("Response Fail Err", err);
+  // console.log("Response Fail Err", err);
   return Promise.reject(err);
 };
 

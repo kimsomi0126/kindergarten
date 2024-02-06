@@ -9,10 +9,10 @@ const showConfirm = () => {
     icon: <ExclamationCircleFilled />,
     content: "수정된 정보는 다시 되돌릴 수 없습니다.",
     onOk() {
-      console.log("OK");
+      // console.log("OK");
     },
     onCancel() {
-      console.log("Cancel");
+      // console.log("Cancel");
     },
     maskClosable: true,
     // maskClosable
@@ -42,10 +42,10 @@ const showModifyConfirm = () => {
     okType: "danger",
     cancelText: "취소",
     onOk() {
-      console.log("OK");
+      // console.log("OK");
     },
     onCancel() {
-      console.log("Cancel");
+      // console.log("Cancel");
     },
     maskClosable: true,
   });
@@ -85,10 +85,10 @@ export const DeleteModal = () => {
       cancelText: "취소",
       maskClosable: true,
       onOk() {
-        console.log("OK");
+        // console.log("OK");
       },
       onCancel() {
-        console.log("Cancel");
+        // console.log("Cancel");
       },
     });
   };
@@ -110,10 +110,10 @@ export const OkModal = () => {
       cancelText: "취소",
       maskClosable: true,
       onOk() {
-        console.log("OK");
+        // console.log("OK");
       },
       onCancel() {
-        console.log("Cancel");
+        // console.log("Cancel");
       },
     });
   };

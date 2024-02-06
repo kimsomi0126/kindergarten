@@ -44,7 +44,7 @@ const GuardianListComponent = ({
 
   // 페이지네이션
   const handleChangePage = page => {
-    console.log(page);
+    // console.log(page);
     navigate(`/admin?page=${page}&iclass=${iclass}`);
   };
 
@@ -59,7 +59,7 @@ const GuardianListComponent = ({
     onChildClick();
   };
 
-  console.log("중간체크 ", editState);
+  // console.log("중간체크 ", editState);
   const onAdminParentEditClick = () => {
     setIsEditOpen(true);
     setEditKey(prevKey => prevKey + 1);

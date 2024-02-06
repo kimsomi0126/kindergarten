@@ -26,7 +26,7 @@ const NoticeWrite = () => {
   };
 
   const onChange = e => {
-    console.log(`checked = ${e.target.checked}`);
+    // console.log(`checked = ${e.target.checked}`);
     setFullNoticeFix(e.target.checked);
   };
 
@@ -63,8 +63,8 @@ const NoticeWrite = () => {
   };
 
   const onFinish = async data => {
-    console.log("fileList", fileList);
-    console.log("fullNoticeFix", fullNoticeFix); // 확인용 로그
+    // console.log("fileList", fileList);
+    // console.log("fullNoticeFix", fullNoticeFix); // 확인용 로그
 
     const formData = new FormData();
 

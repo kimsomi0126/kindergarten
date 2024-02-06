@@ -48,7 +48,7 @@ const ModifyAlbum = () => {
   // URL에서 파일을 생성하고 fileList 상태를 업데이트하는 함수
   const imageUrlToFile = async imageUrl => {
     try {
-      console.log("imageUrl", imageUrl);
+      // console.log("imageUrl", imageUrl);
       const fileName = imageUrl.substring(imageUrl.lastIndexOf("/") + 1);
       const response = await fetch(imageUrl, { mode: "no-cors" });
       const blob = await response.blob();
@@ -62,7 +62,7 @@ const ModifyAlbum = () => {
   };
   const handleSuccess = response => {
     setIsModalVisible(true);
-    console.log("수정이 성공적으로 완료되었습니다.", response);
+    // console.log("수정이 성공적으로 완료되었습니다.", response);
     // 성공적으로 업로드 완료 후 처리할 작업을 추가할 수 있습니다.
     // 예를 들어, 수정된 앨범의 상세 페이지로 리디렉션할 수 있습니다.
     navigate(`/album/details/${pno}`);
@@ -97,7 +97,7 @@ const ModifyAlbum = () => {
       title: "정말 취소하시겠습니까?",
       content: "수정 내용이 저장되지 않습니다.",
       onOk: () => {
-        console.log("취소가 확인되었습니다.");
+        // console.log("취소가 확인되었습니다.");
         navigate("/album"); // 사용자를 앨범 목록 페이지로 이동
       },
       okText: "확인",
@@ -143,7 +143,7 @@ const ModifyAlbum = () => {
       });
 
       // 응답 처리
-      console.log("Response from putAlbum:", response);
+      // console.log("Response from putAlbum:", response);
     } catch (error) {
       handleError(error.message);
     }

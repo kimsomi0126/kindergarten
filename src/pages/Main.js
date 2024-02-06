@@ -43,10 +43,10 @@ const Main = () => {
     setMainData(result);
   };
   const failFn = result => {
-    console.log(result);
+    // console.log(result);
   };
   const errorFn = result => {
-    console.log(result);
+    // console.log(result);
   };
   return (
     <MainInner>

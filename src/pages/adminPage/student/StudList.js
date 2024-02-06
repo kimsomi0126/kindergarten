@@ -98,7 +98,7 @@ const StudList = () => {
   const oncheckedClick = item => {
     setCheckedItems(item);
   };
-  console.log("체크", checkedItems);
+  // console.log("체크", checkedItems);
 
   // 반 변경 모달창
 
@@ -109,7 +109,7 @@ const StudList = () => {
 
   const handleClassClick = () => {
     if (checkedItems.length === 0) {
-      console.log("변경할 대상이 없습니다");
+      // console.log("변경할 대상이 없습니다");
       setIsOpen(true);
       setTitle("변경할 대상이 없습니다.");
       setSubTitle("변경할 원생을 선택해주세요.");
@@ -121,11 +121,11 @@ const StudList = () => {
   };
   const handleChangeClick = () => {
     if (checkedItems.length === 0) {
-      console.log("변경할 대상이 없습니다");
+      // console.log("변경할 대상이 없습니다");
       setIsOpen(true);
       setTitle("변경할 대상이 없습니다.");
     } else {
-      console.log("재원상태 변경");
+      // console.log("재원상태 변경");
       setChangeOpen(true);
       setTitle("재원 상태 수정");
       setSubTitle("재원 상태를 선택해주세요.");
@@ -154,7 +154,7 @@ const StudList = () => {
     setCheckedItems([]);
   };
   const errorpatchFn = res => {
-    console.log(res);
+    // console.log(res);
     setIsOpen(true);
     setTitle("변경 실패");
     setSubTitle("변경을 실패했습니다. 다시 시도해주세요.");
@@ -190,14 +190,14 @@ const StudList = () => {
       ikids: [...checkedItems],
       kidCheck: changeState,
     };
-    console.log("오비제이", obj);
+    // console.log("오비제이", obj);
     patchClass({
       successpatchFn,
       errorpatchFn,
       obj,
     });
   };
-  console.log(changeState);
+  // console.log(changeState);
   return (
     <>
       <StudentTop>

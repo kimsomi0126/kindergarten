@@ -59,7 +59,7 @@ const useCustomLogin = () => {
 
   // 로그인 페이지로 이동
   const moveToLogin = () => {
-    console.log("페이지 이동");
+    // console.log("페이지 이동");
     return <Navigate replace to="/login" />;
   };
 

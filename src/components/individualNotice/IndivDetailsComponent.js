@@ -66,7 +66,7 @@ const IndivDetailsComponent = ({ pno }) => {
   const [myData, setMyData] = useState(null);
 
   // 컴포넌트 마운트 시 데이터 불러오기
-  console.log("pno", pno);
+  // console.log("pno", pno);
   // 데이터 화면출력, 로그인체크
   useEffect(() => {
     if (isParentLogin) {
@@ -98,7 +98,7 @@ const IndivDetailsComponent = ({ pno }) => {
   };
   // 데이터연동 실패
   const failFn = result => {
-    console.log(result);
+    // console.log(result);
   };
   // 데이터연동 실패
   const errorFn = result => {
@@ -112,16 +112,14 @@ const IndivDetailsComponent = ({ pno }) => {
   };
 
   const handleDeleteOk = () => {
-    console.log("delete");
+    // console.log("delete");
     //   setIsDeleteModalOpen(false); // 삭제 확인 모달 닫기
-
     //   deleteAlbum({
     //     ialbum: pno,
     //     successFn: res => {
     //       // 삭제 성공 시 처리
     //       console.log("Album deleted:", res);
     //       setIsDeleteSuccessModalOpen(true); // 삭제 성공 모달 열기
-
     //       // 2초 후에 성공 모달을 닫고 앨범 목록 페이지로 이동
     //       setTimeout(() => {
     //         setIsDeleteSuccessModalOpen(false);
@@ -154,7 +152,7 @@ const IndivDetailsComponent = ({ pno }) => {
     setIsDeleteSuccessModalOpen(false);
   };
 
-  console.log("albumData", albumData);
+  // console.log("albumData", albumData);
   return (
     <AlbumWrap paddingTop={40}>
       <AlbumTopBar padding={1}>
@@ -169,7 +167,7 @@ const IndivDetailsComponent = ({ pno }) => {
           <DetailsText>
             <p>{albumData.albumContents}</p>
           </DetailsText>
-          <Comment />
+          {/* <Comment /> */}
         </MainContent>
         {/* 삭제 모달 */}
         <Modal

@@ -78,7 +78,7 @@ const GuardianList = () => {
   const oncheckedClick = item => {
     setCheckedItems(item);
   };
-  console.log("체크", checkedItems);
+  // console.log("체크", checkedItems);
   const [delOpen, setDelOpen] = useState(false);
 
   const handleDeleteClick = () => {
@@ -87,7 +87,7 @@ const GuardianList = () => {
       setTitle("삭제할 대상이 없습니다.");
       setSubTitle("삭제할 학부모 계정을 선택해주세요.");
     } else {
-      console.log("학부모 정보 삭제");
+      // console.log("학부모 정보 삭제");
       setDelOpen(true);
       setTitle("정말 삭제할까요?");
       setSubTitle("학부모 정보가 삭제됩니다. 정말 삭제할까요?");
@@ -98,7 +98,7 @@ const GuardianList = () => {
     const obj = {
       iparents: [...checkedItems],
     };
-    console.log("오비제이", obj);
+    // console.log("오비제이", obj);
     deleteParentList({
       successFn,
       errorFn,
@@ -113,7 +113,7 @@ const GuardianList = () => {
     setCheckedItems([]);
   };
   const errorFn = res => {
-    console.log(res);
+    // console.log(res);
     setIsOpen(true);
     setTitle("삭제 실패");
     setSubTitle(res);

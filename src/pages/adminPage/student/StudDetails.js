@@ -119,7 +119,7 @@ const StudDetails = () => {
   };
   // 데이터연동 실패
   const failFn = result => {
-    console.log(result);
+    // console.log(result);
   };
   // 데이터연동 실패
   const errorFn = result => {
@@ -138,7 +138,7 @@ const StudDetails = () => {
   const [componentSize, setComponentSize] = useState("default");
   const onFormLayoutChange = ({ size }) => {
     setComponentSize(size);
-    console.log(componentSize);
+    // console.log(componentSize);
   };
 
   return (

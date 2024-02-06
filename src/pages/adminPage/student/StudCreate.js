@@ -189,7 +189,7 @@ const StudentCreate = () => {
 
   // 등록 버튼 클릭, 결과
   const onFinish = value => {
-    console.log("data", value);
+    // console.log("data", value);
 
     let formData = new FormData();
     formData.append("pic", fileList[0]);

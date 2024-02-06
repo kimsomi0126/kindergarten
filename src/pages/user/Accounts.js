@@ -28,7 +28,7 @@ const Accounts = () => {
     setCode(values.code);
   };
   const onFinishFailed = errorInfo => {
-    console.log("Failed:", errorInfo);
+    // console.log("Failed:", errorInfo);
   };
   const successFn = res => {
     navigate("/user/signup", { state: { res } });

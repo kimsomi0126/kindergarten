@@ -207,7 +207,6 @@ export const Footer = styled.div`
   width: 100%;
   height: 100%;
   margin-top: 1.8rem;
-  margin-bottom: 9rem;
   position: relative;
   z-index: 10;
 

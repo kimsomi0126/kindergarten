@@ -194,14 +194,14 @@ const IndivDetailsComponent = ({ pno }) => {
           <p>삭제가 완료되었습니다.</p>
         </Modal>
         <Footer>
-          <Link to="/album">
+          <Link to="/ind?year=2024&page=1&iclass=0">
             <GreenBtn>목록보기</GreenBtn>
           </Link>
           {isLogin ? (
             <>
-              <Link to={`${host}/modify/${pno}`}>
+              {/* <Link to={`${host}/modify/${pno}`}>
                 <BlueBtn>수정</BlueBtn>
-              </Link>
+              </Link> */}
               <PinkBtn onClick={showDeleteModal}>삭제</PinkBtn>
             </>
           ) : null}

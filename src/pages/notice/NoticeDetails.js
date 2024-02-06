@@ -25,7 +25,7 @@ export const obj = {
   },
 };
 
-const NoticeDetails = () => {
+const NoticeDetails = ({ isLogin }) => {
   const params = useSearchParams();
   const slideInterval = 1700;
 
@@ -159,21 +159,25 @@ const NoticeDetails = () => {
               <GreenBtn>목록보기</GreenBtn>
             </Link>
           </div>
-          <div style={{ marginRight: 10 }}>
-            <Link
-              to={{
-                pathname: `/notice/modify/${tno}`,
-                state: {
-                  detailData: detailData,
-                },
-              }}
-            >
-              <BlueBtn>수정</BlueBtn>
-            </Link>
-          </div>
-          <div>
-            <PinkBtn onClick={showDeleteModal}>삭제</PinkBtn>
-          </div>
+          {isLogin ? (
+            <>
+              <div style={{ marginRight: 10 }}>
+                <Link
+                  to={{
+                    pathname: `/notice/modify/${tno}`,
+                    state: {
+                      detailData: detailData,
+                    },
+                  }}
+                >
+                  <BlueBtn>수정</BlueBtn>
+                </Link>
+              </div>
+              <div>
+                <PinkBtn onClick={showDeleteModal}>삭제</PinkBtn>
+              </div>
+            </>
+          ) : null}
         </div>
       </div>
 

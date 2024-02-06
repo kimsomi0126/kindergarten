@@ -208,10 +208,14 @@ const DetailsAlbum = ({ pno, isLogin }) => {
           <Link to="/album">
             <GreenBtn>목록보기</GreenBtn>
           </Link>
-          <Link to={`${host}/modify/${pno}`}>
-            <BlueBtn>수정</BlueBtn>
-          </Link>
-          <PinkBtn onClick={showDeleteModal}>삭제</PinkBtn>
+          {isLogin ? (
+            <>
+              {/* <Link to={`${host}/modify/${pno}`}>
+                <BlueBtn>수정</BlueBtn>
+              </Link> */}
+              <PinkBtn onClick={showDeleteModal}>삭제</PinkBtn>
+            </>
+          ) : null}
         </Footer>
       </ContentWrap>
     </AlbumWrap>

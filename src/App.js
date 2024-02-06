@@ -395,7 +395,7 @@ function App() {
               }
             />
             <Route
-              path="modify:tno"
+              path="modify/:tno"
               element={
                 <Suspense fallback={<Loading />}>
                   <IndivNotiModify />

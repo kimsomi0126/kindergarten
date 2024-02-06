@@ -1,16 +1,13 @@
-import { Button, Dropdown, Pagination, Select } from "antd";
+import { Pagination, Select } from "antd";
 import React, { useEffect, useState } from "react";
 import { PageNum } from "../../styles/adminstyle/guardianlist";
 import { PageTitle } from "../../styles/basic";
-import GuardianListComponent from "../../components/adminpage/GuardianListComponent";
 import { IndWrap } from "../../styles/individualNotice/ind";
 import { FlexBox, TitleWrap } from "../../styles/user/mypage";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import useCustomLogin from "../../hooks/useCustomLogin";
-import { DownOutlined } from "@ant-design/icons";
 import IndListComponent from "../../components/individualNotice/IndListComponent";
 import {
-  getIndList,
   getIndParentList,
   getIndTeacherList,
 } from "../../api/individualNotice/indivNoticeApi";
@@ -97,7 +94,7 @@ const IndivNotiList = () => {
       setIsOpen(true);
       setTitle("회원 전용 페이지");
       setSubTitle("로그인 회원만 접근 가능합니다.");
-      setIsNavigate(-1);
+      setIsNavigate("/login");
     }
   }, [year, ikid, iclass, page]);
 
@@ -146,7 +143,13 @@ const IndivNotiList = () => {
           )}
         </FlexBox>
       </TitleWrap>
-      <IndListComponent listData={indList} />
+      <IndListComponent
+        listData={indList}
+        year={year}
+        ikid={ikid}
+        iclass={iclass}
+        page={page}
+      />
       <PageNum>
         <Pagination
           defaultCurrent={1}

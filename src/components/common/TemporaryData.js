@@ -6,7 +6,7 @@ export const commentList = [
 
 export const VisualPopImage = [
   "/images/main/main_pop.jpg",
-  "/images/main/main_pop.jpg",
+  "/images/main/main_pop2.jpg",
 ];
 
 export const VisualImage = [

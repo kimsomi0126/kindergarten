@@ -59,6 +59,7 @@ export const UserListBox = styled.div`
 export const UserInfo = styled.div`
   display: flex;
   gap: 1rem;
+
   span {
     color: ${colors.greenDeep};
     font-size: 1.5rem;

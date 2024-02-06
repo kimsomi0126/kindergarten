@@ -61,7 +61,7 @@ const Main = () => {
           {/* 팝업존 */}
           <MainPopComponent />
           {/* 오시는길 */}
-          <MainLocation>
+          <MainLocation to="/info/location">
             <Outlet />
           </MainLocation>
         </MainFlexWrap>

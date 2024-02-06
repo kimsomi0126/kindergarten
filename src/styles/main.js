@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import { colors, ellipsis, shadow } from "./basic";
+import { Link } from "react-router-dom";
 
 export const MainInner = styled.div`
   height: 100%;
@@ -233,7 +234,7 @@ export const MainPopSlide = styled.div`
 `;
 
 // 메인 오시는길
-export const MainLocation = styled.div`
+export const MainLocation = styled(Link)`
   width: calc(100% - 34%);
   border-radius: 2rem;
   overflow: hidden;

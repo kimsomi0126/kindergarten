@@ -211,9 +211,9 @@ const DetailsAlbum = ({ pno, isLogin }) => {
 
           {isLogin ? (
             <>
-              <Link to={`${host}/modify/${pno}`}>
+              {/* <Link to={`${host}/modify/${pno}`}>
                 <BlueBtn>수정</BlueBtn>
-              </Link>
+              </Link> */}
               <PinkBtn onClick={showDeleteModal}>삭제</PinkBtn>
             </>
           ) : null}

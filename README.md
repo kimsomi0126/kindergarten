@@ -39,7 +39,8 @@
     <div style="text-align: left;">
     <h2 style="border-bottom: 1px solid #d8dee4; color: #282d33;"> 💻 시연 영상 </h2> <br> 
     <div style="margin: 0; text-align: center;">
-    <a href="https://www.youtube.com/watch?v=sox6EovMV6k" terget="_blank">    
-<img src="https://private-user-images.githubusercontent.com/148413962/293304779-2132e1d1-8646-4339-895b-7b267180e6e5.gif?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MDM4MjA1ODEsIm5iZiI6MTcwMzgyMDI4MSwicGF0aCI6Ii8xNDg0MTM5NjIvMjkzMzA0Nzc5LTIxMzJlMWQxLTg2NDYtNDMzOS04OTViLTdiMjY3MTgwZTZlNS5naWY_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjMxMjI5JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDIzMTIyOVQwMzI0NDFaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT00NThjMjA2N2Y2OGQ0Yzk0OWI0NDM5OWVjNGI2ZTUyZTA1NjZkMzJhNzIxYzBmNzQ3ZDRiOTU0MTIxN2IzZmQxJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCZhY3Rvcl9pZD0wJmtleV9pZD0wJnJlcG9faWQ9MCJ9.xVrKwMJJTphrgplHc687bqmELTGCwdlWSagfqzNLtFo" alt="떡잎유치원 미리보기" style="width:100%; max-width:500px;"></a>
+    <a href="https://www.youtube.com/watch?v=SdolCKqjZKw" terget="_blank">    
+<!-- <img src="https://private-user-images.githubusercontent.com/148413962/293304779-2132e1d1-8646-4339-895b-7b267180e6e5.gif?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MDM4MjA1ODEsIm5iZiI6MTcwMzgyMDI4MSwicGF0aCI6Ii8xNDg0MTM5NjIvMjkzMzA0Nzc5LTIxMzJlMWQxLTg2NDYtNDMzOS04OTViLTdiMjY3MTgwZTZlNS5naWY_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjMxMjI5JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDIzMTIyOVQwMzI0NDFaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT00NThjMjA2N2Y2OGQ0Yzk0OWI0NDM5OWVjNGI2ZTUyZTA1NjZkMzJhNzIxYzBmNzQ3ZDRiOTU0MTIxN2IzZmQxJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCZhY3Rvcl9pZD0wJmtleV9pZD0wJnJlcG9faWQ9MCJ9.xVrKwMJJTphrgplHc687bqmELTGCwdlWSagfqzNLtFo" alt="떡잎유치원 미리보기" style="width:100%; max-width:500px;"> -->
+시연영상 바로가기</a>
           </div>
     </div>

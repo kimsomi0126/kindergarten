@@ -8,31 +8,35 @@ import { GreenBtn, PinkBtn } from "../../styles/ui/buttons";
 
 import { postNotice } from "../../api/notice/notice_api";
 import { SERVER_URL } from "../../api/config";
+import ModalOneBtn from "../../components/ui/ModalOneBtn";
 const path = `${SERVER_URL}/api/full`;
-
-// 서버로 보낼 데이터 구성
 
 const NoticeWrite = () => {
   const [form] = Form.useForm();
   const [fileList, setFileList] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [fullNoticeFix, setFullNoticeFix] = useState(false); // 새로운 상태 추가
+  const [isOpen, setIsOpen] = useState(false); // 추가: 경고 모달 상태
+  const [fullNoticeFix, setFullNoticeFix] = useState(false);
   const navigate = useNavigate();
-
-  const formRef = useRef(); // Form 컴포넌트에 대한 ref 생성
+  const formRef = useRef();
 
   const handleGreenButtonClick = () => {
-    formRef.current.submit(); // Form의 submit 메서드 호출
+    formRef.current.submit();
   };
 
   const onChange = e => {
-    // console.log(`checked = ${e.target.checked}`);
     setFullNoticeFix(e.target.checked);
   };
 
   const handleChange = info => {
     let fileList = [...info.fileList].filter(file => !!file.status);
     setFileList(fileList);
+    // 파일 개수 확인 후 경고 모달 열기
+    if (fileList.length > 10) {
+      setIsOpen(true);
+    } else {
+      setIsOpen(false);
+    }
   };
 
   const customRequest = ({ onSuccess }) => {
@@ -63,12 +67,15 @@ const NoticeWrite = () => {
   };
 
   const onFinish = async data => {
-    // console.log("fileList", fileList);
-    // console.log("fullNoticeFix", fullNoticeFix); // 확인용 로그
+    if (fileList.length > 10) {
+      Modal.error({
+        title: "이미지 업로드 제한",
+        content: "이미지는 최대 10개까지 업로드할 수 있습니다.",
+      });
+      return;
+    }
 
     const formData = new FormData();
-
-    // 글 정보를 담은 dto Blob객체 생성
     const dto = new Blob(
       [
         JSON.stringify({
@@ -78,20 +85,15 @@ const NoticeWrite = () => {
           fullNoticeFix: fullNoticeFix ? 1 : 0,
         }),
       ],
-      // JSON 형식으로 설정
       { type: "application/json" },
     );
 
-    // dto 객체를 FormData에 추가
     formData.append("dto", dto);
 
-    // fileList에 있는 각 파일을 formData에 추가
     fileList.forEach(file => {
-      // originFileObj가 실제 파일 데이터를 가지고 있음
       formData.append("pics", file.originFileObj);
     });
 
-    // formData를 서버에 전송
     postNotice({
       product: formData,
       successFn: handleSuccess,
@@ -101,21 +103,15 @@ const NoticeWrite = () => {
   };
 
   const handleCancelOk = () => {
-    // 여기에 삭제 처리 로직을 추가할 수 있습니다.
-
-    // 예시: 삭제 처리 후 /notice 페이지로 이동
     navigate("/notice");
-
     setIsModalVisible(false);
   };
 
   const handleSuccess = response => {
     setIsModalVisible(true);
-    // 성공적으로 업로드 완료 후 처리할 작업을 추가할 수 있습니다.
   };
 
   const handleFail = errorMessage => {
-    // 업로드 실패 시 처리할 작업을 추가할 수 있습니다.
     Modal.error({
       title: "유치원소식 업로드 실패",
       content: errorMessage,
@@ -185,10 +181,10 @@ const NoticeWrite = () => {
               onChange={handleChange}
               customRequest={customRequest}
               className="upload-list-inline"
-              // maxCount={3}
+              maxCount={10}
               multiple={true}
             >
-              <Button icon={<UploadOutlined />}>업로드</Button>
+              <Button icon={<UploadOutlined />}>업로드(최대 10개)</Button>
             </Upload.Dragger>
           </FileListStyle>
         </Form>
@@ -210,19 +206,12 @@ const NoticeWrite = () => {
         </div>
       </div>
 
-      <Link to="/notice">
-        <Modal
-          title="등록 완료"
-          open={isModalVisible}
-          onOk={handleOk}
-          onCancel={handleCancel}
-          okText="확인"
-          cancelButtonProps={{ style: { display: "none" } }}
-          width={350}
-        >
-          <p>성공적으로 등록되었습니다.</p>
-        </Modal>
-      </Link>
+      <ModalOneBtn
+        isOpen={isOpen}
+        handleOk={() => setIsOpen(false)} // 모달 닫기
+        title="이미지 업로드 제한"
+        subTitle="이미지는 최대 10개까지 업로드할 수 있습니다."
+      />
     </div>
   );
 };

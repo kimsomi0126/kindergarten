@@ -68,9 +68,10 @@ const DetailsNotice = ({ isLogin }) => {
   const successFn = result => {
     setDetailData(result);
     const pics = result.pics;
+    // console.log("사진 경로", pics);
     const newImages = pics.map((pic, index) => ({
-      original: `${path}/${tno}/` + pic,
-      thumbnail: `${path}/${tno}/` + pic,
+      original: `${path}/${tno}/` + pic.pic,
+      thumbnail: `${path}/${tno}/` + pic.pic,
     }));
 
     setDetailImage(prevDetailImage => [...prevDetailImage, ...newImages]);
@@ -162,7 +163,7 @@ const DetailsNotice = ({ isLogin }) => {
           {isLogin ? (
             <>
               <div style={{ marginRight: 10 }}>
-                {/* <Link
+                <Link
                   to={{
                     pathname: `/notice/modify/${tno}`,
                     state: {
@@ -171,7 +172,7 @@ const DetailsNotice = ({ isLogin }) => {
                   }}
                 >
                   <BlueBtn>수정</BlueBtn>
-                </Link> */}
+                </Link>
               </div>
 
               <div>

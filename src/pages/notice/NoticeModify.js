@@ -129,13 +129,13 @@ const NoticeModify = () => {
         const result = await getDetail({
           tno,
           successFn: data => {
-            // console.log("데이터 가져오기 성공:", data);
-            setInitialData({
+            setInitialData(prevData => ({
+              ...prevData,
               fullTitle: data.fullTitle,
               fullContents: data.fullContents,
-              pics: data.pics,
+              pics: data.pics, // 사진 데이터 설정
               fullNoticeFix: data.fullNoticeFix,
-            });
+            }));
             form.setFieldsValue({
               fullTitle: data.fullTitle,
               fullContents: data.fullContents,

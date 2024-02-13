@@ -28,6 +28,8 @@ import { deleteAlbum, getAlbum } from "../../api/album/album_api";
 import Loading from "../loading/Loading";
 import { IMG_URL, SERVER_URL } from "../../api/config";
 import useCustomLogin from "../../hooks/useCustomLogin";
+import ModalOneBtn from "../ui/ModalOneBtn";
+import ModalTwoBtn from "../ui/ModalTwoBtn";
 const path = `${IMG_URL}/pic/album`;
 
 const host = `${SERVER_URL}/album`;
@@ -49,6 +51,14 @@ const DetailsAlbum = ({ pno, isLogin }) => {
   const [isDeleteSuccessModalOpen, setIsDeleteSuccessModalOpen] =
     useState(false);
   const navigate = useNavigate();
+  // 모달창 내용
+  const [title, setTitle] = useState("");
+  const [subTitle, setSubTitle] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+  const [isNavigate, setIsNavigate] = useState();
+  // 글 삭제
+  const [delOpen, setDelOpen] = useState(false);
+
   // 컴포넌트 마운트 시 데이터 불러오기
   // console.log("pno", pno);
   useEffect(() => {
@@ -72,9 +82,8 @@ const DetailsAlbum = ({ pno, isLogin }) => {
   const showDeleteModal = () => {
     setIsDeleteModalOpen(true);
   };
-
-  const handleDeleteOk = () => {
-    setIsDeleteModalOpen(false); // 삭제 확인 모달 닫기
+  const handleDelOk = () => {
+    // setIsDeleteModalOpen(false); // 삭제 확인 모달 닫기
 
     deleteAlbum({
       ialbum: pno,
@@ -105,6 +114,19 @@ const DetailsAlbum = ({ pno, isLogin }) => {
         });
       },
     });
+  };
+
+  // 모달창 확인버튼
+  const handleOk = () => {
+    setIsOpen(false);
+    // 링크이동
+    if (isNavigate) {
+      navigate(isNavigate);
+    }
+  };
+  // 모달창 취소
+  const handleCancel = () => {
+    setDelOpen(false);
   };
 
   const handleDeleteCancel = () => {
@@ -182,28 +204,33 @@ const DetailsAlbum = ({ pno, isLogin }) => {
           </DetailsText>
           {/* <Comment /> */}
         </MainContent>
-        {/* 삭제 모달 */}
-        <Modal
-          title="정말 삭제할까요?"
-          open={isDeleteModalOpen}
-          onOk={handleDeleteOk}
-          onCancel={handleDeleteCancel}
-          okText="확인"
-          cancelText="취소"
-        >
-          <p>삭제된 내용은 복구할 수 없습니다.</p>
-        </Modal>
+        {/* 안내창 */}
+        <ModalOneBtn
+          isOpen={isOpen}
+          handleOk={handleOk}
+          title={title}
+          subTitle={subTitle}
+        />
 
+        {/* 글삭제 */}
+        <ModalTwoBtn
+          isOpen={isDeleteModalOpen}
+          handleOk={handleDelOk}
+          handleCancel={() => setIsDeleteModalOpen(false)}
+          title={"앨범 삭제 확인"}
+          subTitle={
+            "삭제된 알림장은 복구할 수 없습니다. \n정말 삭제하시겠습니까?"
+          }
+        />
         {/* 삭제 성공 모달 */}
-        <Modal
-          title="삭제 완료"
-          open={isDeleteSuccessModalOpen}
-          onOk={handleDeleteSuccessOk}
-          cancelButtonProps={{ style: { display: "none" } }}
-          okText="확인"
-        >
-          <p>삭제가 완료되었습니다.</p>
-        </Modal>
+        {isDeleteSuccessModalOpen && (
+          <ModalOneBtn
+            isOpen={isDeleteSuccessModalOpen}
+            handleOk={() => setIsDeleteSuccessModalOpen(false)}
+            title="삭제 완료"
+            subTitle="앨범이 성공적으로 삭제되었습니다."
+          />
+        )}
         <Footer>
           <Link to="/album">
             <GreenBtn>목록보기</GreenBtn>
@@ -211,9 +238,9 @@ const DetailsAlbum = ({ pno, isLogin }) => {
 
           {isLogin ? (
             <>
-              {/* <Link to={`${host}/modify/${pno}`}>
+              <Link to={`${host}/modify/${pno}`}>
                 <BlueBtn>수정</BlueBtn>
-              </Link> */}
+              </Link>
               <PinkBtn onClick={showDeleteModal}>삭제</PinkBtn>
             </>
           ) : null}
@@ -224,3 +251,30 @@ const DetailsAlbum = ({ pno, isLogin }) => {
 };
 
 export default DetailsAlbum;
+
+{
+  /* 삭제 모달 */
+}
+// <Modal
+//   title="정말 삭제할까요?"
+//   open={isDeleteModalOpen}
+//   onOk={handleDeleteOk}
+//   onCancel={handleDeleteCancel}
+//   okText="확인"
+//   cancelText="취소"
+// >
+//   <p>삭제된 내용은 복구할 수 없습니다.</p>
+// </Modal>
+
+{
+  /* 삭제 성공 모달 */
+}
+// <Modal
+//   title="삭제 완료"
+//   open={isDeleteSuccessModalOpen}
+//   onOk={handleDeleteSuccessOk}
+//   cancelButtonProps={{ style: { display: "none" } }}
+//   okText="확인"
+// >
+//   <p>삭제가 완료되었습니다.</p>
+// </Modal>

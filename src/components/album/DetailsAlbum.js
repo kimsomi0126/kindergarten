@@ -219,7 +219,7 @@ const DetailsAlbum = ({ pno, isLogin }) => {
           handleCancel={() => setIsDeleteModalOpen(false)}
           title={"앨범 삭제 확인"}
           subTitle={
-            "삭제된 알림장은 복구할 수 없습니다. \n정말 삭제하시겠습니까?"
+            "삭제된 앨범은 복구할 수 없습니다. \n정말 삭제하시겠습니까?"
           }
         />
         {/* 삭제 성공 모달 */}

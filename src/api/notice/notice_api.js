@@ -75,6 +75,7 @@ export const putNotice = async ({ data, successFn, failFn, errorFn }) => {
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
       successFn(res.data);
+      return res.data;
     } else {
       failFn("수정 에러입니다.");
     }

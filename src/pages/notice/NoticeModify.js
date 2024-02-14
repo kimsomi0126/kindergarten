@@ -4,8 +4,9 @@ import { Button, Checkbox, Form, Input, Upload, Modal } from "antd";
 import { PageTitle } from "../../styles/basic";
 import { GreenBtn, PinkBtn } from "../../styles/ui/buttons";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { getDetail, putNotice } from "../../api/notice/notice_api";
+import { getList, putNotice } from "../../api/notice/notice_api";
 import { IMG_URL, SERVER_URL } from "../../api/config";
+import { FileListStyle } from "../../styles/album/album";
 
 const path = `${IMG_URL}/api/full`;
 const imgpath = `${IMG_URL}/pic/full`;
@@ -26,7 +27,7 @@ const obj = {
 const NoticeModify = () => {
   const { tno } = useParams();
   const formRef = useRef();
-  const [NoticeData, setNoticeData] = useState(obj); // noticeData 상태를 추가
+  const [noticeData, setNoticeData] = useState(obj); // noticeData 상태를 추가
 
   const [form] = Form.useForm();
   const [fileList, setFileList] = useState([]);
@@ -34,15 +35,31 @@ const NoticeModify = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const navigate = useNavigate();
 
-  const [initialData, setInitialData] = useState({
-    fullTitle: "",
-    fullContents: "",
-    fullNoticeFix: "",
-    pics: [],
-  });
+  // const [initialData, setInitialData] = useState({
+  //   fullTitle: "",
+  //   fullContents: "",
+  //   fullNoticeFix: "",
+  //   pics: [],
+  // });
 
   const handleGreenButtonClick = () => {
     formRef.current.submit(); // Form의 submit 메서드 호출
+  };
+
+  // URL에서 파일을 생성하고 fileList 상태를 업데이트하는 함수
+  const imageUrlToFile = async imageUrl => {
+    try {
+      // console.log("imageUrl", imageUrl);
+      const fileName = imageUrl.substring(imageUrl.lastIndexOf("/") + 1);
+      const response = await fetch(imageUrl, { mode: "no-cors" });
+      const blob = await response.blob();
+      const imageFile = new File([blob], fileName, { type: "image/jpeg" }); // MIME type을 지정할 수 있습니다.
+
+      // fileList에 새로운 파일을 추가합니다.
+      setFileList(prevFileList => [...prevFileList, imageFile]);
+    } catch (error) {
+      console.error("Error converting image URL to File:", error);
+    }
   };
 
   const onChange = e => {
@@ -50,26 +67,31 @@ const NoticeModify = () => {
     setFullNoticeFix(e.target.checked);
   };
 
-  const handleChange = info => {
-    let fileList = [...info.fileList];
-
-    fileList = fileList.map(file => {
-      if (file.response) {
-        file.url = file.response.url;
-      }
-      return file;
-    });
-
-    setFileList(fileList);
-  };
-
   const handleImageRemove = file => {
     const newFileList = fileList.filter(item => item.uid !== file.uid);
     setFileList(newFileList);
   };
 
-  const showModal = () => {
+  const handleSuccess = data => {
     setIsModalVisible(true);
+    navigate(`/notice/details/${tno}`);
+    // console.log("게시글 수정 성공:", data);
+  };
+
+  const handleFailure = errorMessage => {
+    Modal.error({
+      title: "유치원소식 수정 실패",
+      content: errorMessage,
+    });
+  };
+
+  const handleError = error => {
+    console.error("앨범 업로드 오류:", error);
+    Modal.error({
+      title: "유치원소식 수정 중 오류 발생",
+      content:
+        "서버 오류 또는 네트워크 문제가 발생했습니다. 다시 시도해주세요.",
+    });
   };
 
   const handleOk = () => {
@@ -82,95 +104,122 @@ const NoticeModify = () => {
 
   const handleCancelConfirmation = () => {
     Modal.confirm({
-      title: "정말 취소할까요?",
-      content: "작성된 내용은 저장되지 않습니다.",
-      onOk: handleCancelOk,
+      title: "정말 취소하시겠습니까?",
+      content: "수정 내용이 저장되지 않습니다.",
+      onOk: () => {
+        // console.log("취소가 확인되었습니다.");
+        navigate("/notice"); // 사용자를 앨범 목록 페이지로 이동
+      },
       okText: "확인",
-      cancelText: "취소",
-      onCancel: () => {},
+      cancelText: "계속 수정",
     });
   };
 
   const onFinish = async data => {
-    try {
-      const formData = new FormData();
-      const dto = new Blob(
-        [
-          JSON.stringify({
-            iteacher: 1,
-            fullTitle: data.fullTitle,
-            fullContents: data.fullContents,
-            fullNoticeFix: data.fullNoticeFix,
-          }),
-        ],
-        { type: "application/json" },
-      );
-      formData.append("dto", dto);
-      fileList.forEach(file => {
+    const formData = new FormData();
+    const dto = new Blob(
+      [
+        JSON.stringify({
+          ifullNotice: tno,
+          fullTitle: data.albumTitle,
+          fullContents: data.albumContents,
+          fullNoticeFix: data.fullNoticeFix,
+          iteacher: 1,
+          delPics: [0],
+        }),
+      ],
+      { type: "application/json" },
+    );
+    formData.append("dto", dto);
+
+    // 새로 추가된 이미지 파일을 FormData에 추가합니다.
+    fileList.forEach(async file => {
+      const response = await fetch(file);
+      const data = await response.blob();
+      if (file.originFileObj) {
+        // 새로운 파일인 경우, 파일 데이터를 추가합니다.
         formData.append("pics", file.originFileObj);
-      });
-      putNotice({
-        product: formData,
+      } else if (file.url) {
+        // 이미 서버에 존재하는 파일인 경우, 파일 경로를 추가합니다.
+        formData.append("pics", file.url);
+      }
+    });
+
+    // 서버에 요청을 보냅니다.
+    try {
+      const response = await putNotice({
+        data: formData,
         successFn: handleSuccess,
-        failFn: handleFail,
+        failFn: handleFailure,
         errorFn: handleError,
       });
+
+      // 응답 처리
+      // console.log("Response from putAlbum:", response);
     } catch (error) {
-      // console.error("수정 에러:", error);
+      handleError(error.message);
     }
   };
 
-  const handleSuccess = data => {
-    setIsModalVisible(true);
-    // console.log("게시글 수정 성공:", data);
-  };
-
-  const handleFail = error => {
-    // console.error("게시글 수정 실패:", error);
-  };
-
-  const handleError = error => {
-    // console.error("게시글 수정 에러:", error);
-  };
-
-  const handleCancelOk = () => {
-    navigate("/notice");
-    setIsModalVisible(false);
-  };
-
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await getDetail({
-          tno,
-          successFn: data => {
-            setInitialData(prevData => ({
-              ...prevData,
-              fullTitle: data.fullTitle,
-              fullContents: data.fullContents,
-              pics: data.pics, // 사진 데이터 설정
-              fullNoticeFix: data.fullNoticeFix,
-            }));
-            form.setFieldsValue({
-              fullTitle: data.fullTitle,
-              fullContents: data.fullContents,
-              fullNoticeFix: data.fullNoticeFix,
-            });
-          },
-          failFn: error => {
-            console.error("데이터 가져오기 실패:", error);
-          },
-          errorFn: error => {
-            console.error("데이터 가져오기 에러:", error);
-          },
-        });
-      } catch (error) {
-        console.error("데이터 가져오기 중 에러 발생:", error);
-      }
+    const fetchNoticeData = async () => {
+      getList({
+        tno: tno,
+        successFn: data => {
+          setNoticeData(data);
+          form.setFieldsValue({
+            noticeTitle: data.noticeTitle,
+            noticeContents: data.noticeContents,
+          });
+
+          // Transform album pictures for the fileList state
+          const transformedFileList = data.noitcePic.map((pic, index) => ({
+            uid: index.toString(), // uid is required to be unique
+            name: pic, // file name
+            status: "done", // upload status
+            url: `${imgpath}/${tno}/${pic}`, // file URL, adjust the path as needed
+          }));
+          setFileList(transformedFileList);
+        },
+        failFn: errorMessage => {
+          console.error("Notice fetch failed:", errorMessage);
+          // Handle failure (show error message to user, etc.)
+        },
+        errorFn: errorData => {
+          console.error("Error fetching notice:", errorData);
+          // Handle error (show error message to user, etc.)
+        },
+      });
     };
 
-    fetchData();
-  }, [tno]);
+    fetchNoticeData();
+  }, [tno, form]);
+
+  const beforeUpload = file => {
+    // 새로 업로드되는 파일을 fileList에 추가
+    const newFileList = [
+      ...fileList,
+      {
+        uid: file.uid, // 파일의 고유 ID
+        name: file.name, // 파일 이름
+        status: "done", // 파일 상태
+        originFileObj: file, // 파일 객체
+      },
+    ];
+    setFileList(newFileList);
+    return false; // 파일을 자동으로 업로드하지 않음
+  };
+
+  const handleChange = ({ fileList: newFileList }) => {
+    // 업로드된 파일의 상태 변화를 처리
+    setFileList(newFileList);
+  };
+
+  const onRemove = file => {
+    // 파일이 제거될 때 fileList에서 해당 파일을 제거
+    const newFileList = fileList.filter(item => item.uid !== file.uid);
+    setFileList(newFileList);
+  };
 
   return (
     <div>
@@ -194,17 +243,19 @@ const NoticeModify = () => {
           상단고정
         </Checkbox>
 
-        <Form form={form} onFinish={onFinish} initialValues={initialData}>
+        <Form ref={formRef} form={form} onFinish={onFinish}>
           <Form.Item
             name="fullTitle"
+            initialValue={noticeData.noticeTitle} // 기존 값 설정
             rules={[{ required: true, message: "제목을 입력해주세요!" }]}
           >
             <Input placeholder="제목 입력" />
           </Form.Item>
 
           <Form.Item
-            style={{ height: "150px" }}
             name="fullContents"
+            initialValue={noticeData.noticeContents} // 기존 값 설정
+            style={{ height: "150px" }}
             rules={[{ required: true, message: "내용을 입력해주세요!" }]}
           >
             <Input.TextArea
@@ -213,50 +264,39 @@ const NoticeModify = () => {
             />
           </Form.Item>
 
-          <Upload
-            action={`${path}`}
-            listType="picture"
-            fileList={fileList}
-            onChange={handleChange}
-            customRequest={customRequest}
-            className="upload-list-inline"
-            maxCount={3}
-          >
-            <Button icon={<UploadOutlined />}>업로드</Button>
-          </Upload>
-
-          {initialData.pics.length > 0 && (
-            <div style={{ marginTop: 20, display: "flex" }}>
-              {initialData.pics.map((pic, index) => (
-                <div key={index} style={{ marginBottom: 10 }}>
-                  <img
-                    src={`${SERVER_URL}/pic/fullnotice/${tno}/${pic}`}
-                    alt={`file-${index}`}
-                    style={{ width: 100, height: 100, marginRight: 10 }}
-                  />
-                  <Button
-                    icon={<DeleteOutlined />}
-                    onClick={() => handleImageRemove(index)}
-                  />
-                </div>
-              ))}
-            </div>
-          )}
+          <FileListStyle>
+            <Upload.Dragger
+              action={`${path}`}
+              listType="picture"
+              fileList={fileList}
+              beforeUpload={beforeUpload}
+              onRemove={onRemove}
+              onChange={handleChange}
+              customRequest={customRequest}
+              className="upload-list-inline"
+              multiple={true}
+              maxCount={3}
+            >
+              <Button icon={<UploadOutlined />}>업로드</Button>
+            </Upload.Dragger>
+          </FileListStyle>
         </Form>
-      </div>
-      <div
-        style={{
-          marginTop: 35,
-          display: "flex",
-          justifyContent: "flex-end",
-        }}
-      >
-        <GreenBtn htmlType="submit" onClick={onFinish}>
-          수정
-        </GreenBtn>
-        <PinkBtn onClick={handleCancelConfirmation} style={{ marginLeft: 20 }}>
-          취소
-        </PinkBtn>
+
+        <div
+          style={{
+            marginTop: 35,
+            display: "flex",
+            justifyContent: "flex-end",
+          }}
+        >
+          <GreenBtn onClick={handleGreenButtonClick}>수정</GreenBtn>
+          <PinkBtn
+            onClick={handleCancelConfirmation}
+            style={{ marginLeft: 20 }}
+          >
+            취소
+          </PinkBtn>
+        </div>
       </div>
 
       <Link to="/notice">

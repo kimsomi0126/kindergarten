@@ -15,66 +15,62 @@ const NoticeWrite = () => {
   const [form] = Form.useForm();
   const [fileList, setFileList] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [isOpen, setIsOpen] = useState(false); // 추가: 경고 모달 상태
-  const [fullNoticeFix, setFullNoticeFix] = useState(false);
   const navigate = useNavigate();
-  const formRef = useRef();
 
-  const handleGreenButtonClick = () => {
-    formRef.current.submit();
+  const [fullNoticeFix, setFullNoticeFix] = useState(false);
+
+  // 모달 상태 관리
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showCancelConfirmModal, setShowCancelConfirmModal] = useState(false);
+  const [showExceedLimitModal, setShowExceedLimitModal] = useState(false); // 파일 제한 초과 경고 모달 상태
+
+  const handleChange = info => {
+    let fileList = [...info.fileList].slice(-10); // 최대 10개 파일만 유지
+    setFileList(fileList);
   };
 
   const onChange = e => {
     setFullNoticeFix(e.target.checked);
   };
 
-  const handleChange = info => {
-    let fileList = [...info.fileList].filter(file => !!file.status);
-    setFileList(fileList);
-    // 파일 개수 확인 후 경고 모달 열기
-    if (fileList.length > 10) {
-      setIsOpen(true); // 모달을 열도록 변경
-    } else {
-      setIsOpen(false);
+  const beforeUpload = (file, fileList) => {
+    const totalFiles =
+      fileList.length + fileList.filter(f => f.status === "done").length;
+    if (totalFiles > 10) {
+      setShowExceedLimitModal(true); // 경고 모달 표시
+      return Upload.LIST_IGNORE; // 파일 업로드 중단
     }
+    return true; // 파일 추가를 계속 진행
+  };
+
+  const handleExceedLimitModalOk = e => {
+    setShowExceedLimitModal(false); // 경고 모달 닫기
+    e.stopPropagation(); // 이벤트가 상위 엘리먼트에 전달되지 않게 막기
   };
 
   const customRequest = ({ onSuccess }) => {
     onSuccess("ok");
   };
 
-  const showModal = () => {
-    setIsModalVisible(true);
-  };
-
   const handleOk = () => {
     setIsModalVisible(false);
   };
 
-  const handleCancel = () => {
-    setIsModalVisible(false);
+  const handleSuccessModalOk = () => {
+    setShowSuccessModal(false);
+    navigate("/notice");
+  };
+
+  // 취소 확인 모달 핸들러
+  const handleCancelConfirmModalOk = () => {
+    setShowCancelConfirmModal(false);
   };
 
   const handleCancelConfirmation = () => {
-    Modal.confirm({
-      title: "정말 취소할까요?",
-      content: "작성된 내용은 저장되지 않습니다.",
-      onOk: () => handleCancelOk(),
-      okText: "확인",
-      cancelText: "취소",
-      onCancel: () => {},
-    });
+    setShowCancelConfirmModal(true); // 취소 확인 모달 표시
   };
 
   const onFinish = async data => {
-    if (fileList.length > 10) {
-      Modal.error({
-        title: "이미지 업로드 제한",
-        content: "이미지는 최대 10개까지 업로드할 수 있습니다.",
-      });
-      return;
-    }
-
     const formData = new FormData();
     const dto = new Blob(
       [
@@ -96,8 +92,8 @@ const NoticeWrite = () => {
 
     postNotice({
       product: formData,
-      successFn: handleSuccess,
-      failFn: handleFail,
+      successFn: () => setShowSuccessModal(true), // 성공 모달 표시
+      failFn: handleFailure,
       errorFn: handleError,
     });
   };
@@ -111,7 +107,7 @@ const NoticeWrite = () => {
     setIsModalVisible(true);
   };
 
-  const handleFail = errorMessage => {
+  const handleFailure = errorMessage => {
     Modal.error({
       title: "유치원소식 업로드 실패",
       content: errorMessage,
@@ -119,7 +115,6 @@ const NoticeWrite = () => {
   };
 
   const handleError = error => {
-    console.error("유치원소식 업로드 오류:", error);
     Modal.error({
       title: "유치원소식 업로드 중 오류 발생",
       content: error,
@@ -144,7 +139,7 @@ const NoticeWrite = () => {
           상단고정
         </Checkbox>
 
-        <Form ref={formRef} form={form} onFinish={onFinish}>
+        <Form form={form} onFinish={onFinish}>
           <Form.Item
             name="fullTitle"
             rules={[
@@ -183,35 +178,61 @@ const NoticeWrite = () => {
               className="upload-list-inline"
               maxCount={10}
               multiple={true}
+              beforeUpload={beforeUpload}
             >
               <Button icon={<UploadOutlined />}>업로드(최대 10개)</Button>
             </Upload.Dragger>
           </FileListStyle>
-        </Form>
 
-        <div
-          style={{
-            marginTop: 35,
-            display: "flex",
-            justifyContent: "flex-end",
-          }}
-        >
-          <GreenBtn onClick={handleGreenButtonClick}>등록</GreenBtn>
-          <PinkBtn
-            onClick={handleCancelConfirmation}
-            style={{ marginLeft: 20 }}
+          <div
+            style={{
+              marginTop: 35,
+              display: "flex",
+              justifyContent: "flex-end",
+            }}
           >
-            취소
-          </PinkBtn>
-        </div>
+            <GreenBtn htmlType="submit">등록</GreenBtn>
+            <PinkBtn
+              onClick={handleCancelConfirmation}
+              style={{ marginLeft: 20 }}
+            >
+              취소
+            </PinkBtn>
+          </div>
+        </Form>
       </div>
 
-      <ModalOneBtn
-        isOpen={isOpen}
-        handleOk={() => setIsOpen(false)} // 모달 닫기
-        title="이미지 업로드 제한"
-        subTitle="이미지는 최대 10개까지 업로드할 수 있습니다."
-      />
+      <Link to="/notice">
+        {/* 등록 성공 모달 */}
+        {showSuccessModal && (
+          <ModalOneBtn
+            isOpen={showSuccessModal}
+            handleOk={handleSuccessModalOk}
+            title="등록 완료"
+            subTitle="성공적으로 등록되었습니다."
+          />
+        )}
+
+        {/* 취소 확인 모달 */}
+        {showCancelConfirmModal && (
+          <ModalOneBtn
+            isOpen={showCancelConfirmModal}
+            handleOk={handleCancelConfirmModalOk}
+            title="정말 취소할까요?"
+            subTitle="작성된 내용은 저장되지 않습니다."
+          />
+        )}
+
+        {/* 파일 제한 초과 경고 모달 */}
+        {showExceedLimitModal && (
+          <ModalOneBtn
+            isOpen={showExceedLimitModal}
+            handleOk={handleExceedLimitModalOk}
+            title="업로드 제한 초과"
+            subTitle="업로드할 수 있는 파일 수는 최대 10개입니다."
+          />
+        )}
+      </Link>
     </div>
   );
 };

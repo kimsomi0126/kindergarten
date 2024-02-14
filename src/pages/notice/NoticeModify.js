@@ -1,21 +1,38 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { UploadOutlined, DeleteOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Form, Input, Upload, Modal } from "antd";
 import { PageTitle } from "../../styles/basic";
 import { GreenBtn, PinkBtn } from "../../styles/ui/buttons";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { getDetail, putNotice } from "../../api/notice/notice_api";
-import { SERVER_URL } from "../../api/config";
+import { IMG_URL, SERVER_URL } from "../../api/config";
 
-const path = `${SERVER_URL}/api/full`;
+const path = `${IMG_URL}/api/full`;
+const imgpath = `${IMG_URL}/pic/full`;
+const customRequest = ({ onSuccess }) => {
+  onSuccess("ok");
+};
+const obj = {
+  pics: [""],
+  dto: {
+    ifullNotice: 0,
+    fullTitle: "",
+    fullContents: "",
+    fullNoticeFix: 0,
+    iteacher: 0,
+  },
+};
 
 const NoticeModify = () => {
+  const { tno } = useParams();
+  const formRef = useRef();
+  const [NoticeData, setNoticeData] = useState(obj); // noticeData 상태를 추가
+
   const [form] = Form.useForm();
   const [fileList, setFileList] = useState([]);
-  const [isModalVisible, setIsModalVisible] = useState(false);
   const [fullNoticeFix, setFullNoticeFix] = useState(false); // 새로운 상태 추가
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const navigate = useNavigate();
-  const { tno } = useParams();
 
   const [initialData, setInitialData] = useState({
     fullTitle: "",
@@ -23,6 +40,10 @@ const NoticeModify = () => {
     fullNoticeFix: "",
     pics: [],
   });
+
+  const handleGreenButtonClick = () => {
+    formRef.current.submit(); // Form의 submit 메서드 호출
+  };
 
   const onChange = e => {
     // console.log(`checked = ${e.target.checked}`);
@@ -45,12 +66,6 @@ const NoticeModify = () => {
   const handleImageRemove = file => {
     const newFileList = fileList.filter(item => item.uid !== file.uid);
     setFileList(newFileList);
-  };
-
-  const customRequest = ({ file, onSuccess }) => {
-    setTimeout(() => {
-      onSuccess();
-    }, 1000);
   };
 
   const showModal = () => {

@@ -104,7 +104,7 @@ const router = createBrowserRouter([
       },
 
       {
-        path: "notice",
+        path: "/notice/",
         element: (
           <Suspense fallback={<Loading />}>
             <ContentLayout />
@@ -114,7 +114,7 @@ const router = createBrowserRouter([
       },
 
       {
-        path: "admin",
+        path: "/admin/",
         element: (
           <Suspense fallback={<Loading />}>
             <ContentLayout />

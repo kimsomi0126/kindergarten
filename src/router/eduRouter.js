@@ -8,9 +8,8 @@ const SpecialAct = lazy(() => import("../pages/education/SpecialAct"));
 
 const eduRouter = () => {
   return [
-    { path: "", element: <Navigate to="edu" /> },
     {
-      path: "edu",
+      path: "",
       element: (
         <Suspense fallback={<Loading />}>
           <Edu />

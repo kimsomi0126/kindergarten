@@ -10,9 +10,8 @@ const Location = lazy(() => import("../pages/information/Location"));
 
 const infoRouter = () => {
   return [
-    { path: "", element: <Navigate to="info" /> },
     {
-      path: "info",
+      path: "",
       element: (
         <Suspense fallback={<Loading />}>
           <Info />

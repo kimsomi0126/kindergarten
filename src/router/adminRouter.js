@@ -16,9 +16,8 @@ const StudList = lazy(() => import("../pages/adminPage/student/StudList"));
 
 const adminRouter = () => {
   return [
-    { path: "", element: <Navigate to="admin" /> },
     {
-      path: "admin",
+      path: "",
       element: (
         <Suspense fallback={<Loading />}>
           <GuardianList />

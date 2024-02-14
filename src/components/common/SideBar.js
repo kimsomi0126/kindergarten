@@ -9,8 +9,16 @@ const SideBar = () => {
   const [collapsed, setCollapsed] = useState(false);
   return (
     <SideBarWrap>
-      <Sider trigger={null} collapsible collapsed={collapsed} theme="light">
-        <div className="demo-logo-vertical" />
+      <Sider
+        breakpoint="lg"
+        onCollapse={(collapsed, type) => {
+          setCollapsed(true);
+        }}
+        trigger={null}
+        collapsible
+        collapsed={collapsed}
+        theme="light"
+      >
         <LogoWrap>
           <Link to={"/"}>
             {collapsed ? (

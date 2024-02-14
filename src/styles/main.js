@@ -1,10 +1,13 @@
 import styled from "@emotion/styled";
-import { colors, ellipsis, shadow } from "./basic";
+import { boxStyle, colors, ellipsis, mq, shadow } from "./basic";
 import { Link } from "react-router-dom";
 
 export const MainInner = styled.div`
   height: 100%;
   padding-right: 40rem;
+  ${mq.tablet} {
+    padding-right: 0;
+  }
 `;
 
 // 활동앨범
@@ -21,6 +24,22 @@ export const MainAlbum = styled.div`
   h3 {
     border-bottom: 1px solid ${colors.greenDeep};
     padding-bottom: 1rem;
+  }
+  ${mq.tablet} {
+    position: relative;
+    top: inherit;
+    right: inherit;
+    height: auto;
+    width: 100%;
+    overflow: hidden;
+    margin-top: 1rem;
+    ${boxStyle}
+    background: url(${process.env.PUBLIC_URL +
+    "/images/main/album/main_album_bg.jpg"})
+      repeat top;
+  }
+  ${mq.mobileBig} {
+    padding: 1rem;
   }
 `;
 
@@ -41,6 +60,28 @@ export const MainAlbumList = styled.ul`
     padding: 2rem;
     :hover img {
       transform: scale(1.03);
+    }
+  }
+  ${mq.tablet} {
+    display: flex;
+    gap: 2%;
+    a {
+      padding: 1rem;
+    }
+    li {
+      width: 32%;
+      margin-top: 1rem;
+      span {
+        font-size: 1.2rem;
+      }
+    }
+  }
+  ${mq.mobileSmall} {
+    li {
+      width: 49%;
+    }
+    li:last-child {
+      display: none;
     }
   }
 `;
@@ -67,7 +108,9 @@ export const MainAlbumImage = styled.div`
       position: absolute;
       left: 50%;
       top: 50%;
+      text-align: center;
       transform: translate(-50%, -50%);
+      font-size: 1.4rem;
     }
   }
 `;
@@ -92,10 +135,18 @@ export const MainAlbumText = styled.div`
     color: ${colors.grayDeep};
     font-weight: 300;
   }
+
+  ${mq.tablet} {
+    p {
+      ${ellipsis.line2}
+      margin-bottom:0.5rem;
+    }
+  }
 `;
 
 export const MainContainer = styled.div`
   position: relative;
+  width: 100%;
   max-width: 110rem;
   padding-bottom: 15rem;
   margin: 0 auto;
@@ -108,6 +159,9 @@ export const MainVisual = styled.div`
   overflow: hidden;
   ${shadow}
   margin-bottom: 1rem;
+  ${mq.tablet} {
+    border-radius: 1rem;
+  }
 `;
 export const ImgBox = styled.div`
   img {
@@ -126,6 +180,11 @@ export const MainNoticeWrap = styled.div`
   align-items: center;
 
   ${shadow}
+
+  ${mq.tablet} {
+    flex-wrap: wrap;
+    border-radius: 1rem;
+  }
 `;
 export const MainNoticeTitle = styled.h3`
   padding-left: 3.5rem;
@@ -135,6 +194,13 @@ export const MainNoticeTitle = styled.h3`
   margin-right: 2rem;
   a {
     color: ${colors.greenDeep};
+  }
+  ${mq.mobileBig} {
+    width: 100%;
+    margin-bottom: 1rem;
+    margin: 0 0 0.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid ${colors.greenDeep};
   }
 `;
 
@@ -191,7 +257,7 @@ export const MainBanner = styled.div`
     }
     a {
       background: url(${process.env.PUBLIC_URL + "/images/main/main_bnr01.svg"})
-        no-repeat 90% 80%;
+        no-repeat 90% 80% / auto 50%;
     }
   }
   &.bnr2 {
@@ -202,7 +268,7 @@ export const MainBanner = styled.div`
     }
     a {
       background: url(${process.env.PUBLIC_URL + "/images/main/main_bnr02.svg"})
-        no-repeat 90% 80%;
+        no-repeat 90% 80% / auto 50%;
     }
   }
   &.bnr3 {
@@ -213,7 +279,28 @@ export const MainBanner = styled.div`
     }
     a {
       background: url(${process.env.PUBLIC_URL + "/images/main/main_bnr03.svg"})
-        no-repeat 90% 80%;
+        no-repeat 90% 80% / auto 50%;
+    }
+  }
+
+  ${mq.tablet} {
+    border-radius: 1rem;
+    a {
+      padding: 2rem;
+    }
+    h3 {
+      font-size: 2.8rem;
+      margin-bottom: 1rem;
+    }
+  }
+
+  ${mq.mobileBig} {
+    a {
+      padding: 1rem;
+    }
+    h3 {
+      font-size: 2.2rem;
+      margin-bottom: 1rem;
     }
   }
 `;
@@ -231,6 +318,10 @@ export const MainPopSlide = styled.div`
   border-radius: 2rem;
   overflow: hidden;
   ${shadow}
+
+  ${mq.tablet} {
+    border-radius: 1rem;
+  }
 `;
 
 // 메인 오시는길
@@ -244,6 +335,10 @@ export const MainLocation = styled(Link)`
   img {
     width: 100%;
   }
+
+  ${mq.tablet} {
+    border-radius: 1rem;
+  }
 `;
 
 export const SlideBtn = styled.span`
@@ -252,6 +347,9 @@ export const SlideBtn = styled.span`
   transform: translateY(-50%);
   z-index: 9;
   cursor: pointer;
+  img {
+    width: 3rem;
+  }
   &.prev {
     left: 2%;
   }

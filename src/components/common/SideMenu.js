@@ -4,7 +4,9 @@ import { Link } from "react-router-dom";
 import useCustomLogin from "../../hooks/useCustomLogin";
 
 const SideMenu = () => {
-  const { isLogin } = useCustomLogin();
+  const { isLogin, isParentLogin, loginState } = useCustomLogin();
+  const currentYear = new Date().getFullYear();
+  const ikidList = loginState.kidList;
   function getItem(label, key, icon, children, type) {
     return {
       key,
@@ -70,8 +72,45 @@ const SideMenu = () => {
             "5-2",
           ),
           getItem(<Link to="/admin/student/create">원생등록</Link>, "5-3"),
-          getItem(<Link to="/admin/teacher">선생님관리</Link>, "5-4"),
-          getItem(<Link to="/admin/teacher/create">선생님등록</Link>, "5-5"),
+          getItem(
+            <Link to={`/ind?year=${currentYear}&page=1&iclass=0`}>
+              알림장 목록
+            </Link>,
+            "5-4",
+          ),
+        ],
+      ),
+    );
+  }
+  if (isParentLogin) {
+    items.push(
+      getItem(
+        "회원전용",
+        "6",
+        <img
+          src={process.env.PUBLIC_URL + "/images/common/sidebar/user.svg"}
+        />,
+        [
+          getItem(
+            <Link
+              to={`/ind?year=${currentYear}&page=1&ikid=${
+                ikidList[0] ? ikidList[0].ikid : 0
+              }`}
+            >
+              알림장
+            </Link>,
+            "6-1",
+          ),
+          getItem(
+            <Link
+              to={`/mypage?year=${currentYear}&ikid=${
+                ikidList[0] ? ikidList[0].ikid : 0
+              }`}
+            >
+              마이페이지
+            </Link>,
+            "6-2",
+          ),
         ],
       ),
     );

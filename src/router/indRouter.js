@@ -19,9 +19,8 @@ const IndivNotiWrite = lazy(() =>
 
 const indRouter = () => {
   return [
-    { path: "", element: <Navigate to="ind" /> },
     {
-      path: "ind",
+      path: "",
       element: (
         <Suspense fallback={<Loading />}>
           <IndivNotiList />

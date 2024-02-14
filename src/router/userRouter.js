@@ -10,7 +10,6 @@ const SignupForm = lazy(() => import("../pages/user/SignupForm"));
 
 const userRouter = () => {
   return [
-    { path: "", element: <Navigate to="accounts" /> },
     {
       path: "accounts",
       element: (

@@ -11,9 +11,8 @@ const AlbumWrite = lazy(() => import("../pages/album/AlbumWrite"));
 
 const albumRouter = () => {
   return [
-    { path: "", element: <Navigate to="album" /> },
     {
-      path: "album",
+      path: "",
       element: (
         <Suspense fallback={<Loading />}>
           <Album />

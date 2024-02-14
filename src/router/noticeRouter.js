@@ -11,9 +11,8 @@ const NoticeWrite = lazy(() => import("../pages/notice/NoticeWrite"));
 
 const noticeRouter = () => {
   return [
-    { path: "", element: <Navigate to="notice" /> },
     {
-      path: "notice",
+      path: "",
       element: (
         <Suspense fallback={<Loading />}>
           <NoticeList />

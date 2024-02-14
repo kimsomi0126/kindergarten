@@ -33,6 +33,7 @@ const NavBar = () => {
         {isLogin ? (
           <>
             <GrayBtn
+              className="nav-btn"
               onClick={e =>
                 navigate(`/ind?year=${currentYear}&page=1&iclass=0`)
               }
@@ -40,10 +41,14 @@ const NavBar = () => {
               알림장목록
             </GrayBtn>
 
-            <PurpleBtn onClick={e => navigate("/admin?page=1&iclass=0")}>
+            <PurpleBtn
+              className="nav-btn"
+              onClick={e => navigate("/admin?page=1&iclass=0")}
+            >
               학부모관리
             </PurpleBtn>
             <OrangeBtn
+              className="nav-btn"
               onClick={e => navigate("/admin/student?page=1&kidCheck=0")}
             >
               원생관리
@@ -59,6 +64,7 @@ const NavBar = () => {
         ) : isParentLogin ? (
           <>
             <GrayBtn
+              className="nav-btn"
               onClick={e =>
                 navigate(
                   `/ind?year=${currentYear}&page=1&ikid=${
@@ -70,6 +76,7 @@ const NavBar = () => {
               알림장
             </GrayBtn>
             <OrangeBtn
+              className="nav-btn"
               onClick={e =>
                 navigate(
                   `/mypage?year=${currentYear}&ikid=${

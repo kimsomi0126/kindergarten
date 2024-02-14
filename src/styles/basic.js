@@ -3,6 +3,14 @@ import styled from "@emotion/styled";
 import { animationGo } from "./ui/animations";
 import { Layout } from "antd";
 
+// 미디어쿼리
+export const mq = {
+  pc: "@media only screen and (max-width: 1300px)",
+  tablet: "@media only screen and (max-width: 1024px)",
+  mobileBig: "@media only screen and (max-width: 765px)",
+  mobileSmall: "@media only screen and (max-width: 375px)",
+};
+
 // 기본색상
 export const colors = {
   // 초록색
@@ -40,14 +48,16 @@ export const fonts = {
 
 // 그림자효과
 export const shadow = {
-  boxShadow: "0px 0px 10px 0px rgba(0, 0, 0, 0.05)",
+  boxShadow: "0px 0px 5px 0px rgba(0, 0, 0, 0.1)",
+  border: "1px solid rgba(0,0,0,0.02)",
 };
 
 // 박스
 export const boxStyle = {
   background: "#fff",
   borderRadius: "1rem",
-  boxShadow: "0px 0px 10px 0px rgba(0, 0, 0, 0.05)",
+  boxShadow: "0px 0px 5px 0px rgba(0, 0, 0, 0.1)",
+  border: "1px solid rgba(0,0,0,0.03)",
 };
 
 // 말줄임
@@ -124,6 +134,11 @@ export const HeaderBtn = styled.div`
   justify-content: flex-end;
   align-items: center;
   gap: 1rem;
+  ${mq.mobileBig} {
+    .nav-btn {
+      display: none;
+    }
+  }
 `;
 
 // 메인 content 레이아웃
@@ -132,8 +147,8 @@ export const WrapMain = styled.div`
   padding: 3rem 2% 0;
   height: calc(100vh - 7.5rem);
   overflow-y: auto;
-  background: url(${process.env.PUBLIC_URL + "/images/common/background.png"})
-    repeat top;
+  background: #fff
+    url(${process.env.PUBLIC_URL + "/images/common/background.png"}) repeat top;
 `;
 
 // content 레이아웃
@@ -159,6 +174,20 @@ export const SideBarWrap = styled.div`
   background: #fff;
   z-index: 99;
   ${shadow}
+  ${mq.tablet} {
+    .ant-menu-inline .ant-menu-submenu-title,
+    .ant-menu-light.ant-menu-inline .ant-menu-item {
+      padding: 1rem !important;
+    }
+    .ant-layout-sider {
+      min-width: auto !important;
+      width: 20rem !important;
+    }
+    .ant-layout-sider-collapsed {
+      min-width: 50px !important;
+      width: 50px !important;
+    }
+  }
 `;
 
 // 로고

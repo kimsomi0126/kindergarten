@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { boxStyle, colors } from "../basic";
+import { boxStyle, colors, mq } from "../basic";
 
 export const FormWrap = styled.div`
   position: absolute;
@@ -7,8 +7,8 @@ export const FormWrap = styled.div`
   top: 40%;
   transform: translate(-50%, -50%);
   padding: 3rem 5rem;
-  width: 100%;
-  max-width: 450px;
+  width: 90%;
+  max-width: 45rem;
   ${boxStyle}
   background:#fafafa;
   border: 1px solid #f1f1f1;
@@ -18,6 +18,7 @@ export const FormWrap = styled.div`
   }
   p {
     margin-top: 2rem;
+    font-size: 1.4rem;
   }
   a {
     float: right;
@@ -29,7 +30,11 @@ export const FormWrap = styled.div`
   .ant-form-item .ant-form-item-explain-error {
     font-size: 1.2rem;
   }
-
+  .ant-radio-button-wrapper {
+    font-size: 1.6rem;
+    height: 4rem;
+    line-height: 4rem;
+  }
   .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled),
   .ant-radio-button-wrapper-checked:not(
       .ant-radio-button-wrapper-disabled
@@ -51,6 +56,18 @@ export const FormWrap = styled.div`
       padding: 0;
       z-index: 9;
       border-radius: 0.5rem;
+    }
+  }
+
+  ${mq.mobileBig} {
+    padding: 2rem 5%;
+    .ipt_box button {
+      top: 0.2rem;
+      height: 3.6rem;
+      line-height: 3.6rem;
+    }
+    p {
+      margin-top: 1rem;
     }
   }
 `;

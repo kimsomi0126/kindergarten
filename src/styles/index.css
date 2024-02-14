@@ -45,6 +45,7 @@ img {
 }
 html {
   font-size: 10px;
+  min-width: 320px;
 }
 body {
   font-family: "Pretendard", sans-serif;
@@ -96,28 +97,71 @@ table {
 .layout-wrap {
   position: relative;
   min-height: 100vh;
+  font-family: "Pretendard", sans-serif;
 }
-
+.layout-wrap .ant-input,
+.layout-wrap .ant-form label,
+.layout-wrap .ant-select-selector {
+  font-size: 1.6rem;
+  font-family: "Pretendard", sans-serif;
+}
+.layout-wrap .ant-form-item-control-input {
+  min-height: 3.2rem;
+}
+.layout-wrap .ant-input-lg,
+.layout-wrap .ant-input-affix-wrapper,
+.layout-wrap .ant-input-affix-wrapper-lg {
+  font-size: 1.6rem;
+  border-radius: 0.8rem;
+}
+.layout-wrap .ant-modal .ant-modal-body {
+  font-size: 1.4rem !important;
+}
+.layout-wrap .ant-form-item {
+  font-size: 1.4rem;
+  margin-bottom: 2rem;
+}
 .layout-wrap .ant-menu {
   border-inline-end: 0;
+  font-size: 1.4rem;
+  font-family: "Pretendard", sans-serif;
+}
+.layout-wrap .ant-btn {
+  font-size: 1.6rem;
+  font-family: "Pretendard", sans-serif;
+  height: 4rem;
+}
+.layout-wrap .ant-menu-inline .ant-menu-item,
+.layout-wrap .ant-menu-vertical > .ant-menu-submenu > .ant-menu-submenu-title,
+.layout-wrap .ant-menu-inline > .ant-menu-submenu > .ant-menu-submenu-title,
+.layout-wrap .ant-menu-vertical > .ant-menu-item {
+  line-height: 4rem;
+  height: 4rem;
 }
 .layout-wrap .ant-menu-light.ant-menu-root.ant-menu-inline {
   border-inline-end: 0;
 }
-.layout-wrap .ant-menu-inline-collapsed > .ant-menu-item,
 .layout-wrap
   .ant-menu-inline-collapsed
   > .ant-menu-submenu
-  > .ant-menu-submenu-title {
-  padding-inline: calc(35% - 8px - 4px);
+  > .ant-menu-submenu-title,
+.layout-wrap .ant-menu-inline-collapsed > .ant-menu-item {
+  padding-inline: calc(40% - 8px - 4px);
 }
+
 .layout-wrap .ant-menu-submenu-title img,
 .layout-wrap .ant-menu-item img {
   max-height: 3rem;
 }
-:where(.css-dev-only-do-not-override-dkbvqv)[class^="ant-layout"] {
-  font-family: "Pretendard", sans-serif;
+.ant-menu-inline-collapsed
+  > .ant-menu-submenu
+  > .ant-menu-submenu-title
+  .ant-menu-item-icon
+  + span,
+.ant-menu-inline-collapsed > .ant-menu-item .ant-menu-item-icon + span {
+  font-size: 0;
 }
+
 .layout-wrap .swiper-pagination {
   text-align: right;
   padding: 0 2rem 0.5rem;
@@ -126,4 +170,35 @@ table {
 .layout-wrap .image-gallery-content .image-gallery-slide .image-gallery-image {
   max-width: 100%;
   max-height: none;
+}
+:where(.css-dev-only-do-not-override-dkbvqv)[class^="ant-layout"],
+:where(.css-dev-only-do-not-override-dkbvqv)[class*=" ant-layout"] {
+  font-size: 1.4rem;
+}
+
+@media only screen and (max-width: 1300px) {
+  html {
+    font-size: 9px;
+  }
+
+  button {
+    font-size: 1.4rem;
+  }
+}
+@media only screen and (max-width: 1024px) {
+  html {
+    font-size: 8px;
+  }
+
+  button {
+    font-size: 1.2rem;
+  }
+}
+@media only screen and (max-width: 768px) {
+  html {
+    font-size: 6px;
+  }
+  .layout-wrap .ant-form-item {
+    margin-bottom: 1rem !important;
+  }
 }

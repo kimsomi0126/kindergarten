@@ -33,7 +33,7 @@ const NoticeWrite = () => {
     setFileList(fileList);
     // 파일 개수 확인 후 경고 모달 열기
     if (fileList.length > 10) {
-      setIsOpen(true);
+      setIsOpen(true); // 모달을 열도록 변경
     } else {
       setIsOpen(false);
     }

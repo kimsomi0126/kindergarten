@@ -70,6 +70,8 @@ const SideMenu = () => {
             "5-2",
           ),
           getItem(<Link to="/admin/student/create">원생등록</Link>, "5-3"),
+          getItem(<Link to="/admin/teacher">선생님관리</Link>, "5-4"),
+          getItem(<Link to="/admin/teacher/create">선생님등록</Link>, "5-5"),
         ],
       ),
     );

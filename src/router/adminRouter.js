@@ -1,6 +1,9 @@
 import React, { lazy, Suspense } from "react";
 import { Navigate } from "react-router-dom";
 import Loading from "../components/loading/Loading";
+import TeacherInfoList from "../pages/adminPage/teacher/TeacherInfoList";
+import TeacherCreate from "../pages/adminPage/teacher/TeacherCreate";
+import TeacherModify from "../pages/adminPage/teacher/TeacherModify";
 
 //관리자 영역
 const GuardianList = lazy(() => import("../pages/adminPage/GuardianList"));
@@ -16,6 +19,7 @@ const StudList = lazy(() => import("../pages/adminPage/student/StudList"));
 
 const adminRouter = () => {
   return [
+    // 학부모 관리
     {
       path: "",
       element: (
@@ -24,6 +28,7 @@ const adminRouter = () => {
         </Suspense>
       ),
     },
+    // 원생 관리
     {
       path: "student",
       element: (
@@ -32,6 +37,7 @@ const adminRouter = () => {
         </Suspense>
       ),
     },
+    // 원생 상세 정보 등록
     {
       path: "student/detailsform",
       element: (
@@ -40,6 +46,7 @@ const adminRouter = () => {
         </Suspense>
       ),
     },
+    // 원생 상세 정보
     {
       path: "student/details",
       element: (
@@ -48,6 +55,7 @@ const adminRouter = () => {
         </Suspense>
       ),
     },
+    // 원생 등록
     {
       path: "student/create",
       element: (
@@ -56,11 +64,39 @@ const adminRouter = () => {
         </Suspense>
       ),
     },
+    // 원생 정보 수정
     {
       path: "student/modify",
       element: (
         <Suspense fallback={<Loading />}>
           <StudModify />
+        </Suspense>
+      ),
+    },
+    // 선생님 관리
+    {
+      path: "teacher",
+      element: (
+        <Suspense fallback={<Loading />}>
+          <TeacherInfoList />
+        </Suspense>
+      ),
+    },
+    // 선생님 등록
+    {
+      path: "teacher/create",
+      element: (
+        <Suspense fallback={<Loading />}>
+          <TeacherCreate />
+        </Suspense>
+      ),
+    },
+    // 선생님 정보 수정
+    {
+      path: "teacher/modify",
+      element: (
+        <Suspense fallback={<Loading />}>
+          <TeacherModify />
         </Suspense>
       ),
     },

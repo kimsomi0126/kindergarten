@@ -97,9 +97,6 @@ const ReadAllAlbum = () => {
           <UserTopRight>
             <Search
               placeholder="제목을 입력하세요."
-              style={{
-                width: 300,
-              }}
               size={"large"}
               allowClear
               // onSearch={value => console.log(value)}
@@ -120,7 +117,7 @@ const ReadAllAlbum = () => {
             <ul className="image-grid">
               <li className="image-item">
                 <img
-                  height={400}
+                  // height={400}
                   src={`${path}/${item.ialbum}/${item.albumPic}`}
                   alt={item.albumTitle}
                 />

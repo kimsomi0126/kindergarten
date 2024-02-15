@@ -26,15 +26,13 @@ const Info = () => {
   const [teacherData, SetTeacherData] = useState(initData);
 
   useEffect(() => {
-    getTeacher({ successFn, failFn, errorFn });
+    getTeacher({ successFn, errorFn });
   }, [initData]);
 
   const successFn = res => {
     SetTeacherData([...res]);
   };
-  const failFn = res => {
-    // console.log(res);
-  };
+
   const errorFn = res => {
     // console.log(res);
   };

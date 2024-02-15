@@ -41,7 +41,7 @@ const Album = () => {
         title={title}
         subTitle={subTitle}
       />
-      <ReadAllAlbum />;
+      <ReadAllAlbum />
     </>
   );
 };

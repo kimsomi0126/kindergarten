@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { boxStyle, colors, shadow } from "../basic";
+import { boxStyle, colors, mq, shadow } from "../basic";
 
 // 유치원소개
 export const InfoWrap = styled.div`
@@ -23,6 +23,12 @@ export const GreetingWrap = styled.div`
   > div {
     width: 40%;
   }
+  ${mq.mobileBig} {
+    margin-bottom: 4rem;
+    > div {
+      width: 100%;
+    }
+  }
 `;
 export const GreetingText = styled.div`
   width: 60% !important;
@@ -38,12 +44,29 @@ export const GreetingText = styled.div`
   span {
     font-weight: 500;
   }
+
+  ${mq.mobileBig} {
+    padding: 0;
+    width: 100% !important;
+    margin-top: 3rem;
+    h3 {
+      font-size: 2.6rem;
+    }
+
+    p {
+      margin: 2rem 0;
+    }
+  }
 `;
 
 // 선생님소개
 export const TeacherWrap = styled.div`
   padding: 8rem 5% 15rem;
   background: rgba(162, 216, 255, 0.1);
+
+  ${mq.mobileBig} {
+    padding: 4rem 3% 10rem;
+  }
 `;
 export const TeacherList = styled.ul`
   display: flex;
@@ -68,6 +91,15 @@ export const TeacherList = styled.ul`
   img {
     width: auto;
     height: 100%;
+  }
+
+  ${mq.mobileBig} {
+    flex-wrap: wrap;
+    gap: 2%;
+    li {
+      width: 48%;
+      margin-bottom: 1rem;
+    }
   }
 `;
 
@@ -131,6 +163,12 @@ export const KidsInfo = styled.div`
   }
   img {
     min-height: 100%;
+  }
+  ${mq.mobileBig} {
+    h4 {
+      padding: 1rem 0;
+      font-size: 2rem;
+    }
   }
 `;
 

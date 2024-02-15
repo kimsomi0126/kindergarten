@@ -41,6 +41,7 @@ const GuardianList = () => {
   const page = serchParams.get("page");
   const iclass = serchParams.get("iclass");
   const dispatch = useDispatch();
+  const [searchText, setSearchText] = useState("");
 
   // const refresh = useSelector(state => state.refresh);
   // console.log("refresh", refresh);
@@ -136,7 +137,16 @@ const GuardianList = () => {
     setEditState(prevState => prevState + 1);
     console.log("돼라");
   };
-
+  const handleSearch = value => {
+    console.log(value);
+    getAdminParentList({
+      successFn: successGetFn,
+      errorGetFn,
+      page,
+      iclass,
+      search: value,
+    });
+  };
   // 학부모 리스트 GET
   const [parentList, setParentList] = useState(initParentList);
   const { isLogin } = useCustomLogin();
@@ -148,7 +158,13 @@ const GuardianList = () => {
       setIsNavigate(`/login`);
       return;
     } else {
-      getAdminParentList({ successFn: successGetFn, errorGetFn, page, iclass });
+      getAdminParentList({
+        successFn: successGetFn,
+        errorGetFn,
+        page,
+        iclass,
+        search: "",
+      });
     }
   }, [page, iclass, checkedItems, editState]);
 
@@ -184,11 +200,14 @@ const GuardianList = () => {
             </Button>
           </Dropdown>
           <Search
-            placeholder="검색어를 입력하세요."
+            placeholder="이름을 입력하세요."
             style={{
               width: 200,
             }}
             allowClear
+            onSearch={value => {
+              handleSearch(value);
+            }}
           />
           <GreenBtn onClick={handleDeleteClick}>선택회원삭제</GreenBtn>
           {/* 안내창 */}

@@ -34,6 +34,15 @@ export const TeacherIdItem = styled.div`
   width: 100%;
   display: flex;
   gap: 1rem;
+  button {
+    padding: 1rem 1rem;
+    height: 3.5rem;
+    font-size: 1.6rem;
+    font-family: KOTRAHOPE, Pretendard, sans-serif;
+    background: ${colors.orangeLight};
+    color: ${colors.orangeDeep};
+    border-radius: 1rem;
+  }
 `;
 
 export const TeacherClassInfo = styled.div`

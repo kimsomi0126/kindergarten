@@ -12,10 +12,11 @@ export const getAdminParentList = async ({
   errorFn,
   page,
   iclass,
+  search,
 }) => {
   try {
     const res = await jwtAxios.get(
-      `${path}/parent?page=${page}&iclass=${iclass}`,
+      `${path}/parent?page=${page}&iclass=${iclass}&search=${search}`,
     );
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
@@ -101,10 +102,11 @@ export const getAdminStudentList = async ({
   errorFn,
   page,
   kidCheck,
+  search,
 }) => {
   try {
     const res = await jwtAxios.get(
-      `${path}/kid?page=${page}&kidCheck=${kidCheck}`,
+      `${path}/kid?page=${page}&kidCheck=${kidCheck}&search=${search}`,
     );
     const status = res.status.toString();
     if (status.charAt(0) === "2") {

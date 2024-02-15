@@ -36,11 +36,22 @@ const StudList = () => {
   const [changeState, setChangeState] = useState(0);
   const { loginState } = useCustomLogin();
   const [serchParams, setSearchParams] = useSearchParams();
+  const [searchText, setSearchText] = useState("");
 
   const page = serchParams.get("page");
   const kidCheck = serchParams.get("kidCheck");
   const { isLogin } = useCustomLogin();
   const navigate = useNavigate();
+  const handleSearch = value => {
+    console.log(value);
+    getAdminStudentList({
+      successFn,
+      errorFn,
+      page,
+      kidCheck,
+      search: value,
+    });
+  };
   // 원생 리스트 GET
   useEffect(() => {
     if (!isLogin) {
@@ -55,6 +66,7 @@ const StudList = () => {
         errorFn,
         page,
         kidCheck,
+        search: "",
       });
     }
   }, [page, kidCheck, checkedItems]);
@@ -99,8 +111,6 @@ const StudList = () => {
     setCheckedItems(item);
   };
   // console.log("체크", checkedItems);
-
-  // 반 변경 모달창
 
   // 선택 졸업 & 선택 퇴소 모달
   const [delOpen, setDelOpen] = useState(false);
@@ -222,11 +232,14 @@ const StudList = () => {
             </Button>
           </Dropdown>
           <Search
-            placeholder="검색어를 입력하세요."
+            placeholder="이름을 입력하세요."
             style={{
               width: 200,
             }}
             allowClear
+            onSearch={value => {
+              handleSearch(value);
+            }}
           />
           <BlueBtn
             onClick={() => {
@@ -242,22 +255,6 @@ const StudList = () => {
           >
             재원 상태 변경
           </PurpleBtn>
-          {/* <PurpleBtn
-            onClick={() => {
-              setChangeState(-1);
-              handleChangeClick();
-            }}
-          >
-            선택졸업
-          </PurpleBtn>
-          <OrangeBtn
-            onClick={() => {
-              setChangeState(-2);
-              handleChangeClick();
-            }}
-          >
-            선택퇴소
-          </OrangeBtn> */}
         </StudentTopRight>
       </StudentTop>
       <StudListComponent

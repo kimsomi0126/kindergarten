@@ -66,18 +66,19 @@ const SideMenu = () => {
           src={process.env.PUBLIC_URL + "/images/common/sidebar/manager.svg"}
         />,
         [
-          getItem(<Link to="/admin?page=1&iclass=0">학부모관리</Link>, "5-1"),
+          getItem(<Link to="/admin?page=1&iclass=0">학부모 관리</Link>, "5-1"),
           getItem(
-            <Link to="/admin/student?page=1&kidCheck=0">원생관리</Link>,
+            <Link to="/admin/student?page=1&kidCheck=0">원생 관리</Link>,
             "5-2",
           ),
-          getItem(<Link to="/admin/student/create">원생등록</Link>, "5-3"),
+          getItem(<Link to="/admin/student/create">원생 등록</Link>, "5-3"),
           getItem(
             <Link to={`/ind?year=${currentYear}&page=1&iclass=0`}>
               알림장 목록
             </Link>,
             "5-4",
           ),
+          getItem(<Link to="/admin/teacher">선생님 관리</Link>, "5-5"),
         ],
       ),
     );

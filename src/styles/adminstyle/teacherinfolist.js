@@ -35,7 +35,6 @@ export const TeacherListItem = styled.li`
   background: ${colors.white};
   padding: 2rem;
   ${shadow}
-  cursor: pointer;
   input {
     z-index: 999;
     position: absolute;
@@ -43,14 +42,34 @@ export const TeacherListItem = styled.li`
     top: 2rem;
   }
 `;
-export const ListBoxTop = styled.div`
-  display: flex;
-  button {
-    position: absolute;
-    right: 2rem;
-    bottom: 2rem;
+export const ListBox = styled.div`
+  position: relative;
+  width: 100%;
+  dl {
+    display: flex;
+    font-size: 1.5rem;
+    font-weight: 300;
+    dt {
+      color: ${colors.grayDeep};
+      margin-right: 3rem;
+    }
+    dd {
+      color: ${colors.black};
+    }
   }
 `;
+export const ListBoxTop = styled.div`
+  position: relative;
+  display: flex;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 1rem;
+  button {
+    position: absolute;
+    right: 1rem;
+    bottom: 1rem;
+  }
+`;
+
 export const TeacherImgInfo = styled.div`
   width: 8rem;
   aspect-ratio: 1/1;
@@ -115,5 +134,26 @@ export const TeacherInfo = styled.div`
 `;
 
 export const InfoBox = styled.div`
-  border-top: 1px solid ${colors.grayLight};
+  display: flex;
+  flex-wrap: wrap;
+  dl {
+    margin-top: 2rem;
+    width: 45%;
+    dt {
+      margin-right: 2rem;
+    }
+  }
+  p {
+    margin-top: 2rem;
+    color: ${colors.grayDeep};
+    font-size: 1.5rem;
+    font-weight: 300;
+    width: 100%;
+  }
+  span {
+    margin-top: 2rem;
+    color: ${colors.black};
+    font-size: 1.5rem;
+    font-weight: 300;
+  }
 `;

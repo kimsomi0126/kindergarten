@@ -195,10 +195,15 @@ table {
   }
 }
 @media only screen and (max-width: 768px) {
-  html {
-    font-size: 6px;
-  }
   .layout-wrap .ant-form-item {
     margin-bottom: 1rem !important;
+  }
+  :where(.css-dev-only-do-not-override-dkbvqv).ant-modal-root .ant-modal {
+    max-width: 350px;
+  }
+}
+@media only screen and (max-width: 375px) {
+  :where(.css-dev-only-do-not-override-dkbvqv).ant-modal-root .ant-modal {
+    max-width: 300px;
   }
 }

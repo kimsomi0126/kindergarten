@@ -76,7 +76,7 @@ export const MainAlbumList = styled.ul`
       }
     }
   }
-  ${mq.mobileSmall} {
+  ${mq.mobileBig} {
     li {
       width: 49%;
     }

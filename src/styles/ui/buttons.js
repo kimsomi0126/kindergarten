@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { colors, shadow } from "../basic";
+import { colors, mq, shadow } from "../basic";
 import { Button, Modal, Space } from "antd";
 // 버튼 기본 스타일 정의
 const defaultBtnStyle = {
@@ -137,6 +137,9 @@ export const AllBtn = styled.button`
   z-index: 11;
   word-break: break-all;
   line-height: 1;
+  ${mq.mobileBig} {
+    top: 15rem;
+  }
 `;
 
 export const StyledeleteModal = styled(Modal)`

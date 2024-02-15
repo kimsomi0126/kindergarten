@@ -1,31 +1,29 @@
 /* eslint-disable no-undef */
 import styled from "@emotion/styled";
-import { colors, fonts, shadow } from "../basic";
+import { colors, fonts, mq, shadow } from "../basic";
 export const AlbumWrap = styled.div`
   overflow: hidden;
   font-family: "KOTRAHOPE";
-  padding-top: ${props => props.paddingTop + "px"};
+  padding-top: 4rem;
 
   width: ${props => props.width + "%"};
   margin: 0 auto;
   height: ${props => props.height + "%"};
-  input {
-    padding: 8px;
-    border: 1px solid ${colors.grayLight};
-    border-radius: 10px;
-  }
-  input::placeholder {
-    color: ${colors.grayDeep};
+
+  ${mq.mobileBig} {
+    padding-top: 0rem;
   }
 `;
 
 export const AlbumTopBar = styled.div`
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 3.75rem;
-  padding: 1.8rem;
+  /* height: 3.75rem; */
+  /* padding: 1.8rem; */
+  margin-bottom: 2rem;
 `;
 export const SearchBar = styled.div`
   img {
@@ -33,6 +31,17 @@ export const SearchBar = styled.div`
     width: 5%;
     right: 30%;
     height: 100%;
+  }
+  .ant-input-affix-wrapper {
+    width: 20rem;
+    height: 4rem;
+  }
+  ${mq.mobileBig} {
+    margin-left: auto;
+
+    .ant-input-affix-wrapper {
+      width: 10rem;
+    }
   }
 `;
 export const InnerAlbum = styled.div`
@@ -67,40 +76,59 @@ export const InnerAlbum = styled.div`
 // export const HeaderLeft = styled.div`
 
 export const AlbumList = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr); // 3개의 이미지를 가로로 나란히 표시
-  gap: 0.4rem;
+  /* display: grid;
+  grid-template-columns: repeat(3, 1fr); // 3개의 이미지를 가로로 나란히 표시 */
+  gap: 2%;
   margin: 0px auto;
   position: relative;
+  display: flex;
+  flex-wrap: wrap;
   z-index: 2;
-
-  .image-grid {
-    gap: 1.6rem;
-    margin: 1.6rem;
-    text-align: center;
+  > a {
+    display: block;
+    width: 32%;
+    margin-bottom: 3rem;
   }
-  .image-grid > p {
-    font-size: 1.8rem;
-    margin: 1rem 0;
-    font-family: ${fonts.pretendard};
-    color: ${colors.black};
+  .image-grid {
+    /* gap: 1.6rem; */
+    /* margin: 1.6rem; */
+    text-align: center;
+    p {
+      font-size: 1.8rem;
+      margin: 1rem 0;
+      font-family: ${fonts.pretendard};
+      color: ${colors.black};
+    }
   }
   .image-item {
     display: flex;
     flex-wrap: wrap;
-  }
-
-  .image-item img {
-    border-radius: 5%;
+    justify-content: center;
+    background: #000;
+    border-radius: 1rem;
     width: 100%;
-    text-align: center;
+    aspect-ratio: 1/1;
+    overflow: hidden;
+    img {
+      width: 100%;
+      text-align: center;
+      /* height: 40rem; */
+    }
   }
-
   .loading {
     height: 10rem;
     margin: 3rem;
     text-align: center;
     font-size: 2rem;
+  }
+  ${mq.mobileBig} {
+    > a {
+      width: 49%;
+      margin-bottom: 1rem;
+    }
+    .image-grid p {
+      font-size: 1.6rem;
+    }
   }
 `;
 

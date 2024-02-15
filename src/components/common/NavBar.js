@@ -1,12 +1,12 @@
 import React from "react";
-import { HeaderBtn, NavWrap } from "../../styles/basic";
+import { HeaderBtn, LogoWrap, NavWrap } from "../../styles/basic";
 import {
   GrayBtn,
   GreenBtn,
   OrangeBtn,
   PurpleBtn,
 } from "../../styles/ui/buttons";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useCustomLogin from "../../hooks/useCustomLogin";
 
 const NavBar = () => {
@@ -22,6 +22,9 @@ const NavBar = () => {
   };
   return (
     <NavWrap>
+      <Link to={"/"} className="nav-logo">
+        <img src={process.env.PUBLIC_URL + "/images/common/header/logo.svg"} />
+      </Link>
       <p>
         {isLogin
           ? `${loginState.teacherNm} 환영합니다.`

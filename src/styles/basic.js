@@ -7,7 +7,7 @@ import { Layout } from "antd";
 export const mq = {
   pc: "@media only screen and (max-width: 1300px)",
   tablet: "@media only screen and (max-width: 1024px)",
-  mobileBig: "@media only screen and (max-width: 765px)",
+  mobileBig: "@media only screen and (max-width: 769px)",
   mobileSmall: "@media only screen and (max-width: 375px)",
 };
 
@@ -126,6 +126,20 @@ export const NavWrap = styled.div`
     font-family: ${fonts.kotraHope};
     color: ${colors.greenDeep};
   }
+  .nav-logo {
+    width: 10rem;
+    display: block;
+    margin-right: auto;
+    display: none;
+    img {
+      width: 100%;
+    }
+  }
+  ${mq.mobileBig} {
+    .nav-logo {
+      display: block;
+    }
+  }
 `;
 
 // 상단 navbar 버튼
@@ -188,6 +202,19 @@ export const SideBarWrap = styled.div`
       width: 50px !important;
     }
   }
+  ${mq.mobileBig} {
+    position: absolute;
+    height: 100%;
+    left: 0;
+    top: 0;
+    .ant-layout-sider-collapsed {
+      min-width: 0 !important;
+      width: 0 !important;
+      img {
+        display: none;
+      }
+    }
+  }
 `;
 
 // 로고
@@ -234,7 +261,14 @@ export const FooterBus = styled.div`
     "/images/common/footer/footer_bus.svg"})
     no-repeat center/100%;
 
-  animation: ${animationGo} 10s infinite ease-in-out;
+  animation: ${animationGo} 15s infinite linear;
+
+  ${mq.mobileBig} {
+    width: 5rem;
+    height: 5rem;
+    bottom: 0;
+    animation: ${animationGo} 12s infinite linear;
+  }
 `;
 
 // 서브페이지 타이틀

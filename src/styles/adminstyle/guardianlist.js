@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { colors, shadow } from "../basic";
+import { colors, mq, shadow } from "../basic";
 
 export const UserTop = styled.div`
   margin-top: 1rem;
@@ -9,7 +9,7 @@ export const UserTop = styled.div`
 
 export const UserTopRight = styled.div`
   display: flex;
-  justify-content: flex-end;
+  /* justify-content: flex-end; */
   align-items: center;
   gap: 1rem;
 `;

@@ -88,19 +88,24 @@ const InfoClass = () => {
 
         {classHibiscus.length !== 0 ? (
           <Swiper
-            slidesPerView={4}
-            spaceBetween="30"
-            loop="true"
+            slidesPerView={3}
+            slidesPerGroup={1}
+            spaceBetween="0"
             speed={800}
             pagination={{
               el: ".page1",
+            }}
+            breakpoints={{
+              768: {
+                slidesPerView: 4,
+                spaceBetween: 30,
+              },
             }}
             autoplay={{
               delay: 3000,
               disableOnInteraction: false,
             }}
             modules={[Autoplay, Pagination]}
-            className="class1"
           >
             {Array.isArray(classHibiscus) &&
               classHibiscus.map((item, index) => (
@@ -131,13 +136,18 @@ const InfoClass = () => {
         </MyClassWrap>
         {classSunflower.length !== 0 ? (
           <Swiper
-            slidesPerView={4}
+            slidesPerView={3}
             slidesPerGroup={1}
-            spaceBetween="30"
-            loop="true"
+            spaceBetween="0"
             speed={800}
             pagination={{
               el: ".page2",
+            }}
+            breakpoints={{
+              768: {
+                slidesPerView: 4,
+                spaceBetween: 30,
+              },
             }}
             autoplay={{
               delay: 3000,
@@ -147,7 +157,7 @@ const InfoClass = () => {
           >
             {Array.isArray(classSunflower) &&
               classSunflower.map((item, index) => (
-                <SwiperSlide key={`class1_${index}`}>
+                <SwiperSlide key={`class2_${index}`}>
                   <KidsInfo>
                     <ImgBox className="kid_img">
                       <img
@@ -167,7 +177,6 @@ const InfoClass = () => {
         )}
       </ClassWrap>
       {/* 장미반 */}
-
       <ClassWrap className="class3">
         <MyClassWrap state={3}>
           <MyClass state={3} />
@@ -175,24 +184,28 @@ const InfoClass = () => {
         </MyClassWrap>
         {classRose.length !== 0 ? (
           <Swiper
-            slidesPerView={4}
+            slidesPerView={3}
             slidesPerGroup={1}
-            spaceBetween="30"
-            loop="true"
+            spaceBetween="0"
             speed={800}
             pagination={{
               el: ".page3",
+            }}
+            breakpoints={{
+              768: {
+                slidesPerView: 4,
+                spaceBetween: 30,
+              },
             }}
             autoplay={{
               delay: 3000,
               disableOnInteraction: false,
             }}
             modules={[Autoplay, Pagination]}
-            className="class3"
           >
             {Array.isArray(classRose) &&
               classRose.map((item, index) => (
-                <SwiperSlide key={`class1_${index}`}>
+                <SwiperSlide key={`class3_${index}`}>
                   <KidsInfo>
                     <ImgBox className="kid_img">
                       <img

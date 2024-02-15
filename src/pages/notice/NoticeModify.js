@@ -4,25 +4,24 @@ import { Button, Checkbox, Form, Input, Upload, Modal } from "antd";
 import { PageTitle } from "../../styles/basic";
 import { GreenBtn, PinkBtn } from "../../styles/ui/buttons";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { getList, putNotice } from "../../api/notice/notice_api";
+import { getDetail, getList, putNotice } from "../../api/notice/notice_api";
 import { IMG_URL, SERVER_URL } from "../../api/config";
 import { FileListStyle } from "../../styles/album/album";
 
 const path = `${IMG_URL}/api/full`;
-const imgpath = `${IMG_URL}/pic/full`;
+const imgpath = `${IMG_URL}/pic/fullnotice`;
 const customRequest = ({ onSuccess }) => {
   onSuccess("ok");
 };
-const obj = {
-  pics: [""],
-  dto: {
-    ifullNotice: 0,
+const obj = [
+  {
     fullTitle: "",
     fullContents: "",
-    fullNoticeFix: 0,
-    iteacher: 0,
+    writer: "",
+    createdAT: "",
+    pics: [],
   },
-};
+];
 
 const NoticeModify = () => {
   const { tno } = useParams();
@@ -125,7 +124,7 @@ const NoticeModify = () => {
           fullContents: data.albumContents,
           fullNoticeFix: data.fullNoticeFix,
           iteacher: 1,
-          delPics: [0],
+          delPics: [],
         }),
       ],
       { type: "application/json" },
@@ -155,7 +154,7 @@ const NoticeModify = () => {
       });
 
       // 응답 처리
-      // console.log("Response from putAlbum:", response);
+      console.log("Response from putNotice:", response);
     } catch (error) {
       handleError(error.message);
     }
@@ -163,22 +162,23 @@ const NoticeModify = () => {
 
   useEffect(() => {
     const fetchNoticeData = async () => {
-      getList({
+      getDetail({
         tno: tno,
         successFn: data => {
           setNoticeData(data);
           form.setFieldsValue({
-            noticeTitle: data.noticeTitle,
-            noticeContents: data.noticeContents,
+            fullTitle: data.fullTitle,
+            fullContents: data.fullContents,
           });
 
           // Transform album pictures for the fileList state
-          const transformedFileList = data.noitcePic.map((pic, index) => ({
+          const transformedFileList = data.pics.map((picObj, index) => ({
             uid: index.toString(), // uid is required to be unique
-            name: pic, // file name
+            name: picObj.pic, // file name
             status: "done", // upload status
-            url: `${imgpath}/${tno}/${pic}`, // file URL, adjust the path as needed
+            url: `${imgpath}/${tno}/${picObj.pic}`, // file URL, adjust the path as needed
           }));
+          console.log("transformedFileList", transformedFileList);
           setFileList(transformedFileList);
         },
         failFn: errorMessage => {

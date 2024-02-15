@@ -9,6 +9,7 @@ export const getDetail = async ({ tno, successFn, failFn, errorFn }) => {
     const res = await jwtAxios.get(`${path}?iFullNotice=${tno}`);
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
+      console.log("res.data", res.data);
       successFn(res.data);
     } else {
       failFn("자료 호출 에러입니다.");

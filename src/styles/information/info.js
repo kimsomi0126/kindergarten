@@ -176,6 +176,9 @@ export const KidsInfo = styled.div`
 export const LocationWrap = styled.div`
   position: relative;
   padding-bottom: 15rem;
+  ${mq.mobileBig} {
+    padding-bottom: 5rem;
+  }
 `;
 export const MapWrap = styled.div`
   margin-top: 3rem;
@@ -192,6 +195,11 @@ export const MapWrap = styled.div`
     bottom: 2rem;
     z-index: 9;
     background: #fff;
+  }
+  ${mq.mobileBig} {
+    #map {
+      height: 30rem;
+    }
   }
 `;
 export const MapInfoList = styled.div`
@@ -213,5 +221,16 @@ export const MapInfoList = styled.div`
   h4 {
     color: ${colors.greenDeep};
     margin: 2rem 0 1rem;
+  }
+
+  ${mq.mobileBig} {
+    li {
+      padding: 2rem 1rem;
+      width: 49%;
+      margin-bottom: 1rem;
+    }
+    img {
+      width: 5rem;
+    }
   }
 `;

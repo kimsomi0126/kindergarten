@@ -63,6 +63,10 @@ h4,
 h5 {
   font-family: "KOTRAHOPE", "Pretendard", sans-serif;
 }
+pre {
+  font-family: "Pretendard", sans-serif;
+  white-space: pre-wrap;
+}
 
 h1,
 h2 {

@@ -30,6 +30,7 @@ import { IMG_URL, SERVER_URL } from "../../api/config";
 import useCustomLogin from "../../hooks/useCustomLogin";
 import ModalOneBtn from "../ui/ModalOneBtn";
 import ModalTwoBtn from "../ui/ModalTwoBtn";
+import { PageTitle } from "../../styles/basic";
 const path = `${IMG_URL}/pic/album`;
 
 const host = `${SERVER_URL}/album`;
@@ -153,7 +154,7 @@ const DetailsAlbum = ({ pno, isLogin }) => {
   return (
     <AlbumWrap paddingTop={40}>
       <AlbumTopBar padding={1}>
-        <AlbumTitle>활동앨범</AlbumTitle>
+        <PageTitle>활동앨범</PageTitle>
       </AlbumTopBar>
       <ContentWrap>
         <TitleWrap>
@@ -200,7 +201,7 @@ const DetailsAlbum = ({ pno, isLogin }) => {
             </Swiper>
           </SwiperWrap>
           <DetailsText>
-            <p>{albumData.albumContents}</p>
+            <pre>{albumData.albumContents}</pre>
           </DetailsText>
           {/* <Comment /> */}
         </MainContent>
@@ -231,21 +232,21 @@ const DetailsAlbum = ({ pno, isLogin }) => {
             subTitle="앨범이 성공적으로 삭제되었습니다."
           />
         )}
-        <Footer>
-          <Link to="/album">
-            <GreenBtn>목록보기</GreenBtn>
-          </Link>
-
-          {isLogin ? (
-            <>
-              <Link to={`${host}/modify/${pno}`}>
-                <BlueBtn>수정</BlueBtn>
-              </Link>
-              <PinkBtn onClick={showDeleteModal}>삭제</PinkBtn>
-            </>
-          ) : null}
-        </Footer>
       </ContentWrap>
+      <Footer>
+        <Link to="/album">
+          <GreenBtn>목록보기</GreenBtn>
+        </Link>
+
+        {isLogin ? (
+          <>
+            <Link to={`${host}/modify/${pno}`}>
+              <BlueBtn>수정</BlueBtn>
+            </Link>
+            <PinkBtn onClick={showDeleteModal}>삭제</PinkBtn>
+          </>
+        ) : null}
+      </Footer>
     </AlbumWrap>
   );
 };

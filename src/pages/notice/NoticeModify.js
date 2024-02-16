@@ -85,7 +85,7 @@ const NoticeModify = () => {
   };
 
   const handleError = error => {
-    console.error("앨범 업로드 오류:", error);
+    console.error("유치원소식 수정 오류:", error);
     Modal.error({
       title: "유치원소식 수정 중 오류 발생",
       content:
@@ -120,8 +120,8 @@ const NoticeModify = () => {
       [
         JSON.stringify({
           ifullNotice: tno,
-          fullTitle: data.albumTitle,
-          fullContents: data.albumContents,
+          fullTitle: data.fullTitle,
+          fullContents: data.fullContents,
           fullNoticeFix: data.fullNoticeFix,
           iteacher: 1,
           delPics: [],
@@ -133,17 +133,17 @@ const NoticeModify = () => {
 
     // 새로 추가된 이미지 파일을 FormData에 추가합니다.
     fileList.forEach(async file => {
-      const response = await fetch(file);
-      const data = await response.blob();
+      console.log("file", file);
       if (file.originFileObj) {
         // 새로운 파일인 경우, 파일 데이터를 추가합니다.
         formData.append("pics", file.originFileObj);
-      } else if (file.url) {
-        // 이미 서버에 존재하는 파일인 경우, 파일 경로를 추가합니다.
-        formData.append("pics", file.url);
+        // } else if (file.url) {
+        //   // 이미 서버에 존재하는 파일인 경우, 파일 경로를 추가합니다.
+        //   formData.append("pics", file.url);
       }
     });
 
+    console.log("formData", formData);
     // 서버에 요청을 보냅니다.
     try {
       const response = await putNotice({

@@ -1,9 +1,8 @@
-/* eslint-disable no-undef */
 import styled from "@emotion/styled";
-import { colors, fonts, mq, shadow } from "../basic";
+import { boxStyle, colors, fonts, mq, shadow } from "../basic";
+
 export const AlbumWrap = styled.div`
   overflow: hidden;
-  font-family: "KOTRAHOPE";
   padding-top: 4rem;
 
   width: ${props => props.width + "%"};
@@ -21,8 +20,6 @@ export const AlbumTopBar = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  /* height: 3.75rem; */
-  /* padding: 1.8rem; */
   margin-bottom: 2rem;
 `;
 export const SearchBar = styled.div`
@@ -73,11 +70,8 @@ export const InnerAlbum = styled.div`
     margin-bottom: 0.625rem;
   }
 `;
-// export const HeaderLeft = styled.div`
 
 export const AlbumList = styled.div`
-  /* display: grid;
-  grid-template-columns: repeat(3, 1fr); // 3개의 이미지를 가로로 나란히 표시 */
   gap: 2%;
   margin: 0px auto;
   position: relative;
@@ -90,13 +84,10 @@ export const AlbumList = styled.div`
     margin-bottom: 3rem;
   }
   .image-grid {
-    /* gap: 1.6rem; */
-    /* margin: 1.6rem; */
     text-align: center;
     p {
       font-size: 1.8rem;
       margin: 1rem 0;
-      font-family: ${fonts.pretendard};
       color: ${colors.black};
     }
   }
@@ -112,7 +103,6 @@ export const AlbumList = styled.div`
     img {
       width: 100%;
       text-align: center;
-      /* height: 40rem; */
     }
   }
   .loading {
@@ -135,7 +125,6 @@ export const AlbumList = styled.div`
 export const SwiperWrap = styled.div`
   body {
     background-color: #eee;
-    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
     font-size: 14px;
     color: #000;
     margin: 0;
@@ -149,28 +138,33 @@ export const SwiperWrap = styled.div`
     display: flex;
     width: 100%;
     height: 100%;
-    padding-top: 40px;
-    padding-bottom: 60px;
+    padding-top: 4rem;
+    padding-bottom: 6rem;
   }
 
   .swiper-slide {
     background-position: center;
     background-size: cover;
-    width: 300px;
-    height: 300px;
+    width: 30rem;
+    height: 30rem;
+    img {
+      width: 100%;
+      height: 100%;
+    }
   }
 
-  .swiper-slide img {
-    width: 100%;
-    height: 100%;
+  button {
+    font-family: ${fonts.kotraHope};
   }
 `;
 
 export const ContentWrap = styled.div`
-  margin-top: 2rem;
-  background: #fff;
+  position: relative;
+  background: ${colors.white};
+  border: 2px solid ${colors.greenDeep};
+  border-width: 2px 0;
+  margin-top: 3rem;
 
-  border-top: 0.2rem solid ${colors.greenDeep};
   .rce-container-input {
     padding: 0 2rem;
     background-color: #fafafa;
@@ -187,25 +181,32 @@ export const AlbumTitle = styled.h3`
 
 export const TitleWrap = styled.div`
   display: flex;
-  height: 4rem;
   align-items: center;
   border-bottom: 1px solid ${colors.grayBar};
-  padding: 3.5rem;
+  padding: 2rem 1rem;
   position: relative;
   h3 {
     display: inline-block;
-    font-size: 2.7rem;
-    font-weight: 400;
     flex: 1;
     text-align: center;
   }
   p {
-    position: absolute;
-    right: 2rem;
-    font-family: Pretendard;
     font-size: 1.5rem;
     text-align: right;
     color: ${colors.grayDeep};
+  }
+
+  ${mq.mobileBig} {
+    flex-wrap: wrap;
+    h3,
+    p {
+      width: 100%;
+      display: block;
+    }
+    p {
+      margin-top: 1rem;
+      text-align: center;
+    }
   }
 `;
 
@@ -213,18 +214,17 @@ export const MainContent = styled.div`
   display: block;
   width: 100%;
   height: 100%;
-  border-bottom: 0.2rem solid ${colors.greenDeep};
 `;
 
 export const DetailsText = styled.div`
   overflow: auto;
   width: 100%;
   height: 100%;
-  font-family: Pretendard;
-  font-size: 2rem;
+  text-align: center;
+  font-size: 1.6rem;
 
-  p {
-    line-height: 1.8;
+  pre {
+    line-height: 1.5;
     margin: 2rem 0;
     text-align: center;
   }
@@ -249,11 +249,25 @@ export const CommentWrap = styled.div`
 `;
 
 export const FileListStyle = styled.div`
-  max-height: 300px;
+  max-height: 30rem;
   overflow-y: auto;
+  .ant-btn {
+    font-size: 1.4rem;
+  }
 `;
 
 export const buttonStyle = {
   position: "relative",
   zIndex: 100,
 };
+
+// 글작성 페이지 css(앨범, 소식 공통)
+export const WriteWrap = styled.div`
+  position: relative;
+  background: #fafafa;
+  border: 1px solid #f7f7f7;
+  border-top: 2px solid ${colors.greenDeep};
+  border-bottom: 2px solid ${colors.greenDeep};
+  margin: 3rem 0 2rem;
+  padding: 2rem;
+`;

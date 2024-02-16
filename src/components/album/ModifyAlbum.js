@@ -4,9 +4,9 @@ import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { getAlbum, putAlbum } from "../../api/album/album_api";
 import { IMG_URL } from "../../api/config";
-import { AlbumWrap, FileListStyle } from "../../styles/album/album";
+import { AlbumWrap, FileListStyle, WriteWrap } from "../../styles/album/album";
 import { PageTitle } from "../../styles/basic";
-import { GreenBtn, PinkBtn } from "../../styles/ui/buttons";
+import { BtnWrap, GreenBtn, PinkBtn } from "../../styles/ui/buttons";
 const path = `${IMG_URL}/api/album`;
 const imgpath = `${IMG_URL}/pic/album`;
 const customRequest = ({ onSuccess }) => {
@@ -38,8 +38,8 @@ const ModifyAlbum = () => {
   // };
 
   const uploadAreaStyle = {
-    height: "150px",
-    lineHeight: "150px",
+    height: "5rem",
+    lineHeight: "5rem",
   };
   const handleGreenButtonClick = () => {
     formRef.current.submit(); // Form의 submit 메서드 호출
@@ -250,18 +250,8 @@ const ModifyAlbum = () => {
   return (
     <AlbumWrap paddingTop={40} width={100} height={100}>
       <PageTitle>활동앨범</PageTitle>
-      <div
-        style={{
-          width: "100%",
-          height: 560,
-          padding: 16,
-          borderTop: "1.5px solid #00876D",
-          borderBottom: "1.5px solid #00876D",
-          background: "#FAFAFA",
-          marginTop: 30,
-        }}
-      >
-        <Form ref={formRef} form={form} onFinish={onFinish}>
+      <Form ref={formRef} form={form} onFinish={onFinish}>
+        <WriteWrap>
           <Form.Item
             name="albumTitle"
             initialValue={albumData.albumTitle} // 기존 값 설정
@@ -269,7 +259,6 @@ const ModifyAlbum = () => {
           >
             <Input placeholder="제목 입력" />
           </Form.Item>
-
           <Form.Item
             name="albumContents"
             initialValue={albumData.albumContents} // 기존 값 설정
@@ -298,25 +287,16 @@ const ModifyAlbum = () => {
               <Button icon={<UploadOutlined />}>업로드 </Button>
             </Upload.Dragger>
           </FileListStyle>
-        </Form>
-        <div
-          style={{
-            paddingTop: 15,
-            float: "right",
-            // position: "absolute",
-            // background: "red",
-          }}
-        >
-          <GreenBtn onClick={handleGreenButtonClick}>수정</GreenBtn>
-
-          <PinkBtn
-            onClick={handleCancelConfirmation}
-            style={{ marginLeft: 20 }}
-          >
+        </WriteWrap>
+        <BtnWrap style={{ justifyContent: "flex-end" }}>
+          <GreenBtn type="button" onClick={handleGreenButtonClick}>
+            수정
+          </GreenBtn>
+          <PinkBtn type="button" onClick={handleCancelConfirmation}>
             취소
           </PinkBtn>
-        </div>
-      </div>
+        </BtnWrap>
+      </Form>
 
       <Link to="/album">
         <Modal

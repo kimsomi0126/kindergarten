@@ -249,6 +249,10 @@ export const FooterWrap = styled.div`
     font-size: 1.3rem;
     color: #fff;
   }
+  ${mq.mobileBig} {
+    height: 6rem;
+    background-size: 100% 90%;
+  }
 `;
 
 export const FooterBus = styled.div`
@@ -266,7 +270,7 @@ export const FooterBus = styled.div`
   ${mq.mobileBig} {
     width: 5rem;
     height: 5rem;
-    bottom: 0;
+    bottom: 0.5rem;
     animation: ${animationGo} 12s infinite linear;
   }
 `;

@@ -33,6 +33,7 @@ export const TeacherIdForm = styled.div`
 export const TeacherIdItem = styled.div`
   width: 100%;
   display: flex;
+  flex-wrap: wrap;
   gap: 1rem;
   button {
     padding: 1rem 1rem;

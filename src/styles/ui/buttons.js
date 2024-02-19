@@ -23,6 +23,10 @@ export const BtnWrap = styled.div`
   display: flex;
   gap: 1rem;
   align-items: center;
+  /* 오른쪽 정렬 */
+  ${props => (props.right ? `justify-content: flex-end` : null)};
+  /* 가운데 정렬 */
+  ${props => (props.center ? `justify-content: center` : null)};
 `;
 
 // 색상 별 버튼 style

@@ -62,3 +62,9 @@ export const NoticeDate = styled.div`
     height: 2rem;
   }
 `;
+
+export const NoticeGallery = styled.div`
+  max-width: 60rem;
+  margin: 0 auto;
+  margin-top: 2rem;
+`;

@@ -147,7 +147,7 @@ const WriteAlbum = ({ albumData, submit }) => {
   };
 
   return (
-    <AlbumWrap paddingTop={40} width={100} height={100}>
+    <AlbumWrap>
       <PageTitle>활동앨범</PageTitle>
       <Form form={form} onFinish={onFinish}>
         <WriteWrap>
@@ -194,7 +194,7 @@ const WriteAlbum = ({ albumData, submit }) => {
             </Upload.Dragger>
           </FileListStyle>
         </WriteWrap>
-        <BtnWrap style={{ justifyContent: "flex-end" }}>
+        <BtnWrap right>
           <GreenBtn htmlType="submit">등록</GreenBtn>
           <PinkBtn onClick={handleCancelConfirmation}>취소</PinkBtn>
         </BtnWrap>

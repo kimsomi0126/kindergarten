@@ -3,7 +3,7 @@ import { boxStyle, colors, fonts, mq, shadow } from "../basic";
 
 export const AlbumWrap = styled.div`
   overflow: hidden;
-  padding-top: 4rem;
+  /* padding-top: 4rem; */
 
   width: ${props => props.width + "%"};
   margin: 0 auto;
@@ -239,13 +239,13 @@ export const Footer = styled.div`
   z-index: 10;
 
   button {
-    margin-left: 1rem;
+    //margin-left: 1rem;
   }
 `;
 
 export const CommentWrap = styled.div`
-  background-color: #fafafa;
-  padding-bottom: 2rem;
+  /* background-color: #fafafa;
+  padding-bottom: 2rem; */
 `;
 
 export const FileListStyle = styled.div`

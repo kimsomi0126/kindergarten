@@ -248,7 +248,7 @@ const ModifyAlbum = () => {
   // }, [pno, form]);
 
   return (
-    <AlbumWrap paddingTop={40} width={100} height={100}>
+    <AlbumWrap>
       <PageTitle>활동앨범</PageTitle>
       <Form ref={formRef} form={form} onFinish={onFinish}>
         <WriteWrap>
@@ -288,7 +288,7 @@ const ModifyAlbum = () => {
             </Upload.Dragger>
           </FileListStyle>
         </WriteWrap>
-        <BtnWrap style={{ justifyContent: "flex-end" }}>
+        <BtnWrap right>
           <GreenBtn type="button" onClick={handleGreenButtonClick}>
             수정
           </GreenBtn>

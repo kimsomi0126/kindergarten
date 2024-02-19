@@ -2,13 +2,14 @@ import { UploadOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Form, Input, Modal, Upload } from "antd";
 import React, { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FileListStyle } from "../../styles/album/album";
+import { FileListStyle, WriteWrap } from "../../styles/album/album";
 import { PageTitle } from "../../styles/basic";
-import { GreenBtn, PinkBtn } from "../../styles/ui/buttons";
+import { BtnWrap, GreenBtn, PinkBtn } from "../../styles/ui/buttons";
 
 import { postNotice } from "../../api/notice/notice_api";
 import { SERVER_URL } from "../../api/config";
 import ModalOneBtn from "../../components/ui/ModalOneBtn";
+import { NoticeWrap } from "../../styles/notice/notice";
 const path = `${SERVER_URL}/api/full`;
 
 const NoticeWrite = () => {
@@ -122,24 +123,13 @@ const NoticeWrite = () => {
   };
 
   return (
-    <div>
+    <NoticeWrap>
       <PageTitle>유치원 소식</PageTitle>
-      <div
-        style={{
-          width: "100%",
-          height: 600,
-          padding: 16,
-          borderTop: "1.5px solid #00876D",
-          borderBottom: "1.5px solid #00876D",
-          background: "#FAFAFA",
-          marginTop: 30,
-        }}
-      >
-        <Checkbox onChange={onChange} style={{ marginBottom: 10 }}>
-          상단고정
-        </Checkbox>
-
-        <Form form={form} onFinish={onFinish}>
+      <Form form={form} onFinish={onFinish}>
+        <WriteWrap>
+          <Checkbox onChange={onChange} style={{ marginBottom: 10 }}>
+            상단고정
+          </Checkbox>
           <Form.Item
             name="fullTitle"
             rules={[
@@ -151,9 +141,7 @@ const NoticeWrite = () => {
           >
             <Input placeholder="제목 입력" />
           </Form.Item>
-
           <Form.Item
-            style={{ height: "150px" }}
             name="fullContents"
             rules={[
               {
@@ -167,7 +155,6 @@ const NoticeWrite = () => {
               style={{ height: "150px" }}
             />
           </Form.Item>
-
           <FileListStyle>
             <Upload.Dragger
               action={`${path}`}
@@ -183,25 +170,15 @@ const NoticeWrite = () => {
               <Button icon={<UploadOutlined />}>업로드(최대 10개)</Button>
             </Upload.Dragger>
           </FileListStyle>
-
-          <div
-            style={{
-              marginTop: 35,
-              display: "flex",
-              justifyContent: "flex-end",
-            }}
-          >
-            <GreenBtn htmlType="submit">등록</GreenBtn>
-            <PinkBtn
-              onClick={handleCancelConfirmation}
-              style={{ marginLeft: 20 }}
-            >
-              취소
-            </PinkBtn>
-          </div>
-        </Form>
-      </div>
-
+        </WriteWrap>
+        <BtnWrap right>
+          <GreenBtn>등록</GreenBtn>
+          <PinkBtn type="button" onClick={handleCancelConfirmation}>
+            취소
+          </PinkBtn>
+        </BtnWrap>
+      </Form>
+      {/* 모달창 */}
       <Link to="/notice">
         {/* 등록 성공 모달 */}
         {showSuccessModal && (
@@ -233,7 +210,7 @@ const NoticeWrite = () => {
           />
         )}
       </Link>
-    </div>
+    </NoticeWrap>
   );
 };
 

@@ -106,26 +106,6 @@ export const postAlbum = async ({ product, successFn, failFn, errorFn }) => {
   }
 };
 
-// 앨범 댓글 등록 POST
-// path
-export const postAlbumComment = async ({ successFn, failFn, errorFn }) => {
-  try {
-    const header = { headers: { "Content-Type": "multipart/form-data" } };
-    const res = await jwtAxios.post();
-    const status = res.status.toString();
-    if (status.charAt(0) === "2") {
-      // 화면처리용
-      successFn(res.data);
-    } else {
-      failFn("댓글 등록에 실패하였습니다. 다시 시도해주세요.");
-    }
-  } catch (error) {
-    errorFn(
-      "댓글 등록에 실패하였습니다. 서버가 불안정하니 잠시 후 다시 시도해주세요.",
-    );
-  }
-};
-
 // 앨범 글 삭제 Delete
 // ?ialbum=1
 export const deleteAlbum = async ({ ialbum, successFn, failFn, errorFn }) => {
@@ -147,6 +127,23 @@ export const deleteAlbum = async ({ ialbum, successFn, failFn, errorFn }) => {
   }
 };
 
+// 앨범 댓글 등록 POST
+// path /comment
+export const postAlbumComment = async ({ obj, successFn, failFn, errorFn }) => {
+  try {
+    const res = await jwtAxios.post(`${path}/comment`, obj);
+    const status = res.status.toString();
+    if (status.charAt(0) === "2") {
+      // 화면처리용
+      successFn(res.data);
+    } else {
+      failFn("댓글 등록에 실패하였습니다. 다시 시도해주세요.");
+    }
+  } catch (error) {
+    errorFn(error);
+  }
+};
+
 // 앨범 댓글 삭제 Delete
 // comment?ialbumComment=0&ialbum=0&iteacher=0&iparent=0
 export const deleteAlbumComment = async ({
@@ -154,24 +151,31 @@ export const deleteAlbumComment = async ({
   ialbum,
   iteacher,
   iparent,
-  commentInfo,
   successFn,
   failFn,
   errorFn,
 }) => {
   try {
-    const header = { headers: { "Content-Type": "multipart/form-data" } };
+    // &iteacher=${iteacher}&iparent=${iparent}
+    const iwriter = () => {
+      if (iteacher) {
+        return `&iteacher=${iteacher}`;
+      }
+      if (iparent) {
+        return `&iparent=${iparent}`;
+      }
+    };
     const res = await jwtAxios.delete(
-      `${path}/comment?ialbumComment=${ialbumComment}&ialbum=${ialbum}&iteacher=${iteacher}&iparent=${iparent}`,
-      commentInfo,
+      `${path}/comment?ialbumComment=${ialbumComment}&ialbum=${ialbum}${iwriter()}`,
     );
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
+      // 화면처리용
       successFn(res.data);
     } else {
-      failFn();
+      failFn(res.data);
     }
   } catch (error) {
-    errorFn();
+    errorFn(error);
   }
 };

@@ -9,9 +9,7 @@ import { GreenBtn } from "../../styles/ui/buttons";
 const { Search } = Input;
 
 const onSearch = (value, _e, info) => console.log(info?.source, value);
-
 const pageSize = 10;
-
 const NoticeList = () => {
   // 고정 공지글과 일반 공지글을 분리하여 저장
   const [fixedNotices, setFixedNotices] = useState([]);
@@ -21,15 +19,12 @@ const NoticeList = () => {
   const [totalCount, setTotalCount] = useState(0);
   // 선생님 로그인 체크
   const { isLogin } = useCustomLogin();
-
   // 페이지 변경 처리
   const onChange = page => {
     setCurrent(page);
     fetchPageData(page); // 새 페이지 데이터를 가져옵니다.
   };
-
   const size = "small";
-
   // 페이지 데이터 가져오기
   const fetchPageData = page => {
     getList({
@@ -51,12 +46,10 @@ const NoticeList = () => {
       },
     });
   };
-
   // 컴포넌트가 마운트될 때 첫 페이지 데이터를 가져옵니다.
   useEffect(() => {
     fetchPageData(current);
   }, [current]);
-
   const successFn = result => {
     // console.log("성공", result);
     setListData(result);
@@ -67,9 +60,7 @@ const NoticeList = () => {
   const errorFn = result => {
     // console.log(result);
   };
-
   // console.log("확인", listData);
-
   return (
     <div style={{ marginTop: 30 }}>
       <Flex
@@ -92,7 +83,6 @@ const NoticeList = () => {
               marginRight: 20,
             }}
           />
-
           {isLogin ? (
             <Link to="/notice/write/">
               <GreenBtn
@@ -115,7 +105,6 @@ const NoticeList = () => {
           ) : null}
         </Flex>
       </Flex>
-
       <List
         size="large"
         itemLayout="vertical"
@@ -163,9 +152,7 @@ const NoticeList = () => {
                   {item.ifullNotice}
                 </div>
               )}
-
               {/* 게시글 번호, 제목, 날짜 표시 (최상단 고정글에는 번호 표시 안 함) */}
-
               <div style={{ flex: 1 }}>
                 <Link to={`/notice/details/${item.ifullNotice}`}>
                   <span
@@ -195,7 +182,6 @@ const NoticeList = () => {
           </Link>
         )}
       ></List>
-
       <Pagination
         current={current}
         onChange={onChange}
@@ -209,5 +195,4 @@ const NoticeList = () => {
     </div>
   );
 };
-
 export default NoticeList;

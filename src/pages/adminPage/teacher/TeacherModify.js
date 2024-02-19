@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   TBottomBt,
   TeacherClassForm,
@@ -19,7 +19,11 @@ import { UploadOutlined } from "@ant-design/icons";
 import TextArea from "antd/es/input/TextArea";
 import { GreenBtn, OrangeBtn, PinkBtn } from "../../../styles/ui/buttons";
 
-const TeacherCreate = () => {
+const TeacherModify = () => {
+  const [passwordEdit, setPasswordEdit] = useState(false);
+  const handleEdit = () => {
+    setPasswordEdit(true);
+  };
   return (
     <>
       <TeacherFormTop>
@@ -44,7 +48,7 @@ const TeacherCreate = () => {
                     },
                   ]}
                 >
-                  <Input placeholder="아이디 입력" />
+                  <Input disabled />
                 </Form.Item>
                 <Form.Item
                   name="teacherUpw"
@@ -59,9 +63,41 @@ const TeacherCreate = () => {
                     },
                   ]}
                 >
-                  <Input placeholder="비밀번호 입력" />
+                  <Input placeholder="기존 비밀번호" />
                 </Form.Item>
-                <OrangeBtn>비밀번호 수정</OrangeBtn>
+                <OrangeBtn type="button" onClick={handleEdit}>
+                  비밀번호 수정
+                </OrangeBtn>
+                <Form.Item
+                  name="teacherUpw"
+                  style={{
+                    width: "33%",
+                    display: passwordEdit ? "block" : "none",
+                  }}
+                  rules={[
+                    {
+                      required: true,
+                      message: "비밀번호를 입력해주세요.",
+                    },
+                  ]}
+                >
+                  <Input placeholder="기존 비밀번호 입력" />
+                </Form.Item>
+                <Form.Item
+                  name="teacherUpw"
+                  style={{
+                    width: "33%",
+                    display: passwordEdit ? "block" : "none",
+                  }}
+                  rules={[
+                    {
+                      required: true,
+                      message: "비밀번호를 입력해주세요.",
+                    },
+                  ]}
+                >
+                  <Input placeholder="새로운 비밀번호 입력" />
+                </Form.Item>
               </TeacherIdItem>
             </TeacherIdForm>
           </TeacherIdInfo>
@@ -90,6 +126,10 @@ const TeacherCreate = () => {
                     width: "33%",
                   }}
                   rules={[
+                    {
+                      type: "email",
+                      message: "올바른 E-mail 양식이 아닙니다.",
+                    },
                     {
                       required: true,
                       message: "이메일 주소를 입력해주세요.",
@@ -173,4 +213,4 @@ const TeacherCreate = () => {
   );
 };
 
-export default TeacherCreate;
+export default TeacherModify;

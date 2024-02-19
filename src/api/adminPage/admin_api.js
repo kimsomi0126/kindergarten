@@ -5,7 +5,7 @@ const path = `${SERVER_URL}/api/teacher`;
 const host = `${SERVER_URL}/api/kid`;
 
 // 학부모 관리 페이지
-// 학부모 관리 리스트 GET ㅇ
+// 학부모 관리 리스트 GET
 export const getAdminParentList = async ({
   successFn,
   failFn,
@@ -26,13 +26,12 @@ export const getAdminParentList = async ({
       failFn("자료 호출 에러입니다.");
     }
   } catch (error) {
-    const demo = await axios.get(`/guardian.json`);
-    errorFn(demo.data);
+    errorFn(error);
     // console.log(error);
   }
 };
 
-// 학부모 정보 수정 전 가져오기 GET ㅇ
+// 학부모 정보 수정 전 가져오기 GET
 export const getAdminParentInfo = async ({
   successFn,
   failFn,
@@ -43,9 +42,7 @@ export const getAdminParentInfo = async ({
     const res = await jwtAxios.get(`${path}/parentedit?iparent=${iparent}`);
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
-      // 화면처리용
       successFn(res.data);
-      // RTK 업데이트 처리를 위해 값 전달
       return res.data;
     } else {
       failFn("서버가 불안정합니다. 다시 시도해주세요.");
@@ -55,7 +52,7 @@ export const getAdminParentInfo = async ({
   }
 };
 
-// 학부모 정보 수정 PUT ㅇ
+// 학부모 정보 수정 PUT
 export const putAdminParentInfo = async ({
   obj,
   successEditFn,
@@ -66,9 +63,7 @@ export const putAdminParentInfo = async ({
     const res = await jwtAxios.put(`${path}/parentedit`, obj);
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
-      // 화면처리용
       successEditFn(res.data);
-      // RTK 업데이트 처리를 위해 값 전달
       return res.data;
     } else {
       failEditFn(res.data);
@@ -78,7 +73,7 @@ export const putAdminParentInfo = async ({
   }
 };
 
-// 학부모 정보 삭제 PUT ㅇ
+// 학부모 정보 삭제 PUT
 export const deleteParentList = async ({ successFn, failFn, errorFn, obj }) => {
   try {
     const res = await jwtAxios.put(`${path}/parent`, obj);
@@ -95,7 +90,7 @@ export const deleteParentList = async ({ successFn, failFn, errorFn, obj }) => {
 };
 
 // 원생 관리 페이지
-// 원생 관리 리스트 GET ㅇ
+// 원생 관리 리스트 GET
 export const getAdminStudentList = async ({
   successFn,
   failFn,
@@ -119,7 +114,7 @@ export const getAdminStudentList = async ({
   }
 };
 
-// 원생 승급 PATCH ㅇ
+// 원생 승급 PATCH
 export const patchClass = async ({
   successpatchFn,
   failpatchFn,
@@ -141,7 +136,7 @@ export const patchClass = async ({
   }
 };
 
-// 원생 등록 POST ㅇ
+// 원생 등록 POST
 export const postStudentCreate = async ({
   successFn,
   failFn,
@@ -162,7 +157,8 @@ export const postStudentCreate = async ({
     errorFn(res.message);
   }
 };
-// 원생 등록 수정 PUT ㅇ
+
+// 원생 등록 수정 PUT
 export const putStudentCreate = async ({
   successFn,
   failFn,
@@ -183,6 +179,7 @@ export const putStudentCreate = async ({
     errorFn(res.message);
   }
 };
+
 // 원생기본정보 GET
 export const getStudentInfo = async ({
   successGetFn,
@@ -194,9 +191,7 @@ export const getStudentInfo = async ({
     const res = await jwtAxios.get(`${host}/edit/${ikid}`);
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
-      // 화면처리용
       successGetFn(res.data);
-      // RTK 업데이트 처리를 위해 값 전달
       return res.data;
     } else {
       failGetFn("서버가 불안정합니다. 다시 시도해주세요.");
@@ -207,7 +202,7 @@ export const getStudentInfo = async ({
 };
 
 // 원생 상세 정보 & 원생 상세 정보 등록 페이지
-// 원생 상세 정보 POST ㅇ
+// 원생 상세 정보 POST
 export const postStudentDetail = async ({
   successAddFn,
   failAddFn,
@@ -218,7 +213,6 @@ export const postStudentDetail = async ({
     const res = await jwtAxios.post(`${host}/detail`, allDetailData);
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
-      // 화면처리용
       successAddFn(res.data);
     } else {
       failAddFn();
@@ -228,7 +222,7 @@ export const postStudentDetail = async ({
   }
 };
 
-// 원생 상세정보 GET ㅇ
+// 원생 상세정보 GET
 export const getDetailInfo = async ({
   successFn,
   failFn,
@@ -240,10 +234,8 @@ export const getDetailInfo = async ({
     const res = await jwtAxios.get(`${host}/detail/edit/${ikid}?year=${year}`);
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
-      // 화면처리용
       successFn(res.data);
       // console.log(res.data);
-      // RTK 업데이트 처리를 위해 값 전달
       return res.data;
     } else {
       failFn("서버가 불안정합니다. 다시 시도해주세요.");
@@ -253,7 +245,7 @@ export const getDetailInfo = async ({
   }
 };
 
-// 원생 상세정보 수정 PUT ㅇ
+// 원생 상세정보 수정 PUT
 export const putDetailEdit = async ({
   successEditFn,
   failEditFn,
@@ -264,9 +256,7 @@ export const putDetailEdit = async ({
     const res = await jwtAxios.put(`${host}/detail`, allDetailData);
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
-      // 화면처리용
       successEditFn(res.data);
-      // RTK 업데이트 처리를 위해 값 전달
       return res.data;
     } else {
       failEditFn(res.data);
@@ -276,7 +266,7 @@ export const putDetailEdit = async ({
   }
 };
 
-// 학부모 연결 삭제 ㅇ
+// 학부모 연결 삭제
 export const deleteAccount = async ({
   successDeleteFn,
   failDeleteFn,
@@ -290,9 +280,7 @@ export const deleteAccount = async ({
     );
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
-      // 화면처리용
       successDeleteFn(res.data);
-      // RTK 업데이트 처리를 위해 값 전달
       return res.data;
     } else {
       failDeleteFn(res.data);
@@ -302,7 +290,7 @@ export const deleteAccount = async ({
   }
 };
 
-// 원생 식별코드 수정 ㅇ
+// 원생 식별코드 수정
 export const patchCode = async ({
   successpatchFn,
   failpatchFn,
@@ -321,5 +309,51 @@ export const patchCode = async ({
   } catch (error) {
     const res = error.response.data;
     errorpatchFn(res.message);
+  }
+};
+
+// 선생님 관리 페이지
+// 선생님 관리 리스트 GET
+export const getTeacherList = async ({
+  successFn,
+  failFn,
+  errorFn,
+  iclass,
+  page,
+}) => {
+  try {
+    const res = await jwtAxios.get(`${path}?iclass=${iclass}&page=${page}`);
+    const status = res.status.toString();
+    if (status.charAt(0) === "2") {
+      console.log("res.data임 : ", res.data);
+      successFn(res.data);
+    } else {
+      failFn("자료 호출 에러입니다.");
+    }
+  } catch (error) {
+    errorFn(error);
+    // console.log(error);
+  }
+};
+
+// 선생님 등록 POST
+export const postTeacherCreate = async ({
+  successFn,
+  failFn,
+  errorFn,
+  teacher,
+}) => {
+  try {
+    const header = { headers: { "Content-Type": "multipart/form-data" } };
+    const res = await jwtAxios.post(`${path}/signup`, teacher, header);
+    const status = res.status.toString();
+    if (status.charAt(0) === "2") {
+      successFn(res.data);
+    } else {
+      failFn(res.data);
+    }
+  } catch (error) {
+    const res = error.response.data;
+    errorFn(res.message);
   }
 };

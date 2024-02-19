@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { LogoWrap, SideBarWrap } from "../../styles/basic";
 import Sider from "antd/es/layout/Sider";
@@ -7,8 +7,19 @@ import { AllBtn } from "../../styles/ui/buttons";
 
 const SideBar = () => {
   const [collapsed, setCollapsed] = useState(false);
+  const sideMenuRef = useRef(null);
+  useEffect(() => {
+    const handleOutsideClose = e => {
+      if (!collapsed && !sideMenuRef.current.contains(e.target))
+        setCollapsed(true);
+    };
+    document.addEventListener("click", handleOutsideClose);
+
+    return () => document.removeEventListener("click", handleOutsideClose);
+  }, [collapsed]);
+
   return (
-    <SideBarWrap>
+    <SideBarWrap ref={sideMenuRef}>
       <Sider
         breakpoint="lg"
         onCollapse={(collapsed, type) => {

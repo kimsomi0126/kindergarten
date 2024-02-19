@@ -13,7 +13,7 @@ export const getIndParentList = async ({
 }) => {
   try {
     const res = await jwtAxios.get(
-      `${path}?page=${page}&ikid=${ikid}&year=${year}`,
+      `${path}?page=${page}&ikid=${ikid}&year=${year}&fromTo=3`,
     );
     const status = res.status.toString();
     if (status.charAt(0) === "2") {

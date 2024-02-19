@@ -2,10 +2,9 @@ import { Flex, Input, List, Pagination } from "antd";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom"; // useNavigate 추가
 import { getList } from "../../api/notice/notice_api";
+import useCustomLogin from "../../hooks/useCustomLogin";
 import { PageTitle } from "../../styles/basic";
 import { GreenBtn } from "../../styles/ui/buttons";
-import { putNotice } from "../../api/notice/notice_api";
-import useCustomLogin from "../../hooks/useCustomLogin";
 
 const { Search } = Input;
 

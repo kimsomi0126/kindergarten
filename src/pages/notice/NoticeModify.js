@@ -124,7 +124,6 @@ const NoticeModify = () => {
           fullContents: data.fullContents,
           fullNoticeFix: data.fullNoticeFix,
           iteacher: 1,
-          delPics: [],
         }),
       ],
       { type: "application/json" },
@@ -140,6 +139,9 @@ const NoticeModify = () => {
         // } else if (file.url) {
         //   // 이미 서버에 존재하는 파일인 경우, 파일 경로를 추가합니다.
         //   formData.append("pics", file.url);
+      } else {
+        // 기존 파일인 경우, 파일의 고유 식별자를 FormData에 추가합니다.
+        formData.append("ifullPic", file.ifullPic);
       }
     });
 

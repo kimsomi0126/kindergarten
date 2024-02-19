@@ -1,4 +1,4 @@
-import { Modal } from "antd";
+import { Form, Modal } from "antd";
 import React, { useEffect, useState, useRef } from "react";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -22,15 +22,33 @@ import {
   TitleWrap,
   SwiperWrap,
 } from "../../styles/album/album";
-import { BlueBtn, GreenBtn, PinkBtn } from "../../styles/ui/buttons";
+import {
+  BlueBtn,
+  GreenBtn,
+  PinkBtn,
+  BtnWrap,
+  OrangeBtn,
+} from "../../styles/ui/buttons";
 import Comment from "../common/Comment";
-import { deleteAlbum, getAlbum } from "../../api/album/album_api";
+import {
+  deleteAlbum,
+  deleteAlbumComment,
+  getAlbum,
+  postAlbumComment,
+} from "../../api/album/album_api";
 import Loading from "../loading/Loading";
 import { IMG_URL, SERVER_URL } from "../../api/config";
 import useCustomLogin from "../../hooks/useCustomLogin";
 import ModalOneBtn from "../ui/ModalOneBtn";
 import ModalTwoBtn from "../ui/ModalTwoBtn";
 import { PageTitle } from "../../styles/basic";
+import {
+  CommentBox,
+  CommentView,
+  CommentWrap,
+  CommentWrite,
+} from "../../styles/ui/comment";
+import TextArea from "antd/es/input/TextArea";
 const path = `${IMG_URL}/pic/album`;
 
 const host = `${SERVER_URL}/album`;
@@ -45,13 +63,21 @@ const initAlbumCommnet = [
   },
 ];
 
-const DetailsAlbum = ({ pno, isLogin }) => {
+const DetailsAlbum = ({ pno, isLogin, loginState }) => {
+  const navigate = useNavigate();
+
   const [albumData, setAlbumData] = useState(initAlbumCommnet); // 앨범 데이터 상태
   const [isLoading, setIsLoading] = useState(true); // 로딩 상태
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isDeleteSuccessModalOpen, setIsDeleteSuccessModalOpen] =
     useState(false);
-  const navigate = useNavigate();
+
+  // 댓글관련
+  const [commentState, setCommentState] = useState(false);
+  const [commentNum, setCommentNum] = useState(null);
+  const iwriter = loginState.iteacher || loginState.iparent;
+  const [isDelComment, setIsDelComment] = useState(false); // 댓글삭제 모달
+
   // 모달창 내용
   const [title, setTitle] = useState("");
   const [subTitle, setSubTitle] = useState("");
@@ -60,7 +86,13 @@ const DetailsAlbum = ({ pno, isLogin }) => {
   // 글 삭제
   const [delOpen, setDelOpen] = useState(false);
 
+  // lightbox
+  const [lightbox, setLightbox] = useState({ open: false, imgSrc: "" });
+  const openLightbox = imgSrc => setLightbox({ open: true, imgSrc: imgSrc });
+  const closeLightbox = () => setLightbox({ open: false, imgSrc: "" });
+
   // 컴포넌트 마운트 시 데이터 불러오기
+  // Lightbox 상태에 따라 Swiper 높이 조절
   // console.log("pno", pno);
   useEffect(() => {
     getAlbum({
@@ -78,7 +110,13 @@ const DetailsAlbum = ({ pno, isLogin }) => {
         setIsLoading(false);
       },
     });
-  }, [pno]); // pno 값이 변경될 때마다 getAlbum 함수를 호출
+    const swiperElement = document.querySelector(".swiper");
+    if (lightbox.open) {
+      swiperElement.style.height = "55vh";
+    } else {
+      swiperElement.style.height = "100%";
+    }
+  }, [pno, lightbox.open, commentState]); // pno 값이 변경될 때마다 getAlbum 함수를 호출
 
   const showDeleteModal = () => {
     setIsDeleteModalOpen(true);
@@ -137,23 +175,57 @@ const DetailsAlbum = ({ pno, isLogin }) => {
   const handleDeleteSuccessOk = () => {
     setIsDeleteSuccessModalOpen(false);
   };
-  const [lightbox, setLightbox] = useState({ open: false, imgSrc: "" });
-  const openLightbox = imgSrc => setLightbox({ open: true, imgSrc: imgSrc });
-  const closeLightbox = () => setLightbox({ open: false, imgSrc: "" });
 
-  // Lightbox 상태에 따라 Swiper 높이 조절
-  useEffect(() => {
-    const swiperElement = document.querySelector(".swiper");
-    if (lightbox.open) {
-      swiperElement.style.height = "55vh";
+  // 댓글등록
+  const [form] = Form.useForm();
+  const handleWriteComment = value => {
+    const obj = {
+      ialbum: pno,
+      albumComment: value.albumComment,
+    };
+    console.log(obj, "댓글등록");
+    postAlbumComment({
+      obj,
+      successFn,
+      errorFn,
+    });
+    form.resetFields();
+  };
+  // 댓글삭제
+  const handleDeleteComment = () => {
+    if (loginState.iteacher) {
+      deleteAlbumComment({
+        ialbumComment: commentNum,
+        ialbum: pno,
+        iteacher: loginState.iteacher,
+        successFn,
+        errorFn,
+      });
     } else {
-      swiperElement.style.height = "100%";
+      deleteAlbumComment({
+        ialbumComment: commentNum,
+        ialbum: pno,
+        iparent: loginState.iparent,
+        successFn,
+        errorFn,
+      });
     }
-  }, [lightbox.open]);
+    setIsDelComment(false);
+  };
+
+  const successFn = res => {
+    setCommentState(!commentState);
+    setCommentNum(null);
+    console.log(res);
+  };
+
+  const errorFn = res => {
+    console.log(res);
+  };
 
   return (
-    <AlbumWrap paddingTop={40}>
-      <AlbumTopBar padding={1}>
+    <AlbumWrap>
+      <AlbumTopBar>
         <PageTitle>활동앨범</PageTitle>
       </AlbumTopBar>
       <ContentWrap>
@@ -203,7 +275,43 @@ const DetailsAlbum = ({ pno, isLogin }) => {
           <DetailsText>
             <pre>{albumData.albumContents}</pre>
           </DetailsText>
-          {/* <Comment /> */}
+          {/* 댓글창 */}
+          <CommentWrap>
+            <CommentView>
+              {Array.isArray(albumData.albumComments) &&
+                albumData.albumComments.map((item, index) => (
+                  <CommentBox
+                    key={item.ialbumComment}
+                    className={item.writerIuser == iwriter ? "right" : null}
+                  >
+                    <pre className="text">{item.albumComment}</pre>
+                    <ul>
+                      <li className="name">{item.writerName}</li>
+                      <li className="date">{item.createdAt}</li>
+                    </ul>
+                    {item.writerIuser == iwriter ? (
+                      <span
+                        className="delete"
+                        onClick={() => {
+                          setCommentNum(item.ialbumComment);
+                          setIsDelComment(true);
+                        }}
+                      >
+                        댓글삭제
+                      </span>
+                    ) : null}
+                  </CommentBox>
+                ))}
+            </CommentView>
+            <CommentWrite>
+              <Form form={form} onFinish={handleWriteComment}>
+                <Form.Item name="albumComment">
+                  <TextArea />
+                </Form.Item>
+                <OrangeBtn>등록</OrangeBtn>
+              </Form>
+            </CommentWrite>
+          </CommentWrap>
         </MainContent>
         {/* 안내창 */}
         <ModalOneBtn
@@ -212,15 +320,24 @@ const DetailsAlbum = ({ pno, isLogin }) => {
           title={title}
           subTitle={subTitle}
         />
-
         {/* 글삭제 */}
         <ModalTwoBtn
           isOpen={isDeleteModalOpen}
           handleOk={handleDelOk}
           handleCancel={() => setIsDeleteModalOpen(false)}
-          title={"앨범 삭제 확인"}
+          title={"댓글 삭제"}
           subTitle={
-            "삭제된 앨범은 복구할 수 없습니다. \n정말 삭제하시겠습니까?"
+            "삭제된 댓글은 복구할 수 없습니다. \n정말 삭제하시겠습니까?"
+          }
+        />
+        {/* 댓글삭제 */}
+        <ModalTwoBtn
+          isOpen={isDelComment}
+          handleOk={() => handleDeleteComment()}
+          handleCancel={() => setIsDelComment(false)}
+          title={"댓글 삭제"}
+          subTitle={
+            "삭제된 댓글은 복구할 수 없습니다. \n정말 삭제하시겠습니까?"
           }
         />
         {/* 삭제 성공 모달 */}
@@ -234,18 +351,28 @@ const DetailsAlbum = ({ pno, isLogin }) => {
         )}
       </ContentWrap>
       <Footer>
-        <Link to="/album">
-          <GreenBtn>목록보기</GreenBtn>
-        </Link>
+        <BtnWrap style={{ justifyContent: "flex-end" }}>
+          <GreenBtn
+            onClick={() => {
+              navigate("/album");
+            }}
+          >
+            목록보기
+          </GreenBtn>
 
-        {isLogin ? (
-          <>
-            <Link to={`${host}/modify/${pno}`}>
-              <BlueBtn>수정</BlueBtn>
-            </Link>
-            <PinkBtn onClick={showDeleteModal}>삭제</PinkBtn>
-          </>
-        ) : null}
+          {isLogin ? (
+            <>
+              <BlueBtn
+                onClick={() => {
+                  navigate(`${host}/modify/${pno}`);
+                }}
+              >
+                수정
+              </BlueBtn>
+              <PinkBtn onClick={showDeleteModal}>삭제</PinkBtn>
+            </>
+          ) : null}
+        </BtnWrap>
       </Footer>
     </AlbumWrap>
   );

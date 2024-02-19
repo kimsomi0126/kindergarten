@@ -11,8 +11,16 @@ import {
 import { deleteNotice, getDetail } from "../../api/notice/notice_api";
 import { PageTitle } from "../../styles/basic";
 import "../../styles/notice/gallery.css";
-import { BlueBtn, GreenBtn, PinkBtn } from "../../styles/ui/buttons";
+import { BlueBtn, BtnWrap, GreenBtn, PinkBtn } from "../../styles/ui/buttons";
 import { IMG_URL } from "../../api/config";
+import { NoticeGallery, NoticeWrap } from "../../styles/notice/notice";
+import {
+  ContentWrap,
+  DetailsText,
+  Footer,
+  MainContent,
+  TitleWrap,
+} from "../../styles/album/album";
 const path = `${IMG_URL}/pic/fullnotice`;
 export const obj = {
   fullTitle: "",
@@ -89,104 +97,29 @@ const DetailsNotice = ({ isLogin }) => {
   // console.log(detailData);
 
   return (
-    <>
+    <NoticeWrap>
       <PageTitle>유치원 소식</PageTitle>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          marginTop: 30,
-        }}
-      >
-        <div
-          style={{
-            borderTop: "1.5px solid #00876D",
-            borderBottom: "1.5px solid #00876D",
-            width: "100%",
-            background: "white",
-            textAlign: "center",
-            paddingTop: 20,
-            justifyContent: "center",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <div style={{ margin: "auto" }}>
-              <p style={{ margin: 0, fontSize: 27 }}>{detailData.fullTitle}</p>
-            </div>
-            <p style={{ marginRight: 20, fontSize: 15, color: "#999" }}>
-              {detailData.createdAt}
-            </p>
-          </div>
-          <div
-            style={{
-              borderTop: "1.5px solid #DDDDDD",
-              width: "100%",
-              textAlign: "center",
-              marginTop: 20,
-            }}
-          >
-            <div
-              key={postNumber}
-              style={{ margin: 40, maxWidth: 500, display: "inline-block" }}
-            >
-              {detailData.pics.length >= 1 ? (
-                <ImageGallery
-                  items={detailImage}
-                  thumbnailPosition="left"
-                  slideInterval={slideInterval}
-                />
-              ) : null}
-            </div>
-          </div>
-          <p style={{ margin: 30, textAlign: "center", fontSize: 20 }}>
-            {detailData.fullContents}
-          </p>
-        </div>
-        <div
-          style={{
-            width: "100%",
-            display: "flex",
-            justifyContent: "flex-end",
-            marginTop: 20,
-          }}
-        >
-          <div style={{ marginRight: 10 }}>
-            <Link to="/notice">
-              <GreenBtn>목록보기</GreenBtn>
-            </Link>
-          </div>
-          {isLogin ? (
-            <>
-              <div style={{ marginRight: 10 }}>
-                <Link
-                  to={{
-                    pathname: `/notice/modify/${tno}`,
-                    state: {
-                      detailData: detailData,
-                    },
-                  }}
-                >
-                  <BlueBtn>수정</BlueBtn>
-                </Link>
-              </div>
+      <ContentWrap>
+        <TitleWrap>
+          <h3>{detailData.fullTitle}</h3>
+          <p>{detailData.createdAt}</p>
+        </TitleWrap>
+        <MainContent>
+          <NoticeGallery key={postNumber}>
+            {detailData.pics.length >= 1 ? (
+              <ImageGallery
+                items={detailImage}
+                thumbnailPosition="left"
+                slideInterval={slideInterval}
+              />
+            ) : null}
+          </NoticeGallery>
 
-              <div>
-                {isLogin ? (
-                  <PinkBtn onClick={showDeleteModal}>삭제</PinkBtn>
-                ) : null}
-              </div>
-            </>
-          ) : null}
-        </div>
-      </div>
-
+          <DetailsText>
+            <pre>{detailData.fullContents}</pre>
+          </DetailsText>
+        </MainContent>
+      </ContentWrap>
       {/* 삭제 모달 */}
       <Modal
         title="정말 삭제할까요?"
@@ -198,7 +131,40 @@ const DetailsNotice = ({ isLogin }) => {
       >
         <p>삭제된 내용은 복구할 수 없습니다.</p>
       </Modal>
-    </>
+      <Footer>
+        <BtnWrap style={{ justifyContent: "flex-end" }}>
+          <GreenBtn
+            onClick={() => {
+              navigate("/notice");
+            }}
+          >
+            목록보기
+          </GreenBtn>
+          {isLogin ? (
+            <>
+              <BlueBtn
+                onClick={() => {
+                  navigate({
+                    pathname: `/notice/modify/${tno}`,
+                    state: {
+                      detailData: detailData,
+                    },
+                  });
+                }}
+              >
+                수정
+              </BlueBtn>
+
+              <div>
+                {isLogin ? (
+                  <PinkBtn onClick={showDeleteModal}>삭제</PinkBtn>
+                ) : null}
+              </div>
+            </>
+          ) : null}
+        </BtnWrap>
+      </Footer>
+    </NoticeWrap>
   );
 };
 

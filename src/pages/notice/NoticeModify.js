@@ -2,11 +2,12 @@ import React, { useState, useEffect, useRef } from "react";
 import { UploadOutlined, DeleteOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Form, Input, Upload, Modal } from "antd";
 import { PageTitle } from "../../styles/basic";
-import { GreenBtn, PinkBtn } from "../../styles/ui/buttons";
+import { BtnWrap, GreenBtn, PinkBtn } from "../../styles/ui/buttons";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { getDetail, getList, putNotice } from "../../api/notice/notice_api";
 import { IMG_URL, SERVER_URL } from "../../api/config";
-import { FileListStyle } from "../../styles/album/album";
+import { FileListStyle, WriteWrap } from "../../styles/album/album";
+import { NoticeWrap } from "../../styles/notice/notice";
 
 const path = `${IMG_URL}/api/full`;
 const imgpath = `${IMG_URL}/pic/fullnotice`;
@@ -224,19 +225,9 @@ const NoticeModify = () => {
   };
 
   return (
-    <div>
+    <NoticeWrap>
       <PageTitle>유치원 소식 수정</PageTitle>
-      <div
-        style={{
-          width: "100%",
-          height: 560,
-          padding: 16,
-          borderTop: "1.5px solid #00876D",
-          borderBottom: "1.5px solid #00876D",
-          background: "#FAFAFA",
-          marginTop: 30,
-        }}
-      >
+      <WriteWrap>
         <Checkbox
           onChange={onChange}
           style={{ marginBottom: 10 }}
@@ -244,7 +235,6 @@ const NoticeModify = () => {
         >
           상단고정
         </Checkbox>
-
         <Form ref={formRef} form={form} onFinish={onFinish}>
           <Form.Item
             name="fullTitle"
@@ -253,7 +243,6 @@ const NoticeModify = () => {
           >
             <Input placeholder="제목 입력" />
           </Form.Item>
-
           <Form.Item
             name="fullContents"
             initialValue={noticeData.noticeContents} // 기존 값 설정
@@ -265,7 +254,6 @@ const NoticeModify = () => {
               style={{ height: "150px" }}
             />
           </Form.Item>
-
           <FileListStyle>
             <Upload.Dragger
               action={`${path}`}
@@ -283,23 +271,11 @@ const NoticeModify = () => {
             </Upload.Dragger>
           </FileListStyle>
         </Form>
-
-        <div
-          style={{
-            marginTop: 35,
-            display: "flex",
-            justifyContent: "flex-end",
-          }}
-        >
-          <GreenBtn onClick={handleGreenButtonClick}>수정</GreenBtn>
-          <PinkBtn
-            onClick={handleCancelConfirmation}
-            style={{ marginLeft: 20 }}
-          >
-            취소
-          </PinkBtn>
-        </div>
-      </div>
+      </WriteWrap>
+      <BtnWrap right>
+        <GreenBtn onClick={handleGreenButtonClick}>수정</GreenBtn>
+        <PinkBtn onClick={handleCancelConfirmation}>취소</PinkBtn>
+      </BtnWrap>
 
       <Link to="/notice">
         <Modal
@@ -314,7 +290,7 @@ const NoticeModify = () => {
           <p>성공적으로 수정되었습니다.</p>
         </Modal>
       </Link>
-    </div>
+    </NoticeWrap>
   );
 };
 

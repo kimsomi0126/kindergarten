@@ -5,7 +5,6 @@ import {
   ListBoxTop,
   TeacherImgInfo,
   TeacherInfo,
-  TeacherListBox,
   TeacherListItem,
   TeacherListWrap,
   TeacherMain,
@@ -13,60 +12,156 @@ import {
 import { GrayBtn } from "../../styles/ui/buttons";
 import { PageNum } from "../../styles/adminstyle/guardianlist";
 import { Pagination } from "antd";
+import { useNavigate } from "react-router";
+import { IMG_URL } from "../../api/config";
 
-const TeacherListComponent = () => {
+const initTeacherList = {
+  teacherCnt: 0,
+  list: [
+    {
+      iteacher: 0,
+      iclass: 0,
+      teacherNm: "",
+      teacherUid: "",
+      tcIsDel: 0,
+      tcEmail: "",
+      tcMemo: "",
+      teacherProfile: "",
+    },
+  ],
+};
+const TeacherListComponent = ({
+  iclass,
+  page,
+  teacherList,
+  oncheckedClick,
+  checkedItems,
+}) => {
+  const navigate = useNavigate();
+  const [selectAllChecked, setSelectAllChecked] = useState(false);
+  // 페이지네이션
+  const handleChangePage = page => {
+    // console.log(page);
+    navigate(`/admin?/teacher?iclass=${iclass}&page=${page}`);
+  };
+  // 체크박스 전체 선택 시 pk값 수집
+  const handleSelectAllChange = e => {
+    const checked = e.target.checked;
+    setSelectAllChecked(checked);
+
+    const checkboxes = document.querySelectorAll(
+      'input[type="checkbox"][name^="iteacher"]',
+    );
+    const updatedCheckedItems = Array.from(checkboxes)
+      .filter((checkbox, index) => index !== 0 && (checkbox.checked = checked))
+      .map(checkbox => (checked ? parseInt(checkbox.value) : null))
+      .filter(value => value !== null);
+    oncheckedClick(updatedCheckedItems);
+  };
+
+  // 개별 선택 시 pk값 수집
+  const handleChangeCheck = e => {
+    const value = parseInt(e.target.value);
+    if (!e.target.checked) {
+      oncheckedClick(prevItems => prevItems.filter(item => item !== value));
+    } else {
+      oncheckedClick([...checkedItems, value]);
+    }
+    // oncheckedClick(checkedItems);
+  };
+  console.log(teacherList);
   return (
     <>
       <TeacherMain>
         <div>
-          <input type="checkbox" id="selectAll" name="iteacher" />
+          <input
+            type="checkbox"
+            id="selectAll"
+            name="iteacher"
+            checked={selectAllChecked}
+            onChange={handleSelectAllChange}
+          />
           <label htmlFor="selectAll">전체 선택</label>
         </div>
         <TeacherListWrap>
-          <TeacherListItem>
-            <input type="checkbox" name="iteacher" />
-            <ListBox>
-              <ListBoxTop>
-                <TeacherImgInfo>
-                  <img
-                    src={
-                      process.env.PUBLIC_URL +
-                      "/images/information/teacher01.jpg"
-                    }
-                  />
-                </TeacherImgInfo>
-                <TeacherInfo>
-                  <p className="hibiscus">해바라기반</p>
-                  <p className="leaf">나미리</p>
-                </TeacherInfo>
-                <GrayBtn>정보 수정</GrayBtn>
-              </ListBoxTop>
-              <InfoBox>
-                <dl>
-                  <dt>이름</dt>
-                  <dd>나미리</dd>
-                </dl>
-                <dl>
-                  <dt>아이디</dt>
-                  <dd>tc1111</dd>
-                </dl>
-                <dl>
-                  <dt>재직상태</dt>
-                  <dd>재직중</dd>
-                </dl>
-                <dl>
-                  <dt>이메일</dt>
-                  <dd>tc1111@naver.com</dd>
-                </dl>
-                <p>인사말</p>
-                <span>어쩌구저쩌구 해바라기반 담당 선생님입니다.</span>
-              </InfoBox>
-            </ListBox>
-          </TeacherListItem>
+          {Array.isArray(teacherList.list) &&
+            teacherList.list.map(item => (
+              <TeacherListItem key={item.iteacher}>
+                <input
+                  type="checkbox"
+                  name="iteacher"
+                  value={item.iparent}
+                  onChange={e => {
+                    handleChangeCheck(e);
+                  }}
+                />
+                <ListBox>
+                  <ListBoxTop>
+                    <TeacherImgInfo>
+                      <img
+                        src={`${IMG_URL}/pic/user/${item.iteacher}/${item.teacherProfile}`}
+                      />
+                    </TeacherImgInfo>
+                    <TeacherInfo>
+                      <p
+                        className={
+                          item.iclass === 1
+                            ? "hibiscus"
+                            : item.iclass === 2
+                            ? "sunflower"
+                            : item.iclass === 3
+                            ? "rose"
+                            : item.iclass === 4
+                            ? "admin"
+                            : ""
+                        }
+                      >
+                        {item.iclass === 1
+                          ? "무궁화반"
+                          : item.iclass === 2
+                          ? "해바라기반"
+                          : item.iclass === 3
+                          ? "장미반"
+                          : item.iclass === 4
+                          ? "총괄"
+                          : ""}
+                      </p>
+                      <p className="leaf">{item.teacherNm}</p>
+                    </TeacherInfo>
+                    <GrayBtn>정보 수정</GrayBtn>
+                  </ListBoxTop>
+                  <InfoBox>
+                    <dl>
+                      <dt>이름</dt>
+                      <dd>{item.teacherNm}</dd>
+                    </dl>
+                    <dl>
+                      <dt>아이디</dt>
+                      <dd>{item.teacherUid}</dd>
+                    </dl>
+                    <dl>
+                      <dt>재직상태</dt>
+                      <dd>{item.tcIsDel}</dd>
+                    </dl>
+                    <dl>
+                      <dt>이메일</dt>
+                      <dd>{item.tcEmail}</dd>
+                    </dl>
+                    <p>인사말</p>
+                    <span>{item.tcMemo}</span>
+                  </InfoBox>
+                </ListBox>
+              </TeacherListItem>
+            ))}
         </TeacherListWrap>
       </TeacherMain>
       <PageNum>
-        <Pagination pageSize={12} />
+        <Pagination
+          defaultCurrent={page}
+          total={teacherList.totalCnt}
+          pageSize={6}
+          onChange={handleChangePage}
+        />
       </PageNum>
     </>
   );

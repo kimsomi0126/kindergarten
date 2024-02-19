@@ -48,7 +48,7 @@ const TeacherModify = () => {
                     },
                   ]}
                 >
-                  <Input placeholder="아이디 입력" />
+                  <Input disabled />
                 </Form.Item>
                 <Form.Item
                   name="teacherUpw"
@@ -63,7 +63,7 @@ const TeacherModify = () => {
                     },
                   ]}
                 >
-                  <Input placeholder="비밀번호 입력" />
+                  <Input placeholder="기존 비밀번호" />
                 </Form.Item>
                 <OrangeBtn type="button" onClick={handleEdit}>
                   비밀번호 수정
@@ -126,6 +126,10 @@ const TeacherModify = () => {
                     width: "33%",
                   }}
                   rules={[
+                    {
+                      type: "email",
+                      message: "올바른 E-mail 양식이 아닙니다.",
+                    },
                     {
                       required: true,
                       message: "이메일 주소를 입력해주세요.",

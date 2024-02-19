@@ -114,22 +114,19 @@ export const TeacherInfo = styled.div`
     font-size: 2rem;
     color: #ff73a1;
   }
-  .discharge {
-    background-image: url(${process.env.PUBLIC_URL +
-    "/images/user/class_icon_bag.svg"});
-    color: ${colors.grayDeep};
-  }
-  .graduation {
-    background-image: url(${process.env.PUBLIC_URL +
-    "/images/user/class_icon_graduation.svg"});
-    color: ${colors.black};
-  }
   .leaf {
     background: url(${process.env.PUBLIC_URL + "/images/information/logo1.svg"})
       no-repeat left 0.25rem/2.3rem;
     font-family: ${fonts.kotraHope};
     font-size: 2rem;
     color: ${colors.black};
+  }
+  .admin {
+    background: url(${process.env.PUBLIC_URL + "/images/information/logo1.svg"})
+      no-repeat left 0.25rem/2.3rem;
+    font-family: ${fonts.kotraHope};
+    font-size: 2rem;
+    color: ${colors.greenDeep};
   }
 `;
 

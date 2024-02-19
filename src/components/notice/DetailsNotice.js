@@ -15,14 +15,16 @@ import { BlueBtn, GreenBtn, PinkBtn } from "../../styles/ui/buttons";
 import { IMG_URL } from "../../api/config";
 const path = `${IMG_URL}/pic/fullnotice`;
 export const obj = {
-  pics: [""],
-  dto: {
-    ifullNotice: 0,
-    fullTitle: "",
-    fullContents: "",
-    fullNoticeFix: 0,
-    iteacher: 0,
-  },
+  fullTitle: "",
+  fullContents: "",
+  writer: "",
+  createdAt: "",
+  pics: [
+    {
+      pic: "",
+      ifullPic: 0,
+    },
+  ],
 };
 
 const DetailsNotice = ({ isLogin }) => {

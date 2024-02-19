@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   TBottomBt,
   TeacherClassForm,
@@ -14,18 +14,137 @@ import {
   TeacherMemoForm,
 } from "../../../styles/adminstyle/teachercreate";
 import { PageTitle } from "../../../styles/basic";
-import { Button, Input, Upload, Form, Select } from "antd";
+import { Button, Input, Upload, Form, Select, message } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import TextArea from "antd/es/input/TextArea";
 import { GreenBtn, PinkBtn } from "../../../styles/ui/buttons";
+import { postTeacherCreate } from "../../../api/adminPage/admin_api";
+import ModalOneBtn from "../../../components/ui/ModalOneBtn";
+import ModalTwoBtn from "../../../components/ui/ModalTwoBtn";
+import { useNavigate } from "react-router-dom";
+
+const initDto = {
+  iclass: 0,
+  teacherNm: "",
+  teacherUid: "",
+  teacherUpw: "",
+  teacherIntroduce: "",
+  tcEmail: "",
+};
 
 const TeacherCreate = () => {
+  const navigate = useNavigate();
+  // 모달창 state
+  const [isCancelOpen, setIsCancelOpen] = useState(false);
+  const [isResultOpen, setIsResultOpen] = useState(false);
+  // 모달창 내용
+  const [title, setTitle] = useState("");
+  const [subTitle, setSubTitle] = useState("");
+  const [isNavigate, setIsNavigate] = useState();
+  // 선생님 정보
+  const [dto, setDto] = useState(initDto);
+  // 프로필 업로드
+  const [fileList, setFileList] = useState([]);
+  const props = {
+    onRemove: file => {
+      const index = fileList.indexOf(file);
+      const newFileList = fileList.slice();
+      newFileList.splice(index, 1);
+      setFileList(newFileList);
+    },
+    beforeUpload: file => {
+      if (fileList.length >= 1) {
+        message.error(`프로필사진은 1개만 업로드 가능합니다.`);
+      } else {
+        setFileList([...fileList, file]);
+      }
+
+      return false;
+    },
+    fileList,
+  };
+  const onValuesChange = (changeValue, allValue) => {
+    const iclassValue = allValue.iclass && parseInt(allValue.iclass["value"]);
+    const values = {
+      ...allValue,
+      iclass: iclassValue,
+    };
+    setDto(values);
+  };
+
+  // 등록 버튼 클릭, 결과
+  const [form] = Form.useForm();
+  const onFinish = value => {
+    console.log("과연", value);
+
+    let formData = new FormData();
+    formData.append("pic", fileList[0]);
+    formData.append(
+      "dto",
+      new Blob([JSON.stringify(dto)], { type: "application/json" }),
+    );
+
+    postTeacherCreate({ successFn, errorFn, teacher: formData });
+  };
+
+  const successFn = res => {
+    setIsResultOpen(true);
+    setTitle("등록 완료");
+    setSubTitle("성공적으로 등록되었습니다.");
+    setIsNavigate();
+  };
+  const errorFn = res => {
+    setIsResultOpen(true);
+    setTitle("등록 실패");
+    setSubTitle(`등록에 실패했습니다. \n다시 시도해주세요.`);
+  };
+  const handleCancelClick = () => {
+    setIsCancelOpen(true);
+    setTitle("정말 취소할까요?");
+    setSubTitle("작성된 내용은 저장되지 않습니다.");
+    setIsNavigate("/admin/teacher?iclass=0&page=1");
+  };
+  // 모달창 확인버튼
+  const handleResultOk = () => {
+    setIsResultOpen(false);
+    // 링크이동
+    if (isNavigate) {
+      navigate(isNavigate);
+    }
+  };
+  // 모달창 취소
+  const handleResultCancel = () => {
+    setIsCancelOpen(false);
+    setIsResultOpen(false);
+  };
   return (
     <>
+      {/* 안내창 */}
+      <ModalOneBtn
+        isOpen={isResultOpen}
+        handleOk={handleResultOk}
+        title={title}
+        subTitle={subTitle}
+      />
+
+      {/* 작성취소 */}
+      <ModalTwoBtn
+        isOpen={isCancelOpen}
+        handleOk={handleResultOk}
+        handleCancel={handleResultCancel}
+        title={title}
+        subTitle={subTitle}
+      />
       <TeacherFormTop>
         <PageTitle>선생님 등록</PageTitle>
       </TeacherFormTop>
-      <Form>
+      <Form
+        form={form}
+        onFinish={onFinish}
+        onValuesChange={(changeValue, allValue) => {
+          onValuesChange(changeValue, allValue);
+        }}
+      >
         <TeacherFormWrap>
           {/* 계정정보 */}
           <TeacherIdInfo>
@@ -89,6 +208,10 @@ const TeacherCreate = () => {
                   }}
                   rules={[
                     {
+                      type: "email",
+                      message: "올바른 E-mail 양식이 아닙니다.",
+                    },
+                    {
                       required: true,
                       message: "이메일 주소를 입력해주세요.",
                     },
@@ -145,7 +268,7 @@ const TeacherCreate = () => {
                   },
                 ]}
               >
-                <Upload required>
+                <Upload {...props} required>
                   <Button icon={<UploadOutlined />}>파일 첨부</Button>
                 </Upload>
               </Form.Item>
@@ -164,7 +287,9 @@ const TeacherCreate = () => {
         </TeacherFormWrap>
         <TBottomBt>
           <GreenBtn>등록</GreenBtn>
-          <PinkBtn>취소</PinkBtn>
+          <PinkBtn type="button" onClick={handleCancelClick}>
+            취소
+          </PinkBtn>
         </TBottomBt>
       </Form>
     </>

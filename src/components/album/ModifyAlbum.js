@@ -2,11 +2,13 @@ import { UploadOutlined } from "@ant-design/icons";
 import { Button, Form, Input, Modal, Upload } from "antd";
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { getAlbum, putAlbum } from "../../api/album/album_api";
+import { getEditAlbum, putAlbum } from "../../api/album/album_api";
 import { IMG_URL } from "../../api/config";
 import { AlbumWrap, FileListStyle, WriteWrap } from "../../styles/album/album";
 import { PageTitle } from "../../styles/basic";
 import { BtnWrap, GreenBtn, PinkBtn } from "../../styles/ui/buttons";
+import ModalOneBtn from "../ui/ModalOneBtn";
+import ModalTwoBtn from "../ui/ModalTwoBtn";
 const path = `${IMG_URL}/api/album`;
 const imgpath = `${IMG_URL}/pic/album`;
 const customRequest = ({ onSuccess }) => {
@@ -31,41 +33,45 @@ const ModifyAlbum = () => {
   const [fileList, setFileList] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const navigate = useNavigate();
-  const addedFilesRef = useRef([]);
-  // const handleChange = info => {
-  //   let fileList = [...info.fileList].filter(file => !!file.status);
-  //   setFileList(fileList);
-  // };
-
+  const [albumTitle, setAlbumTitle] = useState("");
+  const [albumContents, setAlbumContents] = useState("");
+  const [albumPics, setAlbumPics] = useState([]);
+  const [newPics, setNewPics] = useState([]);
+  const [deletedPics, setDeletedPics] = useState([]);
+  const [isEditConfirmModalVisible, setIsEditConfirmModalVisible] =
+    useState(false);
+  const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false);
+  const [isMinimumWarningVisible, setIsMinimumWarningVisible] = useState(false);
   const uploadAreaStyle = {
     height: "5rem",
     lineHeight: "5rem",
   };
   const handleGreenButtonClick = () => {
+    setIsEditConfirmModalVisible(true); // 수정 확인 모달을 표시
+  };
+  const handleEditCancel = () => {
+    setIsEditConfirmModalVisible(false); // 모달 닫기
+  };
+  const handleEditConfirm = () => {
+    // 모달에서 '확인' 버튼 클릭 시 호출될 함수
     formRef.current.submit(); // Form의 submit 메서드 호출
+    setIsEditConfirmModalVisible(false); // 모달 닫기
   };
 
-  // URL에서 파일을 생성하고 fileList 상태를 업데이트하는 함수
-  const imageUrlToFile = async imageUrl => {
-    try {
-      // console.log("imageUrl", imageUrl);
-      const fileName = imageUrl.substring(imageUrl.lastIndexOf("/") + 1);
-      const response = await fetch(imageUrl, { mode: "no-cors" });
-      const blob = await response.blob();
-      const imageFile = new File([blob], fileName, { type: "image/jpeg" }); // MIME type을 지정할 수 있습니다.
-
-      // fileList에 새로운 파일을 추가합니다.
-      setFileList(prevFileList => [...prevFileList, imageFile]);
-    } catch (error) {
-      console.error("Error converting image URL to File:", error);
-    }
-  };
   const handleSuccess = response => {
-    setIsModalVisible(true);
-    // console.log("수정이 성공적으로 완료되었습니다.", response);
-    // 성공적으로 업로드 완료 후 처리할 작업을 추가할 수 있습니다.
-    // 예를 들어, 수정된 앨범의 상세 페이지로 리디렉션할 수 있습니다.
-    navigate(`/album/details/${pno}`);
+    setIsSuccessModalVisible(true); // 성공 메시지 모달 표시
+  };
+
+  const handleModalClose = () => {
+    setIsSuccessModalVisible(false); // 모달 닫기
+    navigate(`/album/details/${pno}`); // 성공 후 상세 페이지로 이동
+  };
+
+  // 이미지 삭제 시 최소 파일 수 검증 경고 모달을 닫는 함수
+  const handleCloseMinimumWarning = e => {
+    setIsMinimumWarningVisible(false); // 경고 모달 상태를 false로 변경하여 닫음
+    e.stopPropagation();
+    // 여기에 필요한 추가 로직을 배치할 수 있음
   };
 
   const handleFailure = errorMessage => {
@@ -114,6 +120,7 @@ const ModifyAlbum = () => {
           albumTitle: data.albumTitle,
           albumContents: data.albumContents,
           ialbum: pno,
+          delPics: deletedPics,
         }),
       ],
       { type: "application/json" },
@@ -127,9 +134,6 @@ const ModifyAlbum = () => {
       if (file.originFileObj) {
         // 새로운 파일인 경우, 파일 데이터를 추가합니다.
         formData.append("pics", file.originFileObj);
-      } else if (file.url) {
-        // 이미 서버에 존재하는 파일인 경우, 파일 경로를 추가합니다.
-        formData.append("pics", file.url);
       }
     });
 
@@ -151,11 +155,13 @@ const ModifyAlbum = () => {
 
   useEffect(() => {
     const fetchAlbumData = async () => {
-      getAlbum({
+      getEditAlbum({
         pno: pno,
         successFn: data => {
           setAlbumData(data); // Set the album data in state
-
+          setAlbumData({ ...data });
+          setAlbumTitle(data.albumTitle);
+          setAlbumContents(data.albumContents);
           // Update form fields with the album data
           form.setFieldsValue({
             albumTitle: data.albumTitle,
@@ -163,12 +169,14 @@ const ModifyAlbum = () => {
           });
 
           // Transform album pictures for the fileList state
-          const transformedFileList = data.albumPic.map((pic, index) => ({
-            uid: index.toString(), // uid is required to be unique
-            name: pic, // file name
+          const newData = data.albumPic;
+          const transformedFileList = newData.map((albumPic, index) => ({
+            uid: albumPic.ialbumPic, // uid is required to be unique
+            name: albumPic.albumPic, // file name
             status: "done", // upload status
-            url: `${imgpath}/${pno}/${pic}`, // file URL, adjust the path as needed
+            url: `${imgpath}/${pno}/${albumPic.albumPic}`, // file URL, adjust the path as needed
           }));
+          console.log("transformedFileList", transformedFileList);
           setFileList(transformedFileList);
         },
         failFn: errorMessage => {
@@ -184,7 +192,6 @@ const ModifyAlbum = () => {
 
     fetchAlbumData();
   }, [pno, form]);
-
   const beforeUpload = file => {
     // 새로 업로드되는 파일을 fileList에 추가
     const newFileList = [
@@ -205,47 +212,22 @@ const ModifyAlbum = () => {
     setFileList(newFileList);
   };
 
-  const onRemove = file => {
-    // 파일이 제거될 때 fileList에서 해당 파일을 제거
-    const newFileList = fileList.filter(item => item.uid !== file.uid);
-    setFileList(newFileList);
+  // 이미지 파일을 삭제할 때 호출될 함수
+  const handleRemove = file => {
+    // 이미지 파일 리스트의 길이가 2개 이상일 때만 삭제 처리
+    if (fileList.length > 1) {
+      const newFileList = fileList.filter(item => item.uid !== file.uid);
+      setFileList(newFileList);
+      if (file.uid) {
+        setDeletedPics([...deletedPics, file.uid]);
+      }
+      return true; // 삭제 처리를 진행
+    } else {
+      // 이미지 파일이 1개만 남았을 경우, 경고 모달 표시
+      setIsMinimumWarningVisible(true);
+      return false; // 삭제 처리를 중지
+    }
   };
-
-  // useEffect(() => {
-  //   const fetchAlbumData = async () => {
-  //     getAlbum({
-  //       pno: pno,
-  //       successFn: data => {
-  //         setAlbumData(data); // Set the album data in state
-
-  //         // Update form fields with the album data
-  //         form.setFieldsValue({
-  //           albumTitle: data.albumTitle,
-  //           albumContents: data.albumContents,
-  //         });
-
-  //         // Transform album pictures for the fileList state
-  //         const transformedFileList = data.albumPic.map((pic, index) => ({
-  //           uid: index.toString(), // uid is required to be unique
-  //           name: pic, // file name
-  //           status: "done", // upload status
-  //           url: `${imgpath}/${pno}/${pic}`, // file URL, adjust the path as needed
-  //         }));
-  //         setFileList(transformedFileList);
-  //       },
-  //       failFn: errorMessage => {
-  //         console.error("Album fetch failed:", errorMessage);
-  //         // Handle failure (show error message to user, etc.)
-  //       },
-  //       errorFn: errorData => {
-  //         console.error("Error fetching album:", errorData);
-  //         // Handle error (show error message to user, etc.)
-  //       },
-  //     });
-  //   };
-  //   fetchAlbumData();
-  //   imageUrlToFile(fileList);
-  // }, [pno, form]);
 
   return (
     <AlbumWrap paddingTop={40} width={100} height={100}>
@@ -276,7 +258,7 @@ const ModifyAlbum = () => {
               listType="picture"
               fileList={fileList}
               beforeUpload={beforeUpload}
-              onRemove={onRemove}
+              onRemove={handleRemove}
               onChange={handleChange}
               customRequest={customRequest}
               className="upload-list-inline"
@@ -297,9 +279,28 @@ const ModifyAlbum = () => {
           </PinkBtn>
         </BtnWrap>
       </Form>
+      <ModalTwoBtn
+        isOpen={isEditConfirmModalVisible}
+        handleOk={handleEditConfirm}
+        handleCancel={handleEditCancel}
+        title="앨범 수정 확인"
+        subTitle={`앨범을 수정하시겠습니까? \n수정하신 내용은 되돌릴 수 없습니다.`}
+      ></ModalTwoBtn>
 
       <Link to="/album">
-        <Modal
+        <ModalOneBtn
+          isOpen={isSuccessModalVisible}
+          handleOk={handleModalClose}
+          title="앨범 수정 완료"
+          subTitle={`성공적으로 수정되었습니다. \n 수정 내용을 확인하시려면 확인 버튼을 클릭해주세요.`}
+        ></ModalOneBtn>
+        <ModalOneBtn
+          isOpen={isMinimumWarningVisible}
+          handleOk={handleCloseMinimumWarning}
+          title="이미지 파일 경고"
+          subTitle={`최소 하나의 이미지파일은 업로드 되어야 합니다.`}
+        ></ModalOneBtn>
+        {/* <Modal
           title="수정 완료"
           open={isModalVisible}
           onOk={handleOk}
@@ -309,7 +310,7 @@ const ModifyAlbum = () => {
           width={350}
         >
           <p>성공적으로 수정되었습니다.</p>
-        </Modal>
+        </Modal> */}
       </Link>
     </AlbumWrap>
   );

@@ -48,9 +48,9 @@ export const getlistAll = async ({ page, successFn, failFn, errorFn }) => {
 
 // edit?ialbum=1
 // 수정할 앨범 선택시 세부 정보 조회 get
-export const getEditAlbum = async ({ ialbum, successFn, failFn, errorFn }) => {
+export const getEditAlbum = async ({ pno, successFn, failFn, errorFn }) => {
   try {
-    const res = await jwtAxios.get(`${path}/edit?ialbum=${ialbum}`);
+    const res = await jwtAxios.get(`${path}/edit?ialbum=${pno}`);
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
       // console.log("res.data : ", res.data);

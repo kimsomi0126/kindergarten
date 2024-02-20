@@ -192,14 +192,6 @@ const StudDetails = () => {
             myData={myData}
             onChildClick={handleChildClick}
           />
-          {/* 연결계정 */}
-          {ilevel === "admin" ? (
-            <MyAccountComponent
-              ikid={ikid}
-              myData={myData}
-              onChildClick={handleChildClick}
-            />
-          ) : null}
           {/* 상세정보 */}
           <DetailInfo>
             <TitleWrap>
@@ -242,6 +234,15 @@ const StudDetails = () => {
               />
             </DetailBadge>
           </DetailInfo>
+
+          {/* 연결계정 */}
+          {ilevel === "admin" ? (
+            <MyAccountComponent
+              ikid={ikid}
+              myData={myData}
+              onChildClick={handleChildClick}
+            />
+          ) : null}
         </MyContentWrap>
       </MypageWrap>
     </ContentInner>

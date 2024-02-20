@@ -1,17 +1,43 @@
 import styled from "@emotion/styled";
-import { colors, fonts, shadow } from "../basic";
+import { colors, fonts, mq, shadow } from "../basic";
 
 export const StudentTop = styled.div`
   margin-top: 1rem;
   display: flex;
   justify-content: space-between;
+
+  ${mq.mobileBig} {
+    flex-wrap: wrap;
+  }
 `;
 
 export const StudentTopRight = styled.div`
   display: flex;
-  justify-content: flex-end;
+  flex-wrap: wrap;
   align-items: center;
+  justify-content: flex-end;
   gap: 1rem;
+
+  .ant-input-group-wrapper {
+    width: 20rem;
+    height: 4rem;
+  }
+  .ant-input-affix-wrapper {
+    height: 4rem;
+  }
+  ${mq.mobileBig} {
+    width: 100%;
+    margin: 1rem 0 0;
+    justify-content: flex-start;
+  }
+
+  ${mq.mobileSmall} {
+    margin: 1rem 0 -2rem;
+    justify-content: flex-end;
+    .ant-input-group-wrapper {
+      width: 65%;
+    }
+  }
 `;
 
 export const StudentMain = styled.div`
@@ -28,7 +54,7 @@ export const StudentListWrap = styled.ul`
   display: flex;
   flex-wrap: wrap;
   /* justify-content: space-between; */
-  gap: 1rem;
+  gap: 2%;
 `;
 export const StudentListItem = styled.li`
   position: relative;
@@ -37,6 +63,7 @@ export const StudentListItem = styled.li`
   width: 32%;
   background: ${colors.white};
   padding: 2rem;
+  margin-bottom: 2rem;
   ${shadow}
   cursor: pointer;
   input {
@@ -45,9 +72,18 @@ export const StudentListItem = styled.li`
     right: 2rem;
     top: 2rem;
   }
+  ${mq.mobileBig} {
+    width: 49%;
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
 `;
 export const StudentListBox = styled.div`
   display: flex;
+  ${mq.mobileBig} {
+    flex-wrap: wrap;
+    flex-direction: column;
+  }
 `;
 export const StudentImg = styled.div`
   width: 8rem;
@@ -60,6 +96,9 @@ export const StudentImg = styled.div`
   img {
     height: 115%;
     margin-right: 1rem;
+  }
+  ${mq.mobileSmall} {
+    margin: 0 auto 1rem;
   }
 `;
 export const StudentInfo = styled.div`
@@ -109,5 +148,10 @@ export const StudentInfo = styled.div`
     font-family: ${fonts.kotraHope};
     font-size: 2rem;
     color: ${colors.black};
+  }
+
+  ${mq.mobileBig} {
+    padding: 0;
+    margin: 0 auto;
   }
 `;

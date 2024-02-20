@@ -201,13 +201,11 @@ const GuardianList = () => {
           </Dropdown>
           <Search
             placeholder="이름을 입력하세요."
-            style={{
-              width: 200,
-            }}
             allowClear
             onSearch={value => {
               handleSearch(value);
             }}
+            size={"large"}
           />
           <GreenBtn onClick={handleDeleteClick}>선택회원삭제</GreenBtn>
           {/* 안내창 */}

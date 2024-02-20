@@ -1,16 +1,29 @@
 import { Flex, Input, List, Pagination } from "antd";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom"; // useNavigate 추가
+import { Link, Navigate, useNavigate } from "react-router-dom"; // useNavigate 추가
 import { getList } from "../../api/notice/notice_api";
-import useCustomLogin from "../../hooks/useCustomLogin";
 import { PageTitle } from "../../styles/basic";
 import { GreenBtn } from "../../styles/ui/buttons";
+import useCustomLogin from "../../hooks/useCustomLogin";
+import { AlbumTopBar, SearchBar } from "../../styles/album/album";
+import { PageNum, UserTopRight } from "../../styles/adminstyle/guardianlist";
+import {
+  ListWrap,
+  NoticeDate,
+  NoticeIcon,
+  NoticeItem,
+  NoticeTitle,
+  NoticeWrap,
+} from "../../styles/notice/notice";
 
 const { Search } = Input;
 
 const onSearch = (value, _e, info) => console.log(info?.source, value);
+
 const pageSize = 10;
+
 const NoticeList = () => {
+  const navigate = useNavigate();
   // 고정 공지글과 일반 공지글을 분리하여 저장
   const [fixedNotices, setFixedNotices] = useState([]);
   const [normalNotices, setNormalNotices] = useState([]);
@@ -19,12 +32,15 @@ const NoticeList = () => {
   const [totalCount, setTotalCount] = useState(0);
   // 선생님 로그인 체크
   const { isLogin } = useCustomLogin();
+
   // 페이지 변경 처리
   const onChange = page => {
     setCurrent(page);
     fetchPageData(page); // 새 페이지 데이터를 가져옵니다.
   };
+
   const size = "small";
+
   // 페이지 데이터 가져오기
   const fetchPageData = page => {
     getList({
@@ -46,153 +62,72 @@ const NoticeList = () => {
       },
     });
   };
+
   // 컴포넌트가 마운트될 때 첫 페이지 데이터를 가져옵니다.
   useEffect(() => {
     fetchPageData(current);
   }, [current]);
-  const successFn = result => {
-    // console.log("성공", result);
-    setListData(result);
-  };
-  const failFn = result => {
-    // console.log(result);
-  };
-  const errorFn = result => {
-    // console.log(result);
-  };
-  // console.log("확인", listData);
+
   return (
-    <div style={{ marginTop: 30 }}>
-      <Flex
-        gap="small"
-        justify="space-between"
-        style={{
-          width: "100%",
-          marginBottom: 20,
-          alignItems: "center",
-        }}
-      >
-        <PageTitle>유치원소식</PageTitle>
-        <Flex gap="small" alignitems="center">
-          <Search
-            placeholder="제목을 입력하세요."
-            allowClear
-            onSearch={onSearch}
-            style={{
-              width: 330,
-              marginRight: 20,
-            }}
-          />
-          {isLogin ? (
-            <Link to="/notice/write/">
-              <GreenBtn
-                type="primary"
-                size={size}
-                style={{
-                  background: "#D3ECC8",
-                  borderColor: "#D3ECC8",
-                  padding: "15px 30px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  borderRadius: "1rem",
-                  color: "#00876D",
-                }}
-              >
-                글쓰기
-              </GreenBtn>
-            </Link>
-          ) : null}
-        </Flex>
-      </Flex>
-      <List
+    <NoticeWrap>
+      {/* 메인 콘텐츠 상단 바 컴포넌트 */}
+      <AlbumTopBar>
+        <PageTitle>유치원 소식</PageTitle>
+        <SearchBar>
+          <UserTopRight>
+            <Search
+              placeholder="제목을 입력하세요."
+              size={"large"}
+              allowClear
+              // onSearch={value => console.log(value)}
+            />
+            {isLogin ? (
+              <GreenBtn onClick={e => navigate("write")}>글쓰기</GreenBtn>
+            ) : null}
+          </UserTopRight>
+        </SearchBar>
+      </AlbumTopBar>
+
+      <ListWrap
         size="large"
         itemLayout="vertical"
-        style={{
-          width: "100%",
-          margin: "0 auto",
-          background: "white",
-          borderTop: "1px solid #00876D",
-          borderBottom: "1px solid #00876D",
-        }}
         dataSource={listData}
         renderItem={(item, index) => (
-          <Link
-            to={`/notice/details/${item.ifullNotice}`}
-            key={item.ifullNotice}
-          >
-            <List.Item
-              style={{
-                borderLeft: "none",
-                borderRight: "none",
-                borderBottom: "1px solid #e8e8e8",
-                padding: "12px 0",
-                background:
-                  index < 3 && item.fullNoticeFix ? "#E7F6ED" : "white",
-                display: "flex",
-                justifyContent: "flex-start",
-                alignItems: "center",
-                cursor: "pointer",
-              }}
+          <List.Item>
+            <NoticeItem
+              to={`/notice/details/${item.ifullNotice}`}
+              key={item.ifullNotice}
+              className={item.fullNoticeFix === 1 ? "notice" : ""}
             >
-              {/* 고정글 아이콘 */}
-              {index < 3 && item.fullNoticeFix === 1 ? (
-                <img
-                  src="/images/common/notice/loudSpeaker.svg"
-                  alt="고정글"
-                  style={{
-                    marginRight: 60,
-                    marginLeft: 60,
-                    width: 20,
-                    height: 20,
-                  }}
-                />
-              ) : (
-                <div style={{ marginRight: 60, marginLeft: 60, color: "gray" }}>
-                  {item.ifullNotice}
-                </div>
-              )}
-              {/* 게시글 번호, 제목, 날짜 표시 (최상단 고정글에는 번호 표시 안 함) */}
-              <div style={{ flex: 1 }}>
-                <Link to={`/notice/details/${item.ifullNotice}`}>
-                  <span
-                    style={{
-                      color:
-                        index < 3 && item.fullNoticeFix ? "#00876D" : "#000000",
-                      fontWeight:
-                        index < 3 && item.fullNoticeFix ? "bold" : "normal",
-                    }}
-                  >
-                    {item.fullTitle}
-                  </span>
-                </Link>
-              </div>
-              <div
-                style={{ color: "gray", textAlign: "right", marginRight: 30 }}
-              >
-                <img
-                  src="/images/common/notice/clock.svg"
-                  alt=""
-                  style={{ height: 30, marginRight: 10 }}
-                />
-                {/* 시간 부분 제외하고 날짜만 표시 */}
+              <NoticeIcon>
+                {item.fullNoticeFix === 1 ? (
+                  <img
+                    src="/images/common/notice/loudSpeaker.svg"
+                    alt="고정글"
+                  />
+                ) : (
+                  <span>{item.ifullNotice}</span>
+                )}
+              </NoticeIcon>
+              <NoticeTitle>{item.fullTitle}</NoticeTitle>
+              <NoticeDate>
+                <img src="/images/common/notice/clock.svg" alt="시계아이콘" />
                 {item.createdAt.substring(0, 10)}
-              </div>
-            </List.Item>
-          </Link>
+              </NoticeDate>
+            </NoticeItem>
+          </List.Item>
         )}
-      ></List>
-      <Pagination
-        current={current}
-        onChange={onChange}
-        total={totalCount}
-        pageSize={pageSize}
-        style={{
-          marginTop: 35,
-          textAlign: "center",
-        }}
       />
-    </div>
+      <PageNum>
+        <Pagination
+          current={current}
+          onChange={onChange}
+          total={totalCount}
+          pageSize={pageSize}
+        />
+      </PageNum>
+    </NoticeWrap>
   );
 };
+
 export default NoticeList;

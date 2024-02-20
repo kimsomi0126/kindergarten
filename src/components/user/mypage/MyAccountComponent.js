@@ -77,7 +77,7 @@ const MyAccountComponent = ({ myData, ikid, onChildClick }) => {
       <TitleWrap>
         <PageTitle>연결계정</PageTitle>
       </TitleWrap>
-      <TableWrap className="TableWrap">
+      <TableWrap className="vertical">
         <table>
           <colgroup>
             <col width="20%" />
@@ -88,7 +88,7 @@ const MyAccountComponent = ({ myData, ikid, onChildClick }) => {
           </colgroup>
           <thead>
             <tr>
-              <th>아이디 </th>
+              <th>아이디</th>
               <th>이름</th>
               <th>연락처</th>
               <th>관계</th>
@@ -98,10 +98,10 @@ const MyAccountComponent = ({ myData, ikid, onChildClick }) => {
           <tbody>
             {my.parents.map((parent, index) => (
               <tr key={parent.iparent}>
-                <td>{parent ? parent.uid : ""}</td>
-                <td>{parent ? parent.parentNm : ""}</td>
-                <td>{parent ? parent.phoneNb : ""}</td>
-                <td>
+                <td data-name="아이디">{parent ? parent.uid : ""}</td>
+                <td data-name="이름">{parent ? parent.parentNm : ""}</td>
+                <td data-name="연락처">{parent ? parent.phoneNb : ""}</td>
+                <td data-name="관계">
                   {parent
                     ? (() => {
                         const irelation = parent.irelation;
@@ -122,7 +122,7 @@ const MyAccountComponent = ({ myData, ikid, onChildClick }) => {
                       })()
                     : ""}
                 </td>
-                <td>
+                <td data-name="관리">
                   <GrayBtn
                     onClick={() => {
                       setIparent(parent.iparent);

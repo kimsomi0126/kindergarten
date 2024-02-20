@@ -42,6 +42,9 @@ const ModifyAlbum = () => {
     useState(false);
   const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false);
   const [isMinimumWarningVisible, setIsMinimumWarningVisible] = useState(false);
+  const [isNoChangeWarningVisible, setIsNoChangeWarningVisible] =
+    useState(false);
+
   const uploadAreaStyle = {
     height: "5rem",
     lineHeight: "5rem",
@@ -74,6 +77,15 @@ const ModifyAlbum = () => {
     // 여기에 필요한 추가 로직을 배치할 수 있음
   };
 
+  // 파일 업로드가 완료되었을 때 호출될 함수입니다.
+  const handleUploadChange = ({ fileList: newFileList }) => {
+    setFileList(newFileList); // 기존 파일 리스트 업데이트
+    const newUploadedPics = newFileList
+      .filter(file => file.originFileObj) // 새로 업로드된 파일만 선택
+      .map(file => file.name); // 파일 이름 추출
+    setNewPics(newUploadedPics); // 새로 업로드된 파일 이름을 상태에 저장
+  };
+
   const handleFailure = errorMessage => {
     Modal.error({
       title: "앨범 업로드 실패",
@@ -88,14 +100,6 @@ const ModifyAlbum = () => {
       content:
         "서버 오류 또는 네트워크 문제가 발생했습니다. 다시 시도해주세요.",
     });
-  };
-
-  const handleOk = () => {
-    setIsModalVisible(false);
-  };
-
-  const handleCancel = () => {
-    setIsModalVisible(false);
   };
 
   const handleCancelConfirmation = () => {
@@ -113,27 +117,41 @@ const ModifyAlbum = () => {
 
   const onFinish = async data => {
     const formData = new FormData();
-    const dto = new Blob(
-      [
-        JSON.stringify({
-          iteacher: 1,
-          albumTitle: data.albumTitle,
-          albumContents: data.albumContents,
-          ialbum: pno,
-          delPics: deletedPics,
-        }),
-      ],
-      { type: "application/json" },
-    );
+    const albumInfo = {
+      iteacher: 1, // 이 값은 예시입니다. 실제 값으로 변경해주세요.
+      albumTitle: data.albumTitle,
+      albumContents: data.albumContents,
+      ialbum: pno,
+    };
+
+    // deletedPics 배열에 항목이 있는 경우에만 delPics 속성을 추가
+    if (deletedPics.length > 0) {
+      albumInfo.delPics = deletedPics;
+    }
+
+    const dto = new Blob([JSON.stringify(albumInfo)], {
+      type: "application/json",
+    });
     formData.append("dto", dto);
 
-    // 새로 추가된 이미지 파일을 FormData에 추가합니다.
-    fileList.forEach(async file => {
-      const response = await fetch(file);
-      const data = await response.blob();
+    // 새로 추가된 이미지 파일이 없고, 기존에 업로드된 파일만 있다면 빈 배열을 보냄. 즉, 추가 사진 없으면 빈 배열을 발송
+    // if (newPics.length === 0 && fileList.every(file => !file.originFileObj)) {
+    //   formData.append("pics", new Blob([""], { type: "application/json" })); // 빈 배열 대신 빈 Blob 전송
+    // } else {
+    //   // 새로 추가되거나 기존에 업로드된 이미지 파일을 FormData에 추가
+    //   fileList.forEach(file => {
+    //     // 새로운 파일이거나, 기존 파일 중 변경된 것이 있는 경우만 서버로 전송
+    //     if (file.originFileObj) {
+    //       formData.append("pics", file.originFileObj, file.name);
+    //     }
+    //   });
+    // }
+
+    // 새로 추가된 이미지 파일이 있을 경우에만 pics 속성을 추가. 즉, pics를 아예 제외시키고 발송.
+    fileList.forEach(file => {
       if (file.originFileObj) {
-        // 새로운 파일인 경우, 파일 데이터를 추가합니다.
-        formData.append("pics", file.originFileObj);
+        // 새로운 파일인 경우에만 추가
+        formData.append("pics", file.originFileObj, file.name);
       }
     });
 
@@ -158,7 +176,7 @@ const ModifyAlbum = () => {
       getEditAlbum({
         pno: pno,
         successFn: data => {
-          setAlbumData(data); // Set the album data in state
+          // setAlbumData(data); // Set the album data in state
           setAlbumData({ ...data });
           setAlbumTitle(data.albumTitle);
           setAlbumContents(data.albumContents);
@@ -205,11 +223,6 @@ const ModifyAlbum = () => {
     ];
     setFileList(newFileList);
     return false; // 파일을 자동으로 업로드하지 않음
-  };
-
-  const handleChange = ({ fileList: newFileList }) => {
-    // 업로드된 파일의 상태 변화를 처리
-    setFileList(newFileList);
   };
 
   // 이미지 파일을 삭제할 때 호출될 함수
@@ -259,7 +272,7 @@ const ModifyAlbum = () => {
               fileList={fileList}
               beforeUpload={beforeUpload}
               onRemove={handleRemove}
-              onChange={handleChange}
+              onChange={handleUploadChange}
               customRequest={customRequest}
               className="upload-list-inline"
               multiple={true}

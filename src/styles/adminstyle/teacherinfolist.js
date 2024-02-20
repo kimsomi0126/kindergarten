@@ -122,11 +122,12 @@ export const TeacherInfo = styled.div`
     color: ${colors.black};
   }
   .admin {
-    background: url(${process.env.PUBLIC_URL + "/images/information/logo1.svg"})
+    background: url(${process.env.PUBLIC_URL +
+      "/images/information/blossom.png"})
       no-repeat left 0.25rem/2.3rem;
     font-family: ${fonts.kotraHope};
     font-size: 2rem;
-    color: ${colors.greenDeep};
+    color: ${colors.blueDeep};
   }
 `;
 

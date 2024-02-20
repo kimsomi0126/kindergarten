@@ -36,7 +36,6 @@ const StudList = () => {
   const [changeState, setChangeState] = useState(0);
   const { loginState } = useCustomLogin();
   const [serchParams, setSearchParams] = useSearchParams();
-  const [searchText, setSearchText] = useState("");
 
   const page = serchParams.get("page");
   const kidCheck = serchParams.get("kidCheck");

@@ -357,3 +357,26 @@ export const postTeacherCreate = async ({
     errorFn(res.message);
   }
 };
+
+// 선생님 퇴사 PATCH
+export const patchTeacher = async ({
+  successpatchFn,
+  failpatchFn,
+  errorpatchFn,
+  iteachers,
+  obj,
+}) => {
+  try {
+    const res = await jwtAxios.patch(`${path}?iteachers=${iteachers}`, obj);
+    const status = res.status.toString();
+    if (status.charAt(0) === "2") {
+      successpatchFn(res.data);
+      return res.data;
+    } else {
+      failpatchFn(res.data);
+    }
+  } catch (error) {
+    const res = error.response.data;
+    errorpatchFn(res.message);
+  }
+};

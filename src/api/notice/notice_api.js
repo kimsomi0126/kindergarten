@@ -86,9 +86,9 @@ export const putNotice = async ({ data, successFn, failFn, errorFn }) => {
 };
 
 // 유치원소식 게시글 수정시 정보 조회하기
-export const getNotice = async ({ tno, successFn, failFn, errorFn }) => {
+export const editNotice = async ({ tno, successFn, failFn, errorFn }) => {
   try {
-    const res = await jwtAxios.get(`${path}/full/edit?ifullNotice=${tno}`);
+    const res = await jwtAxios.get(`${path}/edit?ifullNotice=${tno}`);
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
       successFn(res.data);

@@ -4,10 +4,17 @@ import { Button, Checkbox, Form, Input, Upload, Modal } from "antd";
 import { PageTitle } from "../../styles/basic";
 import { BtnWrap, GreenBtn, PinkBtn } from "../../styles/ui/buttons";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { getDetail, getList, putNotice } from "../../api/notice/notice_api";
+import {
+  editNotice,
+  getDetail,
+  getList,
+  getNotice,
+  putNotice,
+} from "../../api/notice/notice_api";
 import { IMG_URL, SERVER_URL } from "../../api/config";
 import { FileListStyle, WriteWrap } from "../../styles/album/album";
 import { NoticeWrap } from "../../styles/notice/notice";
+import ModalOneBtn from "../../components/ui/ModalOneBtn";
 
 const path = `${IMG_URL}/api/full`;
 const imgpath = `${IMG_URL}/pic/fullnotice`;
@@ -19,21 +26,28 @@ const obj = [
     fullTitle: "",
     fullContents: "",
     writer: "",
+    writerName: "",
     createdAT: "",
-    pics: [],
+    fullNoticeFix: 0,
+    fullPic: [],
   },
 ];
 
 const NoticeModify = () => {
   const { tno } = useParams();
+  const { ifullPic } = useParams();
   const formRef = useRef();
   const [noticeData, setNoticeData] = useState(obj); // noticeData 상태를 추가
-
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [deletedPics, setDeletedPics] = useState([]);
   const [form] = Form.useForm();
   const [fileList, setFileList] = useState([]);
   const [fullNoticeFix, setFullNoticeFix] = useState(false); // 새로운 상태 추가
-  const [isModalVisible, setIsModalVisible] = useState(false);
   const navigate = useNavigate();
+
+  // 모달 상태 관리
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showCancelConfirmModal, setshowCancelConfirmModal] = useState(false);
 
   // const [initialData, setInitialData] = useState({
   //   fullTitle: "",
@@ -67,15 +81,23 @@ const NoticeModify = () => {
     setFullNoticeFix(e.target.checked);
   };
 
+  const handleSuccessModalOk = () => {
+    setShowSuccessModal(false);
+  };
+
+  // 취소 확인 모달 핸들러
+  const handleCancelConfirmModalOk = () => {
+    setshowCancelConfirmModal(false);
+    navigate(`/notice/details/${tno}`);
+  };
+
+  const handleCancelConfirmation = () => {
+    setshowCancelConfirmModal(true); // 취소 확인 모달 표시
+  };
+
   const handleImageRemove = file => {
     const newFileList = fileList.filter(item => item.uid !== file.uid);
     setFileList(newFileList);
-  };
-
-  const handleSuccess = data => {
-    setIsModalVisible(true);
-    navigate(`/notice/details/${tno}`);
-    // console.log("게시글 수정 성공:", data);
   };
 
   const handleFailure = errorMessage => {
@@ -94,27 +116,6 @@ const NoticeModify = () => {
     });
   };
 
-  const handleOk = () => {
-    setIsModalVisible(false);
-  };
-
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
-
-  const handleCancelConfirmation = () => {
-    Modal.confirm({
-      title: "정말 취소하시겠습니까?",
-      content: "수정 내용이 저장되지 않습니다.",
-      onOk: () => {
-        // console.log("취소가 확인되었습니다.");
-        navigate("/notice"); // 사용자를 앨범 목록 페이지로 이동
-      },
-      okText: "확인",
-      cancelText: "계속 수정",
-    });
-  };
-
   const onFinish = async data => {
     const formData = new FormData();
     const dto = new Blob(
@@ -125,6 +126,7 @@ const NoticeModify = () => {
           fullContents: data.fullContents,
           fullNoticeFix: data.fullNoticeFix,
           iteacher: 1,
+          delPics: deletedPics,
         }),
       ],
       { type: "application/json" },
@@ -151,7 +153,7 @@ const NoticeModify = () => {
     try {
       const response = await putNotice({
         data: formData,
-        successFn: handleSuccess,
+        successFn: () => setShowSuccessModal(true), // 성공 모달 표시
         failFn: handleFailure,
         errorFn: handleError,
       });
@@ -165,7 +167,7 @@ const NoticeModify = () => {
 
   useEffect(() => {
     const fetchNoticeData = async () => {
-      getDetail({
+      editNotice({
         tno: tno,
         successFn: data => {
           setNoticeData(data);
@@ -175,11 +177,12 @@ const NoticeModify = () => {
           });
 
           // Transform album pictures for the fileList state
-          const transformedFileList = data.pics.map((picObj, index) => ({
-            uid: index.toString(), // uid is required to be unique
-            name: picObj.pic, // file name
+          // console.log("데이터 확인", data);
+          const transformedFileList = data.fullPic.map((fullPic, index) => ({
+            uid: fullPic.ifullPic, // uid is required to be unique
+            name: fullPic.fullPic, // file name
             status: "done", // upload status
-            url: `${imgpath}/${tno}/${picObj.pic}`, // file URL, adjust the path as needed
+            url: `${imgpath}/${tno}/${fullPic.fullPic}`, // file URL, adjust the path as needed
           }));
           console.log("transformedFileList", transformedFileList);
           setFileList(transformedFileList);
@@ -218,10 +221,18 @@ const NoticeModify = () => {
     setFileList(newFileList);
   };
 
+  // 이미지 파일을 삭제할 때 호출될 함수
   const onRemove = file => {
-    // 파일이 제거될 때 fileList에서 해당 파일을 제거
+    console.log("삭제 요청", file);
     const newFileList = fileList.filter(item => item.uid !== file.uid);
     setFileList(newFileList);
+    if (file.originFileObj) {
+      return true;
+    }
+    if (file.ifullPic) {
+      setDeletedPics([...deletedPics, file.uid]);
+    }
+    return true; // 삭제 처리를 진행
   };
 
   return (
@@ -274,22 +285,31 @@ const NoticeModify = () => {
       </WriteWrap>
       <BtnWrap right>
         <GreenBtn onClick={handleGreenButtonClick}>수정</GreenBtn>
-        <PinkBtn onClick={handleCancelConfirmation}>취소</PinkBtn>
+        <PinkBtn type="button" onClick={handleCancelConfirmation}>
+          취소
+        </PinkBtn>
       </BtnWrap>
 
-      <Link to="/notice">
-        <Modal
-          title="수정 완료"
-          open={isModalVisible}
-          onOk={handleOk}
-          onCancel={handleCancel}
-          okText="확인"
-          cancelButtonProps={{ style: { display: "none" } }}
-          width={350}
-        >
-          <p>성공적으로 수정되었습니다.</p>
-        </Modal>
+      <Link to={`/notice/details/${tno}`}>
+        {showSuccessModal && (
+          <ModalOneBtn
+            isOpen={showSuccessModal}
+            handleOk={handleSuccessModalOk}
+            title="수정 완료"
+            subTitle="성공적으로 수정되었습니다."
+          />
+        )}
       </Link>
+
+      {/* 취소 확인 모달 */}
+      {showCancelConfirmModal && (
+        <ModalOneBtn
+          isOpen={showCancelConfirmModal}
+          handleOk={handleCancelConfirmModalOk}
+          title="정말 취소할까요?"
+          subTitle="작성된 내용은 저장되지 않습니다."
+        />
+      )}
     </NoticeWrap>
   );
 };

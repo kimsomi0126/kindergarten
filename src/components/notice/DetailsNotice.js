@@ -21,6 +21,8 @@ import {
   MainContent,
   TitleWrap,
 } from "../../styles/album/album";
+import ModalTwoBtn from "../ui/ModalTwoBtn";
+import ModalOneBtn from "../ui/ModalOneBtn";
 const path = `${IMG_URL}/pic/fullnotice`;
 export const obj = {
   fullTitle: "",
@@ -40,39 +42,48 @@ const DetailsNotice = ({ isLogin }) => {
   const slideInterval = 1700;
 
   const [postNumber, setPostNumber] = useState(0);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [detailData, setDetailData] = useState(obj);
   const [detailImage, setDetailImage] = useState([]);
   const { tno } = useParams();
   const navigate = useNavigate();
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isDeleteSuccessModalOpen, setIsDeleteSuccessModalOpen] =
+    useState(false);
 
   const showDeleteModal = () => {
     setIsDeleteModalOpen(true);
   };
+  const handleDelOk = () => {
+    // setIsDeleteModalOpen(false); // 삭제 확인 모달 닫기
+    deleteNotice({
+      tno: tno,
+      successFn: res => {
+        // 삭제 성공 시 처리
+        // console.log("Album deleted:", res);
+        setIsDeleteSuccessModalOpen(true); // 삭제 성공 모달 열기
 
-  const handleDeleteOk = async () => {
-    try {
-      await deleteNotice({
-        tno,
-        successFn: () => {
+        // 2초 후에 성공 모달을 닫고 유치원소식 목록 페이지로 이동
+        setTimeout(() => {
+          setIsDeleteSuccessModalOpen(false);
           navigate("/notice");
-        },
-        failFn: error => {
-          console.error("삭제실패:", error);
-        },
-        errorFn: error => {
-          console.error("삭제 에러:", error);
-          // 에러 시, 필요한 처리를 추가할 수 있습니다.
-        },
-      });
-      setIsDeleteModalOpen(false);
-    } catch (error) {
-      console.error("삭제 처리 중 에러 발생:", error);
-    }
-  };
-
-  const handleDeleteCancel = () => {
-    setIsDeleteModalOpen(false);
+        });
+      },
+      failFn: error => {
+        // 삭제 실패 시 처리
+        Modal.error({
+          title: "게시글 삭제 실패",
+          content: "게시글 삭제에 실패했습니다. 다시 시도해 주세요.",
+        });
+      },
+      errorFn: error => {
+        console.error("Error deleting notice:", error);
+        Modal.error({
+          title: "오류 발생",
+          content:
+            "서버 오류로 인해 삭제에 실패했습니다. 잠시 후 다시 시도해 주세요.",
+        });
+      },
+    });
   };
 
   const successFn = result => {
@@ -95,6 +106,10 @@ const DetailsNotice = ({ isLogin }) => {
     getDetail({ tno, successFn, failFn, errorFn });
   }, [tno]);
   // console.log(detailData);
+
+  const handleDeleteCancel = () => {
+    setIsDeleteModalOpen(false);
+  };
 
   return (
     <NoticeWrap>
@@ -121,16 +136,24 @@ const DetailsNotice = ({ isLogin }) => {
         </MainContent>
       </ContentWrap>
       {/* 삭제 모달 */}
-      <Modal
-        title="정말 삭제할까요?"
-        open={isDeleteModalOpen}
-        onOk={handleDeleteOk}
-        onCancel={handleDeleteCancel}
-        okText="확인"
-        cancelText="취소"
-      >
-        <p>삭제된 내용은 복구할 수 없습니다.</p>
-      </Modal>
+      <ModalTwoBtn
+        isOpen={isDeleteModalOpen}
+        handleOk={handleDelOk}
+        handleCancel={() => setIsDeleteModalOpen(false)}
+        title={"게시글 삭제"}
+        subTitle={
+          "삭제된 게시글은 복구할 수 없습니다. \n정말 삭제하시겠습니까?"
+        }
+      />
+      {/* 삭제 성공 모달 */}
+      {isDeleteSuccessModalOpen && (
+        <ModalOneBtn
+          isOpen={isDeleteSuccessModalOpen}
+          handleOk={() => setIsDeleteSuccessModalOpen(false)}
+          title="삭제 완료"
+          subTitle="앨범이 성공적으로 삭제되었습니다."
+        />
+      )}
       <Footer>
         <BtnWrap style={{ justifyContent: "flex-end" }}>
           <GreenBtn

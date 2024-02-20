@@ -6,7 +6,7 @@ const MyPhysicalComponent = ({ myData }) => {
   // console.log(myData);
   return (
     <DetailPhysical>
-      <TableWrap className="th_left">
+      <TableWrap className="th_left" col3>
         <table>
           <colgroup>
             <col width="20%" />

@@ -7,13 +7,15 @@ export const getIndParentList = async ({
   page,
   year,
   ikid,
+  fromTo,
+  search,
   successFn,
   failFn,
   errorFn,
 }) => {
   try {
     const res = await jwtAxios.get(
-      `${path}?page=${page}&ikid=${ikid}&year=${year}&fromTo=3`,
+      `${path}?page=${page}&ikid=${ikid}&year=${year}&fromTo=${fromTo}`,
     );
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
@@ -31,13 +33,15 @@ export const getIndTeacherList = async ({
   page,
   year,
   iclass,
+  fromTo,
+  search,
   successFn,
   failFn,
   errorFn,
 }) => {
   try {
     const res = await jwtAxios.get(
-      `${path}?page=${page}&iclass=${iclass}&year=${year}&fromTo=3`,
+      `${path}?page=${page}&iclass=${iclass}&year=${year}&fromTo=${fromTo}`,
     );
     const status = res.status.toString();
     if (status.charAt(0) === "2") {

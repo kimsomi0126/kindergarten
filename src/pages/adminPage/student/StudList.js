@@ -233,9 +233,6 @@ const StudList = () => {
           </Dropdown>
           <Search
             placeholder="이름을 입력하세요."
-            style={{
-              width: 200,
-            }}
             allowClear
             onSearch={value => {
               handleSearch(value);

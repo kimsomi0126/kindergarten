@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { ContentInner, PageTitle } from "../../../styles/basic";
-import { DetailPhysical, TitleWrap } from "../../../styles/user/mypage";
+import {
+  DetailPhysical,
+  TableWrap,
+  TitleWrap,
+} from "../../../styles/user/mypage";
 import { DatePicker, Form, Input, Select } from "antd";
 import {
   DetailFormTable,
@@ -337,38 +341,40 @@ const StudDetailsForm = () => {
         <TitleWrap>
           <PageTitle>{year}년 상세정보 입력</PageTitle>
         </TitleWrap>
-        <DetailFormTable className="TableWrap">
-          <table>
-            <colgroup>
-              <col width="25%" />
-              <col width="25%" />
-              <col width="25%" />
-              <col width="25%" />
-            </colgroup>
-            <thead>
-              <tr>
-                <th>반</th>
-                <th>이름</th>
-                <th>성별</th>
-                <th>생년월일</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>
-                  {detailInfo.iclass === 1
-                    ? "무궁화반"
-                    : detailInfo.iclass === 2
-                    ? "해바라기반"
-                    : "장미반"}
-                </td>
+        <DetailFormTable>
+          <TableWrap>
+            <table>
+              <colgroup>
+                <col width="25%" />
+                <col width="25%" />
+                <col width="25%" />
+                <col width="25%" />
+              </colgroup>
+              <thead>
+                <tr>
+                  <th>반</th>
+                  <th>이름</th>
+                  <th>성별</th>
+                  <th>생년월일</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    {detailInfo.iclass === 1
+                      ? "무궁화반"
+                      : detailInfo.iclass === 2
+                      ? "해바라기반"
+                      : "장미반"}
+                  </td>
 
-                <td>{detailInfo.kidNm}</td>
-                <td>{detailInfo.gender === 0 ? "여자" : "남자"}</td>
-                <td>{detailInfo.birth}</td>
-              </tr>
-            </tbody>
-          </table>
+                  <td>{detailInfo.kidNm}</td>
+                  <td>{detailInfo.gender === 0 ? "여자" : "남자"}</td>
+                  <td>{detailInfo.birth}</td>
+                </tr>
+              </tbody>
+            </table>
+          </TableWrap>
         </DetailFormTable>
       </StudDetailWrap>
       {/* 신체정보 */}
@@ -398,174 +404,188 @@ const StudDetailsForm = () => {
             <PageTitle>키/몸무게</PageTitle>
           </TitleWrap>
           <DetailPhysical>
-            <DetailPhysicalTable className="th_left">
-              <table>
-                <colgroup>
-                  <col width="20%" />
-                  <col width="20%" />
-                  <col width="20%" />
-                  <col width="20%" />
-                  <col width="20%" />
-                </colgroup>
-                <tbody>
-                  <tr>
-                    <th>측정날짜</th>
-                    <td>
-                      <Form.Item name="bodyDate1">
-                        <DatePicker
-                          style={{
-                            width: "100%",
-                          }}
-                          placeholder="측정날짜입력"
-                        />
-                      </Form.Item>
-                    </td>
-                    <td>
-                      <Form.Item name="bodyDate2">
-                        <DatePicker
-                          style={{
-                            width: "100%",
-                          }}
-                          placeholder="측정날짜입력"
-                        />
-                      </Form.Item>
-                    </td>
-                    <td>
-                      <Form.Item name="bodyDate3">
-                        <DatePicker
-                          style={{
-                            width: "100%",
-                          }}
-                          placeholder="측정날짜입력"
-                        />
-                      </Form.Item>
-                    </td>
-                    <td>
-                      <Form.Item name="bodyDate4">
-                        <DatePicker
-                          style={{
-                            width: "100%",
-                          }}
-                          placeholder="측정날짜입력"
-                        />
-                      </Form.Item>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th>신장</th>
-                    <td>
-                      <Form.Item
-                        name="height1"
-                        rules={[
-                          {
-                            pattern: /^\d*$/,
-                            message: "숫자만 입력하세요.",
-                          },
-                        ]}
-                      >
-                        <Input
-                          type="text"
-                          placeholder="신장 입력 (숫자만)"
-                        ></Input>
-                      </Form.Item>
-                    </td>
-                    <td>
-                      <Form.Item
-                        name="height2"
-                        rules={[
-                          {
-                            pattern: /^\d*$/,
-                            message: "숫자만 입력하세요.",
-                          },
-                        ]}
-                      >
-                        <Input type="text" placeholder="신장 입력 (숫자만)" />
-                      </Form.Item>
-                    </td>
-                    <td>
-                      <Form.Item
-                        name="height3"
-                        rules={[
-                          {
-                            pattern: /^\d*$/,
-                            message: "숫자만 입력하세요.",
-                          },
-                        ]}
-                      >
-                        <Input type="text" placeholder="신장 입력 (숫자만)" />
-                      </Form.Item>
-                    </td>
-                    <td>
-                      <Form.Item
-                        name="height4"
-                        rules={[
-                          {
-                            pattern: /^\d*$/,
-                            message: "숫자만 입력하세요.",
-                          },
-                        ]}
-                      >
-                        <Input type="text" placeholder="신장 입력 (숫자만)" />
-                      </Form.Item>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th>몸무게</th>
-                    <td>
-                      <Form.Item
-                        name="weight1"
-                        rules={[
-                          {
-                            pattern: /^\d*$/,
-                            message: "숫자만 입력해주세요.",
-                          },
-                        ]}
-                      >
-                        <Input type="text" placeholder="몸무게 입력 (숫자만)" />
-                      </Form.Item>
-                    </td>
-                    <td>
-                      <Form.Item
-                        name="weight2"
-                        rules={[
-                          {
-                            pattern: /^\d*$/,
-                            message: "숫자만 입력해주세요.",
-                          },
-                        ]}
-                      >
-                        <Input type="text" placeholder="몸무게 입력 (숫자만)" />
-                      </Form.Item>
-                    </td>
-                    <td>
-                      <Form.Item
-                        name="weight3"
-                        rules={[
-                          {
-                            pattern: /^\d*$/,
-                            message: "숫자만 입력해주세요.",
-                          },
-                        ]}
-                      >
-                        <Input type="text" placeholder="몸무게 입력 (숫자만)" />
-                      </Form.Item>
-                    </td>
-                    <td>
-                      <Form.Item
-                        name="weight4"
-                        rules={[
-                          {
-                            pattern: /^\d*$/,
-                            message: "숫자만 입력해주세요.",
-                          },
-                        ]}
-                      >
-                        <Input type="text" placeholder="몸무게 입력 (숫자만)" />
-                      </Form.Item>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+            <DetailPhysicalTable>
+              <TableWrap className="th_left" col3>
+                <table>
+                  <colgroup>
+                    <col width="20%" />
+                    <col width="20%" />
+                    <col width="20%" />
+                    <col width="20%" />
+                    <col width="20%" />
+                  </colgroup>
+                  <tbody>
+                    <tr>
+                      <th>측정날짜</th>
+                      <td>
+                        <Form.Item name="bodyDate1">
+                          <DatePicker
+                            style={{
+                              width: "100%",
+                            }}
+                            placeholder="측정날짜입력"
+                          />
+                        </Form.Item>
+                      </td>
+                      <td>
+                        <Form.Item name="bodyDate2">
+                          <DatePicker
+                            style={{
+                              width: "100%",
+                            }}
+                            placeholder="측정날짜입력"
+                          />
+                        </Form.Item>
+                      </td>
+                      <td>
+                        <Form.Item name="bodyDate3">
+                          <DatePicker
+                            style={{
+                              width: "100%",
+                            }}
+                            placeholder="측정날짜입력"
+                          />
+                        </Form.Item>
+                      </td>
+                      <td>
+                        <Form.Item name="bodyDate4">
+                          <DatePicker
+                            style={{
+                              width: "100%",
+                            }}
+                            placeholder="측정날짜입력"
+                          />
+                        </Form.Item>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>신장</th>
+                      <td>
+                        <Form.Item
+                          name="height1"
+                          rules={[
+                            {
+                              pattern: /^\d*$/,
+                              message: "숫자만 입력하세요.",
+                            },
+                          ]}
+                        >
+                          <Input
+                            type="text"
+                            placeholder="신장 입력 (숫자만)"
+                          ></Input>
+                        </Form.Item>
+                      </td>
+                      <td>
+                        <Form.Item
+                          name="height2"
+                          rules={[
+                            {
+                              pattern: /^\d*$/,
+                              message: "숫자만 입력하세요.",
+                            },
+                          ]}
+                        >
+                          <Input type="text" placeholder="신장 입력 (숫자만)" />
+                        </Form.Item>
+                      </td>
+                      <td>
+                        <Form.Item
+                          name="height3"
+                          rules={[
+                            {
+                              pattern: /^\d*$/,
+                              message: "숫자만 입력하세요.",
+                            },
+                          ]}
+                        >
+                          <Input type="text" placeholder="신장 입력 (숫자만)" />
+                        </Form.Item>
+                      </td>
+                      <td>
+                        <Form.Item
+                          name="height4"
+                          rules={[
+                            {
+                              pattern: /^\d*$/,
+                              message: "숫자만 입력하세요.",
+                            },
+                          ]}
+                        >
+                          <Input type="text" placeholder="신장 입력 (숫자만)" />
+                        </Form.Item>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>몸무게</th>
+                      <td>
+                        <Form.Item
+                          name="weight1"
+                          rules={[
+                            {
+                              pattern: /^\d*$/,
+                              message: "숫자만 입력해주세요.",
+                            },
+                          ]}
+                        >
+                          <Input
+                            type="text"
+                            placeholder="몸무게 입력 (숫자만)"
+                          />
+                        </Form.Item>
+                      </td>
+                      <td>
+                        <Form.Item
+                          name="weight2"
+                          rules={[
+                            {
+                              pattern: /^\d*$/,
+                              message: "숫자만 입력해주세요.",
+                            },
+                          ]}
+                        >
+                          <Input
+                            type="text"
+                            placeholder="몸무게 입력 (숫자만)"
+                          />
+                        </Form.Item>
+                      </td>
+                      <td>
+                        <Form.Item
+                          name="weight3"
+                          rules={[
+                            {
+                              pattern: /^\d*$/,
+                              message: "숫자만 입력해주세요.",
+                            },
+                          ]}
+                        >
+                          <Input
+                            type="text"
+                            placeholder="몸무게 입력 (숫자만)"
+                          />
+                        </Form.Item>
+                      </td>
+                      <td>
+                        <Form.Item
+                          name="weight4"
+                          rules={[
+                            {
+                              pattern: /^\d*$/,
+                              message: "숫자만 입력해주세요.",
+                            },
+                          ]}
+                        >
+                          <Input
+                            type="text"
+                            placeholder="몸무게 입력 (숫자만)"
+                          />
+                        </Form.Item>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </TableWrap>
             </DetailPhysicalTable>
           </DetailPhysical>
         </StudDetailWrap>
@@ -574,197 +594,199 @@ const StudDetailsForm = () => {
           <TitleWrap>
             <PageTitle>키워드</PageTitle>
           </TitleWrap>
-          <KeywordTable className="TableWrap">
-            <table>
-              <colgroup>
-                <col width="25%" />
-                <col width="25%" />
-                <col width="50%" />
-              </colgroup>
-              <thead>
-                <tr>
-                  <th>날짜</th>
-                  <th>키워드</th>
-                  <th>상세내용</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>
-                    <Form.Item name="growthDate1">
-                      <DatePicker
-                        style={{
-                          width: "100%",
-                        }}
-                        placeholder="날짜입력"
-                      />
-                    </Form.Item>
-                  </td>
-                  <td>
-                    <Form.Item name="growth1">
-                      <Select>
-                        <Select.Option value="1">활발한</Select.Option>
-                        <Select.Option value="2">예의바른</Select.Option>
-                        <Select.Option value="3">창의적인</Select.Option>
-                        <Select.Option value="4">호기심 많은</Select.Option>
-                        <Select.Option value="5">착한</Select.Option>
-                        <Select.Option value="6">씩씩한</Select.Option>
-                        <Select.Option value="7">성실한</Select.Option>
-                        <Select.Option value="8">편식 없는</Select.Option>
-                        <Select.Option value="9">깔끔한</Select.Option>
-                        <Select.Option value="10">튼튼한</Select.Option>
-                      </Select>
-                    </Form.Item>
-                  </td>
-                  <td>
-                    <Form.Item name="growthMemo1">
-                      <Input
-                        type="text"
-                        placeholder="선택한 키워드와 관련된 내용"
-                      />
-                    </Form.Item>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <Form.Item name="growthDate2">
-                      <DatePicker
-                        style={{
-                          width: "100%",
-                        }}
-                        placeholder="날짜입력"
-                      />
-                    </Form.Item>
-                  </td>
-                  <td>
-                    <Form.Item name="growth2">
-                      <Select
-                        labelInValue
-                        defaultValue={{
-                          value: "",
-                          label: (
-                            <span style={{ color: " rgba(0, 0, 0, 0.25) " }}>
-                              키워드 선택
-                            </span>
-                          ),
-                        }}
-                      >
-                        <Select.Option value="1">활발한</Select.Option>
-                        <Select.Option value="2">예의바른</Select.Option>
-                        <Select.Option value="3">창의적인</Select.Option>
-                        <Select.Option value="4">호기심 많은</Select.Option>
-                        <Select.Option value="5">착한</Select.Option>
-                        <Select.Option value="6">씩씩한</Select.Option>
-                        <Select.Option value="7">성실한</Select.Option>
-                        <Select.Option value="8">편식 없는</Select.Option>
-                        <Select.Option value="9">깔끔한</Select.Option>
-                        <Select.Option value="10">튼튼한</Select.Option>
-                      </Select>
-                    </Form.Item>
-                  </td>
-                  <td>
-                    <Form.Item name="growthMemo2">
-                      <Input
-                        type="text"
-                        placeholder="선택한 키워드와 관련된 내용"
-                      />
-                    </Form.Item>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <Form.Item name="growthDate3">
-                      <DatePicker
-                        style={{
-                          width: "100%",
-                        }}
-                        placeholder="날짜입력"
-                      />
-                    </Form.Item>
-                  </td>
-                  <td>
-                    <Form.Item name="growth3">
-                      <Select
-                        labelInValue
-                        defaultValue={{
-                          value: "",
-                          label: (
-                            <span style={{ color: " rgba(0, 0, 0, 0.25) " }}>
-                              키워드 선택
-                            </span>
-                          ),
-                        }}
-                      >
-                        <Select.Option value="1">활발한</Select.Option>
-                        <Select.Option value="2">예의바른</Select.Option>
-                        <Select.Option value="3">창의적인</Select.Option>
-                        <Select.Option value="4">호기심 많은</Select.Option>
-                        <Select.Option value="5">착한</Select.Option>
-                        <Select.Option value="6">씩씩한</Select.Option>
-                        <Select.Option value="7">성실한</Select.Option>
-                        <Select.Option value="8">편식 없는</Select.Option>
-                        <Select.Option value="9">깔끔한</Select.Option>
-                        <Select.Option value="10">튼튼한</Select.Option>
-                      </Select>
-                    </Form.Item>
-                  </td>
-                  <td>
-                    <Form.Item name="growthMemo3">
-                      <Input
-                        type="text"
-                        placeholder="선택한 키워드와 관련된 내용"
-                      />
-                    </Form.Item>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <Form.Item name="growthDate4">
-                      <DatePicker
-                        style={{
-                          width: "100%",
-                        }}
-                        placeholder="날짜입력"
-                      />
-                    </Form.Item>
-                  </td>
-                  <td>
-                    <Form.Item name="growth4">
-                      <Select
-                        labelInValue
-                        defaultValue={{
-                          value: "",
-                          label: (
-                            <span style={{ color: " rgba(0, 0, 0, 0.25) " }}>
-                              키워드 선택
-                            </span>
-                          ),
-                        }}
-                      >
-                        <Select.Option value="1">활발한</Select.Option>
-                        <Select.Option value="2">예의바른</Select.Option>
-                        <Select.Option value="3">창의적인</Select.Option>
-                        <Select.Option value="4">호기심 많은</Select.Option>
-                        <Select.Option value="5">착한</Select.Option>
-                        <Select.Option value="6">씩씩한</Select.Option>
-                        <Select.Option value="7">성실한</Select.Option>
-                        <Select.Option value="8">편식 없는</Select.Option>
-                        <Select.Option value="9">깔끔한</Select.Option>
-                        <Select.Option value="10">튼튼한</Select.Option>
-                      </Select>
-                    </Form.Item>
-                  </td>
-                  <td>
-                    <Form.Item name="growthMemo4">
-                      <Input
-                        type="text"
-                        placeholder="선택한 키워드와 관련된 내용"
-                      />
-                    </Form.Item>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+          <KeywordTable>
+            <TableWrap>
+              <table>
+                <colgroup>
+                  <col width="25%" />
+                  <col width="25%" />
+                  <col width="50%" />
+                </colgroup>
+                <thead>
+                  <tr>
+                    <th>날짜</th>
+                    <th>키워드</th>
+                    <th>상세내용</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <Form.Item name="growthDate1">
+                        <DatePicker
+                          style={{
+                            width: "100%",
+                          }}
+                          placeholder="날짜입력"
+                        />
+                      </Form.Item>
+                    </td>
+                    <td>
+                      <Form.Item name="growth1">
+                        <Select>
+                          <Select.Option value="1">활발한</Select.Option>
+                          <Select.Option value="2">예의바른</Select.Option>
+                          <Select.Option value="3">창의적인</Select.Option>
+                          <Select.Option value="4">호기심 많은</Select.Option>
+                          <Select.Option value="5">착한</Select.Option>
+                          <Select.Option value="6">씩씩한</Select.Option>
+                          <Select.Option value="7">성실한</Select.Option>
+                          <Select.Option value="8">편식 없는</Select.Option>
+                          <Select.Option value="9">깔끔한</Select.Option>
+                          <Select.Option value="10">튼튼한</Select.Option>
+                        </Select>
+                      </Form.Item>
+                    </td>
+                    <td>
+                      <Form.Item name="growthMemo1">
+                        <Input
+                          type="text"
+                          placeholder="선택한 키워드와 관련된 내용"
+                        />
+                      </Form.Item>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <Form.Item name="growthDate2">
+                        <DatePicker
+                          style={{
+                            width: "100%",
+                          }}
+                          placeholder="날짜입력"
+                        />
+                      </Form.Item>
+                    </td>
+                    <td>
+                      <Form.Item name="growth2">
+                        <Select
+                          labelInValue
+                          defaultValue={{
+                            value: "",
+                            label: (
+                              <span style={{ color: " rgba(0, 0, 0, 0.25) " }}>
+                                키워드 선택
+                              </span>
+                            ),
+                          }}
+                        >
+                          <Select.Option value="1">활발한</Select.Option>
+                          <Select.Option value="2">예의바른</Select.Option>
+                          <Select.Option value="3">창의적인</Select.Option>
+                          <Select.Option value="4">호기심 많은</Select.Option>
+                          <Select.Option value="5">착한</Select.Option>
+                          <Select.Option value="6">씩씩한</Select.Option>
+                          <Select.Option value="7">성실한</Select.Option>
+                          <Select.Option value="8">편식 없는</Select.Option>
+                          <Select.Option value="9">깔끔한</Select.Option>
+                          <Select.Option value="10">튼튼한</Select.Option>
+                        </Select>
+                      </Form.Item>
+                    </td>
+                    <td>
+                      <Form.Item name="growthMemo2">
+                        <Input
+                          type="text"
+                          placeholder="선택한 키워드와 관련된 내용"
+                        />
+                      </Form.Item>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <Form.Item name="growthDate3">
+                        <DatePicker
+                          style={{
+                            width: "100%",
+                          }}
+                          placeholder="날짜입력"
+                        />
+                      </Form.Item>
+                    </td>
+                    <td>
+                      <Form.Item name="growth3">
+                        <Select
+                          labelInValue
+                          defaultValue={{
+                            value: "",
+                            label: (
+                              <span style={{ color: " rgba(0, 0, 0, 0.25) " }}>
+                                키워드 선택
+                              </span>
+                            ),
+                          }}
+                        >
+                          <Select.Option value="1">활발한</Select.Option>
+                          <Select.Option value="2">예의바른</Select.Option>
+                          <Select.Option value="3">창의적인</Select.Option>
+                          <Select.Option value="4">호기심 많은</Select.Option>
+                          <Select.Option value="5">착한</Select.Option>
+                          <Select.Option value="6">씩씩한</Select.Option>
+                          <Select.Option value="7">성실한</Select.Option>
+                          <Select.Option value="8">편식 없는</Select.Option>
+                          <Select.Option value="9">깔끔한</Select.Option>
+                          <Select.Option value="10">튼튼한</Select.Option>
+                        </Select>
+                      </Form.Item>
+                    </td>
+                    <td>
+                      <Form.Item name="growthMemo3">
+                        <Input
+                          type="text"
+                          placeholder="선택한 키워드와 관련된 내용"
+                        />
+                      </Form.Item>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <Form.Item name="growthDate4">
+                        <DatePicker
+                          style={{
+                            width: "100%",
+                          }}
+                          placeholder="날짜입력"
+                        />
+                      </Form.Item>
+                    </td>
+                    <td>
+                      <Form.Item name="growth4">
+                        <Select
+                          labelInValue
+                          defaultValue={{
+                            value: "",
+                            label: (
+                              <span style={{ color: " rgba(0, 0, 0, 0.25) " }}>
+                                키워드 선택
+                              </span>
+                            ),
+                          }}
+                        >
+                          <Select.Option value="1">활발한</Select.Option>
+                          <Select.Option value="2">예의바른</Select.Option>
+                          <Select.Option value="3">창의적인</Select.Option>
+                          <Select.Option value="4">호기심 많은</Select.Option>
+                          <Select.Option value="5">착한</Select.Option>
+                          <Select.Option value="6">씩씩한</Select.Option>
+                          <Select.Option value="7">성실한</Select.Option>
+                          <Select.Option value="8">편식 없는</Select.Option>
+                          <Select.Option value="9">깔끔한</Select.Option>
+                          <Select.Option value="10">튼튼한</Select.Option>
+                        </Select>
+                      </Form.Item>
+                    </td>
+                    <td>
+                      <Form.Item name="growthMemo4">
+                        <Input
+                          type="text"
+                          placeholder="선택한 키워드와 관련된 내용"
+                        />
+                      </Form.Item>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </TableWrap>
           </KeywordTable>
         </StudDetailWrap>
         <StudDetailsFormFooter>

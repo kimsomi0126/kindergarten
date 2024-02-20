@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { colors } from "../basic";
+import { colors, mq } from "../basic";
 
 export const StudFormTop = styled.div`
   margin-top: 1rem;
@@ -32,11 +32,21 @@ export const BasicInfoForm = styled.div`
 export const BasicInfoItem = styled.div`
   width: 100%;
   display: flex;
-  gap: 1rem;
+  gap: 2%;
+  .ant-form-item {
+    width: 32%;
+  }
+  ${mq.mobileBig} {
+    flex-wrap: wrap;
+
+    .ant-form-item {
+      width: 100%;
+    }
+  }
 `;
 export const BasicInfoCode = styled.div`
   display: flex;
-  gap: 1rem;
+  gap: 2%;
   button {
     padding: 1rem 1rem;
     height: 3.2rem;
@@ -49,7 +59,17 @@ export const BasicInfoCode = styled.div`
 `;
 export const BasicInfoAdress = styled.div`
   display: flex;
-  gap: 1rem;
+  gap: 2%;
+
+  .ant-form-item {
+    width: 49%;
+  }
+  ${mq.mobileBig} {
+    flex-wrap: wrap;
+    .ant-form-item {
+      width: 100%;
+    }
+  }
 `;
 export const ClassInfo = styled.div`
   p {
@@ -62,7 +82,17 @@ export const ClassInfo = styled.div`
 export const ClassInfoForm = styled.div`
   margin-top: 1rem;
   display: flex;
-  gap: 1rem;
+  gap: 2%;
+
+  .ant-form-item {
+    width: 32%;
+  }
+
+  ${mq.mobileBig} {
+    .ant-form-item {
+      width: 100%;
+    }
+  }
 `;
 
 export const ImgInfo = styled.div`
@@ -75,9 +105,17 @@ export const ImgInfo = styled.div`
 
 export const ImgInfoForm = styled.div`
   margin-top: 1rem;
-  display: flex;
+  margin-bottom: 2rem;
+  max-width: 500px;
   align-items: center;
-  gap: 1rem;
+  .ant-upload-list .ant-upload-list-item {
+    height: auto;
+  }
+  .ant-upload-list-item-name {
+    word-break: break-all;
+    white-space: inherit !important;
+    font-size: 1.4rem;
+  }
 `;
 
 export const PhoneInfo = styled.div`
@@ -90,6 +128,18 @@ export const PhoneInfo = styled.div`
 
 export const PhoneInfoForm = styled.div`
   margin-top: 1rem;
+  display: flex;
+  gap: 2%;
+  .ant-form-item {
+    width: 49%;
+  }
+
+  ${mq.mobileBig} {
+    flex-wrap: wrap;
+    .ant-form-item {
+      width: 100%;
+    }
+  }
 `;
 
 export const AdminMemo = styled.div`

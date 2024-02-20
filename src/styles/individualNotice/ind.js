@@ -1,8 +1,9 @@
 import styled from "@emotion/styled";
-import { boxStyle, colors, ellipsis } from "../basic";
+import { boxStyle, colors, ellipsis, mq } from "../basic";
 
 export const IndWrap = styled.div`
   position: relative;
+  padding-bottom: 5rem;
 `;
 
 export const IndListWrap = styled.div`
@@ -22,6 +23,12 @@ export const IndListBox = styled.div`
   a {
     display: block;
     padding: 1.5rem 2rem;
+  }
+  ${mq.mobileBig} {
+    width: 49%;
+  }
+  ${mq.mobileSmall} {
+    width: 100%;
   }
 `;
 
@@ -56,4 +63,18 @@ export const IndBot = styled.div`
       "/images/common/notice/clock.svg"})
       no-repeat top left/ 1.8rem;
   }
+`;
+
+// 작성자 선택
+export const FromToBtnWrap = styled.div`
+  button {
+    background: #ccc;
+  }
+`;
+
+// 탭메뉴
+export const TabWrap = styled.div`
+  position: relative;
+  border-bottom: 1px solid ${colors.greenDeep};
+  margin-bottom: 2rem;
 `;

@@ -115,7 +115,7 @@ const StudentCreate = () => {
   };
   const [form] = Form.useForm();
   const postCodeStyle = {
-    width: "480px",
+    width: "100%",
     height: "445px",
   };
   const completeHandler = data => {
@@ -250,9 +250,6 @@ const StudentCreate = () => {
               <BasicInfoItem>
                 <Form.Item
                   name="kidNm"
-                  style={{
-                    width: "33%",
-                  }}
                   rules={[
                     {
                       required: true,
@@ -264,9 +261,6 @@ const StudentCreate = () => {
                 </Form.Item>
                 <Form.Item
                   name="birth"
-                  style={{
-                    width: "33%",
-                  }}
                   rules={[
                     {
                       required: true,
@@ -283,9 +277,6 @@ const StudentCreate = () => {
                 </Form.Item>
                 <Form.Item
                   name="gender"
-                  style={{
-                    width: "33%",
-                  }}
                   rules={[
                     {
                       required: true,
@@ -342,18 +333,10 @@ const StudentCreate = () => {
                 )}
               </BasicInfoCode>
               <BasicInfoAdress>
-                <Form.Item
-                  style={{
-                    width: "50%",
-                  }}
-                  name={["address", "detail1"]}
-                >
+                <Form.Item name={["address", "detail1"]}>
                   <Input disabled type="text" placeholder="주소 입력" />
                 </Form.Item>
                 <Form.Item
-                  style={{
-                    width: "50%",
-                  }}
                   name={["address", "detail2"]}
                   rules={[
                     {
@@ -373,9 +356,6 @@ const StudentCreate = () => {
             <ClassInfoForm>
               <Form.Item
                 name="iclass"
-                style={{
-                  width: "33%",
-                }}
                 rules={[
                   {
                     required: true,
@@ -423,48 +403,35 @@ const StudentCreate = () => {
           <PhoneInfo>
             <p>비상 연락처</p>
             <PhoneInfoForm>
-              <div
-                style={{
-                  display: "flex",
-                  gap: "1rem",
-                }}
+              <Form.Item
+                name="emerNm"
+                rules={[
+                  {
+                    required: true,
+                    message: "비상연락처 이름을 입력해주세요.",
+                  },
+                ]}
               >
-                <Form.Item
-                  name="emerNm"
-                  style={{
-                    width: "50%",
-                  }}
-                  rules={[
-                    {
-                      required: true,
-                      message: "비상연락처 이름을 입력해주세요.",
-                    },
-                  ]}
-                >
-                  <Input type="text" placeholder="이름 입력" />
-                </Form.Item>
-                <Form.Item
-                  name="emerNb"
-                  rules={[
-                    {
-                      pattern: /^\d{10,11}$/,
-                      message: "휴대폰 번호를 올바르게 입력하세요.",
-                    },
-                    {
-                      required: true,
-                      message: "비상연락처 번호를 입력해주세요.",
-                    },
-                  ]}
-                  style={{
-                    width: "50%",
-                  }}
-                >
-                  <Input
-                    type="tel"
-                    placeholder="휴대폰 번호 입력 // 하이픈(-) 제외"
-                  />
-                </Form.Item>
-              </div>
+                <Input type="text" placeholder="이름 입력" />
+              </Form.Item>
+              <Form.Item
+                name="emerNb"
+                rules={[
+                  {
+                    pattern: /^\d{10,11}$/,
+                    message: "휴대폰 번호를 올바르게 입력하세요.",
+                  },
+                  {
+                    required: true,
+                    message: "비상연락처 번호를 입력해주세요.",
+                  },
+                ]}
+              >
+                <Input
+                  type="tel"
+                  placeholder="휴대폰 번호 입력 // 하이픈(-) 제외"
+                />
+              </Form.Item>
             </PhoneInfoForm>
           </PhoneInfo>
           {/* 관리자메모 */}

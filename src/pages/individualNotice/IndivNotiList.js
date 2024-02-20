@@ -2,9 +2,18 @@ import { Pagination, Select } from "antd";
 import React, { useEffect, useState } from "react";
 import { PageNum } from "../../styles/adminstyle/guardianlist";
 import { PageTitle } from "../../styles/basic";
-import { IndWrap } from "../../styles/individualNotice/ind";
+import {
+  FromToBtnWrap,
+  IndWrap,
+  TabWrap,
+} from "../../styles/individualNotice/ind";
 import { FlexBox, TitleWrap } from "../../styles/user/mypage";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import {
+  Link,
+  useLocation,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 import useCustomLogin from "../../hooks/useCustomLogin";
 import IndListComponent from "../../components/individualNotice/IndListComponent";
 import {
@@ -14,6 +23,8 @@ import {
 import ModalOneBtn from "../../components/ui/ModalOneBtn";
 import IndParentBtnComponent from "../../components/individualNotice/IndParentBtnComponent";
 import IndTeacherBtnComponent from "../../components/individualNotice/IndTeacherBtnComponent";
+import Search from "antd/es/input/Search";
+import { GreenBtn } from "../../styles/ui/buttons";
 
 const initData = [
   {
@@ -31,6 +42,7 @@ const IndivNotiList = () => {
   const navigate = useNavigate();
   const [serchParams, setSearchParams] = useSearchParams();
   const [indList, setIndList] = useState(initData);
+  const [fromTo, setFromTo] = useState(3);
   const [count, setCount] = useState(0);
 
   // 현재 출력 년도, kid 값 params에서 체크
@@ -47,14 +59,13 @@ const IndivNotiList = () => {
   const kidCheck = Array.isArray(ikidList) && ikidList.map(item => item.ikid);
 
   // 페이지네이션
-  const handleChange = value => {
-    // console.log(value);
-  };
   const handlePageChange = (page, pageSize) => {
     if (isLogin) {
-      navigate(`/ind?year=${year}&page=${page}&iclass=${iclass}`);
+      navigate(
+        `/ind?year=${year}&page=${page}&iclass=${iclass}&fromTo=${fromTo}`,
+      );
     } else {
-      navigate(`/ind?year=${year}&page=${page}&ikid=${ikid}`);
+      navigate(`/ind?year=${year}&page=${page}&ikid=${ikid}&fromTo=${fromTo}`);
     }
   };
 
@@ -85,10 +96,10 @@ const IndivNotiList = () => {
         setIsOpen(true);
         return;
       }
-      getIndParentList({ page, year, ikid, errorFn, successFn });
+      getIndParentList({ page, year, ikid, fromTo, errorFn, successFn });
     } else if (isLogin) {
       // 선생님 로그인
-      getIndTeacherList({ page, year, iclass, errorFn, successFn });
+      getIndTeacherList({ page, year, iclass, fromTo, errorFn, successFn });
     } else {
       // 로그인 안했을때
       setIsOpen(true);
@@ -96,7 +107,7 @@ const IndivNotiList = () => {
       setSubTitle("로그인 회원만 접근 가능합니다.");
       setIsNavigate("/login");
     }
-  }, [year, ikid, iclass, page]);
+  }, [year, ikid, iclass, page, fromTo]);
 
   // 데이터연동 결과
   const successFn = res => {
@@ -112,6 +123,54 @@ const IndivNotiList = () => {
     setIsNavigate(-1);
   };
 
+  // 작성자 분류
+  // 식별코드정보값 가져오기
+  const location = useLocation();
+  console.log(location);
+  const handleFromTo = e => {
+    const writer = e.target.value;
+    const url = `/ind?year=${year}&page=1&iclass=${iclass}&fromTo=`;
+    const num =
+      isLogin && writer == "teacher"
+        ? 0
+        : isLogin && writer == "parent"
+        ? 1
+        : isParentLogin && writer == "parent"
+        ? 0
+        : isParentLogin && !writer == "teacher"
+        ? 1
+        : 3;
+
+    navigate(url + num, { state: { writer } });
+    setFromTo(num);
+  };
+
+  const handleSearch = value => {
+    console.log(value);
+    if (isParentLogin) {
+      getIndParentList({
+        page,
+        year,
+        ikid,
+        fromTo,
+        search: value,
+        errorFn,
+        successFn,
+      });
+    } else if (isLogin) {
+      // 선생님 로그인
+      getIndTeacherList({
+        page,
+        year,
+        iclass,
+        fromTo,
+        search: value,
+        errorFn,
+        successFn,
+      });
+    }
+  };
+
   return (
     <IndWrap>
       {/* 안내창 */}
@@ -121,8 +180,34 @@ const IndivNotiList = () => {
         title={title}
         subTitle={subTitle}
       />
+      <TabWrap>
+        <Link to="/" className="active">
+          알림장
+        </Link>
+        <Link to="/">추억앨범</Link>
+      </TabWrap>
       <TitleWrap>
-        <PageTitle>알림장</PageTitle>
+        <FromToBtnWrap fromTo={fromTo}>
+          <button
+            onClick={e => handleFromTo(e)}
+            value={"parent"}
+            className="parent"
+          >
+            학부모님이 쓴 글
+          </button>
+          <button
+            onClick={e => handleFromTo(e)}
+            value={"teacher"}
+            className="teacher"
+          >
+            선생님이 쓴 글
+          </button>
+          {fromTo != 3 ? (
+            <button onClick={e => handleFromTo(e)} value={"all"}>
+              모아보기
+            </button>
+          ) : null}
+        </FromToBtnWrap>
         <FlexBox>
           {/* 권한별 서치버튼 */}
           {isLogin ? (
@@ -141,6 +226,21 @@ const IndivNotiList = () => {
               page={page}
             />
           )}
+          <Search
+            placeholder="이름을 입력하세요."
+            allowClear
+            onSearch={value => {
+              handleSearch(value);
+            }}
+            size={"large"}
+          />
+          <GreenBtn
+            onClick={() => {
+              navigate("/ind/write");
+            }}
+          >
+            글쓰기
+          </GreenBtn>
         </FlexBox>
       </TitleWrap>
       <IndListComponent

@@ -1,16 +1,25 @@
 import styled from "@emotion/styled";
-import { boxStyle, colors, fonts, shadow } from "../basic";
+import { boxStyle, colors, fonts, mq, shadow } from "../basic";
 
 export const MypageWrap = styled.div`
   position: relative;
   width: 100%;
   margin-bottom: 30rem;
+  ${mq.mobileBig} {
+    margin-bottom: 10rem;
+  }
 `;
 
 export const FlexBox = styled.div`
   display: flex;
   align-items: center;
   gap: 1rem;
+
+  ${mq.mobileBig} {
+    width: 100%;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+  }
 `;
 
 // table 스타일
@@ -62,6 +71,96 @@ export const TableWrap = styled.div`
   tbody tr:last-of-type td {
     border-bottom: 0;
   }
+
+  ${mq.mobileBig} {
+    img {
+      display: none;
+    }
+    &.vertical table {
+      display: block;
+      text-align: left;
+      thead,
+      tbody,
+      th,
+      td,
+      tr {
+        display: block;
+        text-align: left;
+        width: 100%;
+      }
+      thead {
+        display: none;
+      }
+      tr {
+        border-bottom: 1px solid ${colors.grayBar};
+        :last-of-type {
+          border-bottom: 0;
+          td {
+            border-bottom: 1px solid ${colors.grayLight};
+            :last-child {
+              border: 0;
+            }
+          }
+        }
+      }
+      td {
+        border: 0;
+        padding: 0;
+        border-bottom: 1px solid ${colors.grayLight};
+        :before {
+          content: attr(data-name);
+          display: inline-block;
+          min-width: 5rem;
+          margin-right: 2rem;
+          padding: 1rem 5%;
+          height: 100%;
+          background: ${colors.greenLight2};
+          font-family: ${fonts.kotraHope};
+          color: ${colors.greenDeep};
+          font-size: 1.8rem;
+        }
+        :last-child {
+          border: 0;
+        }
+        :last-child::before {
+          padding: 2rem 5%;
+        }
+      }
+    }
+
+    &.th_left {
+      table,
+      tr,
+      th,
+      tbody,
+      td {
+        display: block;
+      }
+      tbody {
+        width: 100%;
+        display: flex;
+      }
+      th {
+        text-align: center;
+      }
+      tr {
+        width: ${props => (props.col3 ? "33.33%" : "100%")};
+      }
+      th,
+      td,
+      tbody tr:last-of-type th,
+      tbody tr:last-of-type td {
+        border-left: 1px solid ${colors.grayLight};
+        border-bottom: 1px solid ${colors.grayLight};
+      }
+      tbody tr td:last-child {
+        border-bottom: 0;
+      }
+    }
+    .ant-form-item {
+      margin-bottom: 0 !important;
+    }
+  }
 `;
 
 // 페이지 타이틀 영역
@@ -71,6 +170,9 @@ export const TitleWrap = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1.5rem;
+  ${mq.mobileBig} {
+    flex-wrap: wrap;
+  }
 `;
 
 // 마이페이지 내용
@@ -90,6 +192,12 @@ export const ProfileWrap = styled.div`
   ${shadow}
   border-radius: 1rem;
   overflow: hidden;
+
+  ${mq.mobileBig} {
+    flex-wrap: wrap;
+    padding: 2.5rem 3%;
+    margin-bottom: 1rem;
+  }
 `;
 
 export const ProfileImg = styled.div`
@@ -102,6 +210,11 @@ export const ProfileImg = styled.div`
     max-width: 20rem;
     border-radius: 50%;
   }
+
+  ${mq.mobileBig} {
+    width: 100%;
+    margin-bottom: 2rem;
+  }
 `;
 export const ProfileInfo = styled.div`
   position: relative;
@@ -109,10 +222,19 @@ export const ProfileInfo = styled.div`
   dl {
     display: flex;
     font-size: 1.6rem;
-    font-weight: 300;
     dt {
       color: ${colors.grayDeep};
       margin-right: 3rem;
+    }
+  }
+
+  ${mq.mobileBig} {
+    width: 100%;
+    dl {
+      flex-wrap: wrap;
+    }
+    dt {
+      width: 100%;
     }
   }
 `;
@@ -141,6 +263,12 @@ export const IdentCodeWrap = styled.div`
   dl {
     margin-right: 2rem;
   }
+  ${mq.mobileBig} {
+    dl {
+      margin-right: 0;
+      max-width: 11rem;
+    }
+  }
 `;
 export const MyInfo = styled.div`
   display: flex;
@@ -148,6 +276,12 @@ export const MyInfo = styled.div`
   dl {
     margin-right: 10rem;
     margin-top: 2rem;
+  }
+  ${mq.mobileBig} {
+    dl {
+      min-width: 30%;
+      margin-right: 0;
+    }
   }
 `;
 export const AdminMemo = styled.dl`
@@ -159,12 +293,19 @@ export const AdminMemo = styled.dl`
     color: ${colors.grayDeep};
     margin-bottom: 1rem;
   }
+
+  ${mq.mobileBig} {
+    margin-bottom: 2rem;
+  }
 `;
 
 // 연결계정
 export const AccountInfo = styled.div`
   position: relative;
-  margin-bottom: 3rem;
+  margin-top: 3rem;
+  ${mq.mobileBig} {
+    margin-top: 1rem;
+  }
 `;
 
 // 상세정보
@@ -180,6 +321,9 @@ export const DetailBadge = styled.div`
   flex-wrap: wrap;
   justify-content: space-between;
   margin-top: 3rem;
+  ${mq.mobileBig} {
+    margin-top: 2rem;
+  }
 `;
 export const BadgeItem = styled.div`
   width: 24%;
@@ -192,5 +336,9 @@ export const BadgeItem = styled.div`
   }
   h3 {
     margin: 1rem 0;
+  }
+  ${mq.mobileBig} {
+    width: 49%;
+    margin-bottom: 2rem;
   }
 `;

@@ -5,13 +5,34 @@ export const UserTop = styled.div`
   margin-top: 1rem;
   display: flex;
   justify-content: space-between;
+
+  ${mq.mobileBig} {
+    flex-wrap: wrap;
+  }
 `;
 
 export const UserTopRight = styled.div`
   display: flex;
-  /* justify-content: flex-end; */
   align-items: center;
+  justify-content: flex-end;
   gap: 1rem;
+
+  .ant-input-group-wrapper {
+    width: 20rem;
+    height: 4rem;
+  }
+  .ant-input-affix-wrapper {
+    height: 4rem;
+  }
+  ${mq.mobileBig} {
+    width: 100%;
+    margin: 1rem 0;
+    justify-content: flex-start;
+    .ant-input-group-wrapper {
+      width: 15rem;
+      height: 4rem;
+    }
+  }
 `;
 
 export const UserMain = styled.div`
@@ -27,7 +48,7 @@ export const UserListWrap = styled.ul`
   display: flex;
   flex-wrap: wrap;
   /* justify-content: space-between; */
-  gap: 1rem;
+  gap: 2%;
 `;
 export const UserListItem = styled.li`
   position: relative;
@@ -36,8 +57,16 @@ export const UserListItem = styled.li`
   width: 32%;
   background: ${colors.white};
   padding: 2rem;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
   ${shadow}
+  ${mq.mobileBig} {
+    width: 49%;
+    padding: 1rem;
+  }
+  ${mq.mobileSmall} {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
 `;
 export const UserListBox = styled.div`
   margin: auto;
@@ -54,6 +83,17 @@ export const UserListBox = styled.div`
   em {
     font-size: 1.5rem;
     font-style: normal;
+  }
+  ${mq.mobileBig} {
+    input {
+      top: 1rem;
+      right: 1rem;
+    }
+
+    button {
+      right: 1rem;
+      bottom: 1rem;
+    }
   }
 `;
 export const UserInfo = styled.div`
@@ -77,6 +117,12 @@ export const ChildInfo = styled.div`
   p {
     color: ${colors.grayDeep};
     font-size: 1.5rem;
+  }
+  ${mq.mobileBig} {
+    flex-wrap: wrap;
+    p {
+      width: 100%;
+    }
   }
 `;
 
@@ -117,5 +163,8 @@ export const PageNum = styled.div`
   }
   .ant-pagination-item:hover {
     border-radius: 50%;
+  }
+  .ant-pagination-options {
+    display: none;
   }
 `;

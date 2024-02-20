@@ -39,11 +39,7 @@ const TeacherListComponent = ({
 }) => {
   const navigate = useNavigate();
   const [selectAllChecked, setSelectAllChecked] = useState(false);
-  // 페이지네이션
-  const handleChangePage = page => {
-    // console.log(page);
-    navigate(`/admin?/teacher?iclass=${iclass}&page=${page}`);
-  };
+
   // 체크박스 전체 선택 시 pk값 수집
   const handleSelectAllChange = e => {
     const checked = e.target.checked;
@@ -69,7 +65,11 @@ const TeacherListComponent = ({
     }
     // oncheckedClick(checkedItems);
   };
-  console.log(teacherList);
+  // 페이지네이션
+  const handleChangePage = page => {
+    // console.log(page);
+    navigate(`/admin/teacher?iclass=${iclass}&page=${page}`);
+  };
   return (
     <>
       <TeacherMain>
@@ -90,7 +90,7 @@ const TeacherListComponent = ({
                 <input
                   type="checkbox"
                   name="iteacher"
-                  value={item.iparent}
+                  value={item.iteacher}
                   onChange={e => {
                     handleChangeCheck(e);
                   }}
@@ -123,7 +123,7 @@ const TeacherListComponent = ({
                           : item.iclass === 3
                           ? "장미반"
                           : item.iclass === 4
-                          ? "총괄"
+                          ? "원장"
                           : ""}
                       </p>
                       <p className="leaf">{item.teacherNm}</p>
@@ -141,7 +141,7 @@ const TeacherListComponent = ({
                     </dl>
                     <dl>
                       <dt>재직상태</dt>
-                      <dd>{item.tcIsDel}</dd>
+                      <dd>{item.tcIsDel === 0 ? "재직중" : ""}</dd>
                     </dl>
                     <dl>
                       <dt>이메일</dt>
@@ -158,7 +158,7 @@ const TeacherListComponent = ({
       <PageNum>
         <Pagination
           defaultCurrent={page}
-          total={teacherList.totalCnt}
+          total={teacherList.teacherCnt}
           pageSize={6}
           onChange={handleChangePage}
         />

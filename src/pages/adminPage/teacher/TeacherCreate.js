@@ -91,7 +91,7 @@ const TeacherCreate = () => {
     setIsResultOpen(true);
     setTitle("등록 완료");
     setSubTitle("성공적으로 등록되었습니다.");
-    setIsNavigate();
+    setIsNavigate("/admin/teacher?iclass=0&page=1");
   };
   const errorFn = res => {
     setIsResultOpen(true);

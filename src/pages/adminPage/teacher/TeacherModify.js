@@ -18,9 +18,28 @@ import { Button, Input, Upload, Form, Select } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import TextArea from "antd/es/input/TextArea";
 import { GreenBtn, OrangeBtn, PinkBtn } from "../../../styles/ui/buttons";
+import { useSearchParams } from "react-router-dom";
 
+const initDto = {
+  iteacher: 0,
+  ilevel: 0,
+  iclass: 0,
+  teacherNm: "",
+  teacherUid: "",
+  teacherUpw: "",
+  teacherIntroduce: "",
+  tcRole: "",
+  teacherProfile: "",
+  tcEmail: "",
+};
 const TeacherModify = () => {
   const [passwordEdit, setPasswordEdit] = useState(false);
+  const [serchParams, setSearchParams] = useSearchParams();
+  const iteacher = serchParams.get("iteacher");
+  // 선생님 정보 값
+  const [dto, setDto] = useState(initDto);
+
+  // 비밀번호 수정 클릭
   const handleEdit = () => {
     setPasswordEdit(true);
   };

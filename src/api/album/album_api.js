@@ -67,22 +67,22 @@ export const getEditAlbum = async ({ pno, successFn, failFn, errorFn }) => {
 
 // 수정한 앨범 put 하기.
 export const putAlbum = async ({ product, successFn, failFn, errorFn }) => {
-  // console.log("product", product);
   try {
     const header = { headers: { "Content-Type": "multipart/form-data" } };
     const res = await jwtAxios.put(`${path}`, product, header);
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
-      // console.log("res.data : ", res.data);
+      console.log("res.data : ", res.data);
       successFn(res.data);
       return res.data;
     } else {
       failFn("수정에 실패하였습니다. 다시 시도해주세요.");
     }
   } catch (error) {
-    errorFn(
-      "정보수정에 실패하였습니다. 서버가 불안정합니다. 잠시 후 다시 시도해주세요.",
-    );
+    errorFn(console.log(error));
+    // errorFn(
+    //   "정보수정에 실패하였습니다. 서버가 불안정합니다. 잠시 후 다시 시도해주세요.",
+    // );
   }
 };
 

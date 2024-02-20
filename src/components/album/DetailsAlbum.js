@@ -135,7 +135,7 @@ const DetailsAlbum = ({ pno, isLogin, loginState }) => {
         setTimeout(() => {
           setIsDeleteSuccessModalOpen(false);
           navigate("/album");
-        }, 2000);
+        }, 1500);
       },
       failFn: error => {
         // 삭제 실패 시 처리

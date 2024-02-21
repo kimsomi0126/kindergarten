@@ -27,7 +27,7 @@ export const getAdminParentList = async ({
     }
   } catch (error) {
     errorFn(error);
-    // console.log(error);
+    console.log(error);
   }
 };
 

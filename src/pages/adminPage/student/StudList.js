@@ -71,7 +71,7 @@ const StudList = () => {
   const handleSearch = value => {
     getAdminStudentList({
       successFn,
-      errorFn,
+      errorFn: errorSearchFn,
       page: 1,
       kidCheck,
       search: value,
@@ -80,26 +80,20 @@ const StudList = () => {
   };
 
   const successFn = result => {
-    // const searchRes = Object.keys(result.kidPage).length;
-    // console.log(searchRes);
-    // if (result.length === 0) {
-    //   setTitle("검색 결과 없음");
-    //   setSubTitle("검색된 이름이 없습니다.");
-    //   setIsOpen(true);
-    //   console.log("검색결과", result);
-    // } else {
     setStudentList(result);
     console.log("검색결과", result);
-    // }
   };
-
   const errorFn = result => {
-    // const searchRes = Object.keys(result.kidPage).length;
-    // console.log(searchRes);
-    setStudentList(result);
-    console.log("검색결과", result);
+    setIsOpen(true);
+    setTitle("데이터 없음");
+    console.log(result);
   };
-
+  const errorSearchFn = result => {
+    setIsOpen(true);
+    setTitle("검색 결과 없음");
+    setSubTitle("검색된 이름이 없습니다.");
+    console.log(result);
+  };
   // 반 선택
   const classArr = [
     { kidCheck: 0, classNm: "반 전체" },

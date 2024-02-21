@@ -107,13 +107,14 @@ const TeacherInfoList = () => {
       console.log("선택 퇴사");
       setDelOpen(true);
       setTitle("정말 변경할까요?");
-      setSubTitle("확인하면 선생님의 재직 상태가가 변경됩니다.");
+      setSubTitle("확인하면 선생님의 재직 상태가 변경됩니다.");
     }
   };
   console.log(checkedItems);
+
   const handleDelOk = () => {
     const obj = {
-      iteacher: [...checkedItems],
+      iteachers: [...checkedItems],
       tcIsDel: changeState,
     };
     console.log("오비제이", obj);
@@ -216,7 +217,6 @@ const TeacherInfoList = () => {
           />
           <OrangeBtn
             onClick={() => {
-              setChangeState();
               handleChangeClick();
             }}
           >

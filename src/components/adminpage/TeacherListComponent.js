@@ -141,7 +141,13 @@ const TeacherListComponent = ({
                     </dl>
                     <dl>
                       <dt>재직상태</dt>
-                      <dd>{item.tcIsDel === 0 ? "재직중" : ""}</dd>
+                      <dd>
+                        {item.tcIsDel === 0
+                          ? "재직중"
+                          : item.tcIsDel === 1
+                          ? "퇴사"
+                          : ""}
+                      </dd>
                     </dl>
                     <dl>
                       <dt>이메일</dt>

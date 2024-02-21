@@ -116,7 +116,6 @@ const IndivNotiList = () => {
   };
   const errorFn = res => {
     // console.log(res);
-
     setIsOpen(true);
     setTitle("데이터 없음");
     setSubTitle(res);

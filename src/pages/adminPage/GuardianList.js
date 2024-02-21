@@ -140,8 +140,8 @@ const GuardianList = () => {
     console.log(value);
     getAdminParentList({
       successFn: successGetFn,
-      errorFn: errorGetFn,
-      page,
+      errorFn: errorSearchFn,
+      page: 1,
       iclass,
       search: value,
     });
@@ -168,12 +168,20 @@ const GuardianList = () => {
 
   const successGetFn = result => {
     setParentList(result);
+    // console.log("검색결과", result);
   };
 
   const errorGetFn = result => {
-    setParentList(result);
+    setIsOpen(true);
+    setTitle("데이터 없음");
+    console.log(result);
   };
-
+  const errorSearchFn = result => {
+    setIsOpen(true);
+    setTitle("검색 결과 없음");
+    setSubTitle("검색된 이름이 없습니다.");
+    console.log(result);
+  };
   return (
     <>
       <UserTop>

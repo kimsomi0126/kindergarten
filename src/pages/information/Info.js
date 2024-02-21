@@ -66,8 +66,8 @@ const Info = () => {
         <PageTitle>선생님 소개</PageTitle>
         <TeacherList>
           {Array.isArray(teacherData) &&
-            teacherData.map(item => (
-              <li key={item.iclass}>
+            teacherData.map((item, index) => (
+              <li key={index}>
                 <ImgBox className="teacher_img">
                   <img
                     src={`${IMG_URL}/pic/user/${item.iteacher}/${item.teacherProfile}`}

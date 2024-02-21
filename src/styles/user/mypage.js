@@ -172,6 +172,16 @@ export const TitleWrap = styled.div`
   margin-bottom: 1.5rem;
   ${mq.mobileBig} {
     flex-wrap: wrap;
+    &.ind-btn-wrap {
+      flex-direction: column-reverse;
+      align-items: start;
+      .ant-input-group-wrapper {
+        width: calc(100% - 24rem);
+      }
+      .btn {
+        margin-left: auto;
+      }
+    }
   }
 `;
 

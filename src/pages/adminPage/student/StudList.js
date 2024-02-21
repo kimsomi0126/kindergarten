@@ -41,16 +41,13 @@ const StudList = () => {
   const kidCheck = serchParams.get("kidCheck");
   const { isLogin } = useCustomLogin();
   const navigate = useNavigate();
-  const handleSearch = value => {
-    console.log(value);
-    getAdminStudentList({
-      successFn,
-      errorFn,
-      page,
-      kidCheck,
-      search: value,
-    });
-  };
+
+  // 모달창 내용
+  const [title, setTitle] = useState("");
+  const [subTitle, setSubTitle] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+  const [isNavigate, setIsNavigate] = useState();
+
   // 원생 리스트 GET
   useEffect(() => {
     if (!isLogin) {
@@ -70,12 +67,37 @@ const StudList = () => {
     }
   }, [page, kidCheck, checkedItems]);
 
+  // 검색
+  const handleSearch = value => {
+    getAdminStudentList({
+      successFn,
+      errorFn,
+      page: 1,
+      kidCheck,
+      search: value,
+    });
+    console.log(value);
+  };
+
   const successFn = result => {
+    // const searchRes = Object.keys(result.kidPage).length;
+    // console.log(searchRes);
+    // if (result.length === 0) {
+    //   setTitle("검색 결과 없음");
+    //   setSubTitle("검색된 이름이 없습니다.");
+    //   setIsOpen(true);
+    //   console.log("검색결과", result);
+    // } else {
     setStudentList(result);
+    console.log("검색결과", result);
+    // }
   };
 
   const errorFn = result => {
+    // const searchRes = Object.keys(result.kidPage).length;
+    // console.log(searchRes);
     setStudentList(result);
+    console.log("검색결과", result);
   };
 
   // 반 선택
@@ -100,16 +122,12 @@ const StudList = () => {
         ),
       };
     });
-  // 모달창 내용
-  const [title, setTitle] = useState("");
-  const [subTitle, setSubTitle] = useState("");
-  const [isOpen, setIsOpen] = useState(false);
-  const [isNavigate, setIsNavigate] = useState();
 
+  // 체크 항목 담기
   const oncheckedClick = item => {
     setCheckedItems(item);
   };
-  // console.log("체크", checkedItems);
+  console.log("체크", checkedItems);
 
   // 선택 졸업 & 선택 퇴소 모달
   const [delOpen, setDelOpen] = useState(false);
@@ -173,13 +191,9 @@ const StudList = () => {
     setClassOpen(false);
     setChangeOpen(false);
   };
-  // const handleChangeCancel = () => {
-  //   setDelOpen(false);
-  //   SetClassOpen(false);
-  // };
+
   const handleOk = () => {
     setIsOpen(false);
-    // 링크이동
     if (isNavigate) {
       navigate(isNavigate);
     }

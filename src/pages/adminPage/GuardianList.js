@@ -36,15 +36,12 @@ const initParentList = {
 };
 const GuardianList = () => {
   const [serchParams, setSearchParams] = useSearchParams();
+  const [parentList, setParentList] = useState(initParentList);
   const [changeInfo, setChangeInfo] = useState(0);
   const navigate = useNavigate();
   const page = serchParams.get("page");
   const iclass = serchParams.get("iclass");
   const dispatch = useDispatch();
-  const [searchText, setSearchText] = useState("");
-
-  // const refresh = useSelector(state => state.refresh);
-  // console.log("refresh", refresh);
 
   // 반 선택
   const classArr = [
@@ -72,6 +69,7 @@ const GuardianList = () => {
   const [subTitle, setSubTitle] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [isNavigate, setIsNavigate] = useState();
+  const [delOpen, setDelOpen] = useState(false);
 
   // 학부모 정보 삭제
   const [checkedItems, setCheckedItems] = useState([]);
@@ -80,7 +78,6 @@ const GuardianList = () => {
     setCheckedItems(item);
   };
   // console.log("체크", checkedItems);
-  const [delOpen, setDelOpen] = useState(false);
 
   const handleDeleteClick = () => {
     if (checkedItems.length === 0) {
@@ -137,18 +134,19 @@ const GuardianList = () => {
     setEditState(prevState => prevState + 1);
     console.log("돼라");
   };
+
+  // 이름 검색
   const handleSearch = value => {
     console.log(value);
     getAdminParentList({
       successFn: successGetFn,
-      errorGetFn,
+      errorFn: errorGetFn,
       page,
       iclass,
       search: value,
     });
   };
   // 학부모 리스트 GET
-  const [parentList, setParentList] = useState(initParentList);
   const { isLogin } = useCustomLogin();
   useEffect(() => {
     if (!isLogin) {

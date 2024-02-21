@@ -4,6 +4,7 @@ import { PageNum } from "../../styles/adminstyle/guardianlist";
 import { PageTitle } from "../../styles/basic";
 import {
   FromToBtnWrap,
+  IndBtnWrap,
   IndWrap,
   TabWrap,
 } from "../../styles/individualNotice/ind";
@@ -119,7 +120,17 @@ const IndivNotiList = () => {
     setIsOpen(true);
     setTitle("데이터 없음");
     setSubTitle(res);
-    setIsNavigate(-1);
+
+    const url = isLogin
+      ? `/ind?year=${year}&page=1&iclass=${iclass}`
+      : `/ind?year=${year}&page=1&ikid=${ikid}`;
+
+    if (fromTo != 3) {
+      setFromTo(3);
+      setIsNavigate(url);
+    } else {
+      setIsNavigate(-1);
+    }
   };
 
   // 작성자 분류
@@ -187,7 +198,7 @@ const IndivNotiList = () => {
         </Link>
         <Link to="/">추억앨범</Link>
       </TabWrap>
-      <TitleWrap>
+      <TitleWrap className="ind-btn-wrap">
         <FromToBtnWrap fromTo={fromTo} isLogin={isLogin}>
           <button
             onClick={e => handleFromTo(e)}
@@ -239,6 +250,7 @@ const IndivNotiList = () => {
             onClick={() => {
               navigate("/ind/write");
             }}
+            className="btn"
           >
             글쓰기
           </GreenBtn>

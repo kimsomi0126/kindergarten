@@ -70,15 +70,16 @@ export const TeacherWrap = styled.div`
 `;
 export const TeacherList = styled.ul`
   display: flex;
-  /* flex-wrap: wrap; */
+  flex-wrap: wrap;
   justify-content: space-between;
   text-align: center;
-  gap: 2rem;
+  gap: 1%;
 
   li {
     width: 24%;
     background: #fff;
     ${shadow}
+    margin-bottom: 2rem;
     .teacher_img {
       aspect-ratio: 4/3;
       overflow: hidden;

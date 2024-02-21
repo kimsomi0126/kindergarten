@@ -46,8 +46,7 @@ const ModifyAlbum = () => {
     useState(false);
   const [showCancelConfirmModal, setShowCancelConfirmModal] = useState(false);
   const uploadAreaStyle = {
-    height: "5rem",
-    lineHeight: "5rem",
+    lineHeight: "15rem",
   };
   const handleGreenButtonClick = () => {
     setIsEditConfirmModalVisible(true); // 수정 확인 모달을 표시
@@ -124,19 +123,6 @@ const ModifyAlbum = () => {
       type: "application/json",
     });
     formData.append("dto", dto);
-
-    // 새로 추가된 이미지 파일이 없고, 기존에 업로드된 파일만 있다면 빈 배열을 보냄. 즉, 추가 사진 없으면 빈 배열을 발송
-    // if (newPics.length === 0 && fileList.every(file => !file.originFileObj)) {
-    //   formData.append("pics", new Blob([""], { type: "application/json" })); // 빈 배열 대신 빈 Blob 전송
-    // } else {
-    //   // 새로 추가되거나 기존에 업로드된 이미지 파일을 FormData에 추가
-    //   fileList.forEach(file => {
-    //     // 새로운 파일이거나, 기존 파일 중 변경된 것이 있는 경우만 서버로 전송
-    //     if (file.originFileObj) {
-    //       formData.append("pics", file.originFileObj, file.name);
-    //     }
-    //   });
-    // }
 
     // 새로 추가된 이미지 파일이 있을 경우에만 pics 속성을 추가. 즉, pics를 아예 제외시키고 발송.
     fileList.forEach(file => {

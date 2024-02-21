@@ -44,6 +44,7 @@ const NoticeModify = () => {
   const [fileList, setFileList] = useState([]);
   const [fullNoticeFix, setFullNoticeFix] = useState(false); // 새로운 상태 추가
   const navigate = useNavigate();
+  const [isMinimumWarningVisible, setIsMinimumWarningVisible] = useState(false);
 
   // 모달 상태 관리
   const [showSuccessModal, setShowSuccessModal] = useState(false);
@@ -118,22 +119,35 @@ const NoticeModify = () => {
 
   const onFinish = async data => {
     const formData = new FormData();
-    const dto = new Blob(
-      [
-        JSON.stringify({
-          ifullNotice: tno,
-          fullTitle: data.fullTitle,
-          fullContents: data.fullContents,
-          fullNoticeFix: data.fullNoticeFix,
-          iteacher: 1,
-          delPics: deletedPics,
-        }),
-      ],
-      { type: "application/json" },
-    );
+
+    const noticeInfo = {
+      ifullNotice: tno,
+      fullTitle: data.fullTitle,
+      fullContents: data.fullContents,
+      fullNoticeFix: data.fullNoticeFix,
+      iteacher: 1,
+      ialbum: tno,
+    };
+
+    // deletedPics 배열에 항목이 있는 경우에만 delPics 속성을 추가
+    if (deletedPics.length > 0) {
+      noticeInfo.delPics = deletedPics;
+    }
+    // deletedPics 배열에 항목이 있는 경우에만 delPics 속성을 추가
+    if (deletedPics.length > 0) {
+      noticeInfo.delPics = deletedPics;
+    }
+    const dto = new Blob([JSON.stringify(noticeInfo)], {
+      type: "application/json",
+    });
+    formData.append("dto", dto);
+
+    console.log("================= 보내는 데이터 : ", dto);
+
     formData.append("dto", dto);
 
     // 새로 추가된 이미지 파일을 FormData에 추가합니다.
+    console.log("현재 남아있는 fileList ", fileList);
     fileList.forEach(async file => {
       console.log("file", file);
       if (file.originFileObj) {
@@ -142,10 +156,13 @@ const NoticeModify = () => {
         // } else if (file.url) {
         //   // 이미 서버에 존재하는 파일인 경우, 파일 경로를 추가합니다.
         //   formData.append("pics", file.url);
-      } else {
-        // 기존 파일인 경우, 파일의 고유 식별자를 FormData에 추가합니다.
-        formData.append("ifullPic", file.ifullPic);
       }
+      // 도현님 이상해요...
+      //  else {
+      //   // 기존 파일인 경우, 파일의 고유 식별자를 FormData에 추가합니다.
+      //   // formData.append("ifullPic", file.ifullPic);
+      //   formData.append("pics", file.ifullPic);
+      // }
     });
 
     console.log("formData", formData);
@@ -179,7 +196,7 @@ const NoticeModify = () => {
           // Transform album pictures for the fileList state
           // console.log("데이터 확인", data);
           const transformedFileList = data.fullPic.map((fullPic, index) => ({
-            uid: fullPic.ifullPic, // uid is required to be unique
+            ifullPic: fullPic.ifullPic, // uid is required to be unique
             name: fullPic.fullPic, // file name
             status: "done", // upload status
             url: `${imgpath}/${tno}/${fullPic.fullPic}`, // file URL, adjust the path as needed
@@ -223,17 +240,37 @@ const NoticeModify = () => {
 
   // 이미지 파일을 삭제할 때 호출될 함수
   const onRemove = file => {
-    console.log("삭제 요청", file);
-    const newFileList = fileList.filter(item => item.uid !== file.uid);
-    setFileList(newFileList);
-    if (file.originFileObj) {
-      return true;
+    console.log("file.uid", typeof file.uid);
+    // 이미지 파일 리스트의 길이가 2개 이상일 때만 삭제 처리
+    if (fileList.length > 1) {
+      const newFileList = fileList.filter(item => item.uid !== file.uid);
+      setFileList(newFileList);
+      if (typeof file.uid === "number") {
+        setDeletedPics([...deletedPics, file.uid]);
+      }
+      return true; // 삭제 처리를 진행
+    } else {
+      // 이미지 파일이 1개만 남았을 경우, 경고 모달 표시
+      setIsMinimumWarningVisible(true);
+      return false; // 삭제 처리를 중지
     }
-    if (file.ifullPic) {
-      setDeletedPics([...deletedPics, file.uid]);
-    }
-    return true; // 삭제 처리를 진행
   };
+
+  // if (file.originFileObj) {
+  //   return true;
+  // }
+
+  // if (file.ifullPic) {
+  //
+  // }
+
+  useEffect(() => {
+    // console.log("삭제 목록 deletedPics : ", deletedPics);
+  }, [deletedPics]);
+
+  useEffect(() => {
+    // console.log("현재 보이는 목록 fileList : ", fileList);
+  }, [fileList]);
 
   return (
     <NoticeWrap>

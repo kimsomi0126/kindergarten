@@ -20,9 +20,11 @@ export const getDetail = async ({ tno, successFn, failFn, errorFn }) => {
 };
 
 // 유치원소식 리스트 불러오기
-export const getList = async ({ page, successFn, failFn, errorFn }) => {
+export const getList = async ({ page, search, successFn, failFn, errorFn }) => {
   try {
-    const res = await jwtAxios.get(`${path}/listall?page=${page}`);
+    const res = await jwtAxios.get(
+      `${path}/listall?page=${page}&search=${search}`,
+    );
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
       successFn(res.data);
@@ -74,6 +76,7 @@ export const putNotice = async ({ data, successFn, failFn, errorFn }) => {
     const res = await jwtAxios.put(`${path}`, data, header);
 
     const status = res.status.toString();
+    console.log("res.data", res.data);
     if (status.charAt(0) === "2") {
       successFn(res.data);
       return res.data;

@@ -9,9 +9,17 @@ export const TeacherTop = styled.div`
 
 export const TeacherTopRight = styled.div`
   display: flex;
+  flex-wrap: wrap;
   justify-content: flex-end;
   align-items: center;
   gap: 1rem;
+  .ant-input-group-wrapper {
+    width: 20rem;
+    height: 4rem;
+  }
+  .ant-input-affix-wrapper {
+    height: 4rem;
+  }
 `;
 export const TeacherMain = styled.div`
   position: relative;

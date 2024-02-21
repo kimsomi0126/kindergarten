@@ -27,10 +27,10 @@ const WriteAlbum = ({ albumData, submit }) => {
     setFileList(fileList);
   };
 
-  const beforeUpload = (file, fileList) => {
-    const totalFiles = fileList.length + fileList.length;
-    if (totalFiles > 20) {
-      // 파일리스트 합이 20개를 초과하는 경우
+  const beforeUpload = file => {
+    const isExceedLimit = fileList.length >= 20; // 현재 파일 리스트의 길이가 20 이상인지 검사
+    if (isExceedLimit) {
+      // 파일리스트 길이가 20개를 초과하는 경우
       setShowExceedLimitModal(true); // 경고 모달 표시
       return Upload.LIST_IGNORE; // 파일 업로드 중단
     }
@@ -38,8 +38,8 @@ const WriteAlbum = ({ albumData, submit }) => {
   };
 
   const handleExceedLimitModalOk = e => {
-    setShowExceedLimitModal(false); // 경고 모달 닫기
     e.stopPropagation(); // 이벤트가 상위 엘리먼트에 전달되지 않게 막기
+    setShowExceedLimitModal(false); // 경고 모달 닫기
   };
 
   const customRequest = ({ onSuccess }) => {
@@ -60,9 +60,10 @@ const WriteAlbum = ({ albumData, submit }) => {
     navigate("/album");
   };
 
-  // 취소 확인 모달 핸들러
   const handleCancelConfirmModalOk = () => {
+    // 모달을 닫고, 사용자를 앨범 목록 페이지로 이동합니다.
     setShowCancelConfirmModal(false);
+    navigate("/album");
   };
 
   const handleCancelConfirmation = () => {

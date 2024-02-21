@@ -44,7 +44,7 @@ const ModifyAlbum = () => {
   const [isMinimumWarningVisible, setIsMinimumWarningVisible] = useState(false);
   const [isNoChangeWarningVisible, setIsNoChangeWarningVisible] =
     useState(false);
-
+  const [showCancelConfirmModal, setShowCancelConfirmModal] = useState(false);
   const uploadAreaStyle = {
     height: "5rem",
     lineHeight: "5rem",
@@ -72,8 +72,8 @@ const ModifyAlbum = () => {
 
   // 이미지 삭제 시 최소 파일 수 검증 경고 모달을 닫는 함수
   const handleCloseMinimumWarning = e => {
-    setIsMinimumWarningVisible(false); // 경고 모달 상태를 false로 변경하여 닫음
     e.stopPropagation();
+    setIsMinimumWarningVisible(false); // 경고 모달 상태를 false로 변경하여 닫음
     // 여기에 필요한 추가 로직을 배치할 수 있음
   };
 
@@ -103,16 +103,7 @@ const ModifyAlbum = () => {
   };
 
   const handleCancelConfirmation = () => {
-    Modal.confirm({
-      title: "정말 취소하시겠습니까?",
-      content: "수정 내용이 저장되지 않습니다.",
-      onOk: () => {
-        // console.log("취소가 확인되었습니다.");
-        navigate("/album"); // 사용자를 앨범 목록 페이지로 이동
-      },
-      okText: "확인",
-      cancelText: "계속 수정",
-    });
+    setShowCancelConfirmModal(true); // 취소 확인 모달 표시
   };
 
   const onFinish = async data => {
@@ -227,11 +218,12 @@ const ModifyAlbum = () => {
 
   // 이미지 파일을 삭제할 때 호출될 함수
   const handleRemove = file => {
+    console.log("file.uid", typeof file.uid);
     // 이미지 파일 리스트의 길이가 2개 이상일 때만 삭제 처리
     if (fileList.length > 1) {
       const newFileList = fileList.filter(item => item.uid !== file.uid);
       setFileList(newFileList);
-      if (file.uid) {
+      if (typeof file.uid === "number") {
         setDeletedPics([...deletedPics, file.uid]);
       }
       return true; // 삭제 처리를 진행
@@ -299,7 +291,19 @@ const ModifyAlbum = () => {
         title="앨범 수정 확인"
         subTitle={`앨범을 수정하시겠습니까? \n수정하신 내용은 되돌릴 수 없습니다.`}
       ></ModalTwoBtn>
-
+      {/* ModalTwoBtn 사용하여 취소 확인 모달 표시 */}
+      <ModalTwoBtn
+        isOpen={showCancelConfirmModal}
+        handleOk={() => {
+          setShowCancelConfirmModal(false); // 모달 닫기
+          navigate("/album"); // 사용자를 앨범 목록 페이지로 이동
+        }}
+        handleCancel={() => {
+          setShowCancelConfirmModal(false); // 모달 닫기
+        }}
+        title="정말 취소하시겠습니까?"
+        subTitle="수정 내용이 저장되지 않습니다."
+      />
       <Link to="/album">
         <ModalOneBtn
           isOpen={isSuccessModalVisible}

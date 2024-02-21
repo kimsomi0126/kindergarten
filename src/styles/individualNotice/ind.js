@@ -65,10 +65,19 @@ export const IndBot = styled.div`
   }
 `;
 
-// 작성자 선택
+// 작성자 선택버튼
 export const FromToBtnWrap = styled.div`
+  display: flex;
+  gap: 1rem;
   button {
-    background: #ccc;
+    border-radius: 0.5rem;
+    border: 1px solid #ccc;
+  }
+  .teacher {
+    background: ${props => (props.fromTo === 1 ? "#ccc" : "#fff")};
+  }
+  .parent {
+    background: ${props => (props.fromTo === 0 ? "#ccc" : "#fff")};
   }
 `;
 

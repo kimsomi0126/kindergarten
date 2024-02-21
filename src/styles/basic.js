@@ -229,16 +229,10 @@ export const LogoWrap = styled.div`
 
 // 하단 footer
 export const FooterWrap = styled.div`
-  position: absolute;
+  position: fixed;
   left: 0;
   bottom: 0;
   width: 100%;
-  height: 10rem;
-  overflow: hidden;
-  background: url(${process.env.PUBLIC_URL +
-    "/images/common/footer/footer_bg.png"})
-    no-repeat center 150%/100% 70%;
-  text-align: center;
   z-index: 13;
 
   a {
@@ -248,10 +242,6 @@ export const FooterWrap = styled.div`
     transform: translateX(-50%);
     font-size: 1.3rem;
     color: #fff;
-  }
-  ${mq.mobileBig} {
-    height: 6rem;
-    background-size: 100% 90%;
   }
 `;
 
@@ -272,6 +262,18 @@ export const FooterBus = styled.div`
     height: 5rem;
     bottom: 0.5rem;
     animation: ${animationGo} 12s infinite linear;
+  }
+`;
+
+export const FooterBg = styled.div`
+  height: 5rem;
+  background: url(${process.env.PUBLIC_URL +
+    "/images/common/footer/footer_bg.png"})
+    no-repeat center 150%/100% 100%;
+  text-align: center;
+
+  ${mq.mobileBig} {
+    height: 3rem;
   }
 `;
 

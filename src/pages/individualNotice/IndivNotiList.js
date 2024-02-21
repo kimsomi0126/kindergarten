@@ -42,7 +42,7 @@ const IndivNotiList = () => {
   const navigate = useNavigate();
   const [serchParams, setSearchParams] = useSearchParams();
   const [indList, setIndList] = useState(initData);
-  const [fromTo, setFromTo] = useState(3);
+  const [fromTo, setFromTo] = useState(3 || serchParams.get("fromTo"));
   const [count, setCount] = useState(0);
 
   // 현재 출력 년도, kid 값 params에서 체크
@@ -125,21 +125,23 @@ const IndivNotiList = () => {
 
   // 작성자 분류
   // 식별코드정보값 가져오기
-  const location = useLocation();
-  console.log(location);
+
   const handleFromTo = e => {
     const writer = e.target.value;
-    const url = `/ind?year=${year}&page=1&iclass=${iclass}&fromTo=`;
+    const url = isLogin
+      ? `/ind?year=${year}&page=1&iclass=${iclass}&fromTo=`
+      : `/ind?year=${year}&page=1&ikid=${ikid}&fromTo=`;
     const num =
       isLogin && writer == "teacher"
-        ? 0
+        ? 1
         : isLogin && writer == "parent"
-        ? 1
-        : isParentLogin && writer == "parent"
         ? 0
-        : isParentLogin && !writer == "teacher"
+        : isParentLogin && writer == "parent"
         ? 1
+        : isParentLogin && writer == "teacher"
+        ? 0
         : 3;
+    // const num = writer == "teacher" ? 1 : writer == "parent" ? 0 : 3;
 
     navigate(url + num, { state: { writer } });
     setFromTo(num);
@@ -187,20 +189,20 @@ const IndivNotiList = () => {
         <Link to="/">추억앨범</Link>
       </TabWrap>
       <TitleWrap>
-        <FromToBtnWrap fromTo={fromTo}>
-          <button
-            onClick={e => handleFromTo(e)}
-            value={"parent"}
-            className="parent"
-          >
-            학부모님이 쓴 글
-          </button>
+        <FromToBtnWrap fromTo={fromTo} isLogin={isLogin}>
           <button
             onClick={e => handleFromTo(e)}
             value={"teacher"}
             className="teacher"
           >
             선생님이 쓴 글
+          </button>
+          <button
+            onClick={e => handleFromTo(e)}
+            value={"parent"}
+            className="parent"
+          >
+            {isLogin ? "학부모님이" : "내가"} 쓴 글
           </button>
           {fromTo != 3 ? (
             <button onClick={e => handleFromTo(e)} value={"all"}>

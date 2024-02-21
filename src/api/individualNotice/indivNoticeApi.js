@@ -64,7 +64,7 @@ export const postIndNotice = async ({
 }) => {
   try {
     const header = { headers: { "Content-Type": "multipart/form-data" } };
-    const res = await jwtAxios.post(`${path}`, product, header);
+    const res = await jwtAxios.post(`${path}/tea`, product, header);
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
       successFn(res.data);

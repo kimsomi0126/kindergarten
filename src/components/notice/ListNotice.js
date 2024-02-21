@@ -1,6 +1,6 @@
 import { Flex, Input, List, Pagination } from "antd";
 import React, { useEffect, useState } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom"; // useNavigate 추가
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { getList } from "../../api/notice/notice_api";
 import { PageTitle } from "../../styles/basic";
 import { GreenBtn } from "../../styles/ui/buttons";
@@ -18,59 +18,59 @@ import {
 
 const { Search } = Input;
 
-const onSearch = (value, _e, info) => console.log(info?.source, value);
-
 const pageSize = 10;
 
 const NoticeList = () => {
   const navigate = useNavigate();
-  // 고정 공지글과 일반 공지글을 분리하여 저장
   const [fixedNotices, setFixedNotices] = useState([]);
   const [normalNotices, setNormalNotices] = useState([]);
   const [current, setCurrent] = useState(1);
   const [listData, setListData] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
-  // 선생님 로그인 체크
   const { isLogin } = useCustomLogin();
 
-  // 페이지 변경 처리
   const onChange = page => {
     setCurrent(page);
-    fetchPageData(page); // 새 페이지 데이터를 가져옵니다.
+    fetchPageData(page);
   };
 
-  const size = "small";
-
-  // 페이지 데이터 가져오기
-  const fetchPageData = page => {
-    getList({
-      page,
-      successFn: result => {
-        setListData(result.list); // 현재 페이지의 리스트 데이터 설정
-        setTotalCount(result.noticeCnt); // 전체 공지사항 개수 설정
-        // 고정 공지글과 일반 공지글 분리
-        const fixed = result.list.filter(item => item.fullNoticeFix === 1);
-        const normal = result.list.filter(item => item.fullNoticeFix !== 1);
-        setFixedNotices(fixed);
-        setNormalNotices(normal);
-      },
-      failFn: result => {
-        console.error("List fetch failed:", result);
-      },
-      errorFn: result => {
-        console.error("Error fetching list:", result);
-      },
-    });
+  const handleSearch = value => {
+    // 검색어가 변경될 때 현재 페이지를 1페이지로 초기화하고 fetchPageData를 호출합니다.
+    setCurrent(1);
+    fetchPageData(1, value);
   };
 
-  // 컴포넌트가 마운트될 때 첫 페이지 데이터를 가져옵니다.
+  const fetchPageData = async (page, search = "") => {
+    try {
+      const result = await getList({
+        page,
+        search,
+        successFn: result => {
+          setListData(result.list);
+          setTotalCount(result.noticeCnt);
+          const fixed = result.list.filter(item => item.fullNoticeFix === 1);
+          const normal = result.list.filter(item => item.fullNoticeFix !== 1);
+          setFixedNotices(fixed);
+          setNormalNotices(normal);
+        },
+        failFn: result => {
+          console.error("List fetch failed:", result);
+        },
+        errorFn: result => {
+          console.error("Error fetching list:", result);
+        },
+      });
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
   useEffect(() => {
     fetchPageData(current);
   }, [current]);
 
   return (
     <NoticeWrap>
-      {/* 메인 콘텐츠 상단 바 컴포넌트 */}
       <AlbumTopBar>
         <PageTitle>유치원 소식</PageTitle>
         <SearchBar>
@@ -79,7 +79,7 @@ const NoticeList = () => {
               placeholder="제목을 입력하세요."
               size={"large"}
               allowClear
-              // onSearch={value => console.log(value)}
+              onSearch={handleSearch}
             />
             {isLogin ? (
               <GreenBtn onClick={e => navigate("write")}>글쓰기</GreenBtn>

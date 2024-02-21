@@ -44,7 +44,7 @@ const NoticeModify = () => {
   const [fileList, setFileList] = useState([]);
   const [fullNoticeFix, setFullNoticeFix] = useState(false); // 새로운 상태 추가
   const navigate = useNavigate();
-  const [isMinimumWarningVisible, setIsMinimumWarningVisible] = useState(false);
+  const [newPics, setNewPics] = useState([]);
 
   // 모달 상태 관리
   const [showSuccessModal, setShowSuccessModal] = useState(false);
@@ -59,22 +59,6 @@ const NoticeModify = () => {
 
   const handleGreenButtonClick = () => {
     formRef.current.submit(); // Form의 submit 메서드 호출
-  };
-
-  // URL에서 파일을 생성하고 fileList 상태를 업데이트하는 함수
-  const imageUrlToFile = async imageUrl => {
-    try {
-      // console.log("imageUrl", imageUrl);
-      const fileName = imageUrl.substring(imageUrl.lastIndexOf("/") + 1);
-      const response = await fetch(imageUrl, { mode: "no-cors" });
-      const blob = await response.blob();
-      const imageFile = new File([blob], fileName, { type: "image/jpeg" }); // MIME type을 지정할 수 있습니다.
-
-      // fileList에 새로운 파일을 추가합니다.
-      setFileList(prevFileList => [...prevFileList, imageFile]);
-    } catch (error) {
-      console.error("Error converting image URL to File:", error);
-    }
   };
 
   const onChange = e => {
@@ -94,11 +78,6 @@ const NoticeModify = () => {
 
   const handleCancelConfirmation = () => {
     setshowCancelConfirmModal(true); // 취소 확인 모달 표시
-  };
-
-  const handleImageRemove = file => {
-    const newFileList = fileList.filter(item => item.uid !== file.uid);
-    setFileList(newFileList);
   };
 
   const handleFailure = errorMessage => {
@@ -126,13 +105,8 @@ const NoticeModify = () => {
       fullContents: data.fullContents,
       fullNoticeFix: data.fullNoticeFix,
       iteacher: 1,
-      ialbum: tno,
     };
 
-    // deletedPics 배열에 항목이 있는 경우에만 delPics 속성을 추가
-    if (deletedPics.length > 0) {
-      noticeInfo.delPics = deletedPics;
-    }
     // deletedPics 배열에 항목이 있는 경우에만 delPics 속성을 추가
     if (deletedPics.length > 0) {
       noticeInfo.delPics = deletedPics;
@@ -144,7 +118,7 @@ const NoticeModify = () => {
 
     console.log("================= 보내는 데이터 : ", dto);
 
-    formData.append("dto", dto);
+    // formData.append("dto", dto);
 
     // 새로 추가된 이미지 파일을 FormData에 추가합니다.
     console.log("현재 남아있는 fileList ", fileList);
@@ -234,28 +208,27 @@ const NoticeModify = () => {
   };
 
   const handleChange = ({ fileList: newFileList }) => {
-    // 업로드된 파일의 상태 변화를 처리
-    setFileList(newFileList);
+    setFileList(newFileList); // 기존 파일 리스트 업데이트
+    const newUploadedPics = newFileList
+      .filter(file => file.originFileObj) // 새로 업로드된 파일만 선택
+      .map(file => file.name); // 파일 이름 추출
+    setNewPics(newUploadedPics); // 새로 업로드된 파일 이름을 상태에 저장
   };
-
   // 이미지 파일을 삭제할 때 호출될 함수
   const onRemove = file => {
-    console.log("file.uid", typeof file.uid);
-    // 이미지 파일 리스트의 길이가 2개 이상일 때만 삭제 처리
-    if (fileList.length > 1) {
-      const newFileList = fileList.filter(item => item.uid !== file.uid);
-      setFileList(newFileList);
-      if (typeof file.uid === "number") {
-        setDeletedPics([...deletedPics, file.uid]);
-      }
-      return true; // 삭제 처리를 진행
-    } else {
-      // 이미지 파일이 1개만 남았을 경우, 경고 모달 표시
-      setIsMinimumWarningVisible(true);
-      return false; // 삭제 처리를 중지
-    }
-  };
+    console.log("file", file);
 
+    const newFileList = fileList.filter(
+      item => item.ifullPic !== file.ifullPic,
+    );
+    setFileList(newFileList);
+    if (typeof file.ifullPic === "number") {
+      setDeletedPics([...deletedPics, file.ifullPic]);
+    }
+
+    return true; // 삭제 처리를 진행
+  };
+  console.log("deletedPics", deletedPics);
   // if (file.originFileObj) {
   //   return true;
   // }
@@ -313,7 +286,7 @@ const NoticeModify = () => {
               customRequest={customRequest}
               className="upload-list-inline"
               multiple={true}
-              maxCount={3}
+              maxCount={10}
             >
               <Button icon={<UploadOutlined />}>업로드</Button>
             </Upload.Dragger>

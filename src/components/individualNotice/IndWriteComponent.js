@@ -10,6 +10,7 @@ import { PageTitle } from "../../styles/basic";
 import { GreenBtn, PinkBtn } from "../../styles/ui/buttons";
 import { postIndNotice } from "../../api/individualNotice/indivNoticeApi";
 import MyClass from "../user/MyClass";
+import { Cascader } from "antd";
 
 const path = `${SERVER_URL}/api/notice`;
 
@@ -25,6 +26,41 @@ const IndWriteComponent = () => {
   const [fullNoticeFix, setFullNoticeFix] = useState(false); // 새로운 상태 추가
   const navigate = useNavigate();
 
+  const { SHOW_CHILD } = Cascader;
+  const options = [
+    {
+      label: "Light",
+      value: "light",
+      children: new Array(20).fill(null).map((_, index) => ({
+        label: `Number ${index}`,
+        value: index,
+      })),
+    },
+    {
+      label: "Bamboo",
+      value: "bamboo",
+      children: [
+        {
+          label: "Little",
+          value: "little",
+          children: [
+            {
+              label: "Toy Fish",
+              value: "fish",
+            },
+            {
+              label: "Toy Cards",
+              value: "cards",
+            },
+            {
+              label: "Toy Bird",
+              value: "bird",
+            },
+          ],
+        },
+      ],
+    },
+  ];
   const formRef = useRef(); // Form 컴포넌트에 대한 ref 생성
 
   const handleGreenButtonClick = () => {
@@ -160,8 +196,35 @@ const IndWriteComponent = () => {
             marginBottom: "2rem",
           }}
         >
-          <MyClass state={iclass} />
-          <h4 style={{ color: "#555" }}>{kidNm}</h4>
+          {/* <MyClass state={iclass} /> */}
+          {/* <h4 style={{ color: "#555" }}>{kidNm}</h4> */}
+          <Cascader
+            style={{
+              width: "100%",
+            }}
+            options={options}
+            onChange={onChange}
+            multiple
+            maxTagCount="responsive"
+            showCheckedStrategy={SHOW_CHILD}
+            defaultValue={[
+              ["bamboo", "little", "fish"],
+              ["bamboo", "little", "cards"],
+              ["bamboo", "little", "bird"],
+            ]}
+          />
+          <br />
+          <br />
+          <Cascader
+            style={{
+              width: "100%",
+            }}
+            options={options}
+            onChange={onChange}
+            multiple
+            maxTagCount="responsive"
+            defaultValue={["bamboo"]}
+          />
         </div>
         <Form ref={formRef} form={form} onFinish={onFinish}>
           <Form.Item

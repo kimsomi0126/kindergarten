@@ -30,7 +30,7 @@ export const SearchBar = styled.div`
     height: 100%;
   }
   .ant-input-affix-wrapper {
-    width: 20rem;
+    /* width: 20rem; */
     height: 4rem;
   }
   ${mq.mobileBig} {

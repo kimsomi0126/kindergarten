@@ -306,7 +306,7 @@ const DetailsAlbum = ({ pno, isLogin, loginState }) => {
             <CommentWrite>
               <Form form={form} onFinish={handleWriteComment}>
                 <Form.Item name="albumComment">
-                  <TextArea />
+                  <TextArea required placeholder="댓글내용을 입력해주세요." />
                 </Form.Item>
                 <OrangeBtn>등록</OrangeBtn>
               </Form>

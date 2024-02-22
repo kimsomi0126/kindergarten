@@ -20,6 +20,7 @@ const useCustomLogin = () => {
 
   // 로그인 상태값 파악
   const isLogin = loginState.teacherUid ? true : false;
+  const isTeacherLogin = loginState.ilevel === 2 ? true : false;
   const isName = loginState.teacherNm ? true : false;
   const isParentLogin = loginState.iparent ? true : false;
 
@@ -86,6 +87,7 @@ const useCustomLogin = () => {
     isLogin,
     isName,
     isParentLogin,
+    isTeacherLogin,
     doLogin,
     doLogout,
     doParentLogin,

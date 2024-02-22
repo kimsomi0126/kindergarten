@@ -4,9 +4,11 @@ import { Link } from "react-router-dom";
 import useCustomLogin from "../../hooks/useCustomLogin";
 
 const SideMenu = () => {
-  const { isLogin, isParentLogin, loginState } = useCustomLogin();
+  const { isLogin, isParentLogin, isTeacherLogin, loginState } =
+    useCustomLogin();
   const currentYear = new Date().getFullYear();
   const ikidList = loginState.kidList;
+  const iclass = loginState.iclass;
   function getItem(label, key, icon, children, type) {
     return {
       key,
@@ -30,7 +32,7 @@ const SideMenu = () => {
       ],
     ),
     getItem(
-      "교육",
+      "교육정보",
       "2",
       <img
         src={process.env.PUBLIC_URL + "/images/common/sidebar/education.svg"}
@@ -57,7 +59,7 @@ const SideMenu = () => {
       </Link>,
     ),
   ];
-  if (isLogin) {
+  if (isLogin && !isTeacherLogin) {
     items.push(
       getItem(
         "관리자",
@@ -66,9 +68,12 @@ const SideMenu = () => {
           src={process.env.PUBLIC_URL + "/images/common/sidebar/manager.svg"}
         />,
         [
-          getItem(<Link to="/admin?page=1&iclass=0">학부모 관리</Link>, "5-1"),
           getItem(
-            <Link to="/admin/student?page=1&kidCheck=0">원생 관리</Link>,
+            <Link to={`/admin?page=1&iclass=0`}>학부모 관리</Link>,
+            "5-1",
+          ),
+          getItem(
+            <Link to={`/admin/student?page=1&kidCheck=0`}>원생 관리</Link>,
             "5-2",
           ),
           getItem(<Link to="/admin/student/create">원생 등록</Link>, "5-3"),
@@ -81,6 +86,36 @@ const SideMenu = () => {
           getItem(
             <Link to="/admin/teacher?iclass=0&page=1">선생님 관리</Link>,
             "5-5",
+          ),
+        ],
+      ),
+    );
+  }
+  if (isTeacherLogin) {
+    items.push(
+      getItem(
+        "관리자",
+        "5",
+        <img
+          src={process.env.PUBLIC_URL + "/images/common/sidebar/manager.svg"}
+        />,
+        [
+          getItem(
+            <Link to={`/admin?page=1&iclass=${iclass}`}>학부모 관리</Link>,
+            "5-1",
+          ),
+          getItem(
+            <Link to={`/admin/student?page=1&kidCheck=${iclass}`}>
+              원생 관리
+            </Link>,
+            "5-2",
+          ),
+          getItem(<Link to="/admin/student/create">원생 등록</Link>, "5-3"),
+          getItem(
+            <Link to={`/ind?year=${currentYear}&page=1&iclass=${iclass}`}>
+              알림장 목록
+            </Link>,
+            "5-4",
           ),
         ],
       ),

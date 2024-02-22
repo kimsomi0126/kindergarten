@@ -24,6 +24,9 @@ export const IndListBox = styled.div`
     display: block;
     padding: 1.5rem 2rem;
   }
+  &.notice {
+    background: #fff7f7;
+  }
   ${mq.mobileBig} {
     width: 49%;
   }
@@ -33,19 +36,49 @@ export const IndListBox = styled.div`
 `;
 
 export const IndTop = styled.div`
+  position: relative;
+  border-bottom: 1px solid ${colors.grayBar};
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+`;
+export const IndName = styled.div`
+  color: ${colors.grayDeep};
+  margin-bottom: 0.5rem;
+  font-size: 1.4rem;
+`;
+export const IndTitle = styled.p`
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  font-size: 1.5rem;
+  font-weight: 300;
+  margin-bottom: 0.5rem;
+  img {
+    width: 1.6rem;
+    margin-right: 0.5rem;
+  }
+  span {
+    padding-right: 0.5rem;
+  }
+  b {
+    display: inline-block;
+    font-weight: 500;
+  }
+`;
+export const IndIcon = styled.div`
+  position: absolute;
+  right: 0;
+  top: 0rem;
   display: flex;
   gap: 1rem;
-  align-items: center;
-  color: #555;
+  img {
+    width: 1.8rem;
+  }
 `;
 export const IndCon = styled.div`
-  margin: 1.5rem 0;
   min-height: 3rem;
-  p {
-    font-size: 1.5rem;
-    font-weight: 500;
-    margin-bottom: 0.5rem;
-  }
+  font-size: 1.4rem;
   span {
     display: block;
     color: ${colors.grayDeep};

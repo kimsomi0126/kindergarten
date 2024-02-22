@@ -8,6 +8,7 @@ import {
 } from "../../styles/ui/buttons";
 import { Link, useNavigate } from "react-router-dom";
 import useCustomLogin from "../../hooks/useCustomLogin";
+import NotiAlarm from "../user/NotiAlarm";
 
 const NavBar = () => {
   const navigate = useNavigate();
@@ -15,6 +16,7 @@ const NavBar = () => {
   const { loginState, isLogin, isParentLogin } = useCustomLogin();
   const currentYear = new Date().getFullYear();
   const ikidList = loginState.kidList;
+  const iclass = loginState.iclass;
   // console.log(loginState);
   const handleLogout = () => {
     doLogout();
@@ -32,13 +34,16 @@ const NavBar = () => {
           ? "학부모님 환영합니다."
           : null}
       </p>
+      {/* 푸시알림 */}
+      {isLogin ? <NotiAlarm state={true} /> : null}
+
       <HeaderBtn>
         {isLogin ? (
           <>
             <GrayBtn
               className="nav-btn"
               onClick={e =>
-                navigate(`/ind?year=${currentYear}&page=1&iclass=0`)
+                navigate(`/ind?year=${currentYear}&page=1&iclass=${iclass}`)
               }
             >
               알림장목록
@@ -46,13 +51,15 @@ const NavBar = () => {
 
             <PurpleBtn
               className="nav-btn"
-              onClick={e => navigate("/admin?page=1&iclass=0")}
+              onClick={e => navigate(`/admin?page=1&iclass=${iclass}`)}
             >
               학부모관리
             </PurpleBtn>
             <OrangeBtn
               className="nav-btn"
-              onClick={e => navigate("/admin/student?page=1&kidCheck=0")}
+              onClick={e =>
+                navigate(`/admin/student?page=1&kidCheck=${iclass}`)
+              }
             >
               원생관리
             </OrangeBtn>

@@ -4,17 +4,11 @@ import { PageNum } from "../../styles/adminstyle/guardianlist";
 import { PageTitle } from "../../styles/basic";
 import {
   FromToBtnWrap,
-  IndBtnWrap,
   IndWrap,
   TabWrap,
 } from "../../styles/individualNotice/ind";
 import { FlexBox, TitleWrap } from "../../styles/user/mypage";
-import {
-  Link,
-  useLocation,
-  useNavigate,
-  useSearchParams,
-} from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import useCustomLogin from "../../hooks/useCustomLogin";
 import IndListComponent from "../../components/individualNotice/IndListComponent";
 import {
@@ -26,6 +20,7 @@ import IndParentBtnComponent from "../../components/individualNotice/IndParentBt
 import IndTeacherBtnComponent from "../../components/individualNotice/IndTeacherBtnComponent";
 import Search from "antd/es/input/Search";
 import { GreenBtn } from "../../styles/ui/buttons";
+import { useLocale } from "antd/es/locale";
 
 const initData = [
   {
@@ -35,6 +30,8 @@ const initData = [
     kidNm: "",
     iclass: 0,
     picCheck: 0,
+    cmtCheck: 0,
+    noticeCheck: 0,
     createdAt: "",
   },
 ];
@@ -55,9 +52,6 @@ const IndivNotiList = () => {
   // 로그인 회원 정보에서 아이 리스트 추출
   const { loginState, isLogin, isParentLogin } = useCustomLogin();
   const ikidList = loginState.kidList;
-
-  // ikid 값만 추출하여 파라미터값과 비교
-  const kidCheck = Array.isArray(ikidList) && ikidList.map(item => item.ikid);
 
   // 페이지네이션
   const handlePageChange = (page, pageSize) => {
@@ -97,10 +91,26 @@ const IndivNotiList = () => {
         setIsOpen(true);
         return;
       }
-      getIndParentList({ page, year, ikid, fromTo, errorFn, successFn });
+      getIndParentList({
+        page,
+        year,
+        ikid,
+        fromTo,
+        search: "",
+        errorFn,
+        successFn,
+      });
     } else if (isLogin) {
       // 선생님 로그인
-      getIndTeacherList({ page, year, iclass, fromTo, errorFn, successFn });
+      getIndTeacherList({
+        page,
+        year,
+        iclass,
+        fromTo,
+        search: "",
+        errorFn,
+        successFn,
+      });
     } else {
       // 로그인 안했을때
       setIsOpen(true);
@@ -157,30 +167,36 @@ const IndivNotiList = () => {
     setFromTo(num);
   };
 
+  // 검색
   const handleSearch = value => {
-    console.log(value);
     if (isParentLogin) {
       getIndParentList({
-        page,
+        page: 1,
         year,
         ikid,
         fromTo,
         search: value,
-        errorFn,
+        errorFn: errorSerchFn,
         successFn,
       });
     } else if (isLogin) {
       // 선생님 로그인
       getIndTeacherList({
-        page,
+        page: 1,
         year,
         iclass,
         fromTo,
         search: value,
-        errorFn,
+        errorFn: errorSerchFn,
         successFn,
       });
     }
+  };
+
+  const errorSerchFn = res => {
+    setIsOpen(true);
+    setTitle("데이터 없음");
+    setSubTitle(res);
   };
 
   return (
@@ -265,7 +281,7 @@ const IndivNotiList = () => {
       />
       <PageNum>
         <Pagination
-          defaultCurrent={1}
+          defaultCurrent={page}
           total={count}
           pageSize={12}
           onChange={handlePageChange}

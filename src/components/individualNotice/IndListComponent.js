@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import MyClass from "../user/MyClass";
 import {
   IndBot,
   IndCon,
+  IndIcon,
   IndList,
   IndListBox,
   IndListWrap,
+  IndName,
+  IndTitle,
   IndTop,
 } from "../../styles/individualNotice/ind";
 import { Link } from "react-router-dom";
@@ -13,6 +16,22 @@ import useCustomLogin from "../../hooks/useCustomLogin";
 
 const IndListComponent = ({ listData, year, ikid, iclass, page }) => {
   const { loginState, isLogin, isParentLogin } = useCustomLogin();
+  const classState = state => {
+    const className =
+      state === 1
+        ? "무궁화반"
+        : state === 2
+        ? "해바라기반"
+        : state === 3
+        ? "장미반"
+        : state === -1
+        ? "퇴소"
+        : state === -2
+        ? "졸업"
+        : "";
+    return className;
+  };
+
   return (
     <IndListWrap>
       <IndList>
@@ -25,7 +44,10 @@ const IndListComponent = ({ listData, year, ikid, iclass, page }) => {
         ) : (
           Array.isArray(listData) &&
           listData.map(item => (
-            <IndListBox key={item.inotice}>
+            <IndListBox
+              key={item.inotice}
+              className={item.noticeCheck ? "notice" : ""}
+            >
               <Link
                 to={
                   isLogin
@@ -34,16 +56,24 @@ const IndListComponent = ({ listData, year, ikid, iclass, page }) => {
                 }
               >
                 <IndTop>
-                  <MyClass state={item.iclass} /> <h4>{item.kidNm}</h4>
-                </IndTop>
-                <IndCon>
-                  <p>{item.noticeTitle}</p>
-                  <span>{item.noticeContents}</span>
-                </IndCon>
-                <IndBot>
-                  <div className="ind-date">{item.createdAt.split(" ")[0]}</div>
-                  <div className="ind-file">
-                    {item.picCheck === 1 ? (
+                  <IndName>
+                    {classState(item.iclass)} {item.kidNm}
+                  </IndName>
+                  <IndTitle>
+                    {item.noticeCheck === 1 ? (
+                      <img
+                        src={
+                          process.env.PUBLIC_URL +
+                          "/images/common/warning_icon.svg"
+                        }
+                        alt="file"
+                      />
+                    ) : null}
+                    <span>{item.createdAt.split(" ")[0]}</span>
+                    <b>{item.noticeTitle}</b>
+                  </IndTitle>
+                  <IndIcon>
+                    {item.picCheck === 0 ? (
                       <img
                         src={
                           process.env.PUBLIC_URL +
@@ -52,8 +82,20 @@ const IndListComponent = ({ listData, year, ikid, iclass, page }) => {
                         alt="file"
                       />
                     ) : null}
-                  </div>
-                </IndBot>
+                    {item.cmtCheck === 0 ? (
+                      <img
+                        src={
+                          process.env.PUBLIC_URL +
+                          "/images/common/chat_icon.svg"
+                        }
+                        alt="file"
+                      />
+                    ) : null}
+                  </IndIcon>
+                </IndTop>
+                <IndCon>
+                  <span>{item.noticeContents}</span>
+                </IndCon>
               </Link>
             </IndListBox>
           ))

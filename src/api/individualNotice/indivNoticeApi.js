@@ -55,6 +55,27 @@ export const getIndTeacherList = async ({
   }
 };
 
+// 알림장 리스트(원아)
+export const getIndchildrenList = async ({
+  product,
+  successFn,
+  failFn,
+  errorFn,
+}) => {
+  try {
+    const res = await jwtAxios.get(`${path}/tag`, product);
+    const status = res.status.toString();
+    if (status.charAt(0) === "2") {
+      successFn(res.data);
+    } else {
+      failFn("글 등록 오류");
+    }
+  } catch (error) {
+    const res = error.response.data;
+    errorFn(res.message);
+  }
+};
+
 // 알림장 게시글 등록하기
 export const postIndNotice = async ({
   product,

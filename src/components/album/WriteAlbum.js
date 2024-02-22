@@ -9,6 +9,7 @@ import { BtnWrap, GreenBtn, PinkBtn } from "../../styles/ui/buttons";
 import { postAlbum } from "../../api/album/album_api";
 import { SERVER_URL } from "../../api/config";
 import ModalOneBtn from "../ui/ModalOneBtn";
+import ModalTwoBtn from "../ui/ModalTwoBtn";
 const path = `${SERVER_URL}/api/album`;
 
 const WriteAlbum = ({ albumData, submit }) => {
@@ -21,7 +22,9 @@ const WriteAlbum = ({ albumData, submit }) => {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showCancelConfirmModal, setShowCancelConfirmModal] = useState(false);
   const [showExceedLimitModal, setShowExceedLimitModal] = useState(false); // 파일 제한 초과 경고 모달 상태
-
+  const [isImageUploadWarningVisible, setIsImageUploadWarningVisible] =
+    useState(false); // 이미지 업로드 경고 모달 상태
+  const [submitClicked, setSubmitClicked] = useState(false); // 이 줄 추가
   const handleChange = info => {
     let fileList = [...info.fileList].slice(-20); // 최대 20개 파일만 유지
     setFileList(fileList);
@@ -66,19 +69,33 @@ const WriteAlbum = ({ albumData, submit }) => {
     navigate("/album");
   };
 
+  const handleCancelConfirmModalCancel = e => {
+    // 모달을 닫음
+    setShowCancelConfirmModal(false);
+    e.stopPropagation();
+  };
+
   const handleCancelConfirmation = () => {
+    setSubmitClicked(false); // 제출이 클릭되지 않았다고 확인
     setShowCancelConfirmModal(true); // 취소 확인 모달 표시
   };
 
-  // if (fileList.length > 20) {
-  //   Modal.error({
-  //     title: "이미지 업로드 제한",
-  //     content: "이미지는 최대 20개까지 업로드할 수 있습니다.",
-  //   });
-  //   return;
-  // }
+  const handleFormSubmit = () => {
+    if (fileList.length === 0) {
+      setIsImageUploadWarningVisible(true);
+      return; // 파일이 업로드되지 않았다면 폼 제출 방지
+    }
+    setSubmitClicked(true); // 제출이 클릭되었다고 표시
+    form.submit(); // 폼 제출 수동으로 트리거
+  };
 
   const onFinish = async data => {
+    if (!submitClicked) return; // 제출이 클릭되었는지 확인
+    // 이미지가 한 개 이상 업로드되지 않았을 경우 경고 모달 표시
+    if (fileList.length === 0) {
+      setIsImageUploadWarningVisible(true); // 경고 모달을 표시
+      return; // 함수 실행 종료
+    }
     const formData = new FormData();
     // 글 정보를 담은 dto Blob객체 생성
     const dto = new Blob(
@@ -109,20 +126,13 @@ const WriteAlbum = ({ albumData, submit }) => {
       failFn: handleFailure,
       errorFn: handleError,
     });
+    setSubmitClicked(false); // 다음 제출을 위해 재설정
   };
 
-  const handleCancleOk = () => {
-    // 여기에 삭제 처리 로직을 추가할 수 있습니다.
-
-    // 예시: 삭제 처리 후 /album 페이지로 이동
-    navigate("/album");
-
-    setIsModalVisible(false);
-  };
-
-  const handleSuccess = response => {
-    setIsModalVisible(true);
-    // 성공적으로 업로드 완료 후 처리할 작업을 추가할 수 있습니다.
+  // 이미지 업로드 경고 모달 핸들러
+  const handleImageUploadWarningOk = e => {
+    setIsImageUploadWarningVisible(false); // 경고 모달 닫기
+    e.stopPropagation(); // 이벤트가 상위 엘리먼트에 전달되지 않게 막기
   };
 
   const handleFailure = errorMessage => {
@@ -195,7 +205,9 @@ const WriteAlbum = ({ albumData, submit }) => {
           </FileListStyle>
         </WriteWrap>
         <BtnWrap right>
-          <GreenBtn htmlType="submit">등록</GreenBtn>
+          <GreenBtn type="button" onClick={handleFormSubmit}>
+            등록
+          </GreenBtn>
           <PinkBtn onClick={handleCancelConfirmation}>취소</PinkBtn>
         </BtnWrap>
       </Form>
@@ -208,19 +220,31 @@ const WriteAlbum = ({ albumData, submit }) => {
             handleOk={handleSuccessModalOk}
             title="등록 완료"
             subTitle="성공적으로 등록되었습니다."
+            maskClosable={false}
           />
         )}
 
         {/* 취소 확인 모달 */}
         {showCancelConfirmModal && (
-          <ModalOneBtn
+          <ModalTwoBtn
             isOpen={showCancelConfirmModal}
             handleOk={handleCancelConfirmModalOk}
+            handleCancel={handleCancelConfirmModalCancel}
             title="정말 취소할까요?"
             subTitle="작성된 내용은 저장되지 않습니다."
+            maskClosable={false}
           />
         )}
-
+        {/* 이미지 업로드 경고 모달 */}
+        {isImageUploadWarningVisible && (
+          <ModalOneBtn
+            isOpen={isImageUploadWarningVisible}
+            handleOk={handleImageUploadWarningOk}
+            title="이미지 업로드 경고"
+            subTitle="최소 하나의 이미지 파일은 업로드 되어야 합니다."
+            maskClosable={false}
+          />
+        )}
         {/* 파일 제한 초과 경고 모달 */}
         {showExceedLimitModal && (
           <ModalOneBtn
@@ -228,6 +252,7 @@ const WriteAlbum = ({ albumData, submit }) => {
             handleOk={handleExceedLimitModalOk}
             title="업로드 제한 초과"
             subTitle="업로드할 수 있는 파일 수는 최대 20개입니다."
+            maskClosable={false}
           />
         )}
       </Link>

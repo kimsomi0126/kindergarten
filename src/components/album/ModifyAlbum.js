@@ -276,6 +276,7 @@ const ModifyAlbum = () => {
         handleCancel={handleEditCancel}
         title="앨범 수정 확인"
         subTitle={`앨범을 수정하시겠습니까? \n수정하신 내용은 되돌릴 수 없습니다.`}
+        maskClosable={false}
       ></ModalTwoBtn>
       {/* ModalTwoBtn 사용하여 취소 확인 모달 표시 */}
       <ModalTwoBtn
@@ -289,6 +290,7 @@ const ModifyAlbum = () => {
         }}
         title="정말 취소하시겠습니까?"
         subTitle="수정 내용이 저장되지 않습니다."
+        maskClosable={false}
       />
       <Link to="/album">
         <ModalOneBtn
@@ -296,13 +298,15 @@ const ModifyAlbum = () => {
           handleOk={handleModalClose}
           title="앨범 수정 완료"
           subTitle={`성공적으로 수정되었습니다. \n 수정 내용을 확인하시려면 확인 버튼을 클릭해주세요.`}
-        ></ModalOneBtn>
+          maskClosable={false}
+        />
         <ModalOneBtn
           isOpen={isMinimumWarningVisible}
           handleOk={handleCloseMinimumWarning}
           title="이미지 파일 경고"
           subTitle={`최소 하나의 이미지파일은 업로드 되어야 합니다.`}
-        ></ModalOneBtn>
+          maskClosable={false}
+        />
         {/* <Modal
           title="수정 완료"
           open={isModalVisible}

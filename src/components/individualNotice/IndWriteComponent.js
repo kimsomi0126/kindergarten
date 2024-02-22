@@ -1,75 +1,92 @@
 import { UploadOutlined } from "@ant-design/icons";
-import { Button, Checkbox, Form, Input, Modal, Upload } from "antd";
-import React, { useRef, useState } from "react";
+import { Button, Form, Input, Modal, Upload, TreeSelect, Checkbox } from "antd";
+import React, { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { Link, useSearchParams } from "react-router-dom";
 import { SERVER_URL } from "../../api/config";
-import { postNotice } from "../../api/notice/notice_api";
+import {
+  getIndchildrenList,
+  postIndNotice,
+} from "../../api/individualNotice/indivNoticeApi";
 import { FileListStyle } from "../../styles/album/album";
 import { PageTitle } from "../../styles/basic";
 import { GreenBtn, PinkBtn } from "../../styles/ui/buttons";
-import { postIndNotice } from "../../api/individualNotice/indivNoticeApi";
-import MyClass from "../user/MyClass";
-import { Cascader } from "antd";
 
 const path = `${SERVER_URL}/api/notice`;
 
 const IndWriteComponent = () => {
   const [serchParams, setSearchParams] = useSearchParams();
-  // 현재 kid 값 체크
   const ikid = serchParams.get("ikid");
-  const iclass = parseInt(serchParams.get("iclass"));
-  const kidNm = serchParams.get("kidNm");
   const [form] = Form.useForm();
   const [fileList, setFileList] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [fullNoticeFix, setFullNoticeFix] = useState(false); // 새로운 상태 추가
+  const [treeData, setTreeData] = useState([]);
   const navigate = useNavigate();
+  const [noticeCheck, setNoticeCheck] = useState([]);
 
-  const { SHOW_CHILD } = Cascader;
-  const options = [
-    {
-      label: "Light",
-      value: "light",
-      children: new Array(20).fill(null).map((_, index) => ({
-        label: `Number ${index}`,
-        value: index,
+  useEffect(() => {
+    fetchChildrenList();
+  }, []);
+
+  const fetchChildrenList = async () => {
+    try {
+      const response = await getIndchildrenList({
+        product: {}, // 필요한 경우에는 요청에 필요한 데이터를 여기에 전달하세요
+        successFn: handleChildrenListSuccess,
+        failFn: handleChildrenListFail,
+        errorFn: handleChildrenListError,
+      });
+    } catch (error) {
+      console.error("Error fetching children list:", error);
+    }
+  };
+
+  const handleChildrenListSuccess = data => {
+    const groupedData = groupChildrenByClass(data);
+    const treeData = groupedData.map(classItem => ({
+      title: getClassTitle(classItem.classNumber),
+      value: classItem.classNumber,
+      key: classItem.classNumber,
+      children: classItem.children.map(child => ({
+        title: child.kidNm,
+        value: child.ikid,
+        key: child.ikid,
       })),
-    },
-    {
-      label: "Bamboo",
-      value: "bamboo",
-      children: [
-        {
-          label: "Little",
-          value: "little",
-          children: [
-            {
-              label: "Toy Fish",
-              value: "fish",
-            },
-            {
-              label: "Toy Cards",
-              value: "cards",
-            },
-            {
-              label: "Toy Bird",
-              value: "bird",
-            },
-          ],
-        },
-      ],
-    },
-  ];
-  const formRef = useRef(); // Form 컴포넌트에 대한 ref 생성
+    }));
+    setTreeData(treeData);
+  };
 
-  const handleGreenButtonClick = () => {
-    formRef.current.submit(); // Form의 submit 메서드 호출
+  const getClassTitle = classNumber => {
+    switch (classNumber) {
+      case 1:
+        return "무궁화반";
+      case 2:
+        return "해바라기반";
+      case 3:
+        return "장미반";
+      default:
+        return "";
+    }
   };
 
   const onChange = e => {
-    console.log(`checked = ${e.target.checked}`);
-    setFullNoticeFix(e.target.checked);
+    setNoticeCheck(e.target.checked);
+  };
+
+  const handleChildrenListFail = errorMessage => {
+    console.error("Failed to fetch children list:", errorMessage);
+    // 실패했을 때 적절한 처리를 수행하세요
+  };
+
+  const handleChildrenListError = error => {
+    console.error("Error while fetching children list:", error);
+    // 에러가 발생했을 때 적절한 처리를 수행하세요
+  };
+
+  const formRef = useRef();
+
+  const handleGreenButtonClick = () => {
+    formRef.current.submit();
   };
 
   const handleChange = info => {
@@ -81,59 +98,24 @@ const IndWriteComponent = () => {
     onSuccess("ok");
   };
 
-  const showModal = () => {
-    setIsModalVisible(true);
-  };
-
-  const handleOk = () => {
-    setIsModalVisible(false);
-    navigate(`/ind?year=2024&page=1&iclass=0`);
-  };
-
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
-
-  const handleCancelConfirmation = () => {
-    Modal.confirm({
-      title: "정말 취소할까요?",
-      content: "작성된 내용은 저장되지 않습니다.",
-      onOk: () => handleCancelOk(),
-      okText: "확인",
-      cancelText: "취소",
-      onCancel: () => {},
-    });
-  };
-
   const onFinish = async data => {
-    console.log("fileList", fileList);
-    console.log("fullNoticeFix", fullNoticeFix); // 확인용 로그
-
     const formData = new FormData();
-
-    // 글 정보를 담은 dto Blob객체 생성
     const dto = new Blob(
       [
         JSON.stringify({
           ikid: ikid,
           noticeTitle: data.noticeTitle,
           noticeContents: data.noticeContents,
+          noticeCheck: noticeCheck ? 1 : 0,
         }),
       ],
-      // JSON 형식으로 설정
       { type: "application/json" },
     );
-
-    // dto 객체를 FormData에 추가
     formData.append("dto", dto);
-
-    // fileList에 있는 각 파일을 formData에 추가
     fileList.forEach(file => {
-      // originFileObj가 실제 파일 데이터를 가지고 있음
       formData.append("pics", file.originFileObj);
     });
 
-    // formData를 서버에 전송
     postIndNotice({
       product: formData,
       successFn: handleSuccess,
@@ -142,22 +124,16 @@ const IndWriteComponent = () => {
     });
   };
 
-  const handleCancelOk = res => {
-    // 여기에 삭제 처리 로직을 추가할 수 있습니다.
-
-    // 예시: 삭제 처리 후 /notice 페이지로 이동
+  const handleCancelOk = () => {
     navigate(`/ind?year=2024&page=1&iclass=0`);
-
     setIsModalVisible(false);
   };
 
-  const handleSuccess = response => {
+  const handleSuccess = () => {
     setIsModalVisible(true);
-    // 성공적으로 업로드 완료 후 처리할 작업을 추가할 수 있습니다.
   };
 
   const handleFail = errorMessage => {
-    // 업로드 실패 시 처리할 작업을 추가할 수 있습니다.
     Modal.error({
       title: "알림장 업로드 실패",
       content: errorMessage,
@@ -172,7 +148,20 @@ const IndWriteComponent = () => {
     });
   };
 
-  console.log(iclass);
+  const groupChildrenByClass = children => {
+    const grouped = children.reduce((acc, child) => {
+      const { iclass } = child;
+      if (!acc[iclass]) {
+        acc[iclass] = [];
+      }
+      acc[iclass].push(child);
+      return acc;
+    }, {});
+    return Object.keys(grouped).map(classNumber => ({
+      classNumber: parseInt(classNumber),
+      children: grouped[classNumber],
+    }));
+  };
 
   return (
     <div>
@@ -190,42 +179,21 @@ const IndWriteComponent = () => {
       >
         <div
           style={{
-            display: "flex",
-            gap: "1rem",
-            alignItems: "center",
             marginBottom: "2rem",
           }}
         >
-          {/* <MyClass state={iclass} /> */}
-          {/* <h4 style={{ color: "#555" }}>{kidNm}</h4> */}
-          <Cascader
-            style={{
-              width: "100%",
-            }}
-            options={options}
-            onChange={onChange}
-            multiple
-            maxTagCount="responsive"
-            showCheckedStrategy={SHOW_CHILD}
-            defaultValue={[
-              ["bamboo", "little", "fish"],
-              ["bamboo", "little", "cards"],
-              ["bamboo", "little", "bird"],
-            ]}
-          />
-          <br />
-          <br />
-          <Cascader
-            style={{
-              width: "100%",
-            }}
-            options={options}
-            onChange={onChange}
-            multiple
-            maxTagCount="responsive"
-            defaultValue={["bamboo"]}
+          <TreeSelect
+            style={{ width: "100%" }}
+            treeData={treeData}
+            placeholder="유치원생 선택"
+            treeCheckable={true}
+            showCheckedStrategy={TreeSelect.SHOW_PARENT}
+            onChange={value => console.log(value)}
           />
         </div>
+        <Checkbox onChange={onChange} style={{ marginBottom: 10 }}>
+          중요
+        </Checkbox>
         <Form ref={formRef} form={form} onFinish={onFinish}>
           <Form.Item
             name="noticeTitle"
@@ -263,7 +231,6 @@ const IndWriteComponent = () => {
               onChange={handleChange}
               customRequest={customRequest}
               className="upload-list-inline"
-              // maxCount={3}
               multiple={true}
             >
               <Button icon={<UploadOutlined />}>업로드</Button>
@@ -279,7 +246,7 @@ const IndWriteComponent = () => {
         >
           <GreenBtn onClick={handleGreenButtonClick}>등록</GreenBtn>
           <PinkBtn
-            onClick={handleCancelConfirmation}
+            onClick={() => setIsModalVisible(true)}
             style={{ marginLeft: 20 }}
           >
             취소
@@ -290,9 +257,9 @@ const IndWriteComponent = () => {
       <Link to="/ind?year=2024&page=1&iclass=0">
         <Modal
           title="등록 완료"
-          open={isModalVisible}
-          onOk={handleOk}
-          onCancel={handleCancel}
+          visible={isModalVisible}
+          onOk={handleCancelOk}
+          onCancel={() => setIsModalVisible(false)}
           okText="확인"
           cancelButtonProps={{ style: { display: "none" } }}
           width={350}

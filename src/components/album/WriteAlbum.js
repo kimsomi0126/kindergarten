@@ -143,8 +143,7 @@ const WriteAlbum = ({ albumData, submit }) => {
 
   // 업로드 칸 스타일을 수정하기 위한 변수
   const uploadAreaStyle = {
-    height: "5rem",
-    lineHeight: "5rem",
+    lineHeight: "15rem",
   };
 
   return (

@@ -27,9 +27,8 @@ export const getAlbum = async ({ pno, successFn, failFn, errorFn }) => {
 };
 
 // album/listall?page=1
-
 // 활동 앨범 전체 조회 get
-export const getlistAll = async ({ page, successFn, failFn, errorFn }) => {
+export const getListAll = async ({ page, successFn, failFn, errorFn }) => {
   try {
     const res = await jwtAxios.get(`${path}/listall?page=${page}`);
     const status = res.status.toString();
@@ -42,6 +41,32 @@ export const getlistAll = async ({ page, successFn, failFn, errorFn }) => {
   } catch (error) {
     const demo = await axios.get(`/`);
     errorFn(demo.data);
+    // console.log(error);
+  }
+};
+
+// 검색 GET
+// listall?page=1&search=1
+export const getSearchListAll = async ({
+  page,
+  search,
+  successFn,
+  failFn,
+  errorFn,
+}) => {
+  try {
+    const res = await jwtAxios.get(
+      `${path}/listall?page=${page}&search=${search}`,
+    );
+    const status = res.status.toString();
+    if (status.charAt(0) === "2") {
+      // console.log("res.data임 : ", res.data);
+      successFn(res.data);
+    } else {
+      failFn("자료 호출 에러입니다.");
+    }
+  } catch (error) {
+    errorFn(error);
     // console.log(error);
   }
 };

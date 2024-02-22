@@ -1,14 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import ReadAllAlbum from "../../components/album/ReadAllAlbum";
-import {
-  getIndParentList,
-  getIndTeacherList,
-} from "../../api/individualNotice/indivNoticeApi";
+import ModalOneBtn from "../../components/ui/ModalOneBtn";
 import useCustomLogin from "../../hooks/useCustomLogin";
-import { useNavigate, useSearchParams } from "react-router-dom";
 export const API_SERVER_HOST = "";
 const host = `${API_SERVER_HOST}/api/album/listall`;
-import ModalOneBtn from "../../components/ui/ModalOneBtn";
 
 const Album = () => {
   const navigate = useNavigate();
@@ -41,7 +37,7 @@ const Album = () => {
         title={title}
         subTitle={subTitle}
       />
-      <ReadAllAlbum />;
+      <ReadAllAlbum />
     </>
   );
 };

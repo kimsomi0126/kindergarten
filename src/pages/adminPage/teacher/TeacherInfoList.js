@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   TeacherTop,
   TeacherTopRight,
 } from "../../../styles/adminstyle/teacherinfolist";
 import { PageTitle } from "../../../styles/basic";
-import { Button, Dropdown } from "antd";
+import { Button, Dropdown, Form, Select } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 import Search from "antd/es/input/Search";
 import { BlueBtn, OrangeBtn } from "../../../styles/ui/buttons";
@@ -36,6 +36,7 @@ const TeacherInfoList = () => {
   const [serchParams, setSearchParams] = useSearchParams();
   const page = serchParams.get("page");
   const iclass = serchParams.get("iclass");
+  const iteacher = serchParams.get("iteacher");
   const [changeState, setChangeState] = useState(0);
 
   // 체크 항목 상태 변경
@@ -85,7 +86,7 @@ const TeacherInfoList = () => {
         // search: "",
       });
     }
-  }, [iclass, page]);
+  }, [iclass, page, checkedItems]);
 
   const successFn = result => {
     setTeacherList(result);
@@ -95,6 +96,10 @@ const TeacherInfoList = () => {
   const errorFn = result => {
     setTeacherList(result);
   };
+  const formRef = useRef();
+  const handleExternalSubmit = () => {
+    formRef.current.submit();
+  };
 
   // 선택 퇴사
   const handleChangeClick = () => {
@@ -102,34 +107,26 @@ const TeacherInfoList = () => {
       // console.log("변경할 대상이 없습니다");
       setIsOpen(true);
       setTitle("변경할 대상이 없습니다.");
-      setSubTitle("변경할 선생님을 선택해주세요.");
     } else {
-      console.log("선택 퇴사");
-      setDelOpen(true);
-      setTitle("정말 변경할까요?");
-      setSubTitle("확인하면 선생님의 재직 상태가 변경됩니다.");
+      // console.log("재원상태 변경");
+      setChangeOpen(true);
+      setTitle("재직 상태 수정");
+      setSubTitle("재직 상태를 선택해주세요.");
     }
   };
   console.log(checkedItems);
 
   const handleDelOk = () => {
-    const obj = {
-      iteachers: [...checkedItems],
-      tcIsDel: changeState,
-    };
-    console.log("오비제이", obj);
-    patchTeacher({
-      successpatchFn,
-      errorpatchFn,
-      obj,
-    });
+    formRef.current.submit();
   };
+
   const successpatchFn = res => {
     setIsOpen(true);
     setTitle("변경 완료");
     setSubTitle("성공적으로 변경되었습니다.");
     setDelOpen(false);
     setCheckedItems([]);
+    setChangeOpen();
   };
   const errorpatchFn = res => {
     console.log(res);
@@ -139,13 +136,30 @@ const TeacherInfoList = () => {
   };
   const handleCancel = () => {
     setDelOpen(false);
+    setChangeOpen(false);
   };
+
   const handleOk = () => {
     setIsOpen(false);
-    // 링크이동
     if (isNavigate) {
       navigate(isNavigate);
     }
+  };
+  const onValuesChange = values => {
+    const res = parseInt(values.work);
+    setChangeState(res);
+  };
+  const onFinish = values => {
+    const obj = {
+      iteachers: [...checkedItems],
+      tcIsDel: changeState,
+    };
+    // console.log("오비제이", obj);
+    patchTeacher({
+      successpatchFn,
+      errorpatchFn,
+      obj,
+    });
   };
   // 반 선택 드롭다운
   const classArr = [
@@ -215,12 +229,40 @@ const TeacherInfoList = () => {
             //   handleSearch(value);
             // }}
           />
+          {/* 재직 상태 변경창 */}
+          <ModalTwoBtn
+            isOpen={changeOpen}
+            handleOk={handleDelOk}
+            handleCancel={handleCancel}
+            title={title}
+            subTitle={subTitle}
+          >
+            <Form
+              ref={formRef}
+              name="account"
+              style={{
+                maxWidth: 600,
+              }}
+              initialValues={{
+                remember: true,
+              }}
+              onFinish={onFinish}
+              onValuesChange={onValuesChange}
+            >
+              <Form.Item name="work">
+                <Select placeholder="재직 상태 선택">
+                  <Select.Option value="0">재직중</Select.Option>
+                  <Select.Option value="1">퇴사</Select.Option>
+                </Select>
+              </Form.Item>
+            </Form>
+          </ModalTwoBtn>
           <OrangeBtn
             onClick={() => {
               handleChangeClick();
             }}
           >
-            선택퇴사
+            재직 상태 변경
           </OrangeBtn>
           <BlueBtn onClick={e => navigate("/admin/teacher/create")}>
             선생님 등록
@@ -230,6 +272,7 @@ const TeacherInfoList = () => {
       <TeacherListComponent
         iclass={iclass}
         page={page}
+        iteacher={iteacher}
         teacherList={teacherList}
         oncheckedClick={oncheckedClick}
         checkedItems={checkedItems}

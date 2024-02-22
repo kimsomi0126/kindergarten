@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
+  NewPasswordEdit,
   TBottomBt,
   TeacherClassForm,
   TeacherClassInfo,
@@ -14,11 +15,12 @@ import {
   TeacherMemoForm,
 } from "../../../styles/adminstyle/teachercreate";
 import { PageTitle } from "../../../styles/basic";
-import { Button, Input, Upload, Form, Select } from "antd";
+import { Button, Input, Upload, Form, Select, message } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import TextArea from "antd/es/input/TextArea";
 import { GreenBtn, OrangeBtn, PinkBtn } from "../../../styles/ui/buttons";
 import { useSearchParams } from "react-router-dom";
+import { getTeacherInfo } from "../../../api/adminPage/admin_api";
 
 const initDto = {
   iteacher: 0,
@@ -32,23 +34,108 @@ const initDto = {
   teacherProfile: "",
   tcEmail: "",
 };
+
 const TeacherModify = () => {
   const [passwordEdit, setPasswordEdit] = useState(false);
+  const [newPassword, setNewPassword] = useState(false);
+  const [fileList, setFileList] = useState([]);
   const [serchParams, setSearchParams] = useSearchParams();
-  const iteacher = serchParams.get("iteacher");
+  const [form] = Form.useForm();
+
   // 선생님 정보 값
   const [dto, setDto] = useState(initDto);
+  const iteacher = serchParams.get("iteacher");
 
   // 비밀번호 수정 클릭
   const handleEdit = () => {
     setPasswordEdit(true);
+  };
+
+  // 선생님 기존 정보 GET
+  useEffect(() => {
+    getTeacherInfo({ iteacher, successGetFn, failGetFn, errorGetFn });
+    form.setFieldsValue();
+  }, []);
+  console.log("아이티쳐", iteacher);
+  const successGetFn = res => {
+    // console.log(res);
+    const newData = Object.keys(res).reduce((acc, key) => {
+      if (key !== "profile") {
+        acc[key] = res[key];
+      }
+      return acc;
+    }, {});
+
+    const values = {
+      ...newData,
+      iclass: {
+        label:
+          newData.iclass === 1
+            ? "무궁화반"
+            : newData.iclass === 2
+            ? "해바라기반"
+            : newData.iclass === 3
+            ? "장미반"
+            : "반 선택",
+        value: newData.iclass,
+        key: newData.iclass,
+      },
+    };
+
+    setDto({ ...values });
+    form.setFieldsValue(values);
+
+    const imageUrl = `/pic/user/${iteacher}/${res.teacherProfile}`;
+    const imageUrlToFile = async imageUrl => {
+      try {
+        const fileName = imageUrl.substring(imageUrl.lastIndexOf("/") + 1);
+        const response = await fetch(imageUrl, { mode: "no-cors" });
+        const blob = await response.blob();
+        const imageFile = new File([blob], fileName);
+        if (fileList.length === 0) {
+          setFileList([...fileList, imageFile]);
+        } else {
+          return;
+        }
+      } catch (error) {
+        console.error("Error converting image URL to File:", error);
+      }
+    };
+
+    imageUrlToFile(imageUrl);
+  };
+
+  // 프로필 업로드
+  const props = {
+    onRemove: file => {
+      const index = fileList.indexOf(file);
+      const newFileList = fileList.slice();
+      newFileList.splice(index, 1);
+      setFileList(newFileList);
+    },
+    beforeUpload: file => {
+      if (fileList.length >= 1) {
+        message.error(`프로필사진은 1개만 업로드 가능합니다.`);
+      } else {
+        setFileList([...fileList, file]);
+      }
+
+      return false;
+    },
+    fileList,
+  };
+  const failGetFn = res => {
+    // console.log(res);
+  };
+  const errorGetFn = res => {
+    // console.log(res);
   };
   return (
     <>
       <TeacherFormTop>
         <PageTitle>선생님 정보 수정</PageTitle>
       </TeacherFormTop>
-      <Form>
+      <Form form={form} name="teacheredit">
         <TeacherFormWrap>
           {/* 계정정보 */}
           <TeacherIdInfo>
@@ -87,37 +174,56 @@ const TeacherModify = () => {
                 <OrangeBtn type="button" onClick={handleEdit}>
                   비밀번호 수정
                 </OrangeBtn>
+              </TeacherIdItem>
+              <NewPasswordEdit>
                 <Form.Item
-                  name="teacherUpw"
+                  name="confirm"
                   style={{
                     width: "33%",
                     display: passwordEdit ? "block" : "none",
                   }}
+                  dependencies={["teacherUpw"]}
+                  hasFeedback
                   rules={[
                     {
                       required: true,
-                      message: "비밀번호를 입력해주세요.",
+                      message: "기존 비밀번호를 입력해주세요.",
                     },
+                    ({ getFieldValue }) => ({
+                      validator(_, value) {
+                        if (!value || getFieldValue("teacherUpw") === value) {
+                          setNewPassword(true);
+                          return Promise.resolve();
+                        }
+                        setNewPassword(false);
+                        return Promise.reject(
+                          new Error(
+                            "기존 비밀번호와 일치하지 않습니다. 다시 작성해주세요.",
+                          ),
+                        );
+                      },
+                    }),
                   ]}
                 >
                   <Input placeholder="기존 비밀번호 입력" />
                 </Form.Item>
-                <Form.Item
-                  name="teacherUpw"
-                  style={{
-                    width: "33%",
-                    display: passwordEdit ? "block" : "none",
-                  }}
-                  rules={[
-                    {
-                      required: true,
-                      message: "비밀번호를 입력해주세요.",
-                    },
-                  ]}
-                >
-                  <Input placeholder="새로운 비밀번호 입력" />
-                </Form.Item>
-              </TeacherIdItem>
+                {newPassword && (
+                  <Form.Item
+                    name="newTeacherUpw"
+                    style={{
+                      width: "33%",
+                    }}
+                    rules={[
+                      {
+                        required: true,
+                        message: "비밀번호를 입력해주세요.",
+                      },
+                    ]}
+                  >
+                    <Input placeholder="새로운 비밀번호 입력" />
+                  </Form.Item>
+                )}
+              </NewPasswordEdit>
             </TeacherIdForm>
           </TeacherIdInfo>
           {/* 기본정보 */}
@@ -206,7 +312,7 @@ const TeacherModify = () => {
                   },
                 ]}
               >
-                <Upload required>
+                <Upload {...props} required>
                   <Button icon={<UploadOutlined />}>파일 첨부</Button>
                 </Upload>
               </Form.Item>
@@ -224,7 +330,7 @@ const TeacherModify = () => {
           </TeacherMemo>
         </TeacherFormWrap>
         <TBottomBt>
-          <GreenBtn>등록</GreenBtn>
+          <GreenBtn>수정</GreenBtn>
           <PinkBtn>취소</PinkBtn>
         </TBottomBt>
       </Form>

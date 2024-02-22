@@ -45,6 +45,12 @@ export const TeacherIdItem = styled.div`
     border-radius: 1rem;
   }
 `;
+export const NewPasswordEdit = styled.div`
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+`;
 
 export const TeacherClassInfo = styled.div`
   padding-bottom: 1rem;

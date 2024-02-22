@@ -93,7 +93,7 @@ const adminRouter = () => {
     },
     // 선생님 정보 수정
     {
-      path: "teacher/modify",
+      path: "teacher/edit",
       element: (
         <Suspense fallback={<Loading />}>
           <TeacherModify />

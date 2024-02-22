@@ -68,6 +68,7 @@ const AdminParentEdit = ({ open, handleCancel, iparent, onStateChange }) => {
   useEffect(() => {
     getAdminParentInfo({ iparent, successFn, failFn, errorFn });
   }, []);
+
   const successFn = result => {
     // console.log("성공", result);
     form.setFieldsValue(result);

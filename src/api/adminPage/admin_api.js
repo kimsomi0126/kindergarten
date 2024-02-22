@@ -363,11 +363,10 @@ export const patchTeacher = async ({
   successpatchFn,
   failpatchFn,
   errorpatchFn,
-  iteachers,
   obj,
 }) => {
   try {
-    const res = await jwtAxios.patch(`${path}?iteachers=${iteachers}`, obj);
+    const res = await jwtAxios.patch(`${path}`, obj);
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
       successpatchFn(res.data);
@@ -378,5 +377,26 @@ export const patchTeacher = async ({
   } catch (error) {
     const res = error.response.data;
     errorpatchFn(res.message);
+  }
+};
+
+// 선생님 정보 수정 GET
+export const getTeacherInfo = async ({
+  successGetFn,
+  failGetFn,
+  errorGetFn,
+  iteacher,
+}) => {
+  try {
+    const res = await jwtAxios.get(`${path}/edit?iteacher=${iteacher}`);
+    const status = res.status.toString();
+    if (status.charAt(0) === "2") {
+      successGetFn(res.data);
+      return res.data;
+    } else {
+      failGetFn("서버가 불안정합니다. 다시 시도해주세요.");
+    }
+  } catch (error) {
+    errorGetFn("서버가 불안정합니다.다시 시도해주세요.");
   }
 };

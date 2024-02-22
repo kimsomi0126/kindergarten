@@ -33,6 +33,7 @@ const initTeacherList = {
 const TeacherListComponent = ({
   iclass,
   page,
+
   teacherList,
   oncheckedClick,
   checkedItems,
@@ -128,7 +129,15 @@ const TeacherListComponent = ({
                       </p>
                       <p className="leaf">{item.teacherNm}</p>
                     </TeacherInfo>
-                    <GrayBtn>정보 수정</GrayBtn>
+                    <GrayBtn
+                      onClick={e =>
+                        navigate(
+                          `/admin/teacher/edit?iteacher=${item.iteacher}`,
+                        )
+                      }
+                    >
+                      정보 수정
+                    </GrayBtn>
                   </ListBoxTop>
                   <InfoBox>
                     <dl>

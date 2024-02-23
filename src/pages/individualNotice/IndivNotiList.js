@@ -8,7 +8,12 @@ import {
   TabWrap,
 } from "../../styles/individualNotice/ind";
 import { FlexBox, TitleWrap } from "../../styles/user/mypage";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import {
+  Link,
+  useLocation,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 import useCustomLogin from "../../hooks/useCustomLogin";
 import IndListComponent from "../../components/individualNotice/IndListComponent";
 import {
@@ -20,7 +25,6 @@ import IndParentBtnComponent from "../../components/individualNotice/IndParentBt
 import IndTeacherBtnComponent from "../../components/individualNotice/IndTeacherBtnComponent";
 import Search from "antd/es/input/Search";
 import { GreenBtn } from "../../styles/ui/buttons";
-import { useLocale } from "antd/es/locale";
 
 const initData = [
   {
@@ -38,6 +42,7 @@ const initData = [
 
 const IndivNotiList = () => {
   const navigate = useNavigate();
+  const { pathname, search } = useLocation();
   const [serchParams, setSearchParams] = useSearchParams();
   const [indList, setIndList] = useState(initData);
   const [fromTo, setFromTo] = useState(3 || serchParams.get("fromTo"));
@@ -48,6 +53,7 @@ const IndivNotiList = () => {
   const ikid = serchParams.get("ikid");
   const page = serchParams.get("page");
   const iclass = serchParams.get("iclass");
+  const searchValue = serchParams.get("searchValue") || "";
 
   // 로그인 회원 정보에서 아이 리스트 추출
   const { loginState, isLogin, isParentLogin } = useCustomLogin();
@@ -107,7 +113,7 @@ const IndivNotiList = () => {
         year,
         iclass,
         fromTo,
-        search: "",
+        search: searchValue,
         errorFn,
         successFn,
       });
@@ -132,8 +138,8 @@ const IndivNotiList = () => {
     setSubTitle(res);
 
     const url = isLogin
-      ? `/ind?year=${year}&page=1&iclass=${iclass}`
-      : `/ind?year=${year}&page=1&ikid=${ikid}`;
+      ? `/ind?year=${year}&page=1&iclass=${iclass}&searchValue=${searchValue}`
+      : `/ind?year=${year}&page=1&ikid=${ikid}&searchValue=${searchValue}`;
 
     if (fromTo != 3) {
       setFromTo(3);
@@ -149,8 +155,8 @@ const IndivNotiList = () => {
   const handleFromTo = e => {
     const writer = e.target.value;
     const url = isLogin
-      ? `/ind?year=${year}&page=1&iclass=${iclass}&fromTo=`
-      : `/ind?year=${year}&page=1&ikid=${ikid}&fromTo=`;
+      ? `/ind?year=${year}&page=1&iclass=${iclass}&searchValue=${searchValue}&fromTo=`
+      : `/ind?year=${year}&page=1&ikid=${ikid}&searchValue=${searchValue}&fromTo=`;
     const num =
       isLogin && writer == "teacher"
         ? 1
@@ -179,6 +185,7 @@ const IndivNotiList = () => {
         errorFn: errorSerchFn,
         successFn,
       });
+      setSearchParams({ page: 1, year, ikid, fromTo, searchValue: value });
     } else if (isLogin) {
       // 선생님 로그인
       getIndTeacherList({
@@ -190,6 +197,7 @@ const IndivNotiList = () => {
         errorFn: errorSerchFn,
         successFn,
       });
+      setSearchParams({ page: 1, year, iclass, fromTo, searchValue: value });
     }
   };
 
@@ -197,6 +205,7 @@ const IndivNotiList = () => {
     setIsOpen(true);
     setTitle("데이터 없음");
     setSubTitle(res);
+    setSearchParams({ page: 1, year, iclass, fromTo, searchValue: "" });
   };
 
   return (
@@ -209,7 +218,7 @@ const IndivNotiList = () => {
         subTitle={subTitle}
       />
       <TabWrap>
-        <Link to="/" className="active">
+        <Link to={pathname + search} className="active">
           알림장
         </Link>
         <Link to="/">추억앨범</Link>

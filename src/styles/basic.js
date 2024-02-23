@@ -138,6 +138,7 @@ export const NavWrap = styled.div`
   ${mq.mobileBig} {
     .nav-logo {
       display: block;
+      margin-left: 3rem;
     }
   }
 `;
@@ -285,6 +286,31 @@ export const PageTitle = styled.h3`
   color: ${colors.greenDeep};
   a {
     color: ${colors.greenDeep};
+  }
+`;
+
+export const TitleDesc = styled.div`
+  width: 100%;
+  padding: 3rem 2rem;
+  font-size: 1.6rem;
+  border-radius: 1rem;
+  background: #f7f7f7;
+  margin: 2rem 0;
+  text-align: center;
+  border: 1px solid ${colors.grayBar};
+
+  p {
+    margin-bottom: 2rem;
+    line-height: 1.5;
+  }
+  b {
+    font-size: 400;
+    color: ${colors.greenDeep};
+  }
+  .ant-input-group-wrapper {
+    margin: 0 auto;
+    display: block;
+    max-width: 50rem;
   }
 `;
 

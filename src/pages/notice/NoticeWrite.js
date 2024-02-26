@@ -53,13 +53,8 @@ const NoticeWrite = () => {
     onSuccess("ok");
   };
 
-  const handleOk = () => {
-    setIsModalVisible(false);
-  };
-
   const handleSuccessModalOk = () => {
     setShowSuccessModal(false);
-    navigate("/notice");
   };
 
   // 취소 확인 모달 핸들러
@@ -97,15 +92,6 @@ const NoticeWrite = () => {
       failFn: handleFailure,
       errorFn: handleError,
     });
-  };
-
-  const handleCancelOk = () => {
-    navigate("/notice");
-    setIsModalVisible(false);
-  };
-
-  const handleSuccess = response => {
-    setIsModalVisible(true);
   };
 
   const handleFailure = errorMessage => {

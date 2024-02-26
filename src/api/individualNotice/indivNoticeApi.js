@@ -93,6 +93,7 @@ export const postIndNotice = async ({
     }
   } catch (error) {
     const res = error.response.data;
+    console.log("res", res);
     errorFn(res.message);
   }
 };

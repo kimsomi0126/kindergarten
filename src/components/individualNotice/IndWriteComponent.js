@@ -24,8 +24,6 @@ const IndWriteComponent = () => {
   const [treeData, setTreeData] = useState([]);
   const navigate = useNavigate();
   const [noticeCheck, setNoticeCheck] = useState([]);
-  const [selectedKids, setSelectedKids] = useState([]);
-  const [showExceedLimitModal, setShowExceedLimitModal] = useState(false); // 파일 제한 초과 경고 모달 상태
 
   useEffect(() => {
     fetchChildrenList();
@@ -124,10 +122,34 @@ const IndWriteComponent = () => {
     onSuccess("ok");
   };
 
-  const onFinish = async data => {
-    const formData = new FormData();
+  const handleSuccessModalOk = () => {
+    setShowSuccessModal(false);
+  };
 
-    // 파일 데이터 추가
+  // 취소 확인 모달 핸들러
+  const handleCancelConfirmModalOk = () => {
+    setShowCancelConfirmModal(false);
+  };
+
+  const handleCancelConfirmation = () => {
+    setShowCancelConfirmModal(true); // 취소 확인 모달 표시
+  };
+
+  const onFinish = async data => {
+    console.log("data", data);
+    const formData = new FormData();
+    const dto = new Blob(
+      [
+        JSON.stringify({
+          ikid: ikid,
+          noticeTitle: data.noticeTitle,
+          noticeContents: data.noticeContents,
+          noticeCheck: noticeCheck ? 1 : 0,
+        }),
+      ],
+      { type: "application/json" },
+    );
+    formData.append("dto", dto);
     fileList.forEach(file => {
       formData.append("pics", file.originFileObj);
     });
@@ -277,19 +299,17 @@ const IndWriteComponent = () => {
           }}
         >
           <GreenBtn onClick={handleGreenButtonClick}>등록</GreenBtn>
-          <PinkBtn
-            onClick={() => setIsModalVisible(true)}
-            style={{ marginLeft: 20 }}
-          >
+          <PinkBtn type="button" onClick={handleCancelConfirmation}>
             취소
           </PinkBtn>
         </div>
       </div>
 
+      {/* 모달창 */}
       <Link to="/ind?year=2024&page=1&iclass=0">
         <Modal
           title="등록 완료"
-          open={isModalVisible}
+          visible={isModalVisible}
           onOk={handleCancelOk}
           onCancel={() => setIsModalVisible(false)}
           okText="확인"
@@ -298,15 +318,6 @@ const IndWriteComponent = () => {
         >
           <p>성공적으로 등록되었습니다.</p>
         </Modal>
-        {/* 파일 제한 초과 경고 모달 */}
-        {showExceedLimitModal && (
-          <ModalOneBtn
-            isOpen={showExceedLimitModal}
-            handleOk={handleExceedLimitModalOk}
-            title="업로드 제한 초과"
-            subTitle="업로드할 수 있는 파일 수는 최대 5개입니다."
-          />
-        )}
       </Link>
     </div>
   );

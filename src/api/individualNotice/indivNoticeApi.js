@@ -84,8 +84,7 @@ export const postIndNotice = async ({
   errorFn,
 }) => {
   try {
-    const header = { headers: { "Content-Type": "multipart/form-data" } };
-    const res = await jwtAxios.post(`${path}/tea`, product, header);
+    const res = await jwtAxios.post(`${path}/tea`, product);
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
       successFn(res.data);
@@ -94,6 +93,7 @@ export const postIndNotice = async ({
     }
   } catch (error) {
     const res = error.response.data;
+    console.log("res", res);
     errorFn(res.message);
   }
 };
@@ -101,13 +101,12 @@ export const postIndNotice = async ({
 // 댓글 등록하기
 export const postComment = async ({ product, successFn, failFn, errorFn }) => {
   try {
-    const header = { headers: { "Content-Type": "multipart/form-data" } };
-    const res = await jwtAxios.post(`${path}/comment`, product, header);
+    const res = await jwtAxios.post(`${path}/comment`, product);
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
       successFn(res.data);
     } else {
-      failFn("글 등록 오류");
+      failFn("댓글 등록에 실패하였습니다. 다시 시도해주세요.");
     }
   } catch (error) {
     const res = error.response.data;

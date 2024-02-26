@@ -277,7 +277,7 @@ const TeacherCreate = () => {
 
           {/* 선생님 소개 */}
           <TeacherMemo>
-            <p>선생님 메모</p>
+            <p>선생님 소개</p>
             <TeacherMemoForm>
               <Form.Item name="teacherIntroduce">
                 <TextArea placeholder="선생님 소개" />

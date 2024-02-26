@@ -10,7 +10,11 @@ const SideBar = () => {
   const sideMenuRef = useRef(null);
   useEffect(() => {
     const handleOutsideClose = e => {
-      if (!collapsed && !sideMenuRef.current.contains(e.target))
+      if (
+        window.innerWidth <= 798 &&
+        !collapsed &&
+        !sideMenuRef.current.contains(e.target)
+      )
         setCollapsed(true);
     };
     document.addEventListener("click", handleOutsideClose);

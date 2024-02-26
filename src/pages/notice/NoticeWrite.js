@@ -79,7 +79,7 @@ const NoticeWrite = () => {
       ],
       { type: "application/json" },
     );
-
+    console.log("dto확인", dto);
     formData.append("dto", dto);
 
     fileList.forEach(file => {

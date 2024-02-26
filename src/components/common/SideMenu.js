@@ -8,7 +8,7 @@ const SideMenu = () => {
     useCustomLogin();
   const currentYear = new Date().getFullYear();
   const ikidList = loginState.kidList;
-  const iclass = loginState.iclass;
+  const iclass = isLogin && !isTeacherLogin ? 0 : loginState.iclass;
   function getItem(label, key, icon, children, type) {
     return {
       key,
@@ -18,6 +18,24 @@ const SideMenu = () => {
       type,
     };
   }
+
+  const teacherItems = [
+    getItem(
+      <Link to={`/admin?page=1&iclass=${iclass}`}>학부모 관리</Link>,
+      "5-1",
+    ),
+    getItem(
+      <Link to={`/admin/student?page=1&kidCheck=${iclass}`}>원생 관리</Link>,
+      "5-2",
+    ),
+    getItem(<Link to="/admin/student/create">원생 등록</Link>, "5-3"),
+    getItem(
+      <Link to={`/ind?year=${currentYear}&page=1&iclass=${iclass}`}>
+        알림장 목록
+      </Link>,
+      "5-4",
+    ),
+  ];
   const items = [
     getItem(
       "유치원 안내",
@@ -40,6 +58,7 @@ const SideMenu = () => {
       [
         getItem(<Link to="/edu">교육과정</Link>, "2-1"),
         getItem(<Link to="/edu/specialact">방과후활동</Link>, "2-2"),
+        getItem(<Link to="/edu/hospital?page=1">예방접종기관정보</Link>, "2-3"),
       ],
     ),
     getItem(
@@ -67,27 +86,14 @@ const SideMenu = () => {
         <img
           src={process.env.PUBLIC_URL + "/images/common/sidebar/manager.svg"}
         />,
-        [
+        teacherItems.concat([
           getItem(
-            <Link to={`/admin?page=1&iclass=0`}>학부모 관리</Link>,
-            "5-1",
-          ),
-          getItem(
-            <Link to={`/admin/student?page=1&kidCheck=0`}>원생 관리</Link>,
-            "5-2",
-          ),
-          getItem(<Link to="/admin/student/create">원생 등록</Link>, "5-3"),
-          getItem(
-            <Link to={`/ind?year=${currentYear}&page=1&iclass=0`}>
-              알림장 목록
+            <Link to={`/admin/teacher?page=1&iclass=${iclass}&tcIsDel=0`}>
+              선생님 관리
             </Link>,
-            "5-4",
-          ),
-          getItem(
-            <Link to="/admin/teacher?iclass=0&page=1">선생님 관리</Link>,
             "5-5",
           ),
-        ],
+        ]),
       ),
     );
   }
@@ -99,25 +105,7 @@ const SideMenu = () => {
         <img
           src={process.env.PUBLIC_URL + "/images/common/sidebar/manager.svg"}
         />,
-        [
-          getItem(
-            <Link to={`/admin?page=1&iclass=${iclass}`}>학부모 관리</Link>,
-            "5-1",
-          ),
-          getItem(
-            <Link to={`/admin/student?page=1&kidCheck=${iclass}`}>
-              원생 관리
-            </Link>,
-            "5-2",
-          ),
-          getItem(<Link to="/admin/student/create">원생 등록</Link>, "5-3"),
-          getItem(
-            <Link to={`/ind?year=${currentYear}&page=1&iclass=${iclass}`}>
-              알림장 목록
-            </Link>,
-            "5-4",
-          ),
-        ],
+        teacherItems,
       ),
     );
   }

@@ -5,6 +5,7 @@ import Loading from "../components/loading/Loading";
 // 교육 영역
 const Edu = lazy(() => import("../pages/education/Edu"));
 const SpecialAct = lazy(() => import("../pages/education/SpecialAct"));
+const Hospital = lazy(() => import("../pages/education/Hospital"));
 
 const eduRouter = () => {
   return [
@@ -21,6 +22,14 @@ const eduRouter = () => {
       element: (
         <Suspense fallback={<Loading />}>
           <SpecialAct />
+        </Suspense>
+      ),
+    },
+    {
+      path: "hospital",
+      element: (
+        <Suspense fallback={<Loading />}>
+          <Hospital />
         </Suspense>
       ),
     },

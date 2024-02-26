@@ -19,8 +19,13 @@ import { Button, Input, Upload, Form, Select, message } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import TextArea from "antd/es/input/TextArea";
 import { GreenBtn, OrangeBtn, PinkBtn } from "../../../styles/ui/buttons";
-import { useSearchParams } from "react-router-dom";
-import { getTeacherInfo } from "../../../api/adminPage/admin_api";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import {
+  getTeacherInfo,
+  putTeacherInfo,
+} from "../../../api/adminPage/admin_api";
+import ModalTwoBtn from "../../../components/ui/ModalTwoBtn";
+import ModalOneBtn from "../../../components/ui/ModalOneBtn";
 
 const initDto = {
   iteacher: 0,
@@ -37,10 +42,18 @@ const initDto = {
 
 const TeacherModify = () => {
   const [passwordEdit, setPasswordEdit] = useState(false);
-  const [newPassword, setNewPassword] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(true);
   const [fileList, setFileList] = useState([]);
   const [serchParams, setSearchParams] = useSearchParams();
   const [form] = Form.useForm();
+  const navigate = useNavigate();
+
+  // 모달창
+  const [title, setTitle] = useState("");
+  const [subTitle, setSubTitle] = useState("");
+  const [isNavigate, setIsNavigate] = useState();
+  const [isCancelOpen, setIsCancelOpen] = useState(false);
+  const [isResultOpen, setIsResultOpen] = useState(false);
 
   // 선생님 정보 값
   const [dto, setDto] = useState(initDto);
@@ -51,14 +64,35 @@ const TeacherModify = () => {
     setPasswordEdit(true);
   };
 
+  // 글 작성 취소버튼
+  const handleCancelClick = () => {
+    setIsCancelOpen(true);
+    setTitle("정말 취소할까요?");
+    setSubTitle("작성된 내용은 저장되지 않습니다.");
+    setIsNavigate("/admin/teacher?iclass=0&page=1");
+  };
+
+  // 모달창 확인버튼
+  const handleResultOk = () => {
+    setIsResultOpen(false);
+    if (isNavigate) {
+      navigate(isNavigate);
+    }
+  };
+
+  // 모달창 취소
+  const handleResultCancel = () => {
+    setIsCancelOpen(false);
+    setIsResultOpen(false);
+  };
+
   // 선생님 기존 정보 GET
   useEffect(() => {
     getTeacherInfo({ iteacher, successGetFn, failGetFn, errorGetFn });
     form.setFieldsValue();
   }, []);
-  console.log("아이티쳐", iteacher);
+  // console.log("아이티쳐", iteacher);
   const successGetFn = res => {
-    // console.log(res);
     const newData = Object.keys(res).reduce((acc, key) => {
       if (key !== "profile") {
         acc[key] = res[key];
@@ -104,7 +138,6 @@ const TeacherModify = () => {
 
     imageUrlToFile(imageUrl);
   };
-
   // 프로필 업로드
   const props = {
     onRemove: file => {
@@ -130,12 +163,69 @@ const TeacherModify = () => {
   const errorGetFn = res => {
     // console.log(res);
   };
+
+  // 수정 클릭
+  const onFinish = value => {
+    const iclassValue = value.iclass && parseInt(value.iclass["value"]);
+    const tcRoleValue = value.tcRole;
+    const newTeacherUpwValue = value.newTeacherUpw
+      ? value.newTeacherUpw
+      : dto.teacherUpw;
+    const values = {
+      ...value,
+      iclass: iclassValue,
+      tcRole: tcRoleValue,
+      teacherUpw: newTeacherUpwValue,
+      iteacher: parseInt(iteacher),
+    };
+    setDto(values);
+    console.log("뉴 비밀번호", value.newTeacherUpw);
+    console.log("기존 비밀번호", dto.teacherUpw);
+    console.log("비밀번호", newTeacherUpwValue);
+    let formData = new FormData();
+    formData.append("pic", fileList[0]);
+    formData.append(
+      "dto",
+      new Blob([JSON.stringify(values)], { type: "application/json" }),
+    );
+
+    putTeacherInfo({ successFn, errorFn, teacher: formData });
+  };
+  // console.log("수정내용", dto);
+
+  const successFn = res => {
+    setIsResultOpen(true);
+    setTitle("수정 완료");
+    setSubTitle("성공적으로 등록되었습니다.");
+    setIsNavigate(`/admin/teacher?iclass=0&page=1`);
+  };
+  const errorFn = res => {
+    setIsResultOpen(true);
+    setTitle("수정 실패");
+    setSubTitle(`수정에 실패했습니다. \n다시 시도해주세요.`);
+  };
+
   return (
     <>
+      {/* 안내창 */}
+      <ModalOneBtn
+        isOpen={isResultOpen}
+        handleOk={handleResultOk}
+        title={title}
+        subTitle={subTitle}
+      />
+      {/* 작성취소 */}
+      <ModalTwoBtn
+        isOpen={isCancelOpen}
+        handleOk={handleResultOk}
+        handleCancel={handleResultCancel}
+        title={title}
+        subTitle={subTitle}
+      />
       <TeacherFormTop>
         <PageTitle>선생님 정보 수정</PageTitle>
       </TeacherFormTop>
-      <Form form={form} name="teacheredit">
+      <Form form={form} onFinish={onFinish} name="teacheredit">
         <TeacherFormWrap>
           {/* 계정정보 */}
           <TeacherIdInfo>
@@ -156,21 +246,6 @@ const TeacherModify = () => {
                 >
                   <Input disabled />
                 </Form.Item>
-                <Form.Item
-                  name="teacherUpw"
-                  style={{
-                    width: "33%",
-                    display: "none",
-                  }}
-                  rules={[
-                    {
-                      required: true,
-                      message: "비밀번호를 입력해주세요.",
-                    },
-                  ]}
-                >
-                  <Input placeholder="기존 비밀번호" />
-                </Form.Item>
                 <OrangeBtn type="button" onClick={handleEdit}>
                   비밀번호 수정
                 </OrangeBtn>
@@ -182,20 +257,20 @@ const TeacherModify = () => {
                     width: "33%",
                     display: passwordEdit ? "block" : "none",
                   }}
-                  dependencies={["teacherUpw"]}
+                  // dependencies={["teacherUpw"]}
                   hasFeedback
                   rules={[
                     {
-                      required: true,
+                      required: false,
                       message: "기존 비밀번호를 입력해주세요.",
                     },
                     ({ getFieldValue }) => ({
                       validator(_, value) {
-                        if (!value || getFieldValue("teacherUpw") === value) {
-                          setNewPassword(true);
+                        if (!value || dto.teacherUpw === value) {
+                          setIsDisabled(false);
                           return Promise.resolve();
                         }
-                        setNewPassword(false);
+                        setIsDisabled(true);
                         return Promise.reject(
                           new Error(
                             "기존 비밀번호와 일치하지 않습니다. 다시 작성해주세요.",
@@ -207,22 +282,25 @@ const TeacherModify = () => {
                 >
                   <Input placeholder="기존 비밀번호 입력" />
                 </Form.Item>
-                {newPassword && (
-                  <Form.Item
-                    name="newTeacherUpw"
-                    style={{
-                      width: "33%",
-                    }}
-                    rules={[
-                      {
-                        required: true,
-                        message: "비밀번호를 입력해주세요.",
-                      },
-                    ]}
-                  >
-                    <Input placeholder="새로운 비밀번호 입력" />
-                  </Form.Item>
-                )}
+
+                <Form.Item
+                  name="newTeacherUpw"
+                  style={{
+                    width: "33%",
+                    display: passwordEdit ? "block" : "none",
+                  }}
+                  rules={[
+                    {
+                      required: false,
+                      message: "비밀번호를 입력해주세요.",
+                    },
+                  ]}
+                >
+                  <Input
+                    placeholder="새로운 비밀번호 입력"
+                    disabled={isDisabled}
+                  />
+                </Form.Item>
               </NewPasswordEdit>
             </TeacherIdForm>
           </TeacherIdInfo>
@@ -270,6 +348,34 @@ const TeacherModify = () => {
           <TeacherClassInfo>
             <p>재직 정보</p>
             <TeacherClassForm>
+              <Form.Item
+                name="tcRole"
+                style={{
+                  width: "33%",
+                }}
+                rules={[
+                  {
+                    required: true,
+                    message: "직급을 선택해주세요.",
+                  },
+                ]}
+              >
+                <Select
+                  labelInValue
+                  defaultValue={{
+                    value: "",
+                    label: (
+                      <span style={{ color: " rgba(0, 0, 0, 0.25) " }}>
+                        직급 선택
+                      </span>
+                    ),
+                  }}
+                >
+                  <Select.Option value="ADMIN">원장</Select.Option>
+                  <Select.Option value="TEACHER">선생님</Select.Option>
+                </Select>
+              </Form.Item>
+
               <Form.Item
                 name="iclass"
                 style={{
@@ -321,7 +427,7 @@ const TeacherModify = () => {
 
           {/* 선생님 소개 */}
           <TeacherMemo>
-            <p>선생님 메모</p>
+            <p>선생님 소개</p>
             <TeacherMemoForm>
               <Form.Item name="teacherIntroduce">
                 <TextArea placeholder="선생님 소개" />
@@ -331,7 +437,9 @@ const TeacherModify = () => {
         </TeacherFormWrap>
         <TBottomBt>
           <GreenBtn>수정</GreenBtn>
-          <PinkBtn>취소</PinkBtn>
+          <PinkBtn type="button" onClick={handleCancelClick}>
+            취소
+          </PinkBtn>
         </TBottomBt>
       </Form>
     </>

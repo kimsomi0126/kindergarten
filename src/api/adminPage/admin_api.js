@@ -318,11 +318,14 @@ export const getTeacherList = async ({
   successFn,
   failFn,
   errorFn,
-  iclass,
   page,
+  iclass,
+  tcIsDel,
 }) => {
   try {
-    const res = await jwtAxios.get(`${path}?iclass=${iclass}&page=${page}`);
+    const res = await jwtAxios.get(
+      `${path}?page=${page}&iclass=${iclass}&tcIsDel=${tcIsDel}`,
+    );
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
       console.log("res.data임 : ", res.data);
@@ -380,7 +383,7 @@ export const patchTeacher = async ({
   }
 };
 
-// 선생님 정보 수정 GET
+// 선생님 정보 수정 전 불러오기 GET
 export const getTeacherInfo = async ({
   successGetFn,
   failGetFn,
@@ -398,5 +401,26 @@ export const getTeacherInfo = async ({
     }
   } catch (error) {
     errorGetFn("서버가 불안정합니다.다시 시도해주세요.");
+  }
+};
+// 선생님 정보 수정 PUT
+export const putTeacherInfo = async ({
+  successFn,
+  failFn,
+  errorFn,
+  teacher,
+}) => {
+  try {
+    const header = { headers: { "Content-Type": "multipart/form-data" } };
+    const res = await jwtAxios.put(`${path}`, teacher, header);
+    const status = res.status.toString();
+    if (status.charAt(0) === "2") {
+      successFn(res.data);
+    } else {
+      failFn(res.data);
+    }
+  } catch (error) {
+    const res = error.response.data;
+    errorFn(res.message);
   }
 };

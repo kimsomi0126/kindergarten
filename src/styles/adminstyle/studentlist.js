@@ -83,6 +83,7 @@ export const StudentListBox = styled.div`
   ${mq.mobileBig} {
     flex-wrap: wrap;
     flex-direction: column;
+    align-items: center;
   }
 `;
 export const StudentImg = styled.div`

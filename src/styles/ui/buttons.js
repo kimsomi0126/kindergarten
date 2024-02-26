@@ -142,7 +142,9 @@ export const AllBtn = styled.button`
   word-break: break-all;
   line-height: 1;
   ${mq.mobileBig} {
-    top: 15rem;
+    top: 0.5rem;
+    padding: 0.5rem;
+    height: 6rem;
   }
 `;
 

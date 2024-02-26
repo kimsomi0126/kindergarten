@@ -11,27 +11,45 @@ import {
 import { FileListStyle } from "../../styles/album/album";
 import { PageTitle } from "../../styles/basic";
 import { GreenBtn, PinkBtn } from "../../styles/ui/buttons";
+import ModalOneBtn from "../ui/ModalOneBtn";
 
 const path = `${SERVER_URL}/api/notice`;
 
 const IndWriteComponent = () => {
-  const [serchParams, setSearchParams] = useSearchParams();
-  const ikid = serchParams.get("ikid");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const ikid = searchParams.get("ikid");
   const [form] = Form.useForm();
   const [fileList, setFileList] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [treeData, setTreeData] = useState([]);
   const navigate = useNavigate();
   const [noticeCheck, setNoticeCheck] = useState([]);
+  const [selectedKids, setSelectedKids] = useState([]);
+  const [showExceedLimitModal, setShowExceedLimitModal] = useState(false); // 파일 제한 초과 경고 모달 상태
 
   useEffect(() => {
     fetchChildrenList();
   }, []);
 
+  const beforeUpload = (file, fileList) => {
+    const totalFiles =
+      fileList.length + fileList.filter(f => f.status === "done").length;
+    if (totalFiles > 5) {
+      setShowExceedLimitModal(true); // 경고 모달 표시
+      return Upload.LIST_IGNORE; // 파일 업로드 중단
+    }
+    return true; // 파일 추가를 계속 진행
+  };
+
+  const handleExceedLimitModalOk = e => {
+    setShowExceedLimitModal(false); // 경고 모달 닫기
+    e.stopPropagation(); // 이벤트가 상위 엘리먼트에 전달되지 않게 막기
+  };
+
   const fetchChildrenList = async () => {
     try {
       const response = await getIndchildrenList({
-        product: {}, // 필요한 경우에는 요청에 필요한 데이터를 여기에 전달하세요
+        product: {},
         successFn: handleChildrenListSuccess,
         failFn: handleChildrenListFail,
         errorFn: handleChildrenListError,
@@ -75,12 +93,10 @@ const IndWriteComponent = () => {
 
   const handleChildrenListFail = errorMessage => {
     console.error("Failed to fetch children list:", errorMessage);
-    // 실패했을 때 적절한 처리를 수행하세요
   };
 
   const handleChildrenListError = error => {
     console.error("Error while fetching children list:", error);
-    // 에러가 발생했을 때 적절한 처리를 수행하세요
   };
 
   const formRef = useRef();
@@ -90,8 +106,18 @@ const IndWriteComponent = () => {
   };
 
   const handleChange = info => {
-    let fileList = [...info.fileList].filter(file => !!file.status);
-    setFileList(fileList);
+    let newFileList = [...info.fileList].filter(file => !!file.status);
+    if (newFileList.length > 5) {
+      // 파일 리스트의 길이가 5개를 초과할 경우 모달 창을 띄움
+      setIsModalVisible(true);
+      // 5개를 초과한 파일은 제외하고 설정
+      newFileList = newFileList.slice(-5);
+    }
+    setFileList(newFileList);
+  };
+
+  const handleModalOk = () => {
+    setIsModalVisible(false);
   };
 
   const customRequest = ({ onSuccess }) => {
@@ -100,21 +126,23 @@ const IndWriteComponent = () => {
 
   const onFinish = async data => {
     const formData = new FormData();
-    const dto = new Blob(
-      [
-        JSON.stringify({
-          ikid: ikid,
-          noticeTitle: data.noticeTitle,
-          noticeContents: data.noticeContents,
-          noticeCheck: noticeCheck ? 1 : 0,
-        }),
-      ],
-      { type: "application/json" },
-    );
-    formData.append("dto", dto);
+
+    // 파일 데이터 추가
     fileList.forEach(file => {
       formData.append("pics", file.originFileObj);
     });
+
+    // JSON 데이터 추가
+    const dto = {
+      ikids: selectedKids, // ikids 필드 추가
+      noticeTitle: data.noticeTitle,
+      noticeContents: data.noticeContents,
+      noticeCheck: noticeCheck ? 1 : 0,
+    };
+    formData.append(
+      "dto",
+      new Blob([JSON.stringify(dto)], { type: "application/json" }),
+    );
 
     postIndNotice({
       product: formData,
@@ -188,7 +216,10 @@ const IndWriteComponent = () => {
             placeholder="유치원생 선택"
             treeCheckable={true}
             showCheckedStrategy={TreeSelect.SHOW_PARENT}
-            onChange={value => console.log(value)}
+            onChange={value => {
+              console.log("벨류 확인", value);
+              setSelectedKids(value);
+            }}
           />
         </div>
         <Checkbox onChange={onChange} style={{ marginBottom: 10 }}>
@@ -232,6 +263,7 @@ const IndWriteComponent = () => {
               customRequest={customRequest}
               className="upload-list-inline"
               multiple={true}
+              beforeUpload={beforeUpload}
             >
               <Button icon={<UploadOutlined />}>업로드</Button>
             </Upload.Dragger>
@@ -257,7 +289,7 @@ const IndWriteComponent = () => {
       <Link to="/ind?year=2024&page=1&iclass=0">
         <Modal
           title="등록 완료"
-          visible={isModalVisible}
+          open={isModalVisible}
           onOk={handleCancelOk}
           onCancel={() => setIsModalVisible(false)}
           okText="확인"
@@ -266,6 +298,15 @@ const IndWriteComponent = () => {
         >
           <p>성공적으로 등록되었습니다.</p>
         </Modal>
+        {/* 파일 제한 초과 경고 모달 */}
+        {showExceedLimitModal && (
+          <ModalOneBtn
+            isOpen={showExceedLimitModal}
+            handleOk={handleExceedLimitModalOk}
+            title="업로드 제한 초과"
+            subTitle="업로드할 수 있는 파일 수는 최대 5개입니다."
+          />
+        )}
       </Link>
     </div>
   );

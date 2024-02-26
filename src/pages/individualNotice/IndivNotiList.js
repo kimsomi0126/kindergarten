@@ -56,7 +56,8 @@ const IndivNotiList = () => {
   const searchValue = serchParams.get("searchValue") || "";
 
   // 로그인 회원 정보에서 아이 리스트 추출
-  const { loginState, isLogin, isParentLogin } = useCustomLogin();
+  const { loginState, isLogin, isParentLogin, isTeacherLogin, isAdminLogin } =
+    useCustomLogin();
   const ikidList = loginState.kidList;
 
   // 페이지네이션
@@ -108,15 +109,23 @@ const IndivNotiList = () => {
       });
     } else if (isLogin) {
       // 선생님 로그인
-      getIndTeacherList({
-        page,
-        year,
-        iclass,
-        fromTo,
-        search: searchValue,
-        errorFn,
-        successFn,
-      });
+      if ((isTeacherLogin && iclass == loginState.iclass) || isAdminLogin) {
+        getIndTeacherList({
+          page,
+          year,
+          iclass,
+          fromTo,
+          search: searchValue,
+          errorFn,
+          successFn,
+        });
+      } else {
+        setTitle("접근 제한");
+        setSubTitle("담당한 반 알림장만 열람 가능합니다.");
+        setIsNavigate(-1);
+        setIsOpen(true);
+        return;
+      }
     } else {
       // 로그인 안했을때
       setIsOpen(true);
@@ -230,14 +239,14 @@ const IndivNotiList = () => {
             value={"teacher"}
             className="teacher"
           >
-            선생님이 쓴 글
+            {isLogin ? "내가 쓴" : "내가 받은"} 글
           </button>
           <button
             onClick={e => handleFromTo(e)}
             value={"parent"}
             className="parent"
           >
-            {isLogin ? "학부모님이" : "내가"} 쓴 글
+            {isLogin ? "내가 받은" : "내가 쓴"} 글
           </button>
           {fromTo != 3 ? (
             <button onClick={e => handleFromTo(e)} value={"all"}>

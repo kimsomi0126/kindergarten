@@ -56,8 +56,8 @@ const SideMenu = () => {
         src={process.env.PUBLIC_URL + "/images/common/sidebar/education.svg"}
       />,
       [
-        getItem(<Link to="/edu">교육과정</Link>, "2-1"),
-        getItem(<Link to="/edu/specialact">방과후활동</Link>, "2-2"),
+        // getItem(<Link to="/edu">교육과정</Link>, "2-1"),
+        // getItem(<Link to="/edu/specialact">방과후활동</Link>, "2-2"),
         getItem(<Link to="/edu/hospital?page=1">예방접종기관정보</Link>, "2-3"),
       ],
     ),

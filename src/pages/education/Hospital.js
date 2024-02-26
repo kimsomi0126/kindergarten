@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
+  EmptyTxt,
   HospitalInfo,
   HospitalItem,
   HospitalList,
@@ -42,10 +43,9 @@ const Hospital = () => {
   const [isShowMap, setIsShowMap] = useState(false);
   // params 체크
   const [searchParams, setSearchParams] = useSearchParams();
-  const page = searchParams.get("page");
+  const page = searchParams.get("page") || 1;
   const size = 12;
   const sigunNm = searchParams.get("sigunNm") || "";
-
   // 모달창 내용
   const [title, setTitle] = useState("");
   const [subTitle, setSubTitle] = useState("");
@@ -54,7 +54,8 @@ const Hospital = () => {
 
   // 지역검색
   const handleSearch = value => {
-    setSearchParams({ page: 1, sigunNm: value });
+    // setSearchParams({ page: 1, sigunNm: value });
+    navigate(`/edu/hospital?page=1&sigunNm=${value}`);
   };
   // 페이지네이션
   const handlePageChange = page => {
@@ -70,12 +71,17 @@ const Hospital = () => {
       successFn,
       errorFn,
     });
-  }, [page, sigunNm]);
+  }, [page, size, sigunNm]);
 
   // 정보 가져오기 결과
   const successFn = res => {
-    setSpotData(res.dataList);
-    setTotalCnt(res.totalData);
+    if (res.length === 0) {
+      setSpotData(initData);
+      setTotalCnt(0);
+    } else {
+      setSpotData(res.dataList);
+      setTotalCnt(res.totalData);
+    }
   };
   const errorFn = res => {
     console.log(res);
@@ -119,7 +125,10 @@ const Hospital = () => {
           경기도 내의 지역명을 검색하여, <br />
           질병관리본부에서 제공하는
           <b> 어린이 국가 예방접종지정 의료기관 현황</b>을 알아보세요. <br />
-          <small>목록을 클릭하면 지도로 위치를 확인할 수 있습니다.</small>
+          <small>
+            지역별로 최대 200개까지 노출되며, 목록을 클릭하면 지도로 위치를
+            확인할 수 있습니다.
+          </small>
         </p>
         <Search
           placeholder="지역명을 입력해주세요. 예) 의정부시"
@@ -140,7 +149,10 @@ const Hospital = () => {
             <li className="telNo">전화번호</li>
           </ul>
         </HospitalTitle>
-        {Array.isArray(spotData) &&
+        {spotData[0].facltNm === "" ? (
+          <EmptyTxt>검색결과가 없습니다.</EmptyTxt>
+        ) : (
+          Array.isArray(spotData) &&
           spotData.map((item, index) => (
             <HospitalItem key={index}>
               <HospitalInfo onClick={() => handleMapInfoClick(index)}>
@@ -183,7 +195,52 @@ const Hospital = () => {
                 </HospitalMap>
               )}
             </HospitalItem>
-          ))}
+          ))
+        )}
+        {/* {Array.isArray(spotData) &&
+          spotData.map((item, index) => (
+            <HospitalItem key={index}>
+              <HospitalInfo onClick={() => handleMapInfoClick(index)}>
+                <ul
+                  className={
+                    selectedMapIndex === index && isShowMap ? "active" : ""
+                  }
+                >
+                  <li className="sigunNm mo">{item.sigunNm}</li>
+                  <li className="facltNm">{item.facltNm}</li>
+                  <li className="address">{item.refineLotNoAddr}</li>
+                  <li className="telNo">
+                    <Link to={`tel:${item.telNo}`}>{item.telNo}</Link>
+                  </li>
+                </ul>
+              </HospitalInfo>
+              {selectedMapIndex === index && isShowMap && (
+                <HospitalMap>
+                  <Map
+                    center={{
+                      lat: item.refineWgs84Lat,
+                      lng: item.refineWgs84Logt,
+                    }}
+                    level={4}
+                    className="kakao-map"
+                  >
+                    <MapMarker
+                      position={{
+                        lat: item.refineWgs84Lat,
+                        lng: item.refineWgs84Logt,
+                      }}
+                      clickable={true}
+                      onClick={() => {
+                        window.open(
+                          `https://map.kakao.com/link/map/${item.facltNm},${item.refineWgs84Lat},${item.refineWgs84Logt}`,
+                        );
+                      }}
+                    />
+                  </Map>
+                </HospitalMap>
+              )}
+            </HospitalItem>
+          ))} */}
       </HospitalList>
       <PageNum>
         <Pagination

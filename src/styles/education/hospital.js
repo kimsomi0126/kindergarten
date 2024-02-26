@@ -83,3 +83,9 @@ export const HospitalMap = styled.div`
     overflow: hidden;
   }
 `;
+
+export const EmptyTxt = styled.div`
+  font-size: 1.6rem;
+  margin-top: 2rem;
+  text-align: center;
+`;

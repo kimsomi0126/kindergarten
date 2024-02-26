@@ -4,6 +4,7 @@ import {
   GrayBtn,
   GreenBtn,
   OrangeBtn,
+  PinkBtn,
   PurpleBtn,
 } from "../../styles/ui/buttons";
 import { Link, useNavigate } from "react-router-dom";
@@ -18,6 +19,7 @@ const NavBar = () => {
   const currentYear = new Date().getFullYear();
   const ikidList = loginState.kidList;
   const iclass = isLogin && !isTeacherLogin ? 0 : loginState.iclass;
+  const iteacher = loginState.iteacher;
   const handleLogout = () => {
     doLogout();
     moveToPath("/");
@@ -63,6 +65,16 @@ const NavBar = () => {
             >
               원생관리
             </OrangeBtn>
+            {isTeacherLogin ? (
+              <PinkBtn
+                className="nav-btn"
+                onClick={e =>
+                  navigate(`/admin/teacher/edit?iteacher=${iteacher}`)
+                }
+              >
+                정보수정
+              </PinkBtn>
+            ) : null}
             <GreenBtn
               onClick={() => {
                 handleLogout();

@@ -42,7 +42,7 @@ const initDto = {
 
 const TeacherModify = () => {
   const [passwordEdit, setPasswordEdit] = useState(false);
-  const [newPassword, setNewPassword] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(true);
   const [fileList, setFileList] = useState([]);
   const [serchParams, setSearchParams] = useSearchParams();
   const [form] = Form.useForm();
@@ -267,10 +267,10 @@ const TeacherModify = () => {
                     ({ getFieldValue }) => ({
                       validator(_, value) {
                         if (!value || dto.teacherUpw === value) {
-                          setNewPassword(true);
+                          setIsDisabled(false);
                           return Promise.resolve();
                         }
-                        setNewPassword(false);
+                        setIsDisabled(true);
                         return Promise.reject(
                           new Error(
                             "기존 비밀번호와 일치하지 않습니다. 다시 작성해주세요.",
@@ -296,7 +296,10 @@ const TeacherModify = () => {
                     },
                   ]}
                 >
-                  <Input placeholder="새로운 비밀번호 입력" />
+                  <Input
+                    placeholder="새로운 비밀번호 입력"
+                    disabled={isDisabled}
+                  />
                 </Form.Item>
               </NewPasswordEdit>
             </TeacherIdForm>
@@ -372,6 +375,7 @@ const TeacherModify = () => {
                   <Select.Option value="TEACHER">선생님</Select.Option>
                 </Select>
               </Form.Item>
+
               <Form.Item
                 name="iclass"
                 style={{
@@ -423,7 +427,7 @@ const TeacherModify = () => {
 
           {/* 선생님 소개 */}
           <TeacherMemo>
-            <p>선생님 메모</p>
+            <p>선생님 소개</p>
             <TeacherMemoForm>
               <Form.Item name="teacherIntroduce">
                 <TextArea placeholder="선생님 소개" />

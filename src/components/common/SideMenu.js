@@ -88,7 +88,7 @@ const SideMenu = () => {
         />,
         teacherItems.concat([
           getItem(
-            <Link to={`/admin/teacher?iclass=${iclass}&page=1`}>
+            <Link to={`/admin/teacher?page=1&iclass=${iclass}&tcIsDel=0`}>
               선생님 관리
             </Link>,
             "5-5",

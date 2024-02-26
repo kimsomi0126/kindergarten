@@ -318,11 +318,14 @@ export const getTeacherList = async ({
   successFn,
   failFn,
   errorFn,
-  iclass,
   page,
+  iclass,
+  tcIsDel,
 }) => {
   try {
-    const res = await jwtAxios.get(`${path}?iclass=${iclass}&page=${page}`);
+    const res = await jwtAxios.get(
+      `${path}?page=${page}&iclass=${iclass}&tcIsDel=${tcIsDel}`,
+    );
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
       console.log("res.data임 : ", res.data);

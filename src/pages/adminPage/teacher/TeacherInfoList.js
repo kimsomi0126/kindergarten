@@ -26,7 +26,6 @@ const initTeacherList = {
       teacherUid: "",
       tcIsDel: 0,
       tcEmail: "",
-      tcMemo: "",
       teacherProfile: "",
     },
   ],
@@ -37,6 +36,7 @@ const TeacherInfoList = () => {
   const page = serchParams.get("page");
   const iclass = serchParams.get("iclass");
   const iteacher = serchParams.get("iteacher");
+  const tcIsDel = serchParams.get("tcIsDel");
   const [changeState, setChangeState] = useState(0);
 
   // 체크 항목 상태 변경
@@ -81,12 +81,13 @@ const TeacherInfoList = () => {
       getTeacherList({
         successFn,
         errorFn,
-        iclass,
         page,
+        iclass,
+        tcIsDel,
         // search: "",
       });
     }
-  }, [iclass, page, checkedItems]);
+  }, [page, iclass, checkedItems]);
 
   const successFn = result => {
     setTeacherList(result);
@@ -176,7 +177,7 @@ const TeacherInfoList = () => {
       return {
         key: item.iclass.toString(),
         label: (
-          <Link to={`/admin/teacher?iclass=${item.iclass}&page=1`}>
+          <Link to={`/admin/teacher?page=1&iclass=${item.iclass}&tcIsDel=0`}>
             {item.classNm}
           </Link>
         ),
@@ -270,8 +271,9 @@ const TeacherInfoList = () => {
         </TeacherTopRight>
       </TeacherTop>
       <TeacherListComponent
-        iclass={iclass}
         page={page}
+        iclass={iclass}
+        tcIsDel={tcIsDel}
         iteacher={iteacher}
         teacherList={teacherList}
         oncheckedClick={oncheckedClick}

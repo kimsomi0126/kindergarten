@@ -25,15 +25,14 @@ const initTeacherList = {
       teacherUid: "",
       tcIsDel: 0,
       tcEmail: "",
-      tcMemo: "",
       teacherProfile: "",
     },
   ],
 };
 const TeacherListComponent = ({
-  iclass,
   page,
-
+  iclass,
+  tcIsDel,
   teacherList,
   oncheckedClick,
   checkedItems,
@@ -69,7 +68,9 @@ const TeacherListComponent = ({
   // 페이지네이션
   const handleChangePage = page => {
     // console.log(page);
-    navigate(`/admin/teacher?iclass=${iclass}&page=${page}`);
+    navigate(
+      `/admin/teacher?ipage=${page}&iclass=${iclass}&tcIsDel=${tcIsDel}`,
+    );
   };
   return (
     <>
@@ -163,7 +164,7 @@ const TeacherListComponent = ({
                       <dd>{item.tcEmail}</dd>
                     </dl>
                     <p>인사말</p>
-                    <span>{item.tcMemo}</span>
+                    <span>{item.teacherIntroduce}</span>
                   </InfoBox>
                 </ListBox>
               </TeacherListItem>

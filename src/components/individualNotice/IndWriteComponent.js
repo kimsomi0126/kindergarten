@@ -31,6 +31,10 @@ const IndWriteComponent = () => {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showCancelConfirmModal, setShowCancelConfirmModal] = useState(false);
 
+  // 모달 상태 관리
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showCancelConfirmModal, setShowCancelConfirmModal] = useState(false);
+
   useEffect(() => {
     fetchChildrenList();
   }, []);
@@ -144,6 +148,18 @@ const IndWriteComponent = () => {
   const onFinish = async data => {
     console.log("data", data);
     const formData = new FormData();
+    const dto = new Blob(
+      [
+        JSON.stringify({
+          ikids: ikid,
+          noticeTitle: data.noticeTitle,
+          noticeContents: data.noticeContents,
+          noticeCheck: noticeCheck ? 1 : 0,
+        }),
+      ],
+      { type: "application/json" },
+    );
+    formData.append("dto", dto);
 
     // 파일 데이터 추가
     fileList.forEach(file => {
@@ -303,24 +319,23 @@ const IndWriteComponent = () => {
 
       {/* 모달창 */}
       <Link to="/ind?year=2024&page=1&iclass=0">
-        <Modal
-          title="등록 완료"
-          open={isModalVisible}
-          onOk={handleCancelOk}
-          onCancel={() => setIsModalVisible(false)}
-          okText="확인"
-          cancelButtonProps={{ style: { display: "none" } }}
-          width={350}
-        >
-          <p>성공적으로 등록되었습니다.</p>
-        </Modal>
-        {/* 파일 제한 초과 경고 모달 */}
-        {showExceedLimitModal && (
+        {/* 등록 성공 모달 */}
+        {showSuccessModal && (
           <ModalOneBtn
-            isOpen={showExceedLimitModal}
-            handleOk={handleExceedLimitModalOk}
-            title="업로드 제한 초과"
-            subTitle="업로드할 수 있는 파일 수는 최대 5개입니다."
+            isOpen={showSuccessModal}
+            handleOk={handleSuccessModalOk}
+            title="등록 완료"
+            subTitle="성공적으로 등록되었습니다."
+          />
+        )}
+
+        {/* 취소 확인 모달 */}
+        {showCancelConfirmModal && (
+          <ModalOneBtn
+            isOpen={showCancelConfirmModal}
+            handleOk={handleCancelConfirmModalOk}
+            title="정말 취소할까요?"
+            subTitle="작성된 내용은 저장되지 않습니다."
           />
         )}
       </Link>

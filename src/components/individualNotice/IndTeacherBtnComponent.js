@@ -2,8 +2,10 @@ import { DownOutlined } from "@ant-design/icons";
 import { Button, Dropdown } from "antd";
 import React from "react";
 import { Link } from "react-router-dom";
+import useCustomLogin from "../../hooks/useCustomLogin";
 
 const IndTeacherBtnComponent = ({ iclass, year, ikid, page }) => {
+  const { isAdminLogin } = useCustomLogin();
   // 년도 선택
   const currentYear = new Date().getFullYear();
   const startYear = 2020;
@@ -48,20 +50,22 @@ const IndTeacherBtnComponent = ({ iclass, year, ikid, page }) => {
           <DownOutlined />
         </Button>
       </Dropdown>
-      <Dropdown menu={{ items }}>
-        <Button>
-          {iclass === "0"
-            ? "반 전체"
-            : iclass === "1"
-            ? "무궁화반"
-            : iclass === "2"
-            ? "해바라기반"
-            : iclass === "3"
-            ? "장미반"
-            : null}
-          <DownOutlined />
-        </Button>
-      </Dropdown>
+      {isAdminLogin ? (
+        <Dropdown menu={{ items }}>
+          <Button>
+            {iclass === "0"
+              ? "반 전체"
+              : iclass === "1"
+              ? "무궁화반"
+              : iclass === "2"
+              ? "해바라기반"
+              : iclass === "3"
+              ? "장미반"
+              : null}
+            <DownOutlined />
+          </Button>
+        </Dropdown>
+      ) : null}
     </>
   );
 };

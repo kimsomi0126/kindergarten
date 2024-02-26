@@ -11,6 +11,7 @@ import {
 import { FileListStyle } from "../../styles/album/album";
 import { PageTitle } from "../../styles/basic";
 import { GreenBtn, PinkBtn } from "../../styles/ui/buttons";
+import ModalOneBtn from "../ui/ModalOneBtn";
 
 const path = `${SERVER_URL}/api/notice`;
 
@@ -23,6 +24,10 @@ const IndWriteComponent = () => {
   const [treeData, setTreeData] = useState([]);
   const navigate = useNavigate();
   const [noticeCheck, setNoticeCheck] = useState([]);
+
+  // 모달 상태 관리
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showCancelConfirmModal, setShowCancelConfirmModal] = useState(false);
 
   useEffect(() => {
     fetchChildrenList();
@@ -98,12 +103,26 @@ const IndWriteComponent = () => {
     onSuccess("ok");
   };
 
+  const handleSuccessModalOk = () => {
+    setShowSuccessModal(false);
+  };
+
+  // 취소 확인 모달 핸들러
+  const handleCancelConfirmModalOk = () => {
+    setShowCancelConfirmModal(false);
+  };
+
+  const handleCancelConfirmation = () => {
+    setShowCancelConfirmModal(true); // 취소 확인 모달 표시
+  };
+
   const onFinish = async data => {
+    console.log("data", data);
     const formData = new FormData();
     const dto = new Blob(
       [
         JSON.stringify({
-          ikid: ikid,
+          ikids: ikid,
           noticeTitle: data.noticeTitle,
           noticeContents: data.noticeContents,
           noticeCheck: noticeCheck ? 1 : 0,
@@ -245,27 +264,33 @@ const IndWriteComponent = () => {
           }}
         >
           <GreenBtn onClick={handleGreenButtonClick}>등록</GreenBtn>
-          <PinkBtn
-            onClick={() => setIsModalVisible(true)}
-            style={{ marginLeft: 20 }}
-          >
+          <PinkBtn type="button" onClick={handleCancelConfirmation}>
             취소
           </PinkBtn>
         </div>
       </div>
 
+      {/* 모달창 */}
       <Link to="/ind?year=2024&page=1&iclass=0">
-        <Modal
-          title="등록 완료"
-          visible={isModalVisible}
-          onOk={handleCancelOk}
-          onCancel={() => setIsModalVisible(false)}
-          okText="확인"
-          cancelButtonProps={{ style: { display: "none" } }}
-          width={350}
-        >
-          <p>성공적으로 등록되었습니다.</p>
-        </Modal>
+        {/* 등록 성공 모달 */}
+        {showSuccessModal && (
+          <ModalOneBtn
+            isOpen={showSuccessModal}
+            handleOk={handleSuccessModalOk}
+            title="등록 완료"
+            subTitle="성공적으로 등록되었습니다."
+          />
+        )}
+
+        {/* 취소 확인 모달 */}
+        {showCancelConfirmModal && (
+          <ModalOneBtn
+            isOpen={showCancelConfirmModal}
+            handleOk={handleCancelConfirmModalOk}
+            title="정말 취소할까요?"
+            subTitle="작성된 내용은 저장되지 않습니다."
+          />
+        )}
       </Link>
     </div>
   );

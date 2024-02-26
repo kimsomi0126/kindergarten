@@ -24,6 +24,12 @@ const IndWriteComponent = () => {
   const [treeData, setTreeData] = useState([]);
   const navigate = useNavigate();
   const [noticeCheck, setNoticeCheck] = useState([]);
+  const [selectedKids, setSelectedKids] = useState([]);
+  const [showExceedLimitModal, setShowExceedLimitModal] = useState(false); // 파일 제한 초과 경고 모달 상태
+
+  // 모달 상태 관리
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showCancelConfirmModal, setShowCancelConfirmModal] = useState(false);
 
   useEffect(() => {
     fetchChildrenList();
@@ -138,18 +144,8 @@ const IndWriteComponent = () => {
   const onFinish = async data => {
     console.log("data", data);
     const formData = new FormData();
-    const dto = new Blob(
-      [
-        JSON.stringify({
-          ikid: ikid,
-          noticeTitle: data.noticeTitle,
-          noticeContents: data.noticeContents,
-          noticeCheck: noticeCheck ? 1 : 0,
-        }),
-      ],
-      { type: "application/json" },
-    );
-    formData.append("dto", dto);
+
+    // 파일 데이터 추가
     fileList.forEach(file => {
       formData.append("pics", file.originFileObj);
     });
@@ -309,7 +305,7 @@ const IndWriteComponent = () => {
       <Link to="/ind?year=2024&page=1&iclass=0">
         <Modal
           title="등록 완료"
-          visible={isModalVisible}
+          open={isModalVisible}
           onOk={handleCancelOk}
           onCancel={() => setIsModalVisible(false)}
           okText="확인"
@@ -318,6 +314,15 @@ const IndWriteComponent = () => {
         >
           <p>성공적으로 등록되었습니다.</p>
         </Modal>
+        {/* 파일 제한 초과 경고 모달 */}
+        {showExceedLimitModal && (
+          <ModalOneBtn
+            isOpen={showExceedLimitModal}
+            handleOk={handleExceedLimitModalOk}
+            title="업로드 제한 초과"
+            subTitle="업로드할 수 있는 파일 수는 최대 5개입니다."
+          />
+        )}
       </Link>
     </div>
   );

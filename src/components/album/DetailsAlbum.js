@@ -86,11 +86,14 @@ const DetailsAlbum = ({ pno, isLogin, loginState }) => {
   // 글 삭제
   const [delOpen, setDelOpen] = useState(false);
 
+  // 삭제 성공 상태 추가
+  const [deleteSuccess, setDeleteSuccess] = useState(false);
+
   // lightbox
   const [lightbox, setLightbox] = useState({ open: false, imgSrc: "" });
   const openLightbox = imgSrc => setLightbox({ open: true, imgSrc: imgSrc });
   const closeLightbox = () => setLightbox({ open: false, imgSrc: "" });
-
+  const [confirmAction, setConfirmAction] = useState(null);
   // 컴포넌트 마운트 시 데이터 불러오기
   // Lightbox 상태에 따라 Swiper 높이 조절
   // console.log("pno", pno);
@@ -122,20 +125,22 @@ const DetailsAlbum = ({ pno, isLogin, loginState }) => {
     setIsDeleteModalOpen(true);
   };
   const handleDelOk = () => {
-    // setIsDeleteModalOpen(false); // 삭제 확인 모달 닫기
-
     deleteAlbum({
       ialbum: pno,
       successFn: res => {
-        // 삭제 성공 시 처리
-        // console.log("Album deleted:", res);
+        setIsDeleteModalOpen(false); // 첫 번째 모달 닫기
         setIsDeleteSuccessModalOpen(true); // 삭제 성공 모달 열기
 
-        // 2초 후에 성공 모달을 닫고 앨범 목록 페이지로 이동
-        setTimeout(() => {
-          setIsDeleteSuccessModalOpen(false);
+        // 사용자가 '확인' 버튼을 누르지 않았을 경우, 1.5초 후에 페이지 이동
+        const timeoutId = setTimeout(() => {
           navigate("/album");
         }, 1500);
+
+        // '확인' 버튼 클릭 시 처리를 위한 함수 저장
+        setConfirmAction(() => () => {
+          clearTimeout(timeoutId); // setTimeout 취소
+          navigate("/album"); // 즉시 페이지 이동
+        });
       },
       failFn: error => {
         // 삭제 실패 시 처리
@@ -157,24 +162,38 @@ const DetailsAlbum = ({ pno, isLogin, loginState }) => {
 
   // 모달창 확인버튼
   const handleOk = () => {
+    setConfirmAction(() => () => {
+      clearTimeout(); // setTimeout 취소
+      navigate("/album"); // 즉시 페이지 이동
+    });
     setIsOpen(false);
     // 링크이동
     if (isNavigate) {
       navigate(isNavigate);
     }
   };
-  // 모달창 취소
-  const handleCancel = () => {
-    setDelOpen(false);
-  };
 
-  const handleDeleteCancel = () => {
-    setIsDeleteModalOpen(false);
-  };
+  // 비사용 모달 관련 함수 제거
+  // const handleDeleteSuccessOk = () => {
+  //   setIsDeleteSuccessModalOpen(false); // 두 번째 모달 닫기
+  //   if (confirmAction) {
+  //     confirmAction(); // 사용자 정의 '확인' 액션 실행
+  //   } else {
+  //     navigate("/album"); // 즉시 페이지 이동, confirmAction이 없으면 바로 이동
+  //   }
+  // };
+  // // 모달창 취소
+  // const handleCancel = () => {
+  //   setDelOpen(false);
+  // };
 
-  const handleDeleteSuccessOk = () => {
-    setIsDeleteSuccessModalOpen(false);
-  };
+  // const handleDeleteCancel = () => {
+  //   setIsDeleteModalOpen(false);
+  // };
+
+  // const handleDeleteSucccessOk = () => {
+  //   setIsDeleteSuccessModalOpen(false);
+  // };
 
   // 댓글등록
   const [form] = Form.useForm();
@@ -325,9 +344,9 @@ const DetailsAlbum = ({ pno, isLogin, loginState }) => {
           isOpen={isDeleteModalOpen}
           handleOk={handleDelOk}
           handleCancel={() => setIsDeleteModalOpen(false)}
-          title={"댓글 삭제"}
+          title={"앨범 삭제"}
           subTitle={
-            "삭제된 댓글은 복구할 수 없습니다. \n정말 삭제하시겠습니까?"
+            "삭제된 앨범은 복구할 수 없습니다. \n정말 삭제하시겠습니까?"
           }
         />
         {/* 댓글삭제 */}
@@ -379,30 +398,3 @@ const DetailsAlbum = ({ pno, isLogin, loginState }) => {
 };
 
 export default DetailsAlbum;
-
-{
-  /* 삭제 모달 */
-}
-// <Modal
-//   title="정말 삭제할까요?"
-//   open={isDeleteModalOpen}
-//   onOk={handleDeleteOk}
-//   onCancel={handleDeleteCancel}
-//   okText="확인"
-//   cancelText="취소"
-// >
-//   <p>삭제된 내용은 복구할 수 없습니다.</p>
-// </Modal>
-
-{
-  /* 삭제 성공 모달 */
-}
-// <Modal
-//   title="삭제 완료"
-//   open={isDeleteSuccessModalOpen}
-//   onOk={handleDeleteSuccessOk}
-//   cancelButtonProps={{ style: { display: "none" } }}
-//   okText="확인"
-// >
-//   <p>삭제가 완료되었습니다.</p>
-// </Modal>

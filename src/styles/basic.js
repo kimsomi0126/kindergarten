@@ -307,6 +307,12 @@ export const TitleDesc = styled.div`
     font-size: 400;
     color: ${colors.greenDeep};
   }
+  small {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 1.4rem;
+    color: ${colors.grayDeep};
+  }
   .ant-input-group-wrapper {
     margin: 0 auto;
     display: block;

@@ -1,5 +1,5 @@
 import React from "react";
-import ContentLayout from "../../layouts/common/ContentLayout";
+
 const Edu = () => {
   return (
     <div

@@ -46,7 +46,7 @@ const IndListComponent = ({ listData, year, ikid, iclass, page }) => {
           listData.map(item => (
             <IndListBox
               key={item.inotice}
-              className={item.noticeCheck ? "notice" : ""}
+              className={item.noticeCheck === 1 ? "notice" : ""}
             >
               <Link
                 to={
@@ -73,7 +73,7 @@ const IndListComponent = ({ listData, year, ikid, iclass, page }) => {
                     <b>{item.noticeTitle}</b>
                   </IndTitle>
                   <IndIcon>
-                    {item.picCheck === 0 ? (
+                    {item.picCheck === 1 ? (
                       <img
                         src={
                           process.env.PUBLIC_URL +
@@ -82,7 +82,7 @@ const IndListComponent = ({ listData, year, ikid, iclass, page }) => {
                         alt="file"
                       />
                     ) : null}
-                    {item.cmtCheck === 0 ? (
+                    {item.cmtCheck === 1 ? (
                       <img
                         src={
                           process.env.PUBLIC_URL +

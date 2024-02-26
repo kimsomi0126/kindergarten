@@ -6,8 +6,6 @@ import {
   HospitalMap,
   HospitalTitle,
   HospitalWrap,
-  MapInfoTr,
-  MapTr,
 } from "../../styles/education/hospital";
 import { FlexBox, TableWrap, TitleWrap } from "../../styles/user/mypage";
 import { PageTitle, TitleDesc } from "../../styles/basic";
@@ -17,6 +15,7 @@ import { Pagination } from "antd";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { getHospital } from "../../api/education/hospitalApi";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
+import ModalOneBtn from "../../components/ui/ModalOneBtn";
 
 const initData = [
   {
@@ -33,17 +32,25 @@ const initData = [
 ];
 
 const Hospital = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
+  // 데이터 state
   const [spotData, setSpotData] = useState(initData);
-  const [isShow, setIsShow] = useState(false);
+  // 전체 갯수
+  const [totalCnt, setTotalCnt] = useState(0);
+  // 지도 오픈 state
   const [selectedMapIndex, setSelectedMapIndex] = useState(null);
   const [isShowMap, setIsShowMap] = useState(false);
+  // params 체크
+  const [searchParams, setSearchParams] = useSearchParams();
   const page = searchParams.get("page");
   const size = 12;
   const sigunNm = searchParams.get("sigunNm") || "";
 
-  const test = spotData[0];
+  // 모달창 내용
+  const [title, setTitle] = useState("");
+  const [subTitle, setSubTitle] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+  const [isNavigate, setIsNavigate] = useState();
 
   // 지역검색
   const handleSearch = value => {
@@ -67,7 +74,8 @@ const Hospital = () => {
 
   // 정보 가져오기 결과
   const successFn = res => {
-    setSpotData(res);
+    setSpotData(res.dataList);
+    setTotalCnt(res.totalData);
   };
   const errorFn = res => {
     console.log(res);
@@ -83,12 +91,26 @@ const Hospital = () => {
       setIsShowMap(true);
     }
   };
-  console.log(spotData);
-  console.log(isShow);
-  console.log(selectedMapIndex);
+
+  // 모달창 관련
+  // 모달창 확인버튼
+  const handleOk = () => {
+    setIsOpen(false);
+    // 링크이동
+    if (isNavigate) {
+      navigate(isNavigate);
+    }
+  };
 
   return (
     <HospitalWrap>
+      {/* 안내창 */}
+      <ModalOneBtn
+        isOpen={isOpen}
+        handleOk={handleOk}
+        title={title}
+        subTitle={subTitle}
+      />
       <TitleWrap>
         <PageTitle>어린이 예방접종 지정의료기관</PageTitle>
       </TitleWrap>
@@ -139,21 +161,21 @@ const Hospital = () => {
                 <HospitalMap>
                   <Map
                     center={{
-                      lat: test.refineWgs84Lat,
-                      lng: test.refineWgs84Logt,
+                      lat: item.refineWgs84Lat,
+                      lng: item.refineWgs84Logt,
                     }}
                     level={4}
                     className="kakao-map"
                   >
                     <MapMarker
                       position={{
-                        lat: test.refineWgs84Lat,
-                        lng: test.refineWgs84Logt,
+                        lat: item.refineWgs84Lat,
+                        lng: item.refineWgs84Logt,
                       }}
                       clickable={true}
                       onClick={() => {
                         window.open(
-                          `https://map.kakao.com/link/map/${test.facltNm},${test.refineWgs84Lat},${test.refineWgs84Logt}`,
+                          `https://map.kakao.com/link/map/${item.facltNm},${item.refineWgs84Lat},${item.refineWgs84Logt}`,
                         );
                       }}
                     />
@@ -166,7 +188,7 @@ const Hospital = () => {
       <PageNum>
         <Pagination
           defaultCurrent={page}
-          total={50}
+          total={totalCnt}
           pageSize={size}
           onChange={handlePageChange}
         />

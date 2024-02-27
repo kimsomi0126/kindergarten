@@ -74,8 +74,27 @@ const useCustomLogin = () => {
       const newTokens = await refreshJWT(accessToken, refreshToken);
       // 새로운 액세스 토큰으로 기존 쿠키의 accessToken 값만 업데이트
       memberInfo.accessToken = newTokens.accessToken;
+
+      setCookie("member", newTokens, 1);
+      return newTokens;
+    } catch (error) {
+      // 리프레시 실패 처리
+      console.error("토큰 리프레시 실패:", error);
+      throw error; // 실패한 경우 예외를 다시 던져서 호출자가 처리할 수 있도록 함
+    }
+  };
+
+  // 파이어베이스 토큰 리프레시 및 업데이트
+  const refreshFbToken = async () => {
+    const memberInfo = getCookie("member");
+    const { firebaseToken, refreshFbToken } = memberInfo;
+
+    try {
+      const newTokens = await refreshJWT(firebaseToken, refreshFbToken);
+      // 새로운 액세스 토큰으로 기존 쿠키의 accessToken 값만 업데이트
+      memberInfo.firebaseToken = newTokens.firebaseToken;
       setCookie("member", memberInfo, 1);
-      return newTokens.accessToken;
+      return newTokens.firebaseToken;
     } catch (error) {
       // 리프레시 실패 처리
       console.error("토큰 리프레시 실패:", error);
@@ -96,6 +115,7 @@ const useCustomLogin = () => {
     moveToPath,
     moveToLogin,
     refreshAccessToken,
+    refreshFbToken,
   };
 };
 

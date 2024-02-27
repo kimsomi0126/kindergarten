@@ -17,6 +17,18 @@ const IndivNotiWrite = lazy(() =>
   import("../pages/individualNotice/IndivNotiWrite"),
 );
 
+//알림장 앨범 영역
+const IndivAlbumList = lazy(() => import("../pages/indivalbum/IndivAlbumList"));
+const IndivAlbumdetails = lazy(() =>
+  import("../pages/indivalbum/IndivAlbumDetails"),
+);
+const IndivAlbumModify = lazy(() =>
+  import("../pages/indivalbum/IndivAlbumModify"),
+);
+const IndivAlbumWrite = lazy(() =>
+  import("../pages/indivalbum/IndivAlbumWrite"),
+);
+
 const indRouter = () => {
   return [
     {
@@ -48,6 +60,38 @@ const indRouter = () => {
       element: (
         <Suspense fallback={<Loading />}>
           <IndivNotiModify />
+        </Suspense>
+      ),
+    },
+    {
+      path: "/ind/album",
+      element: (
+        <Suspense fallback={<Loading />}>
+          <IndivAlbumList />
+        </Suspense>
+      ),
+    },
+    {
+      path: "album/write",
+      element: (
+        <Suspense fallback={<Loading />}>
+          <IndivAlbumWrite />
+        </Suspense>
+      ),
+    },
+    {
+      path: "album/details/:tno",
+      element: (
+        <Suspense fallback={<Loading />}>
+          <IndivAlbumdetails />
+        </Suspense>
+      ),
+    },
+    {
+      path: "album/modify/:tno",
+      element: (
+        <Suspense fallback={<Loading />}>
+          <IndivAlbumModify />
         </Suspense>
       ),
     },

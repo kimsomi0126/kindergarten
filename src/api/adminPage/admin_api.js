@@ -321,10 +321,11 @@ export const getTeacherList = async ({
   page,
   iclass,
   tcIsDel,
+  search,
 }) => {
   try {
     const res = await jwtAxios.get(
-      `${path}?page=${page}&iclass=${iclass}&tcIsDel=${tcIsDel}`,
+      `${path}?page=${page}&iclass=${iclass}&tcIsDel=${tcIsDel}&search=${search}`,
     );
     const status = res.status.toString();
     if (status.charAt(0) === "2") {

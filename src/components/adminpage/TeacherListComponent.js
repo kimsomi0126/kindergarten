@@ -3,6 +3,7 @@ import {
   InfoBox,
   ListBox,
   ListBoxTop,
+  MainTop,
   TeacherImgInfo,
   TeacherInfo,
   TeacherListItem,
@@ -75,7 +76,7 @@ const TeacherListComponent = ({
   return (
     <>
       <TeacherMain>
-        <div>
+        <MainTop>
           <input
             type="checkbox"
             id="selectAll"
@@ -84,7 +85,9 @@ const TeacherListComponent = ({
             onChange={handleSelectAllChange}
           />
           <label htmlFor="selectAll">전체 선택</label>
-        </div>
+          <button>재직중</button>
+          <button>퇴사</button>
+        </MainTop>
         <TeacherListWrap>
           {Array.isArray(teacherList.list) &&
             teacherList.list.map(item => (

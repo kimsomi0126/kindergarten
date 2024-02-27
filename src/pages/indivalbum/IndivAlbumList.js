@@ -40,7 +40,7 @@ const initData = [
   },
 ];
 
-const IndivNotiList = () => {
+const IndivAlbumList = () => {
   const navigate = useNavigate();
   const { pathname, search } = useLocation();
   const [serchParams, setSearchParams] = useSearchParams();
@@ -141,10 +141,10 @@ const IndivNotiList = () => {
     setCount(res.noticeCnt);
   };
   const errorFn = res => {
-    // console.log(res);
-    setIsOpen(true);
-    setTitle("데이터 없음");
-    setSubTitle(res);
+    console.log(res);
+    // setIsOpen(true);
+    // setTitle("데이터 없음");
+    // setSubTitle(res);
 
     const url = isLogin
       ? `/ind?year=${year}&page=1&iclass=${iclass}&searchValue=${searchValue}`
@@ -309,4 +309,4 @@ const IndivNotiList = () => {
   );
 };
 
-export default IndivNotiList;
+export default IndivAlbumList;

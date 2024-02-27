@@ -31,10 +31,6 @@ const IndWriteComponent = () => {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showCancelConfirmModal, setShowCancelConfirmModal] = useState(false);
 
-  // 모달 상태 관리
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [showCancelConfirmModal, setShowCancelConfirmModal] = useState(false);
-
   useEffect(() => {
     fetchChildrenList();
   }, []);
@@ -148,23 +144,23 @@ const IndWriteComponent = () => {
   const onFinish = async data => {
     console.log("data", data);
     const formData = new FormData();
-    const dto = new Blob(
-      [
-        JSON.stringify({
-          ikids: ikid,
-          noticeTitle: data.noticeTitle,
-          noticeContents: data.noticeContents,
-          noticeCheck: noticeCheck ? 1 : 0,
-        }),
-      ],
-      { type: "application/json" },
-    );
-    formData.append("dto", dto);
+    // const dto = new Blob(
+    //   [
+    //     JSON.stringify({
+    //       ikids: ikid,
+    //       noticeTitle: data.noticeTitle,
+    //       noticeContents: data.noticeContents,
+    //       noticeCheck: noticeCheck ? 1 : 0,
+    //     }),
+    //   ],
+    //   { type: "application/json" },
+    // );
+    // formData.append("dto", dto);
 
-    // 파일 데이터 추가
-    fileList.forEach(file => {
-      formData.append("pics", file.originFileObj);
-    });
+    // // 파일 데이터 추가
+    // fileList.forEach(file => {
+    //   formData.append("pics", file.originFileObj);
+    // });
 
     // JSON 데이터 추가
     const dto = {

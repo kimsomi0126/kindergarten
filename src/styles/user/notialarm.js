@@ -13,6 +13,7 @@ export const NotiIcon = styled.div`
   img {
     width: 100%;
   }
+
   :after {
     content: "";
     position: absolute;
@@ -22,5 +23,6 @@ export const NotiIcon = styled.div`
     height: 0.7rem;
     background: ${colors.orangeDeep};
     border-radius: 50%;
+    display: ${props => (props.state ? "block" : "none")};
   }
 `;

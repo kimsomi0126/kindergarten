@@ -14,8 +14,10 @@ import { IMG_URL } from "../../../api/config";
 import ModalOneBtn from "../../ui/ModalOneBtn";
 import { Navigate } from "react-router-dom";
 import { patchCode } from "../../../api/adminPage/admin_api";
+import useCustomLogin from "../../../hooks/useCustomLogin";
 
 const MyProfileComponent = ({ ilevel, myData, ikid, onChildClick }) => {
+  const { isLogin, isAdminLogin, loginState, isParentLogin } = useCustomLogin();
   useEffect(() => {}, []);
   const my = myData;
   const [title, setTitle] = useState("");
@@ -67,13 +69,15 @@ const MyProfileComponent = ({ ilevel, myData, ikid, onChildClick }) => {
         <ProfileInfo>
           <MyClassWrap state={my.iclass}>
             <MyClass state={my.iclass} admin={true} />
-            {ilevel === "admin" ? (
+            {isLogin ? (
               <IdentCodeWrap>
                 <dl>
                   <dt>식별코드</dt>
                   <dd>{my.code}</dd>
                 </dl>
-                <OrangeBtn onClick={handleCodeClick}>식별코드수정</OrangeBtn>
+                {isAdminLogin || my.iclass == loginState.iclass ? (
+                  <OrangeBtn onClick={handleCodeClick}>식별코드수정</OrangeBtn>
+                ) : null}
               </IdentCodeWrap>
             ) : null}
           </MyClassWrap>

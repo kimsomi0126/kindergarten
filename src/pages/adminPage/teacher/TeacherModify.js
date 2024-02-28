@@ -26,6 +26,7 @@ import {
 } from "../../../api/adminPage/admin_api";
 import ModalTwoBtn from "../../../components/ui/ModalTwoBtn";
 import ModalOneBtn from "../../../components/ui/ModalOneBtn";
+import useCustomLogin from "../../../hooks/useCustomLogin";
 
 const initDto = {
   iteacher: 0,
@@ -47,10 +48,11 @@ const TeacherModify = () => {
   const [serchParams, setSearchParams] = useSearchParams();
   const [form] = Form.useForm();
   const navigate = useNavigate();
-
+  const { isAdminLogin, isTeacherLogin } = useCustomLogin();
   // 모달창
   const [title, setTitle] = useState("");
   const [subTitle, setSubTitle] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
   const [isNavigate, setIsNavigate] = useState();
   const [isCancelOpen, setIsCancelOpen] = useState(false);
   const [isResultOpen, setIsResultOpen] = useState(false);
@@ -197,7 +199,7 @@ const TeacherModify = () => {
     setIsResultOpen(true);
     setTitle("수정 완료");
     setSubTitle("성공적으로 등록되었습니다.");
-    setIsNavigate(`/admin/teacher?iclass=0&page=1`);
+    setIsNavigate(`/admin/teacher?iclass=0&page=1&tcIsDel=0`);
   };
   const errorFn = res => {
     setIsResultOpen(true);
@@ -250,58 +252,78 @@ const TeacherModify = () => {
                   비밀번호 수정
                 </OrangeBtn>
               </TeacherIdItem>
-              <NewPasswordEdit>
-                <Form.Item
-                  name="confirm"
-                  style={{
-                    width: "33%",
-                    display: passwordEdit ? "block" : "none",
-                  }}
-                  // dependencies={["teacherUpw"]}
-                  hasFeedback
-                  rules={[
-                    {
-                      required: false,
-                      message: "기존 비밀번호를 입력해주세요.",
-                    },
-                    ({ getFieldValue }) => ({
-                      validator(_, value) {
-                        if (!value || dto.teacherUpw === value) {
-                          setIsDisabled(false);
-                          return Promise.resolve();
-                        }
-                        setIsDisabled(true);
-                        return Promise.reject(
-                          new Error(
-                            "기존 비밀번호와 일치하지 않습니다. 다시 작성해주세요.",
-                          ),
-                        );
+              {isAdminLogin ? (
+                <NewPasswordEdit>
+                  <Form.Item
+                    name="newTeacherUpw"
+                    style={{
+                      width: "33%",
+                      display: passwordEdit ? "block" : "none",
+                    }}
+                    rules={[
+                      {
+                        required: false,
+                        message: "비밀번호를 입력해주세요.",
                       },
-                    }),
-                  ]}
-                >
-                  <Input placeholder="기존 비밀번호 입력" />
-                </Form.Item>
+                    ]}
+                  >
+                    <Input placeholder="새로운 비밀번호 입력" />
+                  </Form.Item>
+                </NewPasswordEdit>
+              ) : (
+                <NewPasswordEdit>
+                  <Form.Item
+                    name="confirm"
+                    style={{
+                      width: "33%",
+                      display: passwordEdit ? "block" : "none",
+                    }}
+                    // dependencies={["teacherUpw"]}
+                    hasFeedback
+                    rules={[
+                      {
+                        required: false,
+                        message: "기존 비밀번호를 입력해주세요.",
+                      },
+                      ({ getFieldValue }) => ({
+                        validator(_, value) {
+                          if (!value || dto.teacherUpw === value) {
+                            setIsDisabled(false);
+                            return Promise.resolve();
+                          }
+                          setIsDisabled(true);
+                          return Promise.reject(
+                            new Error(
+                              "기존 비밀번호와 일치하지 않습니다. 다시 작성해주세요.",
+                            ),
+                          );
+                        },
+                      }),
+                    ]}
+                  >
+                    <Input placeholder="기존 비밀번호 입력" />
+                  </Form.Item>
 
-                <Form.Item
-                  name="newTeacherUpw"
-                  style={{
-                    width: "33%",
-                    display: passwordEdit ? "block" : "none",
-                  }}
-                  rules={[
-                    {
-                      required: false,
-                      message: "비밀번호를 입력해주세요.",
-                    },
-                  ]}
-                >
-                  <Input
-                    placeholder="새로운 비밀번호 입력"
-                    disabled={isDisabled}
-                  />
-                </Form.Item>
-              </NewPasswordEdit>
+                  <Form.Item
+                    name="newTeacherUpw"
+                    style={{
+                      width: "33%",
+                      display: passwordEdit ? "block" : "none",
+                    }}
+                    rules={[
+                      {
+                        required: false,
+                        message: "비밀번호를 입력해주세요.",
+                      },
+                    ]}
+                  >
+                    <Input
+                      placeholder="새로운 비밀번호 입력"
+                      disabled={isDisabled}
+                    />
+                  </Form.Item>
+                </NewPasswordEdit>
+              )}
             </TeacherIdForm>
           </TeacherIdInfo>
           {/* 기본정보 */}

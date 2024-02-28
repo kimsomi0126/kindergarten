@@ -42,6 +42,8 @@ const GuardianList = () => {
   const page = serchParams.get("page");
   const iclass = serchParams.get("iclass");
   const dispatch = useDispatch();
+  // 로그인정보 체크
+  const { isLogin, isAdminLogin } = useCustomLogin();
 
   // 반 선택
   const classArr = [
@@ -147,7 +149,6 @@ const GuardianList = () => {
     });
   };
   // 학부모 리스트 GET
-  const { isLogin } = useCustomLogin();
   useEffect(() => {
     if (!isLogin) {
       setTitle("관리자 전용 페이지");
@@ -213,7 +214,9 @@ const GuardianList = () => {
             }}
             size={"large"}
           />
-          <GreenBtn onClick={handleDeleteClick}>선택회원삭제</GreenBtn>
+          {isAdminLogin ? (
+            <GreenBtn onClick={handleDeleteClick}>선택회원삭제</GreenBtn>
+          ) : null}
           {/* 안내창 */}
           <ModalOneBtn
             isOpen={isOpen}

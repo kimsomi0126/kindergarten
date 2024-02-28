@@ -47,6 +47,7 @@ const IndivNotiList = () => {
   const [indList, setIndList] = useState(initData);
   const [fromTo, setFromTo] = useState(3 || serchParams.get("fromTo"));
   const [count, setCount] = useState(0);
+  const currentYear = new Date().getFullYear();
 
   // 현재 출력 년도, kid 값 params에서 체크
   const year = serchParams.get("year");
@@ -227,10 +228,15 @@ const IndivNotiList = () => {
         subTitle={subTitle}
       />
       <TabWrap>
-        <Link to={pathname + search} className="active">
+        <Link
+          to={`/ind?year=${currentYear}&page=1&ikid=${
+            ikidList[0] ? ikidList[0].ikid : 0
+          }`}
+          className="active"
+        >
           알림장
         </Link>
-        <Link to="/ind/album">추억앨범</Link>
+        <Link to={`/ind/album${search}`}>추억앨범</Link>
       </TabWrap>
       <TitleWrap className="ind-btn-wrap">
         <FromToBtnWrap fromTo={fromTo} isLogin={isLogin}>

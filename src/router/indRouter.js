@@ -64,7 +64,7 @@ const indRouter = () => {
       ),
     },
     {
-      path: "/ind/album",
+      path: "album",
       element: (
         <Suspense fallback={<Loading />}>
           <IndivAlbumList />

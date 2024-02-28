@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import {
+  MainTop,
   TeacherTop,
   TeacherTopRight,
 } from "../../../styles/adminstyle/teacherinfolist";
@@ -7,7 +8,7 @@ import { PageTitle } from "../../../styles/basic";
 import { Button, Dropdown, Form, Select } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 import Search from "antd/es/input/Search";
-import { BlueBtn, OrangeBtn } from "../../../styles/ui/buttons";
+import { BlueBtn, GreenBtn, OrangeBtn } from "../../../styles/ui/buttons";
 import TeacherListComponent from "../../../components/adminpage/TeacherListComponent";
 import { useNavigate } from "react-router";
 import useCustomLogin from "../../../hooks/useCustomLogin";
@@ -27,6 +28,7 @@ const initTeacherList = {
       tcIsDel: 0,
       tcEmail: "",
       teacherProfile: "",
+      teacherIntroduce: "",
     },
   ],
 };
@@ -54,18 +56,6 @@ const TeacherInfoList = () => {
   const [changeOpen, setChangeOpen] = useState(false);
   const [delOpen, setDelOpen] = useState(false);
 
-  // 검색
-  // const handleSearch = value => {
-  //   console.log(value);
-  //   getTeacherList({
-  //     successFn,
-  //     errorFn,
-  //     iclass,
-  //     page,
-  //     search: value,
-  //   });
-  // };
-
   // 선생님 리스트 GET
   const [teacherList, setTeacherList] = useState(initTeacherList);
   const { isLogin } = useCustomLogin();
@@ -84,11 +74,23 @@ const TeacherInfoList = () => {
         page,
         iclass,
         tcIsDel,
-        // search: "",
+        search: "",
       });
     }
-  }, [page, iclass, checkedItems]);
+  }, [page, iclass, tcIsDel, checkedItems]);
 
+  //검색
+  const handleSearch = value => {
+    console.log(value);
+    getTeacherList({
+      successFn,
+      errorFn: errorSearchFn,
+      page: 1,
+      iclass,
+      tcIsDel,
+      search: value,
+    });
+  };
   const successFn = result => {
     setTeacherList(result);
     console.log("됐나요?", result);
@@ -96,6 +98,12 @@ const TeacherInfoList = () => {
 
   const errorFn = result => {
     setTeacherList(result);
+  };
+  const errorSearchFn = result => {
+    setIsOpen(true);
+    setTitle("검색 결과 없음");
+    setSubTitle("검색된 이름이 없습니다.");
+    console.log(result);
   };
   const formRef = useRef();
   const handleExternalSubmit = () => {
@@ -164,11 +172,11 @@ const TeacherInfoList = () => {
   };
   // 반 선택 드롭다운
   const classArr = [
-    { iclass: 0, classNm: "전체" },
-    { iclass: 1, classNm: "무궁화반" },
-    { iclass: 2, classNm: "해바라기반" },
-    { iclass: 3, classNm: "장미반" },
-    { iclass: 4, classNm: "원장" },
+    { iclass: 0, classNm: "전체", tcIsDel },
+    { iclass: 1, classNm: "무궁화반", tcIsDel },
+    { iclass: 2, classNm: "해바라기반", tcIsDel },
+    { iclass: 3, classNm: "장미반", tcIsDel },
+    { iclass: 4, classNm: "원장", tcIsDel },
   ];
 
   const classItems =
@@ -177,7 +185,9 @@ const TeacherInfoList = () => {
       return {
         key: item.iclass.toString(),
         label: (
-          <Link to={`/admin/teacher?page=1&iclass=${item.iclass}&tcIsDel=0`}>
+          <Link
+            to={`/admin/teacher?page=1&iclass=${item.iclass}&tcIsDel=${item.tcIsDel}`}
+          >
             {item.classNm}
           </Link>
         ),
@@ -226,9 +236,9 @@ const TeacherInfoList = () => {
               width: 200,
             }}
             allowClear
-            // onSearch={value => {
-            //   handleSearch(value);
-            // }}
+            onSearch={value => {
+              handleSearch(value);
+            }}
           />
           {/* 재직 상태 변경창 */}
           <ModalTwoBtn
@@ -263,13 +273,19 @@ const TeacherInfoList = () => {
               handleChangeClick();
             }}
           >
-            재직 상태 변경
+            재직상태변경
           </OrangeBtn>
+          <GreenBtn
+            onClick={e => navigate(`/admin/teacher?page=1&iclass=0&tcIsDel=1`)}
+          >
+            퇴사직원확인
+          </GreenBtn>
           <BlueBtn onClick={e => navigate("/admin/teacher/create")}>
             선생님 등록
           </BlueBtn>
         </TeacherTopRight>
       </TeacherTop>
+
       <TeacherListComponent
         page={page}
         iclass={iclass}

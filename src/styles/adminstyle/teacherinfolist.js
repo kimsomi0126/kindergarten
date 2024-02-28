@@ -24,8 +24,29 @@ export const TeacherTopRight = styled.div`
 export const TeacherMain = styled.div`
   position: relative;
   min-height: 50vh;
+`;
+export const MainTop = styled.div`
+  display: flex;
+  gap: 1rem;
+  margin: 1rem 0;
+  /* justify-content: space-between; */
   input {
     margin-right: 0.5rem;
+  }
+  button {
+    padding: 0;
+    color: #888;
+    font-size: 1.5rem;
+
+    :before {
+      content: "|";
+      margin-right: 1rem;
+      font-weight: 300;
+      vertical-align: 7%;
+    }
+    :first-of-type:before {
+      display: none;
+    }
   }
 `;
 export const TeacherListWrap = styled.ul`

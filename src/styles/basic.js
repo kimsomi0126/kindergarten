@@ -119,7 +119,7 @@ export const NavWrap = styled.div`
   justify-content: right;
   align-items: center;
   gap: 2rem;
-  z-index: 10;
+  z-index: 14;
   border-bottom: 1px solid ${colors.grayLight};
   p {
     font-size: 1.8rem;

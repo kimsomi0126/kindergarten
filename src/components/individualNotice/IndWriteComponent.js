@@ -12,8 +12,10 @@ import { FileListStyle } from "../../styles/album/album";
 import { PageTitle } from "../../styles/basic";
 import { GreenBtn, PinkBtn } from "../../styles/ui/buttons";
 import ModalOneBtn from "../ui/ModalOneBtn";
+import { Cascader } from "antd";
 
 const path = `${SERVER_URL}/api/notice`;
+const { SHOW_CHILD } = Cascader;
 
 const IndWriteComponent = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -23,7 +25,7 @@ const IndWriteComponent = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [treeData, setTreeData] = useState([]);
   const navigate = useNavigate();
-  const [noticeCheck, setNoticeCheck] = useState([]);
+  const [noticeCheck, setNoticeCheck] = useState(0);
   const [selectedKids, setSelectedKids] = useState([]);
   const [showExceedLimitModal, setShowExceedLimitModal] = useState(false); // 파일 제한 초과 경고 모달 상태
 
@@ -92,7 +94,7 @@ const IndWriteComponent = () => {
   };
 
   const onChange = e => {
-    setNoticeCheck(e.target.checked);
+    setNoticeCheck(e.target.checked ? 1 : 0); // 중요 체크를 했을 때 1, 안 했을 때 0으로 설정
   };
 
   const handleChildrenListFail = errorMessage => {
@@ -157,10 +159,10 @@ const IndWriteComponent = () => {
     // );
     // formData.append("dto", dto);
 
-    // // 파일 데이터 추가
-    // fileList.forEach(file => {
-    //   formData.append("pics", file.originFileObj);
-    // });
+    // 파일 데이터 추가
+    fileList.forEach(file => {
+      formData.append("pics", file.originFileObj);
+    });
 
     // JSON 데이터 추가
     const dto = {
@@ -176,7 +178,7 @@ const IndWriteComponent = () => {
 
     postIndNotice({
       product: formData,
-      successFn: handleSuccess,
+      successFn: () => setShowSuccessModal(true), // 성공 모달 표시
       failFn: handleFail,
       errorFn: handleError,
     });
@@ -199,10 +201,13 @@ const IndWriteComponent = () => {
   };
 
   const handleError = error => {
-    console.error("알림장 업로드 오류:", error);
+    console.error("오류", error);
     Modal.error({
-      title: "알림장 업로드 중 오류 발생",
+      title: "오류",
       content: error,
+      onOk: () => {
+        navigate(`/ind?year=2024&page=1&iclass=0`);
+      },
     });
   };
 
@@ -245,10 +250,14 @@ const IndWriteComponent = () => {
             treeData={treeData}
             placeholder="유치원생 선택"
             treeCheckable={true}
-            showCheckedStrategy={TreeSelect.SHOW_PARENT}
+            showCheckedStrategy={SHOW_CHILD}
             onChange={value => {
-              console.log("벨류 확인", value);
-              setSelectedKids(value);
+              if (Array.isArray(value)) {
+                setSelectedKids(value);
+                console.log("value check", value);
+              } else {
+                setSelectedKids([value]);
+              }
             }}
           />
         </div>
@@ -306,7 +315,9 @@ const IndWriteComponent = () => {
             justifyContent: "flex-end",
           }}
         >
-          <GreenBtn onClick={handleGreenButtonClick}>등록</GreenBtn>
+          <GreenBtn type="button" onClick={handleGreenButtonClick}>
+            등록
+          </GreenBtn>
           <PinkBtn type="button" onClick={handleCancelConfirmation}>
             취소
           </PinkBtn>
@@ -334,6 +345,14 @@ const IndWriteComponent = () => {
             subTitle="작성된 내용은 저장되지 않습니다."
           />
         )}
+
+        {/* 파일 제한 초과 경고 모달 */}
+        <ModalOneBtn
+          isOpen={showExceedLimitModal}
+          handleOk={handleExceedLimitModalOk}
+          title="파일 업로드 제한 초과"
+          subTitle="최대 5개까지만 업로드할 수 있습니다."
+        />
       </Link>
     </div>
   );

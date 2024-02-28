@@ -94,12 +94,21 @@ export const postIndNotice = async ({
   } catch (error) {
     const res = error.response.data;
     console.log("res", res);
-    errorFn(res.message);
+    if (res.code === "PUSH_FAIL") {
+      errorFn("푸쉬알림에 비동의 상태입니다.");
+    } else {
+      errorFn(res.message);
+    }
   }
 };
 
 // 댓글 등록하기
-export const postComment = async ({ product, successFn, failFn, errorFn }) => {
+export const postIndComment = async ({
+  product,
+  successFn,
+  failFn,
+  errorFn,
+}) => {
   try {
     const res = await jwtAxios.post(`${path}/comment`, product);
     const status = res.status.toString();
@@ -115,7 +124,7 @@ export const postComment = async ({ product, successFn, failFn, errorFn }) => {
 };
 
 // 댓글 삭제하기
-export const deleteComment = async ({
+export const deleteIndComment = async ({
   inoticeComment,
   iteacher,
   iparent,

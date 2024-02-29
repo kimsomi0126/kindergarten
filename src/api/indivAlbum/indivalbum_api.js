@@ -2,8 +2,34 @@ import jwtAxios from "../../util/jwtUtil";
 import { SERVER_URL } from "../config";
 const path = `${SERVER_URL}/api/memory`;
 
-// 추억 앨범 전체 조회
+// 추억 앨범 교사 전체 조회
 export const getIndAlbumList = async ({
+  page,
+  iclass,
+  ikid,
+  search,
+  successFn,
+  failFn,
+  errorFn,
+}) => {
+  try {
+    const res = await jwtAxios.get(
+      `${path}?page=${page}&iclass=${iclass}&ikid=0&search=${search}`,
+    );
+    const status = res.status.toString();
+    if (status.charAt(0) === "2") {
+      successFn(res.data);
+    } else {
+      failFn(res.data);
+    }
+  } catch (error) {
+    const res = error.response.data;
+    errorFn(res.message);
+  }
+};
+
+// 추억 앨범 학부모 전체 조회
+export const getIndAlbumParentList = async ({
   page,
   iclass,
   ikid,
@@ -52,7 +78,7 @@ export const putIndAlbum = async ({ product, successFn, failFn, errorFn }) => {
 // 추억 앨범 등록하기
 export const postIndAlbum = async ({ product, successFn, failFn, errorFn }) => {
   try {
-    const res = await jwtAxios.post(`${path}/tea`, product);
+    const res = await jwtAxios.post(`${path}`, product);
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
       successFn(res.data);

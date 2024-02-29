@@ -103,14 +103,9 @@ export const postIndNotice = async ({
 };
 
 // 댓글 등록하기
-export const postIndComment = async ({
-  product,
-  successFn,
-  failFn,
-  errorFn,
-}) => {
+export const postIndComment = async ({ obj, successFn, failFn, errorFn }) => {
   try {
-    const res = await jwtAxios.post(`${path}/comment`, product);
+    const res = await jwtAxios.post(obj, `${path}/comment`);
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
       successFn(res.data);
@@ -133,9 +128,16 @@ export const deleteIndComment = async ({
   errorFn,
 }) => {
   try {
-    // header 가 필요합니다.
+    const iwriter = () => {
+      if (iteacher) {
+        return `&iteacher=${iteacher}`;
+      }
+      if (iparent) {
+        return `&iparent=${iparent}`;
+      }
+    };
     const res = await jwtAxios.delete(
-      `${path}/comment/?$inoticeComment={inoticeComment}&iteacher=${iteacher}iparent={iparent}`,
+      `${path}/comment/?$inoticeComment=${inoticeComment}&iteacher=${iteacher}&iparent=${iparent}${iwriter()}`,
     );
 
     const status = res.status.toString();

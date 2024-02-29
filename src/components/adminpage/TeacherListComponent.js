@@ -92,6 +92,7 @@ const TeacherListComponent = ({
 
           <MainTopRight>
             <button
+              className={tcIsDel === "0" ? "active" : ""}
               onClick={e =>
                 navigate(`/admin/teacher?page=1&iclass=0&tcIsDel=0`)
               }
@@ -99,6 +100,7 @@ const TeacherListComponent = ({
               재직중
             </button>
             <button
+              className={tcIsDel === "1" ? "active" : ""}
               onClick={e =>
                 navigate(`/admin/teacher?page=1&iclass=0&tcIsDel=1`)
               }

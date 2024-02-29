@@ -1,10 +1,13 @@
 import styled from "@emotion/styled";
-import { colors, fonts, shadow } from "../basic";
+import { colors, fonts, mq, shadow } from "../basic";
 
 export const TeacherTop = styled.div`
   margin-top: 1rem;
   display: flex;
   justify-content: space-between;
+  ${mq.mobileBig} {
+    flex-wrap: wrap;
+  }
 `;
 
 export const TeacherTopRight = styled.div`
@@ -19,6 +22,19 @@ export const TeacherTopRight = styled.div`
   }
   .ant-input-affix-wrapper {
     height: 4rem;
+  }
+  ${mq.mobileBig} {
+    width: 100%;
+    margin: 1rem 0 0;
+    justify-content: flex-start;
+  }
+
+  ${mq.mobileSmall} {
+    margin: 1rem 0 -2rem;
+    justify-content: flex-end;
+    .ant-input-group-wrapper {
+      width: 65%;
+    }
   }
 `;
 export const TeacherMain = styled.div`
@@ -58,7 +74,7 @@ export const MainTopRight = styled.div`
     :first-of-type:before {
       display: none;
     }
-    :active {
+    &.active {
       color: #222;
     }
   }
@@ -84,6 +100,11 @@ export const TeacherListItem = styled.li`
     right: 2rem;
     top: 2rem;
   }
+  ${mq.mobileBig} {
+    width: 100%;
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
 `;
 export const ListBox = styled.div`
   position: relative;
@@ -99,6 +120,11 @@ export const ListBox = styled.div`
     dd {
       color: ${colors.black};
     }
+  }
+  ${mq.mobileBig} {
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
   }
 `;
 export const ListBoxTop = styled.div`
@@ -171,6 +197,10 @@ export const TeacherInfo = styled.div`
     font-family: ${fonts.kotraHope};
     font-size: 2rem;
     color: ${colors.blueDeep};
+  }
+  ${mq.mobileBig} {
+    padding: 0;
+    margin: 0 auto;
   }
 `;
 

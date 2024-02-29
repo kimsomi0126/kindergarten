@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { colors } from "../basic";
+import { colors, mq } from "../basic";
 
 export const TeacherFormTop = styled.div`
   margin-top: 1rem;
@@ -33,8 +33,10 @@ export const TeacherIdForm = styled.div`
 export const TeacherIdItem = styled.div`
   width: 100%;
   display: flex;
-  flex-wrap: wrap;
   gap: 1rem;
+  .ant-form-item {
+    width: 32%;
+  }
   button {
     padding: 1rem 1rem;
     height: 3.5rem;
@@ -44,12 +46,28 @@ export const TeacherIdItem = styled.div`
     color: ${colors.orangeDeep};
     border-radius: 1rem;
   }
+
+  ${mq.mobileBig} {
+    flex-wrap: wrap;
+    .ant-form-item {
+      width: 100%;
+    }
+  }
 `;
 export const NewPasswordEdit = styled.div`
   width: 100%;
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
+  .ant-form-item {
+    width: 32%;
+  }
+  ${mq.mobileBig} {
+    flex-wrap: wrap;
+    .ant-form-item {
+      width: 100%;
+    }
+  }
 `;
 
 export const TeacherClassInfo = styled.div`
@@ -65,6 +83,16 @@ export const TeacherClassForm = styled.div`
   margin-top: 1rem;
   display: flex;
   gap: 1rem;
+  .ant-form-item {
+    width: 32%;
+  }
+  ${mq.mobileBig} {
+    flex-wrap: wrap;
+
+    .ant-form-item {
+      width: 100%;
+    }
+  }
 `;
 
 export const TeacherImg = styled.div`
@@ -81,6 +109,14 @@ export const TeacherImgForm = styled.div`
   display: flex;
   align-items: center;
   gap: 1rem;
+  .ant-upload-list .ant-upload-list-item {
+    height: auto;
+  }
+  .ant-upload-list-item-name {
+    word-break: break-all;
+    white-space: inherit !important;
+    font-size: 1.4rem;
+  }
 `;
 
 export const TeacherMemo = styled.div`

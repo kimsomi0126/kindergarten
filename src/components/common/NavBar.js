@@ -28,6 +28,7 @@ const NavBar = () => {
     doLogout,
     loginState,
     isLogin,
+    isName,
     isAdminLogin,
     isParentLogin,
     isTeacherLogin,
@@ -136,18 +137,14 @@ const NavBar = () => {
     })
     .catch(error => console.log(error));
 
+  console.log(notiPush);
+
   return (
     <NavWrap>
       <Link to={"/"} className="nav-logo">
         <img src={process.env.PUBLIC_URL + "/images/common/header/logo.svg"} />
       </Link>
-      <p>
-        {isLogin
-          ? `${loginState.teacherNm} 환영합니다.`
-          : isParentLogin
-          ? "학부모님 환영합니다."
-          : null}
-      </p>
+      <p>{isLogin || isParentLogin ? `${isName}님 환영합니다.` : null}</p>
       {/* 푸시알림 */}
       {isParentLogin || isTeacherLogin ? <NotiAlarm /> : null}
 

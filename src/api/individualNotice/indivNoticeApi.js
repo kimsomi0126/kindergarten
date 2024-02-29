@@ -105,7 +105,7 @@ export const postIndNotice = async ({
 // 댓글 등록하기
 export const postIndComment = async ({ obj, successFn, failFn, errorFn }) => {
   try {
-    const res = await jwtAxios.post(obj, `${path}/comment`);
+    const res = await jwtAxios.post(`${path}/comment`, obj);
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
       successFn(res.data);
@@ -137,7 +137,7 @@ export const deleteIndComment = async ({
       }
     };
     const res = await jwtAxios.delete(
-      `${path}/comment/?$inoticeComment=${inoticeComment}&iteacher=${iteacher}&iparent=${iparent}${iwriter()}`,
+      `${path}/comment?inoticeComment=${inoticeComment}${iwriter()}`,
     );
 
     const status = res.status.toString();
@@ -185,5 +185,24 @@ export const getIndDetail = async ({ tno, successFn, failFn, errorFn }) => {
   } catch (error) {
     const res = error.response.data;
     errorFn(res.message);
+  }
+};
+
+// 알림장 게시글 수정하기
+export const putIndDetail = async ({ data, successFn, failFn, errorFn }) => {
+  try {
+    const header = { headers: { "Content-Type": "multipart/form-data" } };
+    const res = await jwtAxios.put(`${path}`, data, header);
+
+    const status = res.status.toString();
+    console.log("res.data", res.data);
+    if (status.charAt(0) === "2") {
+      successFn(res.data);
+      return res.data;
+    } else {
+      failFn("수정 에러입니다.");
+    }
+  } catch (error) {
+    errorFn(error);
   }
 };

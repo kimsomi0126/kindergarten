@@ -1,5 +1,15 @@
-import { Modal } from "antd";
-import React, { useEffect, useState } from "react";
+import { UploadOutlined } from "@ant-design/icons";
+import {
+  Button,
+  Cascader,
+  Checkbox,
+  Form,
+  Input,
+  Modal,
+  TreeSelect,
+  Upload,
+} from "antd";
+import React, { useEffect, useRef, useState } from "react";
 import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
 import {
@@ -13,16 +23,16 @@ import { PageTitle } from "../../styles/basic";
 import "../../styles/notice/gallery.css";
 import { BlueBtn, GreenBtn, PinkBtn } from "../../styles/ui/buttons";
 import { IMG_URL } from "../../api/config";
+import { FileListStyle } from "../../styles/album/album";
+import { postIndNotice } from "../../api/individualNotice/indivNoticeApi";
 const path = `${IMG_URL}/pic/fullnotice`;
+const { SHOW_CHILD } = Cascader;
 export const obj = {
-  pics: [""],
-  dto: {
-    ifullNotice: 0,
-    fullTitle: "",
-    fullContents: "",
-    fullNoticeFix: 0,
-    iteacher: 0,
-  },
+  ikid: 0,
+  inotice: "",
+  noticeTitle: "",
+  noticeContents: 0,
+  noticePics: [],
 };
 
 const IndivNotiModify = () => {
@@ -35,9 +45,87 @@ const IndivNotiModify = () => {
   const [detailImage, setDetailImage] = useState([]);
   const { ikid } = useParams();
   const navigate = useNavigate();
+  const [treeData, setTreeData] = useState([]);
+  const [noticeFix, setNoticeFix] = useState(0);
+  const [selectedKids, setSelectedKids] = useState([]);
+  const [deletedPics, setDeletedPics] = useState([]);
+  const [form] = Form.useForm();
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [fileList, setFileList] = useState([]);
+  const [showExceedLimitModal, setShowExceedLimitModal] = useState(false); // 파일 제한 초과 경고 모달 상태
+
+  // 모달 상태 관리
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showCancelConfirmModal, setShowCancelConfirmModal] = useState(false);
 
   const showDeleteModal = () => {
     setIsDeleteModalOpen(true);
+  };
+
+  const beforeUpload = (file, fileList) => {
+    const totalFiles =
+      fileList.length + fileList.filter(f => f.status === "done").length;
+    if (totalFiles > 5) {
+      setShowExceedLimitModal(true); // 경고 모달 표시
+      return Upload.LIST_IGNORE; // 파일 업로드 중단
+    }
+    return true; // 파일 추가를 계속 진행
+  };
+
+  const handleCancelConfirmation = () => {
+    setShowCancelConfirmModal(true); // 취소 확인 모달 표시
+  };
+
+  const onFinish = async data => {
+    console.log("data", data);
+    const formData = new FormData();
+
+    fileList.forEach(file => {
+      formData.append("pics", file.originFileObj);
+    });
+
+    // JSON 데이터 추가
+    const dto = {
+      ifullNotice: data.ifullNotice,
+      noticeTitle: data.noticeTitle,
+      noticeContents: data.noticeContents,
+      fullNoticeFix: noticeFix ? 1 : 0,
+      iteacher: 1,
+    };
+
+    if (deletedPics.length > 0) {
+      dto.delPics = deletedPics;
+    }
+
+    formData.append(
+      "dto",
+      new Blob([JSON.stringify(dto)], { type: "application/json" }),
+    );
+
+    postIndNotice({
+      product: formData,
+      successFn: () => setShowSuccessModal(true), // 성공 모달 표시
+      failFn: handleFail,
+      errorFn: handleError,
+    });
+  };
+
+  const handleFail = errorMessage => {
+    Modal.error({
+      title: "알림장 업로드 실패",
+      content: errorMessage,
+    });
+  };
+
+  const handleError = error => {
+    console.error("오류", error);
+    Modal.error({
+      title: "오류",
+      content: error,
+      onOk: () => {
+        navigate(`/ind?year=2024&page=1&iclass=0`);
+      },
+    });
   };
 
   const handleDeleteOk = async () => {
@@ -65,6 +153,44 @@ const IndivNotiModify = () => {
     setIsDeleteModalOpen(false);
   };
 
+  const formRef = useRef();
+
+  const handleGreenButtonClick = () => {
+    formRef.current.submit();
+  };
+
+  const handleChange = info => {
+    let newFileList = [...info.fileList].filter(file => !!file.status);
+    if (newFileList.length > 5) {
+      // 파일 리스트의 길이가 5개를 초과할 경우 모달 창을 띄움
+      setIsModalVisible(true);
+      // 5개를 초과한 파일은 제외하고 설정
+      newFileList = newFileList.slice(-5);
+    }
+    setFileList(newFileList);
+  };
+
+  const customRequest = ({ onSuccess }) => {
+    onSuccess("ok");
+  };
+
+  const getClassTitle = classNumber => {
+    switch (classNumber) {
+      case 1:
+        return "무궁화반";
+      case 2:
+        return "해바라기반";
+      case 3:
+        return "장미반";
+      default:
+        return "";
+    }
+  };
+
+  const onChange = e => {
+    setNoticeFix(e.target.checked ? 1 : 0); // 중요 체크를 했을 때 1, 안 했을 때 0으로 설정
+  };
+
   const successFn = result => {
     setDetailData(result);
     const pics = result.pics;
@@ -90,90 +216,94 @@ const IndivNotiModify = () => {
       <PageTitle>알림장</PageTitle>
       <div
         style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
+          width: "100%",
+          height: 600,
+          padding: 16,
+          borderTop: "1.5px solid #00876D",
+          borderBottom: "1.5px solid #00876D",
+          background: "#FAFAFA",
           marginTop: 30,
         }}
       >
         <div
           style={{
-            borderTop: "1.5px solid #00876D",
-            borderBottom: "1.5px solid #00876D",
-            width: "100%",
-            background: "white",
-            textAlign: "center",
-            paddingTop: 20,
-            justifyContent: "center",
+            marginBottom: "2rem",
           }}
         >
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
+          <TreeSelect
+            style={{ width: "100%" }}
+            treeData={treeData}
+            placeholder="유치원생 선택"
+            treeCheckable={true}
+            showCheckedStrategy={SHOW_CHILD}
+            onChange={value => {
+              if (Array.isArray(value)) {
+                setSelectedKids(value);
+                console.log("value check", value);
+              } else {
+                setSelectedKids([value]);
+              }
             }}
-          >
-            <div style={{ margin: "auto" }}>
-              <p style={{ margin: 0, fontSize: 27 }}>{detailData.fullTitle}</p>
-            </div>
-            <p style={{ marginRight: 20, fontSize: 15, color: "#999" }}>
-              {detailData.createdAt}
-            </p>
-          </div>
-          <div
-            style={{
-              borderTop: "1.5px solid #DDDDDD",
-              width: "100%",
-              textAlign: "center",
-              marginTop: 20,
-            }}
-          >
-            <div
-              key={postNumber}
-              style={{ margin: 40, maxWidth: 500, display: "inline-block" }}
-            >
-              {detailData.pics.length >= 1 ? (
-                <ImageGallery
-                  items={detailImage}
-                  thumbnailPosition="left"
-                  slideInterval={slideInterval}
-                />
-              ) : null}
-            </div>
-          </div>
-          <p style={{ margin: 30, textAlign: "center", fontSize: 20 }}>
-            {detailData.fullContents}
-          </p>
+          />
         </div>
+        <Checkbox onChange={onChange} style={{ marginBottom: 10 }}>
+          중요
+        </Checkbox>
+        <Form ref={formRef} form={form} onFinish={onFinish}>
+          <Form.Item
+            name="noticeTitle"
+            rules={[
+              {
+                required: true,
+                message: "제목을 입력해주세요!",
+              },
+            ]}
+          >
+            <Input placeholder="제목 입력" />
+          </Form.Item>
+          <Form.Item
+            style={{ height: "150px" }}
+            name="noticeContents"
+            rules={[
+              {
+                required: true,
+                message: "내용을 입력해주세요!",
+              },
+            ]}
+          >
+            <Input.TextArea
+              placeholder="내용 입력"
+              style={{ height: "150px" }}
+            />
+          </Form.Item>
+          <FileListStyle>
+            <Upload.Dragger
+              action={`${path}`}
+              listType="picture"
+              fileList={fileList}
+              onChange={handleChange}
+              customRequest={customRequest}
+              className="upload-list-inline"
+              multiple={true}
+              beforeUpload={beforeUpload}
+            >
+              <Button icon={<UploadOutlined />}>업로드</Button>
+            </Upload.Dragger>
+          </FileListStyle>
+        </Form>
         <div
           style={{
-            width: "100%",
+            marginTop: 35,
             display: "flex",
             justifyContent: "flex-end",
-            marginTop: 20,
           }}
         >
-          <div style={{ marginRight: 10 }}>
-            <Link to="/notice">
-              <GreenBtn>목록보기</GreenBtn>
-            </Link>
-          </div>
-          <div style={{ marginRight: 10 }}>
-            <Link
-              to={{
-                pathname: `/ind/details/${ikid}`,
-                state: {
-                  detailData: detailData,
-                },
-              }}
-            >
-              <BlueBtn>수정</BlueBtn>
-            </Link>
-          </div>
-          <div>
-            <PinkBtn onClick={showDeleteModal}>삭제</PinkBtn>
-          </div>
+          <GreenBtn type="button" onClick={handleGreenButtonClick}>
+            등록
+          </GreenBtn>
+          <PinkBtn type="button" onClick={handleCancelConfirmation}>
+            취소
+          </PinkBtn>
         </div>
       </div>
 

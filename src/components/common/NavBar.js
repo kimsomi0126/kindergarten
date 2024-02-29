@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { HeaderBtn, NavWrap } from "../../styles/basic";
 import {
   GrayBtn,
@@ -42,11 +42,15 @@ const NavBar = () => {
     doLogout();
     moveToPath("/");
   };
-  // 푸시알림
+  // 푸시알림 State
   const [notiPush, setNotiPush] = useRecoilState(pushState);
+  // console.log(notiPush);
 
   // 알림사용 승인 후 firebase 토큰 가져오기
   useEffect(() => {
+    // setNotiPush({
+    //   pushList: [],
+    // });
     if (Notification.permission !== "granted") {
       Notification.requestPermission().then(permission => {
         if (permission === "granted") {
@@ -57,7 +61,7 @@ const NavBar = () => {
       getFbToken(successFn);
     }
   }, [loginState]);
-  //firebase 토큰가져오기 성공 시 서버로 변경된 토큰 보냄
+  //가져온 firebase 토큰이 로그인정보에 있는 토큰값과 다르면 서버로 토큰정보 전달
   const successFn = res => {
     const userFirebaseToken = isParentLogin
       ? loginState.prFirebaseToken
@@ -81,40 +85,57 @@ const NavBar = () => {
     }
   };
 
-  // firebase 토큰 갱신 하면 로그인 정보 다시 가져옴
+  // firebase 토큰 갱신에 성공하면 로그인 정보 다시 가져옴
   const successrefrash = res => {
-    // const resultNum = res.data.result;
-    // if (resultNum === 1) {
-    //   refreshAccessToken();
-    // } else {
-    //   console.log("firebase 토큰업데이트 실패");
-    // }
-    refreshAccessToken();
+    const resultNum = res.data.result;
+    if (resultNum === 1) {
+      refreshAccessToken();
+    } else {
+      console.log("firebase 토큰업데이트 실패");
+    }
+    // refreshAccessToken();
   };
 
-  // 알림체크
+  // 푸시알림감지 후 알림 리스트 업데이트
   onMessageListener()
     .then(payload => {
-      const data = JSON.parse(payload.data);
-      console.log(data);
+      const newData = JSON.parse(payload.notification.body);
       setNotiPush(prev => {
-        const copyDm = { ...prev };
-        const prevDm = copyDm.pushList[data.idm] || {
-          unCheckedMsgCnt: 0,
-          data: null,
-        };
-        prevDm.unCheckedMsgCnt++;
-        prevDm.data = data;
-        copyDm.pushList[data.idm] = prevDm;
-        copyDm.totalCnt++;
-        return copyDm;
+        let pushListUpdated = false;
+        const updatedPushList = prev.pushList.map(item => {
+          // iteacher,iparent 값 확인
+          if (
+            item.iteacher === loginState.iteacher ||
+            item.iparent === loginState.iparent
+          ) {
+            // 일치하면 원래 있던 객체에 data, totalCnt만 추가
+            item.data.push(newData);
+            item.totalCnt++;
+            pushListUpdated = true;
+          }
+          return item;
+        });
+
+        // 일치하는 iteacher,iparent 값이 없을경우
+        // 선생님, 학부모에 따라 값 추가
+        if (!pushListUpdated) {
+          const newItem = {};
+          if (isParentLogin) {
+            newItem.iparent = loginState.iparent;
+          }
+          if (isLogin) {
+            newItem.iteacher = loginState.iteacher;
+          }
+          newItem.totalCnt = 1;
+          newItem.data = [newData];
+          updatedPushList.push(newItem);
+        }
+
+        return { ...prev, pushList: updatedPushList };
       });
     })
     .catch(error => console.log(error));
 
-  // console.log("리프레시", loginState.accessToken);
-  // console.log("기존", loginState.accessToken);
-  console.log(notiPush);
   return (
     <NavWrap>
       <Link to={"/"} className="nav-logo">
@@ -128,9 +149,7 @@ const NavBar = () => {
           : null}
       </p>
       {/* 푸시알림 */}
-      {!isAdminLogin ? (
-        <NotiAlarm state={notiPush.totalCnt === 0 ? false : true} />
-      ) : null}
+      {isParentLogin || isTeacherLogin ? <NotiAlarm /> : null}
 
       <HeaderBtn>
         {isLogin ? (

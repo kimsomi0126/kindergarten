@@ -236,9 +236,6 @@ const TeacherModify = () => {
               <TeacherIdItem>
                 <Form.Item
                   name="teacherUid"
-                  style={{
-                    width: "33%",
-                  }}
                   rules={[
                     {
                       required: true,
@@ -257,7 +254,6 @@ const TeacherModify = () => {
                   <Form.Item
                     name="newTeacherUpw"
                     style={{
-                      width: "33%",
                       display: passwordEdit ? "block" : "none",
                     }}
                     rules={[
@@ -275,7 +271,6 @@ const TeacherModify = () => {
                   <Form.Item
                     name="confirm"
                     style={{
-                      width: "33%",
                       display: passwordEdit ? "block" : "none",
                     }}
                     // dependencies={["teacherUpw"]}
@@ -307,7 +302,6 @@ const TeacherModify = () => {
                   <Form.Item
                     name="newTeacherUpw"
                     style={{
-                      width: "33%",
                       display: passwordEdit ? "block" : "none",
                     }}
                     rules={[
@@ -333,9 +327,6 @@ const TeacherModify = () => {
               <TeacherIdItem>
                 <Form.Item
                   name="teacherNm"
-                  style={{
-                    width: "33%",
-                  }}
                   rules={[
                     {
                       required: true,
@@ -347,9 +338,6 @@ const TeacherModify = () => {
                 </Form.Item>
                 <Form.Item
                   name="tcEmail"
-                  style={{
-                    width: "33%",
-                  }}
                   rules={[
                     {
                       type: "email",
@@ -372,9 +360,6 @@ const TeacherModify = () => {
             <TeacherClassForm>
               <Form.Item
                 name="tcRole"
-                style={{
-                  width: "33%",
-                }}
                 rules={[
                   {
                     required: true,
@@ -400,9 +385,6 @@ const TeacherModify = () => {
 
               <Form.Item
                 name="iclass"
-                style={{
-                  width: "33%",
-                }}
                 rules={[
                   {
                     required: true,

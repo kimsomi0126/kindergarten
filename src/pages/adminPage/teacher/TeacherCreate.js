@@ -153,9 +153,6 @@ const TeacherCreate = () => {
               <TeacherIdItem>
                 <Form.Item
                   name="teacherUid"
-                  style={{
-                    width: "33%",
-                  }}
                   rules={[
                     {
                       required: true,
@@ -167,9 +164,6 @@ const TeacherCreate = () => {
                 </Form.Item>
                 <Form.Item
                   name="teacherUpw"
-                  style={{
-                    width: "33%",
-                  }}
                   rules={[
                     {
                       required: true,
@@ -189,9 +183,6 @@ const TeacherCreate = () => {
               <TeacherIdItem>
                 <Form.Item
                   name="teacherNm"
-                  style={{
-                    width: "33%",
-                  }}
                   rules={[
                     {
                       required: true,
@@ -203,9 +194,6 @@ const TeacherCreate = () => {
                 </Form.Item>
                 <Form.Item
                   name="tcEmail"
-                  style={{
-                    width: "33%",
-                  }}
                   rules={[
                     {
                       type: "email",
@@ -228,9 +216,6 @@ const TeacherCreate = () => {
             <TeacherClassForm>
               <Form.Item
                 name="iclass"
-                style={{
-                  width: "33%",
-                }}
                 rules={[
                   {
                     required: true,

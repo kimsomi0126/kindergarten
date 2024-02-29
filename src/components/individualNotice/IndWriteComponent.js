@@ -146,20 +146,7 @@ const IndWriteComponent = () => {
   const onFinish = async data => {
     console.log("data", data);
     const formData = new FormData();
-    // const dto = new Blob(
-    //   [
-    //     JSON.stringify({
-    //       ikids: ikid,
-    //       noticeTitle: data.noticeTitle,
-    //       noticeContents: data.noticeContents,
-    //       noticeCheck: noticeCheck ? 1 : 0,
-    //     }),
-    //   ],
-    //   { type: "application/json" },
-    // );
-    // formData.append("dto", dto);
 
-    // 파일 데이터 추가
     fileList.forEach(file => {
       formData.append("pics", file.originFileObj);
     });

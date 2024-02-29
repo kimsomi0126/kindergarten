@@ -6,7 +6,7 @@ import {
   useSearchParams,
 } from "react-router-dom"; // 수정된 부분: useSearchParams 추가
 import { Form, Input, Button } from "antd"; // 수정된 부분: Form, Input, Button 추가
-import { IMG_URL } from "../../api/config";
+import { IMG_URL, SERVER_URL } from "../../api/config";
 import {
   deleteIndDetail,
   getIndDetail,
@@ -27,13 +27,15 @@ import {
   IndDetailTop,
   IndDetailWrap,
 } from "../../styles/individualNotice/inddetail";
-import { GreenBtn, OrangeBtn, PinkBtn } from "../../styles/ui/buttons";
+import { BlueBtn, GreenBtn, OrangeBtn, PinkBtn } from "../../styles/ui/buttons";
 import {
   CommentBox,
   CommentView,
   CommentWrap,
   CommentWrite,
 } from "../../styles/ui/comment";
+import TextArea from "antd/es/input/TextArea";
+const host = `${SERVER_URL}/ind`;
 
 const initData = {
   inotice: 0,
@@ -47,14 +49,13 @@ const initData = {
   iteacher: 0,
 };
 
-const IndivDetailsComponent = ({ tno, isLogin, loginState }) => {
+const IndivDetailsComponent = ({ tno }) => {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const year = searchParams.get("year");
   const ikid = searchParams.get("ikid");
   const page = searchParams.get("page");
   const iclass = searchParams.get("iclass");
-  const { isTeacherLogin } = useCustomLogin(); // 수정된 부분: useCustomLogin 훅 사용
   const [data, setData] = useState(initData);
   const [isLoading, setIsLoading] = useState(true);
   const [title, setTitle] = useState("");
@@ -63,11 +64,13 @@ const IndivDetailsComponent = ({ tno, isLogin, loginState }) => {
   const [isNavigate, setIsNavigate] = useState();
   const [commentState, setCommentState] = useState(false);
   const [commentNum, setCommentNum] = useState(null);
-  const iwriter = isTeacherLogin ? loginState.teacherUid : loginState.iparent; // 수정된 부분: isTeacherLogin 변수 사용
+  // const iwriter = isTeacherLogin ? loginState.teacherUid : loginState.iparent; // 수정된 부분: isTeacherLogin 변수 사용
   const [isDelComment, setIsDelComment] = useState(false);
   const [form] = Form.useForm();
 
-  const iteacher = isTeacherLogin ? loginState.teacherUid : 0;
+  const { isLogin, loginState, isTeacherLogin, isAdminLogin, isParentLogin } =
+    useCustomLogin(); // 수정된 부분: useCustomLogin 훅 사용
+  console.log("로그인 상태값 확인", loginState);
 
   const handleOk = () => {
     setIsOpen(false);
@@ -149,9 +152,10 @@ const IndivDetailsComponent = ({ tno, isLogin, loginState }) => {
     const obj = {
       inotice: tno,
       noticeComment: value.noticeComment,
-      iteacher: iteacher,
+      iteacher: loginState.iteacher,
     };
     console.log(obj, "댓글등록");
+    console.log("댓글작성 확인", value);
     postIndComment({
       obj,
       successFn,
@@ -204,7 +208,9 @@ const IndivDetailsComponent = ({ tno, isLogin, loginState }) => {
           </IndClass>
           <h3>{data.noticeTitle}</h3>
           <IndBot>
-            <div className="ind-date">{data.createdAt.split(" ")[0]}</div>
+            <div className="ind-date">
+              {data && data.createdAt ? data.createdAt.split(" ")[0] : ""}
+            </div>
           </IndBot>
         </IndDetailTop>
         <IndDetailContent>
@@ -224,38 +230,31 @@ const IndivDetailsComponent = ({ tno, isLogin, loginState }) => {
         </IndDetailFile>
         <CommentWrap>
           <CommentView>
-            {Array.isArray(data.noticeComments) &&
-              data.noticeComments.map((item, index) => (
-                <CommentBox
-                  key={item.inoticeComment}
-                  className={item.writerIuser == iwriter ? "right" : null}
-                >
+            {/* {console.log("데이터 확인", data.comments[0])} */}
+            {Array.isArray(data.comments) &&
+              data.comments.map((item, index) => (
+                <CommentBox key={item.inoticeComment}>
                   <pre className="text">{item.noticeComment}</pre>
                   <ul>
                     <li className="name">{item.writerName}</li>
                     <li className="date">{item.createdAt}</li>
                   </ul>
-                  {item.writerIuser == iwriter ? (
-                    <span
-                      className="delete"
-                      onClick={() => {
-                        setCommentNum(item.inoticeComment);
-                        setIsDelComment(true);
-                      }}
-                    >
-                      댓글삭제
-                    </span>
-                  ) : null}
+                  <span
+                    className="delete"
+                    onClick={() => {
+                      setCommentNum(item.inoticeComment);
+                      setIsDelComment(true);
+                    }}
+                  >
+                    댓글삭제
+                  </span>
                 </CommentBox>
               ))}
           </CommentView>
           <CommentWrite>
             <Form form={form} onFinish={handleWriteComment}>
               <Form.Item name="noticeComment">
-                <Input.TextArea
-                  required
-                  placeholder="댓글내용을 입력해주세요."
-                />
+                <TextArea required placeholder="댓글내용을 입력해주세요." />
               </Form.Item>
               <Button htmlType="submit" type="primary">
                 등록
@@ -278,6 +277,15 @@ const IndivDetailsComponent = ({ tno, isLogin, loginState }) => {
         <GreenBtn onClick={handleClickList}>목록보기</GreenBtn>
         {isLogin ? (
           <>
+            <BlueBtn
+              onClick={() => {
+                navigate(
+                  `${host}/modify/${tno}?year=${year}&page=${page}&iclass=${iclass}`,
+                );
+              }}
+            >
+              수정
+            </BlueBtn>
             <PinkBtn onClick={handleClickDelete}>삭제</PinkBtn>
           </>
         ) : null}

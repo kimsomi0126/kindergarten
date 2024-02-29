@@ -1,0 +1,2600 @@
+[33mcommit de9e06e9079a4156263a8c892e852b1f500f074c[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mdsa9925-work[m[33m)[m
+Merge: 2292941 453c375
+Author: devcodemaestro <dev.codemaestro@gmail.com>
+Date:   Thu Feb 29 14:35:11 2024 +0900
+
+    Merge branch 'work' of https://github.com/dsa9925/kindergarten into dsa9925-work
+
+[33mcommit 22929415c2abe76250e3b83aefaf8111bdc43338[m[33m ([m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m)[m
+Author: devcodemaestro <dev.codemaestro@gmail.com>
+Date:   Thu Feb 29 14:33:11 2024 +0900
+
+    fix: 충돌해결
+
+[33mcommit e74bd4bcb1595f25173defae7eaea1c2d4108958[m
+Merge: 0ca4998 97d90d0
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Thu Feb 29 14:27:33 2024 +0900
+
+    Merge pull request #161 from devcodemaestro/work
+    
+    feat : 추억앨범 API 작성 및 퍼블리싱 중
+
+[33mcommit 0ca499867df6299cbfc1ee186328bd5591c9d433[m
+Merge: 487d2a8 d813b0c
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Thu Feb 29 14:27:22 2024 +0900
+
+    Merge pull request #160 from kimsomi0126/somi
+    
+    feat : 학부모 웹푸시 완료
+
+[33mcommit 487d2a8c9eabcdc53c4b8d5419bdf2e73a56aaef[m
+Merge: 865bc5a 6802ed8
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Thu Feb 29 14:27:15 2024 +0900
+
+    Merge pull request #159 from do-sg/dsg
+    
+    feat: 선생님 관리 권한 설정 작업중
+
+[33mcommit 453c375726d0017ee68057339e3ecfb931973a4b[m
+Author: dsa9925 <dev.dsa9925@gmail.com>
+Date:   Wed Feb 28 21:50:27 2024 +0900
+
+    feat : 유치원 알림장 선생님 댓글 기능 진행중
+
+[33mcommit 97d90d01d2b3ba76a6f642ed36b439a3b0a395fa[m[33m ([m[1;31morigin/work[m[33m, [m[1;32mwork[m[33m)[m
+Author: devcodemaestro <dev.codemaestro@gmail.com>
+Date:   Wed Feb 28 21:00:13 2024 +0900
+
+    feat : 추억앨범 API 작성 및 퍼블리싱 중
+
+[33mcommit d813b0c51c84de54cb72f12535940df373a289e8[m
+Author: kimsomi0126 <kimsomi00126@gmail.com>
+Date:   Wed Feb 28 20:20:02 2024 +0900
+
+    feat : 학부모 웹푸시 완료
+
+[33mcommit 6802ed8e9127921db0febaeeca2b5d1597f61455[m
+Author: do-sg <do.seongyeong1@gmail.com>
+Date:   Wed Feb 28 20:11:45 2024 +0900
+
+    feat: 선생님 관리 권한 설정 작업중
+
+[33mcommit 865bc5a94c34426b90e6800320e0c3b043dbaa47[m
+Merge: d5a8572 dfb2a1c
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Wed Feb 28 09:51:26 2024 +0900
+
+    Merge pull request #158 from devcodemaestro/work
+    
+    feat : 추억앨범 작성중
+
+[33mcommit d5a85724bcb349562ffde54543d4722ddd133b89[m
+Merge: 67e986d 4864e5b
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Wed Feb 28 09:51:18 2024 +0900
+
+    Merge pull request #157 from dsa9925/work
+    
+    feat : 알림장 선생님 글쓰기 기능 완료 후 상세페이지 댓글 기능 작업중
+
+[33mcommit 67e986d0a0c07c0576a31843016d5f30a85dcc3e[m
+Merge: c31b76c 70430a2
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Wed Feb 28 09:51:05 2024 +0900
+
+    Merge pull request #156 from kimsomi0126/somi
+    
+    feat : 웹푸시 기능 진행중
+
+[33mcommit c31b76c840fbe952dcdd99f9a273186fe6a272e0[m
+Merge: 102be75 196c3ad
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Wed Feb 28 09:50:56 2024 +0900
+
+    Merge pull request #155 from do-sg/dsg
+    
+    feat: 선생님 관리 리스트 수정작업중
+
+[33mcommit dfb2a1c9e9e43b3c1f123f5003f9dca1d040fb78[m
+Author: devcodemaestro <dev.codemaestro@gmail.com>
+Date:   Wed Feb 28 09:50:20 2024 +0900
+
+    feat : 추억앨범 작성중
+
+[33mcommit 4864e5bf79aa2b7c83819ba18b11bf952c1b6693[m
+Author: dsa9925 <dev.dsa9925@gmail.com>
+Date:   Tue Feb 27 20:48:32 2024 +0900
+
+    feat : 알림장 선생님 글쓰기 기능 완료 후 상세페이지 댓글 기능 작업중
+
+[33mcommit 70430a263b1688a2e597e2f70b2d48e2d36563a3[m
+Author: kimsomi0126 <kimsomi00126@gmail.com>
+Date:   Tue Feb 27 19:01:48 2024 +0900
+
+    feat : 웹푸시 기능 진행중
+    - firebase 설치
+    - recoil 설치
+    - firebaseToken 갱신 및 전송
+    - accessToken 권한 별 갱신
+
+[33mcommit 196c3adf260ad0952ca9a22cf3e5ae1e1e60fb69[m
+Author: do-sg <do.seongyeong1@gmail.com>
+Date:   Tue Feb 27 18:31:45 2024 +0900
+
+    feat: 선생님 관리 리스트 수정작업중
+
+[33mcommit 102be75ccfe7de14e89cd055524a509d2502aae7[m
+Merge: 95c7316 a3d8ad1
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Tue Feb 27 11:22:01 2024 +0900
+
+    Merge pull request #154 from devcodemaestro/work
+    
+    fix: 충돌 해결
+
+[33mcommit a3d8ad18b330e033d2106266a4f0d7d9709e7db0[m
+Author: devcodemaestro <dev.codemaestro@gmail.com>
+Date:   Tue Feb 27 11:21:27 2024 +0900
+
+    fix: 충돌 해결
+
+[33mcommit 95c73161aeec5f01d93ef865e797b69cb09f8cff[m
+Merge: ff4f0a8 4946ebe
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Mon Feb 26 22:19:31 2024 +0900
+
+    Merge pull request #153 from devcodemaestro/work
+    
+    feat : 알림장 선생님 글쓰기 기능 진행중
+
+[33mcommit 4946ebea518ca3c0d3305365157c2cac3aa8af89[m
+Merge: 4329f21 f1f299c
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Mon Feb 26 22:19:24 2024 +0900
+
+    Merge branch 'main' into work
+
+[33mcommit ff4f0a8ced52a552f69907ad5cfe7aa590f7a4e0[m
+Merge: f1f299c fec91a2
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Mon Feb 26 22:15:53 2024 +0900
+
+    Merge pull request #152 from kimsomi0126/somi
+    
+    feat : 예방접종기관정보, 알림장 리스트 수정
+
+[33mcommit fec91a2cc23cd41e357a876610e32290877144d8[m
+Author: kimsomi0126 <kimsomi00126@gmail.com>
+Date:   Mon Feb 26 22:14:16 2024 +0900
+
+    feat : 예방접종기관정보, 알림장 리스트 수정
+
+[33mcommit f1f299c5a0ef52adf534e1a7e3e6263eb4ecfb78[m
+Merge: 8836159 38e9b1c
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Mon Feb 26 22:00:59 2024 +0900
+
+    Merge pull request #151 from dsa9925/work
+    
+    Work
+
+[33mcommit 883615917d586fc64ba4676e2f4b4d04460c9b4b[m
+Merge: 94c50f7 8b350bb
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Mon Feb 26 22:00:48 2024 +0900
+
+    Merge pull request #150 from do-sg/dsg
+    
+    feat: 선생님 관리 api 연동 수정중
+
+[33mcommit 38e9b1cf42e93fba5369e29e330165d09f80ddb3[m
+Author: dsa9925 <dev.dsa9925@gmail.com>
+Date:   Mon Feb 26 21:55:56 2024 +0900
+
+    feat : 알림장 글쓰기, 모달창 작업 중
+
+[33mcommit ab8b6b8452b85de568291bce0d78c1ced0f4f084[m
+Merge: d633e3a 8526f3a
+Author: dsa9925 <dev.dsa9925@gmail.com>
+Date:   Mon Feb 26 21:55:49 2024 +0900
+
+    Merge branch 'work' of https://github.com/dsa9925/kindergarten into work
+
+[33mcommit d633e3a8eb26df6801f3e7de1605838879508c2a[m
+Author: dsa9925 <dev.dsa9925@gmail.com>
+Date:   Mon Feb 26 21:48:55 2024 +0900
+
+    feat : 알림장 선생님 글쓰기, 모달창 작업 진행 중
+
+[33mcommit 8b350bb6650db94185a32b0009b2dfea99a39905[m
+Author: do-sg <do.seongyeong1@gmail.com>
+Date:   Mon Feb 26 18:32:15 2024 +0900
+
+    feat: 선생님 관리 api 연동 수정중
+
+[33mcommit 94c50f71a63cb82ff5681f62315a888dac08dcbd[m
+Merge: b244871 d43726b
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Mon Feb 26 16:32:32 2024 +0900
+
+    Merge pull request #149 from kimsomi0126/somi
+    
+    feat : 예방접종기관정보 페이지 수정
+
+[33mcommit 4329f21b01ad7848aa477a3a6d101cc88f65ec0e[m
+Merge: 07ad2f8 8526f3a
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Mon Feb 26 16:32:22 2024 +0900
+
+    Merge pull request #148 from dsa9925/work
+    
+    feat : 알림장 선생님 글쓰기 기능 진행중
+
+[33mcommit b244871901f7d06254440064bb9e80c53995059a[m
+Merge: ae85ce1 e83ac99
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Mon Feb 26 16:31:32 2024 +0900
+
+    Merge pull request #147 from do-sg/dsg
+    
+    feat: 선생님 정보수정 api 연동 완료
+
+[33mcommit d43726bc9f300831574d751fc55d4c0338dda3c5[m
+Author: kimsomi0126 <kimsomi00126@gmail.com>
+Date:   Mon Feb 26 16:30:56 2024 +0900
+
+    feat : 예방접종기관정보 페이지 수정
+
+[33mcommit e83ac994b45c2c230d65a31d892970d38295b8b6[m
+Author: do-sg <do.seongyeong1@gmail.com>
+Date:   Mon Feb 26 16:30:46 2024 +0900
+
+    feat: 선생님 정보수정 api 연동 완료
+
+[33mcommit 8526f3a7ff0c5ac332b381d57171c235dc690950[m
+Author: dsa9925 <dev.dsa9925@gmail.com>
+Date:   Mon Feb 26 16:30:42 2024 +0900
+
+    feat : 알림장 선생님 글쓰기 기능 진행중
+
+[33mcommit ae85ce1c220b27d46d706707f910c29b4595b420[m
+Merge: 966f011 07ad2f8
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Mon Feb 26 12:14:22 2024 +0900
+
+    Merge pull request #146 from devcodemaestro/work
+    
+    fix: 앨범 모달 수정
+
+[33mcommit 966f011ef000e75d34e2b29bc689ce193fcf6aec[m
+Merge: 26ea17c 13c5504
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Mon Feb 26 12:14:11 2024 +0900
+
+    Merge pull request #145 from kimsomi0126/somi
+    
+    feat : 알림장 검색 수정, 예방접종기관정보 페이지 작업 완료
+
+[33mcommit 26ea17c0d7a0535bfadb963c39af1f1f9bc90a07[m
+Merge: c2ec15d 6793ebb
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Mon Feb 26 12:14:00 2024 +0900
+
+    Merge pull request #144 from do-sg/dsg
+    
+    feat: 선생님 정보 수정 api 연동 작업 진행중
+
+[33mcommit 07ad2f8693f442f6fd9d52504dcf06d41046d893[m
+Author: devcodemaestro <dev.codemaestro@gmail.com>
+Date:   Mon Feb 26 12:12:34 2024 +0900
+
+    fix: 앨범 모달 수정
+
+[33mcommit 13c5504c8da75b477154235df7549c92208e4bdf[m
+Author: kimsomi0126 <kimsomi00126@gmail.com>
+Date:   Fri Feb 23 20:17:33 2024 +0900
+
+    feat : 알림장 검색 수정, 예방접종기관정보 페이지 작업 완료
+
+[33mcommit 6793ebb3d0bd32213cbdb3b470aed84880dfc36f[m
+Author: do-sg <do.seongyeong1@gmail.com>
+Date:   Fri Feb 23 18:00:32 2024 +0900
+
+    feat: 선생님 정보 수정 api 연동 작업 진행중
+
+[33mcommit c2ec15dc60f64f48cb78864a65cdcd56e16b70e3[m
+Merge: 6f48512 329b49a
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Thu Feb 22 18:26:12 2024 +0900
+
+    Merge pull request #143 from do-sg/dsg
+    
+    feat: 선생님 정보 수정전 불러오기 및 선생님 재직상태 변경 완료
+
+[33mcommit 6f4851253094e80c1fc96bfb0f75af9570b2a2a2[m
+Merge: 0cb13ba 5faaa84
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Thu Feb 22 18:26:01 2024 +0900
+
+    Merge pull request #142 from devcodemaestro/work2
+    
+    fix : 앨범 모달 수정
+
+[33mcommit 0cb13babcd0daa65aa5fc4b388bff1aedf4db634[m
+Merge: abe1386 17d79d5
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Thu Feb 22 18:25:53 2024 +0900
+
+    Merge pull request #141 from dsa9925/work
+    
+    알림장 등록 중요체크 기능 작업중
+
+[33mcommit abe1386dbfd9ba6b959a38c4df9ed8d79f48663c[m
+Merge: 7b383cd 81a82ee
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Thu Feb 22 18:25:39 2024 +0900
+
+    Merge pull request #140 from kimsomi0126/somi
+    
+    feat : 알림장 리스트 수정 및 검색기능 추가, 메뉴 변경 및 선생님 로그인 체크 기능 추가
+
+[33mcommit 7b383cd6cb5014cd78a7a6a70d409fd5e2323c20[m
+Merge: a8ce8ed a120c26
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Thu Feb 22 18:25:23 2024 +0900
+
+    Merge pull request #139 from devcodemaestro/work
+    
+    fix : 앨범수정
+
+[33mcommit 329b49a27da69e6de75d30794c91e502cc337860[m
+Author: do-sg <do.seongyeong1@gmail.com>
+Date:   Thu Feb 22 18:21:44 2024 +0900
+
+    feat: 선생님 정보 수정전 불러오기 및 선생님 재직상태 변경 완료
+
+[33mcommit 17d79d578077d34c91c81cd9b722c4976bdefa34[m
+Author: dsa9925 <dev.dsa9925@gmail.com>
+Date:   Thu Feb 22 18:11:16 2024 +0900
+
+    알림장 등록 중요체크 기능 작업중
+
+[33mcommit 5faaa8439849b0b84ec422a7181b7471cb46beb6[m[33m ([m[1;31morigin/work2[m[33m)[m
+Author: devcodemaestro <dev.codemaestro@gmail.com>
+Date:   Thu Feb 22 18:10:51 2024 +0900
+
+    fix : 앨범 모달 수정
+
+[33mcommit 81a82ee720b09aa3f81610c7640886d9e20d4e23[m
+Author: kimsomi0126 <kimsomi00126@gmail.com>
+Date:   Thu Feb 22 17:54:23 2024 +0900
+
+    feat : 알림장 리스트 수정 및 검색기능 추가, 메뉴 변경 및 선생님 로그인 체크 기능 추가
+    - 원장님 제외 선생님 로그인 체크 기능 추가
+    - 상단 푸쉬알림 아이콘 추가
+    - 교육 > 교육정보로 메뉴명 변경, 메인 바로가기 배너명 변경
+    - 알림장 리스트 디자인 변경, 검색기능 추가
+
+[33mcommit a120c26a01efde16a4f5c03501b1299691a2d519[m
+Author: devcodemaestro <dev.codemaestro@gmail.com>
+Date:   Thu Feb 22 16:42:33 2024 +0900
+
+    fix : 앨범수정
+    
+    feat : 검색기능
+
+[33mcommit a8ce8edfb0080f2ebc459ebfe104cab5b04c5326[m
+Merge: 84671b0 d273b8f
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Wed Feb 21 22:05:01 2024 +0900
+
+    Merge pull request #138 from devcodemaestro/work
+    
+    fix: 앨범 수정기능 일부 조정
+
+[33mcommit 84671b08b2aa0a10abbddba185abbb8b9e868ce1[m
+Merge: b62f40f e1c5f52
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Wed Feb 21 22:04:51 2024 +0900
+
+    Merge pull request #137 from dsa9925/work
+    
+    feat : 유치원소식 수정기능 완료. 알림장 글쓰기 퍼블리싱 진행중
+
+[33mcommit b62f40ff2f2866986f1ed847b9624435f36bd78f[m
+Merge: 9d93db8 958617b
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Wed Feb 21 22:04:43 2024 +0900
+
+    Merge pull request #136 from kimsomi0126/somi
+    
+    feat : 알림장 리스트 완료
+
+[33mcommit 9d93db8b29f202a98af9246e29a77ffa17486a19[m
+Merge: 83c027d 2444d37
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Wed Feb 21 22:04:27 2024 +0900
+
+    Merge pull request #135 from do-sg/dsg
+    
+    feat: 선생님 등록 이미지 오류 수정 완료 및 선생님 선택 퇴사 api 연동 완료
+
+[33mcommit d273b8f71b731a9c350907471e2a09f880fccebd[m
+Author: devcodemaestro <dev.codemaestro@gmail.com>
+Date:   Wed Feb 21 22:02:11 2024 +0900
+
+    fix: 앨범 수정기능 일부 조정
+
+[33mcommit e1c5f527e4e5445eb78cfce011aeaead17411fc0[m
+Author: dsa9925 <dev.dsa9925@gmail.com>
+Date:   Wed Feb 21 20:41:11 2024 +0900
+
+    feat : 유치원소식 수정기능 완료. 알림장 글쓰기 퍼블리싱 진행중
+
+[33mcommit 958617b85c2669ea2abb7eaa39810f6867ad4432[m
+Author: kimsomi0126 <kimsomi00126@gmail.com>
+Date:   Wed Feb 21 19:00:56 2024 +0900
+
+    feat : 알림장 리스트 완료
+
+[33mcommit 2444d37cfb161260318bf7885633e95158f30985[m
+Author: do-sg <do.seongyeong1@gmail.com>
+Date:   Wed Feb 21 18:57:02 2024 +0900
+
+    feat: 선생님 등록 이미지 오류 수정 완료 및 선생님 선택 퇴사 api 연동 완료
+
+[33mcommit 83c027d615d6e7b4892d5db4aed8080eff45c16e[m
+Merge: e7830b6 eba8aee
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Wed Feb 21 16:28:17 2024 +0900
+
+    Merge pull request #134 from kimsomi0126/somi
+    
+    feat : footer 수정, 알림장 리스트 진행중
+
+[33mcommit e7830b6b7a37b4f74f8452196fc4200ae9e937e3[m
+Merge: 97ce6f5 2ed13bf
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Wed Feb 21 16:27:56 2024 +0900
+
+    Merge pull request #133 from devcodemaestro/work
+    
+    fix : 앨범 수정 기능 일부 수정
+
+[33mcommit 97ce6f5d01b7120c0af285b5d6b742586d17a33b[m
+Merge: 4ce8ad5 31da9d9
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Wed Feb 21 16:27:46 2024 +0900
+
+    Merge pull request #132 from do-sg/dsg
+    
+    feat: 선생님 등록 이미지 오류 수정중
+
+[33mcommit 2ed13bf225d2962721107b5ae578c7a14c2375dc[m
+Merge: ef2eec7 bcadd2f
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Wed Feb 21 16:27:34 2024 +0900
+
+    Merge pull request #131 from dsa9925/work
+    
+    faet : 유치원 소식 수정기능 작업중
+
+[33mcommit eba8aee51832f2d4d73c88e2d03ba1699e99d00b[m
+Author: kimsomi0126 <kimsomi00126@gmail.com>
+Date:   Wed Feb 21 16:27:29 2024 +0900
+
+    feat : footer 수정, 알림장 리스트 진행중
+
+[33mcommit 31da9d96bc9af6a81850aab142f8464102ae0c51[m
+Author: do-sg <do.seongyeong1@gmail.com>
+Date:   Wed Feb 21 16:26:36 2024 +0900
+
+    feat: 선생님 등록 이미지 오류 수정중
+
+[33mcommit bcadd2fbd693bb4d1c43166715d6aa1e53f3d946[m
+Author: dsa9925 <dev.dsa9925@gmail.com>
+Date:   Wed Feb 21 16:26:11 2024 +0900
+
+    faet : 유치원 소식 수정기능 작업중
+
+[33mcommit ef2eec79941316e4a75777f6792c9c1343253f0c[m
+Author: devcodemaestro <dev.codemaestro@gmail.com>
+Date:   Wed Feb 21 16:26:06 2024 +0900
+
+    fix : 앨범 수정 기능 일부 수정
+
+[33mcommit 4ce8ad51637c33fe449e670a3c59cec6c3325485[m
+Merge: 7ca3b0c f2a9fa6
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Tue Feb 20 21:46:10 2024 +0900
+
+    Merge pull request #130 from devcodemaestro/work
+    
+    fix: 앨범 수정 기능 오류 수정 중
+
+[33mcommit 7ca3b0c60c9118e7c88b2e15a63457426615066e[m
+Merge: 5821cba 32fb31e
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Tue Feb 20 21:45:59 2024 +0900
+
+    Merge pull request #129 from dsa9925/work
+    
+    feat : 유치원소식 수정기능 진행중(이미지 추가 업로드 완료/이미지 수정삭제 진행중)
+
+[33mcommit 5821cba3f86ad2ad40b85d9201605610c3c8f11e[m
+Merge: 4f4724f c4c6105
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Tue Feb 20 21:45:48 2024 +0900
+
+    Merge pull request #128 from kimsomi0126/somi
+    
+    feat : 학부모관리, 원생관리, 마이페이지  반응형 작업 완료, 알림장 리스트 수정 진행중
+
+[33mcommit 4f4724fbf953a53c79f53901fd63e8e8777aebcb[m
+Merge: 734b9dc 95d7647
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Tue Feb 20 21:45:37 2024 +0900
+
+    Merge pull request #127 from do-sg/dsg
+    
+    feat: 선셍님 등록 페이지 api 연동 완료 및 선생님 선택 퇴사 api 연동 작업중
+
+[33mcommit f2a9fa61031fcb3b89e93b9cfc32b8040fa2558a[m
+Author: devcodemaestro <dev.codemaestro@gmail.com>
+Date:   Tue Feb 20 21:44:15 2024 +0900
+
+    fix: 앨범 수정 기능 오류 수정 중
+
+[33mcommit 32fb31e1e29bc0a5e6c82a64b4f527c94e5938c5[m
+Author: dsa9925 <dev.dsa9925@gmail.com>
+Date:   Tue Feb 20 21:33:03 2024 +0900
+
+    feat : 유치원소식 수정기능 진행중(이미지 추가 업로드 완료/이미지 수정삭제 진행중)
+
+[33mcommit c4c61051eed24fe5fb2cad8f95339a989a41bbc0[m
+Author: kimsomi0126 <kimsomi00126@gmail.com>
+Date:   Tue Feb 20 20:24:26 2024 +0900
+
+    feat : 학부모관리, 원생관리, 마이페이지  반응형 작업 완료, 알림장 리스트 수정 진행중
+
+[33mcommit 95d7647b4e15882605e4d346f4c75571b448b8cc[m
+Author: do-sg <do.seongyeong1@gmail.com>
+Date:   Tue Feb 20 18:16:04 2024 +0900
+
+    feat: 선셍님 등록 페이지 api 연동 완료 및 선생님 선택 퇴사 api 연동 작업중
+
+[33mcommit 734b9dc4eff4aa999aa07336a0cbc54bdc4690c7[m
+Merge: 50faf67 04b494a
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Mon Feb 19 19:52:17 2024 +0900
+
+    Merge pull request #126 from kimsomi0126/somi
+    
+    feat : 활동앨범 댓글기능, 유치원소식 반응형 완료
+
+[33mcommit 50faf673ba4fe43c7fd7f29177c914c990ca471e[m
+Merge: 9271014 9f85a70
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Mon Feb 19 19:51:59 2024 +0900
+
+    Merge pull request #125 from devcodemaestro/work
+    
+    feat : 활동앨범 수정기능 추가
+
+[33mcommit 927101429b6917c02e4c2ce0fa874211d95902cc[m
+Merge: c14bf94 0cd0043
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Mon Feb 19 19:51:49 2024 +0900
+
+    Merge pull request #124 from dsa9925/work
+    
+    feat : 유치원 소식 수정기능 작업중
+
+[33mcommit 0cd0043dbbda913ab712974bdf16523f76ea3ee5[m
+Merge: 9bb7609 c14bf94
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Mon Feb 19 19:51:38 2024 +0900
+
+    Merge branch 'main' into work
+
+[33mcommit c14bf94e2544cb1bdfa0b771d42f2b59fe7c6cbe[m
+Merge: e1e612a fbd3c72
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Mon Feb 19 19:43:30 2024 +0900
+
+    Merge pull request #123 from do-sg/dsg
+    
+    feat: 선생님 관리 페이지 api 연동 완료 및 선생님 등록 api 연동 작업중
+
+[33mcommit 04b494a7c5c020d07234095676154dece83a8288[m
+Author: kimsomi0126 <kimsomi00126@gmail.com>
+Date:   Mon Feb 19 19:38:25 2024 +0900
+
+    feat : 활동앨범 댓글기능, 유치원소식 반응형 완료
+
+[33mcommit 9f85a70512971101bced8aabb54505fdd6e1dc8e[m
+Author: devcodemaestro <dev.codemaestro@gmail.com>
+Date:   Mon Feb 19 19:33:12 2024 +0900
+
+    feat : 활동앨범 수정기능 추가
+
+[33mcommit 9bb7609cb24ad0779566bd3b11d92dc310fab42b[m
+Author: dsa9925 <dev.dsa9925@gmail.com>
+Date:   Mon Feb 19 18:38:58 2024 +0900
+
+    feat : 유치원 소식 수정기능 작업중
+
+[33mcommit fbd3c72be33e5b4fa0d6d87a064339dd54eed0f0[m
+Author: do-sg <do.seongyeong1@gmail.com>
+Date:   Mon Feb 19 18:35:14 2024 +0900
+
+    feat: 선생님 관리 페이지 api 연동 완료 및 선생님 등록 api 연동 작업중
+
+[33mcommit e1e612a8246637f2b503f6c0e442b29c6711b369[m
+Merge: 786fa05 2e2768a
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Fri Feb 16 21:57:28 2024 +0900
+
+    Merge pull request #122 from dsa9925/work
+    
+    유치원 소식 수정기능 진행 중
+
+[33mcommit 786fa0538b367c9add6873467909a58f84c4f697[m
+Merge: cb2f421 1dd99db
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Fri Feb 16 21:57:20 2024 +0900
+
+    Merge pull request #121 from kimsomi0126/somi
+    
+    feat : 오시는길, 활동앨범 반응형 완료, 유치원소식 진행중
+
+[33mcommit cb2f421dae4b9d573e081347c8c5d48984c9773f[m
+Merge: 84a5fe4 cd97e56
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Fri Feb 16 21:57:09 2024 +0900
+
+    Merge pull request #120 from do-sg/dsg
+    
+    feat: 선생님 정보수정 페이지 퍼블리싱 작업중
+
+[33mcommit 2e2768a1802a37fec0af5002b3558638b83c9869[m
+Author: dsa9925 <dev.dsa9925@gmail.com>
+Date:   Fri Feb 16 19:19:32 2024 +0900
+
+    유치원 소식 수정기능 진행 중
+
+[33mcommit 1dd99dbebedcb8164dcb605e3d11b1f4d5e81a21[m
+Author: kimsomi0126 <kimsomi00126@gmail.com>
+Date:   Fri Feb 16 18:16:33 2024 +0900
+
+    feat : 오시는길, 활동앨범 반응형 완료, 유치원소식 진행중
+
+[33mcommit cd97e56888e55649b5a7d077a4fcf581d8efcb15[m
+Author: do-sg <do.seongyeong1@gmail.com>
+Date:   Fri Feb 16 18:11:20 2024 +0900
+
+    feat: 선생님 정보수정 페이지 퍼블리싱 작업중
+
+[33mcommit 84a5fe4bcbcfa66f8769c0b7fd728ffcaa635d6f[m
+Merge: 80d30f3 1cefb28
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Thu Feb 15 20:50:38 2024 +0900
+
+    Merge pull request #119 from kimsomi0126/somi2
+    
+    feat : 유치원소개, 활동앨범 리스트 반응형 작업 완료
+
+[33mcommit 80d30f3af84a86039a32d87285066c9b305a8e1a[m
+Merge: cbb1ea6 30d2d67
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Thu Feb 15 20:50:29 2024 +0900
+
+    Merge pull request #118 from dsa9925/work
+    
+    유치원 소식 파트 수정 기능 진행중
+
+[33mcommit cbb1ea6154ba9d0040709c32ebdfccb1a54633e1[m
+Merge: 46c236c c262962
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Thu Feb 15 20:49:55 2024 +0900
+
+    Merge pull request #117 from do-sg/dsg
+    
+    feat: 선생님 관리 페이지 퍼블리싱 완료 및 선생님 정보 수정 페이지 퍼블리싱 진행중
+
+[33mcommit 1cefb28abdbbf45cd7db06a4673e81c5645dd66a[m
+Author: kimsomi0126 <kimsomi00126@gmail.com>
+Date:   Thu Feb 15 18:11:33 2024 +0900
+
+    feat : 유치원소개, 활동앨범 리스트 반응형 작업 완료
+
+[33mcommit 30d2d6705f682f5bc642b42088e230989850a8b0[m
+Author: dsa9925 <dev.dsa9925@gmail.com>
+Date:   Thu Feb 15 18:09:52 2024 +0900
+
+    유치원 소식 파트 수정 기능 진행중
+
+[33mcommit c262962583f7b9b044b0e7676f8a4f2db3aafa6a[m
+Author: do-sg <do.seongyeong1@gmail.com>
+Date:   Thu Feb 15 18:03:48 2024 +0900
+
+    feat: 선생님 관리 페이지 퍼블리싱 완료 및 선생님 정보 수정 페이지 퍼블리싱 진행중
+
+[33mcommit 46c236c72b537309f64c46f7bf5d9f64e92db7bd[m
+Merge: 4fd5ef2 7e74cb9
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Wed Feb 14 19:30:19 2024 +0900
+
+    Merge pull request #116 from dsa9925/work
+    
+    유치원 소식 파트 수정기능 오류 해결중
+
+[33mcommit 7e74cb9d97928f8b094696225dfc66a19495052a[m
+Author: dsa9925 <dev.dsa9925@gmail.com>
+Date:   Wed Feb 14 19:28:53 2024 +0900
+
+    유치원 소식 파트 수정기능 오류 해결중
+
+[33mcommit 4fd5ef2c365084be2d818147ab3de8493a289f3e[m
+Merge: 803d813 6e97fe8
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Wed Feb 14 18:38:02 2024 +0900
+
+    Merge pull request #115 from kimsomi0126/somi2
+    
+    feat : 메인, 회원가입, 로그인 반응형 작업 완료, 서브페이지 반응형 진행중
+
+[33mcommit 6e97fe8b52f1be9c1bca4ad725fb24cec643dc48[m
+Merge: e0e1b40 803d813
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Wed Feb 14 18:37:56 2024 +0900
+
+    Merge branch 'main' into somi2
+
+[33mcommit 803d813bafc8ecdf943e4b69312ef7d9a73921f9[m
+Merge: 1f5fe4f 2c5921b
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Wed Feb 14 18:37:16 2024 +0900
+
+    Merge pull request #114 from do-sg/dsg
+    
+    feat: 선생님 등록 페이지 퍼블리싱 완료, 선생님 관리 페이지 퍼블리싱 진행중
+
+[33mcommit 1f5fe4fd3d451410254fe691c09b2b9bfe6fa4e9[m
+Merge: 8dd3e3b e6723a6
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Wed Feb 14 18:37:04 2024 +0900
+
+    Merge pull request #113 from dsa9925/work
+    
+    feat : 유치원 소식 파트 수정 기능 수정중
+
+[33mcommit 2c5921b691e4ac3ebd640de10db34abd49d4ea9c[m
+Author: do-sg <do.seongyeong1@gmail.com>
+Date:   Wed Feb 14 18:15:30 2024 +0900
+
+    feat: 선생님 등록 페이지 퍼블리싱 완료, 선생님 관리 페이지 퍼블리싱 진행중
+
+[33mcommit e0e1b40619b4d52c10a241a1c651e18b634f8877[m
+Author: kimsomi0126 <kimsomi00126@gmail.com>
+Date:   Wed Feb 14 18:14:32 2024 +0900
+
+    feat : 메인, 회원가입, 로그인 반응형 작업 완료, 서브페이지 반응형 진행중
+
+[33mcommit e6723a6b895a3d89b84ad1e57b61f66236c0432e[m
+Author: dsa9925 <dev.dsa9925@gmail.com>
+Date:   Wed Feb 14 18:12:22 2024 +0900
+
+    feat : 유치원 소식 파트 수정 기능 수정중
+
+[33mcommit 8dd3e3b38ebb6f39f628ff62ce630a5a1e31207b[m
+Merge: d5d990e 04ba0d7
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Wed Feb 14 16:38:54 2024 +0900
+
+    Merge pull request #112 from dsa9925/work
+    
+    feat : 모달창 수정중
+
+[33mcommit 04ba0d7c1be7f69405c6e430b6702b0644bb2f80[m
+Author: dsa9925 <dev.dsa9925@gmail.com>
+Date:   Wed Feb 14 16:37:22 2024 +0900
+
+    feat : 모달창 수정중
+
+[33mcommit d5d990e34102b0ffb18fdac262efd6f9bfa87999[m
+Merge: 7b2757e a06e093
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Wed Feb 14 16:36:48 2024 +0900
+
+    Merge pull request #111 from devcodemaestro/work
+    
+    fix : createBrowserRouter의 path별 기본 접속 경로 재설정
+
+[33mcommit a06e093bb45bdf42705ccc5e3f14eca9bb59cee5[m
+Author: devcodemaestro <dev.codemaestro@gmail.com>
+Date:   Wed Feb 14 15:45:11 2024 +0900
+
+    fix : createBrowserRouter의 path별 기본 접속 경로 재설정
+
+[33mcommit 7b2757e75d6b5e26c6788ca224665f99f112ac93[m
+Merge: 5c656b0 8c7d889
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Wed Feb 14 15:15:36 2024 +0900
+
+    Merge pull request #110 from devcodemaestro/work
+    
+    feat : createBrowserRouter를 통한 App.js와 Router 컴포넌트 분리
+
+[33mcommit 8c7d88931674891983f666c251cb600c4b5e4cf9[m
+Author: devcodemaestro <dev.codemaestro@gmail.com>
+Date:   Wed Feb 14 15:14:35 2024 +0900
+
+    fix: 불필요한 router 컴포넌트 제거
+
+[33mcommit a8e238fe2fe4bd17e2ee863ef3fca0e69d1090ab[m
+Author: devcodemaestro <dev.codemaestro@gmail.com>
+Date:   Wed Feb 14 15:12:11 2024 +0900
+
+    feat : createBrowserRouter를 통한 App.js와 Router 컴포넌트 분리
+
+[33mcommit 5c656b0d65456b872f89cf6483b89212d4697e44[m
+Merge: 8ceeca4 ece88d9
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Tue Feb 13 21:07:35 2024 +0900
+
+    Merge pull request #109 from devcodemaestro/work2
+    
+    fix : 앨범 등록 모달창 통일 및 20개 이상 업로드 시 경고 모달창 발생
+
+[33mcommit 8ceeca405ccbe7a74a522a48f0afa54f227ab7f8[m
+Merge: 42192a3 891b3ba
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Tue Feb 13 21:07:26 2024 +0900
+
+    Merge pull request #108 from devcodemaestro/work
+    
+    fix : 앨범 상세부분 모달창 UI 통일
+
+[33mcommit ece88d92925488a79cfdab6016d045f9aab5f632[m
+Author: devcodemaestro <dev.codemaestro@gmail.com>
+Date:   Tue Feb 13 19:42:57 2024 +0900
+
+    fix : 앨범 등록 모달창 통일 및 20개 이상 업로드 시 경고 모달창 발생
+
+[33mcommit 891b3ba787116f1776b8f7f61f268f5f79ef05b7[m
+Author: devcodemaestro <dev.codemaestro@gmail.com>
+Date:   Tue Feb 13 18:57:44 2024 +0900
+
+    fix : 앨범 상세부분 모달창 UI 통일
+
+[33mcommit 42192a3f7a32348f132f57a25b2cde8938a85e00[m
+Merge: 93ec70d f4ea558
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Tue Feb 13 18:42:47 2024 +0900
+
+    Merge pull request #107 from dsa9925/work
+    
+    유치원 소식 수정 기능 진행 중
+
+[33mcommit f4ea55817f4d0b2a8e7536c5e45f38fe2255ef55[m
+Author: dsa9925 <dev.dsa9925@gmail.com>
+Date:   Tue Feb 13 18:25:01 2024 +0900
+
+    유치원 소식 수정 기능 진행 중
+
+[33mcommit 93ec70d7db82b7444a3e6fef09d1b330841e97bd[m
+Author: devcodemaestro <dev.codemaestro@gmail.com>
+Date:   Tue Feb 6 13:46:00 2024 +0900
+
+    doc : README 일부 수정
+
+[33mcommit 1b53b332da29a52365b4c878a2ef9d2cfb830c60[m
+Merge: 0cc9db6 3d12c74
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Tue Feb 6 13:20:47 2024 +0900
+
+    Merge pull request #106 from devcodemaestro/work
+    
+    fix: prettier 충돌 발생으로 원복
+
+[33mcommit 3d12c74063b5490e32a6d5da2e569a67e978bdf1[m
+Author: devcodemaestro <dev.codemaestro@gmail.com>
+Date:   Tue Feb 6 13:19:37 2024 +0900
+
+    fix: prettier 충돌 발생으로 원복
+
+[33mcommit 0cc9db60bccf1fc031751d67bfa68a1d2c4b9460[m
+Merge: 728a3ac 01384a5
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Tue Feb 6 13:16:06 2024 +0900
+
+    Merge pull request #105 from devcodemaestro/work
+    
+    fix : 일부 설정 수정
+
+[33mcommit 01384a521c0543685379287ae0428364d54c6c5f[m
+Author: devcodemaestro <dev.codemaestro@gmail.com>
+Date:   Tue Feb 6 13:15:21 2024 +0900
+
+    fix : 일부 설정 수정
+
+[33mcommit 728a3acd45aceffa3c9ce2c0b2f1c389b9510949[m
+Merge: b26e34f d4de129
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Tue Feb 6 10:24:59 2024 +0900
+
+    Merge pull request #103 from devcodemaestro/work
+    
+    fix : 데이터 캡슐화 정리.
+
+[33mcommit d4de1298084cf2ae01f960e04818fc0c58f0874a[m
+Merge: 77ff1a2 b26e34f
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Tue Feb 6 10:24:52 2024 +0900
+
+    Merge branch 'main' into work
+
+[33mcommit 77ff1a2996af5a94a8edee545f20db7a469b7d12[m
+Author: devcodemaestro <dev.codemaestro@gmail.com>
+Date:   Tue Feb 6 10:20:54 2024 +0900
+
+    fix : 데이터 캡슐화 정리.
+
+[33mcommit b26e34ff756dc9648938292bac469f408d0fcf11[m
+Merge: 90029c1 d338a77
+Author: devcodemaestro <dev.codemaestro@gmail.com>
+Date:   Tue Feb 6 09:58:04 2024 +0900
+
+    Merge branch 'main' of https://github.com/devcodemaestro/kindergarten
+
+[33mcommit 90029c14d040d18754fadb2000a55e522b37cb3b[m
+Author: devcodemaestro <dev.codemaestro@gmail.com>
+Date:   Tue Feb 6 09:55:13 2024 +0900
+
+    fix : 충돌해결
+
+[33mcommit d338a77edd24547513316b57f048c7bac24fc33b[m
+Merge: d6f27b9 8c01220
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Tue Feb 6 07:50:40 2024 +0900
+
+    Merge pull request #102 from kimsomi0126/somi2
+    
+    feat : 메인 및 게시판 로그인 체크, 알림장 상세 완료
+
+[33mcommit 8c01220484b1812be05389e79a2a6ee29c4362f6[m
+Author: kimsomi0126 <kimsomi00126@gmail.com>
+Date:   Tue Feb 6 06:47:45 2024 +0900
+
+    feat : 메인 및 게시판 로그인 체크, 알림장 상세 완료
+
+[33mcommit d6f27b91e899767427024c88fc1f77e3528e05a9[m
+Merge: 9cae363 fa7b0b3
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Mon Feb 5 22:14:53 2024 +0900
+
+    Merge pull request #101 from devcodemaestro/work
+    
+    feat : 모달 정리 및 미구현 기능 추가 확인 중
+
+[33mcommit fa7b0b314d0d6b19a88d5a03d8ca8db35247f459[m
+Author: devcodemaestro <dev.codemaestro@gmail.com>
+Date:   Mon Feb 5 22:01:26 2024 +0900
+
+    feat : 모달 정리 및 미구현 기능 추가 확인 중
+
+[33mcommit 9cae363aa63b3369f2b9faeb83a8bcf4fbc174c3[m
+Merge: 5448dec 56f81f5
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Mon Feb 5 22:00:56 2024 +0900
+
+    Merge pull request #100 from dsa9925/work
+    
+    feat : 알림장 글쓰기 파트 원생 이름, 반 데이터 연동 수정 완료
+
+[33mcommit 5448dec24a211458794ee29bc7207f676c7e80f7[m
+Merge: fb0d325 6be3416
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Mon Feb 5 22:00:46 2024 +0900
+
+    Merge pull request #99 from do-sg/dsg
+    
+    feat: 관리자 페이지 예외 처리 및 학부모 리스트 수정
+
+[33mcommit 56f81f531f2d55713517ed8b20c100d049df649a[m
+Author: dsa9925 <dev.dsa9925@gmail.com>
+Date:   Mon Feb 5 21:54:30 2024 +0900
+
+    feat : 알림장 글쓰기 파트 원생 이름, 반 데이터 연동 수정 완료
+
+[33mcommit 6be34167cd035ea1962189db6b5c0642acf1fd7c[m
+Author: do-sg <do.seongyeong1@gmail.com>
+Date:   Mon Feb 5 21:51:54 2024 +0900
+
+    feat: 관리자 페이지 예외 처리 및 학부모 리스트 수정
+
+[33mcommit fb0d325a0668ea2fddc93c230a4bbb1efd625166[m
+Merge: c661683 e02746a
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Mon Feb 5 17:31:05 2024 +0900
+
+    Merge pull request #98 from devcodemaestro/work
+    
+    feat: README 수정 및 현재까지의 기능 구현 테스트
+
+[33mcommit e02746a519b24870b2279feb3638bdeb8b11fe01[m
+Merge: 6eda4ac c661683
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Mon Feb 5 17:30:57 2024 +0900
+
+    Merge branch 'main' into work
+
+[33mcommit c661683b18a84511b2fcafd111a44eaf7317d2e8[m
+Merge: 00ac2c6 22e0d93
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Mon Feb 5 17:30:08 2024 +0900
+
+    Merge pull request #97 from dsa9925/work
+    
+    feat : 유치원 소식 오류 수정 / 알림장 등록, 삭제 진행중
+
+[33mcommit 00ac2c604c2f79db8febbe76e38a5a9319c1200b[m
+Merge: 3c4fd99 f8aa950
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Mon Feb 5 17:29:02 2024 +0900
+
+    Merge pull request #96 from do-sg/dsg
+    
+    feat: 원생 정보 주소 오류 수정 및 기타 수정
+
+[33mcommit 6eda4ac8e57a95f9f47a521bca376b6db536103e[m
+Author: devcodemaestro <dev.codemaestro@gmail.com>
+Date:   Mon Feb 5 17:27:56 2024 +0900
+
+    feat: README 수정 및 현재까지의 기능 구현 테스트
+
+[33mcommit 22e0d931224b1d2d145ccd0d6f3b425f0eee9239[m
+Author: dsa9925 <dev.dsa9925@gmail.com>
+Date:   Mon Feb 5 17:27:46 2024 +0900
+
+    feat : 유치원 소식 오류 수정 / 알림장 등록, 삭제 진행중
+
+[33mcommit f8aa9504806bbead13cd91490d1566093772ee49[m
+Author: do-sg <do.seongyeong1@gmail.com>
+Date:   Mon Feb 5 17:22:46 2024 +0900
+
+    feat: 원생 정보 주소 오류 수정 및 기타 수정
+
+[33mcommit 3c4fd996afe86725423a83e20ee613ffa3f51948[m
+Merge: 6755308 c921aca
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Mon Feb 5 08:41:06 2024 +0900
+
+    Merge pull request #95 from kimsomi0126/somi
+    
+    feat : 회원가입 아이디 입력 규칙 수정, 불필요한 이미지 삭제
+
+[33mcommit c921aca0529588da6b87845a368ff7afd7ad263d[m
+Author: kimsomi0126 <kimsomi00126@gmail.com>
+Date:   Mon Feb 5 08:06:09 2024 +0900
+
+    feat : 회원가입 아이디 입력 규칙 수정, 불필요한 이미지 삭제
+
+[33mcommit 6755308da8feedfa03e2453783acd8105eec298b[m
+Merge: 708e375 7d842b9
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Mon Feb 5 00:25:53 2024 +0900
+
+    Merge pull request #94 from do-sg/dsg
+    
+    feat: 학부모 계정 연결 삭제 오류 수정 및 데이터 수정
+
+[33mcommit 7d842b98a8035d9fe0d86d4ca2d4a5756a97d735[m
+Author: do-sg <do.seongyeong1@gmail.com>
+Date:   Sun Feb 4 23:52:01 2024 +0900
+
+    feat: 학부모 계정 연결 삭제 오류 수정 및 데이터 수정
+
+[33mcommit 708e375ef141804b924a5a0c23a051419ed7308e[m
+Merge: efc63fd e24da72
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Sun Feb 4 09:41:28 2024 +0900
+
+    Merge pull request #93 from do-sg/dsg
+    
+    feat: 관리자페이지 예외처리 및 모달창 정리
+
+[33mcommit efc63fd50d33e3b8cb7c2bb684c596263934ef6b[m
+Merge: c16633d 2b19103
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Sun Feb 4 09:41:13 2024 +0900
+
+    Merge pull request #92 from kimsomi0126/somi
+    
+    feat : 원아 수정 완료, 아이 프로필 이미지 경로 수정
+
+[33mcommit c16633d85e443c847d9aaef74c19d3c413efb029[m
+Merge: 568db42 590acee
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Sun Feb 4 09:40:47 2024 +0900
+
+    Merge pull request #91 from devcodemaestro/work
+    
+    fix : 수정 API 연동 중. CORS 오류 해결 중
+
+[33mcommit e24da725884b420c445f87af127c57bcad3ca5b7[m
+Author: do-sg <do.seongyeong1@gmail.com>
+Date:   Sat Feb 3 23:13:14 2024 +0900
+
+    feat: 관리자페이지 예외처리 및 모달창 정리
+
+[33mcommit 2b1910354978c6f963f1178997759307192ada71[m
+Author: kimsomi0126 <kimsomi00126@gmail.com>
+Date:   Sat Feb 3 19:06:52 2024 +0900
+
+    feat : 원아 수정 완료, 아이 프로필 이미지 경로 수정
+
+[33mcommit 590acee5f0320130597d5cd230ca61a31f29cb1d[m
+Author: devcodemaestro <dev.codemaestro@gmail.com>
+Date:   Sat Feb 3 16:12:58 2024 +0900
+
+    fix : 수정 API 연동 중. CORS 오류 해결 중
+
+[33mcommit 568db4204bbf5a6630aa8536db9055c8b7e13931[m
+Merge: edf1098 e3889c6
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Sat Feb 3 10:50:32 2024 +0900
+
+    Merge pull request #90 from kimsomi0126/somi
+    
+    feat : 원생 등록페이지 완료
+
+[33mcommit edf1098eef4ba8d034b60a61867c262e56591fe8[m
+Merge: 93f05f9 501a2e7
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Sat Feb 3 10:50:12 2024 +0900
+
+    Merge pull request #89 from do-sg/dsg
+    
+    feat: 원생 재원 상태 변경 및 식별코드 수정 완료
+
+[33mcommit e3889c67ba0b43e59a2513f415925425f46ba47e[m
+Author: kimsomi0126 <kimsomi00126@gmail.com>
+Date:   Fri Feb 2 23:37:27 2024 +0900
+
+    feat : 원생 등록페이지 완료
+
+[33mcommit 501a2e7c9cdda7435193bdb9b4d2ed1b372c90be[m
+Author: do-sg <do.seongyeong1@gmail.com>
+Date:   Fri Feb 2 22:31:20 2024 +0900
+
+    feat: 원생 재원 상태 변경 및 식별코드 수정 완료
+
+[33mcommit 93f05f9703a494e7408e57678061c80dcfb0f588[m
+Merge: 8803696 6dc3154
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Fri Feb 2 18:19:44 2024 +0900
+
+    Merge pull request #88 from kimsomi0126/somi
+    
+    feat : 알림장 리스트페이지 완료, 마우스 디자인 변경, 원아등록 진행중
+
+[33mcommit 8803696efe5c3bb75f819e55c48b782cf8ca8a18[m
+Merge: 82b563d 149ffd9
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Fri Feb 2 18:16:38 2024 +0900
+
+    Merge pull request #86 from dsa9925/work
+    
+    feat : 유치원 소식 수정(PUT) 진행중
+
+[33mcommit 82b563d7d6fa6f06f3c36569b5511908f9e28ec3[m
+Merge: 220d90d b9d29e6
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Fri Feb 2 18:16:24 2024 +0900
+
+    Merge pull request #85 from do-sg/dsg
+    
+    feat: 학부모관리 리스트 반별 셀렉트, 학부모 정보 삭제 완료 및 원생관리 리스트 재원상태 변경 작업중
+
+[33mcommit 220d90dfc7850f01e2cfd21830128ebba67ce9ca[m
+Merge: f78499e 97d7560
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Fri Feb 2 18:16:08 2024 +0900
+
+    Merge pull request #87 from devcodemaestro/work
+    
+    fix : 앨범 수정기능 적용 중
+
+[33mcommit 6dc3154757a01bc8e66a3afebdb95e3f1fbce48d[m
+Author: kimsomi0126 <kimsomi00126@gmail.com>
+Date:   Fri Feb 2 18:14:18 2024 +0900
+
+    feat : 알림장 리스트페이지 완료, 마우스 디자인 변경, 원아등록 진행중
+
+[33mcommit 149ffd9423c53c73ed386bf36978b54085238a87[m
+Author: dsa9925 <dev.dsa9925@gmail.com>
+Date:   Fri Feb 2 18:12:51 2024 +0900
+
+    feat : 유치원 소식 수정(PUT) 진행중
+
+[33mcommit b9d29e64ce3fce1759a111ee020d7da0f7aac5b6[m
+Author: do-sg <do.seongyeong1@gmail.com>
+Date:   Fri Feb 2 18:10:55 2024 +0900
+
+    feat: 학부모관리 리스트 반별 셀렉트, 학부모 정보 삭제 완료 및 원생관리 리스트 재원상태 변경 작업중
+
+[33mcommit f78499e8ce01b987e1b5667219f96e54aae14ad1[m
+Merge: 1c4b411 9587ee1
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Fri Feb 2 09:47:02 2024 +0900
+
+    Merge pull request #84 from kimsomi0126/somi
+    
+    feat : 학부모 알림장 리스트 연동 진행중
+
+[33mcommit 1c4b411bd6a01a81f451c3fc034c6549c280d70e[m
+Merge: d03820c df38198
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Fri Feb 2 09:46:54 2024 +0900
+
+    Merge pull request #83 from do-sg/dsg
+    
+    feat: 원생상세페이지 부모님 연결 삭제 api 연동 완료, 학부모 정보 삭제 api 연동 진행중
+
+[33mcommit d03820c5c43f864b37667b0c79832443f764dc8b[m
+Merge: 6ee9ae2 e4b6586
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Fri Feb 2 09:46:45 2024 +0900
+
+    Merge pull request #82 from dsa9925/work
+    
+    feat : 유치원 소식 PUT 데이터 연동 에러 수정 중
+
+[33mcommit 9587ee1da004b09bc8337f783fd8e0062214bab7[m
+Author: kimsomi0126 <kimsomi00126@gmail.com>
+Date:   Thu Feb 1 23:27:38 2024 +0900
+
+    feat : 학부모 알림장 리스트 연동 진행중
+
+[33mcommit df38198574abaf4373f64f8c7050bd2fbeddba1f[m
+Author: do-sg <do.seongyeong1@gmail.com>
+Date:   Thu Feb 1 23:11:32 2024 +0900
+
+    feat: 원생상세페이지 부모님 연결 삭제 api 연동 완료, 학부모 정보 삭제 api 연동 진행중
+
+[33mcommit 97d7560d0b188185a27beff224213b307fd676ef[m
+Author: devcodemaestro <dev.codemaestro@gmail.com>
+Date:   Thu Feb 1 22:07:44 2024 +0900
+
+    fix : 앨범 수정기능 적용 중
+
+[33mcommit e4b6586e1aafe3480a1a54fe41105779a320174c[m
+Author: dsa9925 <dev.dsa9925@gmail.com>
+Date:   Thu Feb 1 21:55:03 2024 +0900
+
+    feat : 유치원 소식 PUT 데이터 연동 에러 수정 중
+
+[33mcommit 6ee9ae24d3c3860baeb129e0275063b468c95062[m
+Merge: 126b36f 393b81b
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Thu Feb 1 18:45:37 2024 +0900
+
+    Merge pull request #81 from devcodemaestro/work
+    
+    feat : 앨범 수정시 API 연동 처리 중
+
+[33mcommit 126b36fb7dcc45555cae36ab0d55acbc34daa867[m
+Merge: 5aa91ae 6c5b4ad
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Thu Feb 1 18:45:17 2024 +0900
+
+    Merge pull request #80 from dsa9925/work
+    
+    feat : 유치원 소식 API 연동 글쓰기(POST) 완료
+
+[33mcommit 5aa91ae7043b9b8c3d401f75a664ef94d6c7011b[m
+Merge: c8e78a9 e11bcf8
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Thu Feb 1 18:45:04 2024 +0900
+
+    Merge pull request #79 from kimsomi0126/somi
+    
+    feat : 알림장리스트 퍼블리싱 및 연동 진행중
+
+[33mcommit e11bcf86a1496be7d85d1286955c97705dd4e5da[m
+Merge: 8d03efb c8e78a9
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Thu Feb 1 18:43:01 2024 +0900
+
+    Merge branch 'main' into somi
+
+[33mcommit c8e78a9d185618510a7c87c2bb28b32bb3b9aff9[m
+Merge: e400b5b 6a98516
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Thu Feb 1 18:41:50 2024 +0900
+
+    Merge pull request #78 from do-sg/dsg
+    
+    feat: 원생 상세정보 수정, 등록 api 연동 완료
+
+[33mcommit 393b81b879e0a9172139daafa7fe2016b84616cd[m
+Author: devcodemaestro <dev.codemaestro@gmail.com>
+Date:   Thu Feb 1 18:40:49 2024 +0900
+
+    feat : 앨범 수정시 API 연동 처리 중
+
+[33mcommit 6c5b4adba6643875834c2c0d02831a46c9fb3781[m
+Author: dsa9925 <dev.dsa9925@gmail.com>
+Date:   Thu Feb 1 18:30:19 2024 +0900
+
+    feat : 유치원 소식 API 연동 글쓰기(POST) 완료
+
+[33mcommit 6a98516bd06ccc9cf8d1af45435057c48103d418[m
+Author: do-sg <do.seongyeong1@gmail.com>
+Date:   Thu Feb 1 18:26:17 2024 +0900
+
+    feat: 원생 상세정보 수정, 등록 api 연동 완료
+
+[33mcommit 8d03efbccaa4dbc02ac8b39da5c7d86a5308b823[m
+Author: kimsomi0126 <kimsomi00126@gmail.com>
+Date:   Thu Feb 1 18:26:13 2024 +0900
+
+    feat : 알림장리스트 퍼블리싱 및 연동 진행중
+
+[33mcommit e400b5beab4121e61cde8cc903549288d5f64f44[m
+Merge: 4d866ee 5b95cd8
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Thu Feb 1 09:43:49 2024 +0900
+
+    Merge pull request #77 from devcodemaestro/work
+    
+    feat : album의 modify 진행중
+
+[33mcommit 5b95cd8f8f5dccc3cff541f4e1febd38575cb7cc[m
+Author: devcodemaestro <dev.codemaestro@gmail.com>
+Date:   Thu Feb 1 03:19:03 2024 +0900
+
+    feat : album의 modify 진행중
+
+[33mcommit 4d866ee9010eb56a6ae9451b5cde6550940797c8[m
+Merge: 3f908c2 6b900cc
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Thu Feb 1 02:14:51 2024 +0900
+
+    Merge pull request #76 from dsa9925/work
+    
+    feat : 유치원 소식 수정 파트 이미지 데이터 연동 진행중
+
+[33mcommit 3f908c295d82b434abd0a6e5e4e20d8b65c49e6e[m
+Merge: a4df4d0 3dd5379
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Thu Feb 1 02:14:39 2024 +0900
+
+    Merge pull request #75 from devcodemaestro/work
+    
+    fix: Footer z-index 문제로 인한 오류 조치
+
+[33mcommit a4df4d05610dd4a4e65185b573beebe02d1be400[m
+Merge: 3e22b46 ca39e5f
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Thu Feb 1 02:14:29 2024 +0900
+
+    Merge pull request #74 from do-sg/dsg
+    
+    feat : 원생등록 api 연동중
+
+[33mcommit 6b900ccd08ff50961b4f65f42a6dbcfcf1729463[m
+Author: dsa9925 <dev.dsa9925@gmail.com>
+Date:   Wed Jan 31 21:29:09 2024 +0900
+
+    feat : 유치원 소식 수정 파트 이미지 데이터 연동 진행중
+
+[33mcommit 3dd5379ca56aa69c569d35164372fe4fb4963b64[m
+Author: devcodemaestro <dev.codemaestro@gmail.com>
+Date:   Wed Jan 31 21:08:31 2024 +0900
+
+    fix: Footer z-index 문제로 인한 오류 조치
+
+[33mcommit ca39e5f48577c8ff029b6b4677229892e78d943c[m
+Author: do-sg <do.seongyeong1@gmail.com>
+Date:   Wed Jan 31 20:30:53 2024 +0900
+
+    feat : 원생등록 api 연동중
+
+[33mcommit 3e22b468780ca66533359da56c55d09faad99394[m
+Merge: 6f4d8f5 b91281c
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Wed Jan 31 19:06:15 2024 +0900
+
+    Merge pull request #73 from do-sg/dsg
+    
+    feat : 원생상세정보 등록 페이지 api 연동 작업 및 day.js 설치
+
+[33mcommit 6f4d8f5572a9138bb197aec6121346246469fd89[m
+Merge: 887d1e9 1c11d42
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Wed Jan 31 19:06:06 2024 +0900
+
+    Merge pull request #72 from kimsomi0126/somi
+    
+    feat : 학부모 회원가입,마이페이지, 유치원 안내, 준비중 및 404 페이지 완료
+
+[33mcommit 887d1e9eceff25028eded7773b95538bcdb824bc[m
+Merge: 23f38b0 9fee9fb
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Wed Jan 31 19:05:52 2024 +0900
+
+    Merge pull request #71 from devcodemaestro/work
+    
+    feat: 앨범 post 기능 처리완료
+
+[33mcommit 23f38b0bb5f5113035d1e97d9b009f12a635230d[m
+Merge: 9a0f0e5 9cb590c
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Wed Jan 31 19:05:34 2024 +0900
+
+    Merge pull request #70 from dsa9925/work
+    
+    feat : 유치원 소식 수정파트 진행중
+
+[33mcommit b91281c8f422a12fcc6ffc58ba12c4d21c117cdb[m
+Author: do-sg <do.seongyeong1@gmail.com>
+Date:   Wed Jan 31 19:05:31 2024 +0900
+
+    feat : 원생상세정보 등록 페이지 api 연동 작업 및 day.js 설치
+
+[33mcommit 9fee9fb880121a07571f1bdf0c6a4dff7d0ea4fd[m
+Author: devcodemaestro <dev.codemaestro@gmail.com>
+Date:   Wed Jan 31 19:03:49 2024 +0900
+
+    feat: 앨범 post 기능 처리완료
+
+[33mcommit 9cb590c477522cf21d22651804eb9c97bb6d89c1[m
+Author: dsa9925 <dev.dsa9925@gmail.com>
+Date:   Wed Jan 31 19:03:12 2024 +0900
+
+    feat : 유치원 소식 수정파트 진행중
+
+[33mcommit 1c11d425500df3cb6dca52f5d3f87f2c9e3d2391[m
+Author: kimsomi0126 <kimsomi00126@gmail.com>
+Date:   Wed Jan 31 19:03:08 2024 +0900
+
+    feat : 학부모 회원가입,마이페이지, 유치원 안내, 준비중 및 404 페이지 완료
+
+[33mcommit 9a0f0e554230aa7abf3a8bf5215c0325c06e01ff[m
+Merge: b286ac4 994a0c4
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Wed Jan 31 09:43:47 2024 +0900
+
+    Merge pull request #69 from kimsomi0126/somi
+    
+    feat : 학부모 회원가입 작업중
+
+[33mcommit 994a0c414dffca35f947c51c289f9f7d3cafc758[m
+Author: kimsomi0126 <kimsomi00126@gmail.com>
+Date:   Wed Jan 31 09:43:04 2024 +0900
+
+    feat : 학부모 회원가입 작업중
+
+[33mcommit b286ac4462111fcf068414706f0a1d1a861fb6c0[m
+Merge: 13f0718 3a35b5d
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Wed Jan 31 08:43:50 2024 +0900
+
+    Merge pull request #68 from devcodemaestro/work
+    
+    feat: 앨범, 유치원소식 path 수정
+
+[33mcommit 3a35b5d478a0c3d4262cb021c51127a5113a51b5[m
+Author: dev.codemaestro <dev.codemaestro@gmail.com>
+Date:   Wed Jan 31 08:42:53 2024 +0900
+
+    feat: 앨범, 유치원소식 path 수정
+
+[33mcommit 13f07180586dd8f939a67add0c3de651dd016df1[m
+Merge: 0992b2e 4d69eb5
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Tue Jan 30 23:12:31 2024 +0900
+
+    Merge pull request #67 from do-sg/dsg
+    
+    feat: 학부모 관리 리스트, 원생 관리 리스트 연동 작업중
+
+[33mcommit 4d69eb5391e64b37d88b8d43b84c8529bf0313c6[m
+Author: do-sg <do.seongyeong1@gmail.com>
+Date:   Tue Jan 30 21:44:22 2024 +0900
+
+    feat: 학부모 관리 리스트, 원생 관리 리스트 연동 작업중
+
+[33mcommit 0992b2e0c806e21796ffb5521aa08c76225a4b9d[m
+Merge: 219a1c9 60ef2a7
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Tue Jan 30 18:33:37 2024 +0900
+
+    Merge pull request #66 from devcodemaestro/work
+    
+    feat : 무한스크롤 구현완료 전체앨범 조회 구현완료
+
+[33mcommit 219a1c9caa38ecbeb4aa30c2a927167c6a3026d5[m
+Merge: d60faa8 8fedb70
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Tue Jan 30 18:33:20 2024 +0900
+
+    Merge pull request #65 from kimsomi0126/somi
+    
+    feat : 메인연동, 유치원소개, 유치원현황 완료, 회원가입 진행중
+
+[33mcommit d60faa87be42dee6dc54bd9270746fba926bd357[m
+Merge: 97d5791 85dcd79
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Tue Jan 30 18:33:06 2024 +0900
+
+    Merge pull request #64 from do-sg/dsg
+    
+    feat: 원생 등록 api 연동 작업중
+
+[33mcommit 97d5791ff10200c71c84beccb9cc9743d2fdc3aa[m
+Merge: 4b27e2f 2ff6117
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Tue Jan 30 18:32:54 2024 +0900
+
+    Merge pull request #63 from dsa9925/work
+    
+    유치원소식 글쓰기 기능 진행중
+
+[33mcommit 60ef2a700269ee9c0fa92716782cb04811bc231f[m
+Author: devcodemaestro <dev.codemaestro@gmail.com>
+Date:   Tue Jan 30 18:31:41 2024 +0900
+
+    feat : 무한스크롤 구현완료 전체앨범 조회 구현완료
+
+[33mcommit 85dcd79fcd7169bc6010f9f2158b332722b565b8[m
+Author: do-sg <do.seongyeong1@gmail.com>
+Date:   Tue Jan 30 18:19:29 2024 +0900
+
+    feat: 원생 등록 api 연동 작업중
+
+[33mcommit 8fedb7061d496a10ca5fcd82d0dbba5d2df144ef[m
+Author: kimsomi0126 <kimsomi00126@gmail.com>
+Date:   Tue Jan 30 18:18:56 2024 +0900
+
+    feat : 메인연동, 유치원소개, 유치원현황 완료, 회원가입 진행중
+    - 회원가입 전  식별코드 입력페이지 완료
+    - 부모님 회원가입 진행중
+    - 마이페이지 식별코드추가, 회원탈퇴 작업 중
+
+[33mcommit 2ff6117f5d1dbd087920b9e8f959a6af013daa14[m
+Author: dsa9925 <dev.dsa9925@gmail.com>
+Date:   Tue Jan 30 18:11:39 2024 +0900
+
+    유치원소식 글쓰기 기능 진행중
+
+[33mcommit 4b27e2f7596aa399301d1aaac8cf93dc3f1fd557[m
+Merge: 8ece22e 15aa2d9
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Tue Jan 30 09:36:26 2024 +0900
+
+    Merge pull request #62 from devcodemaestro/work
+    
+    feat : API 연동 중. Album 전체 리스트와 상세 리스트 get 연동처리 완료
+
+[33mcommit 8ece22e0cb7598862da91885b9874bcd0bf44896[m
+Merge: 2235a53 cbc8847
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Tue Jan 30 09:35:51 2024 +0900
+
+    Merge pull request #61 from kimsomi0126/somi
+    
+    feat : 학부모 정보 수정 완료, 메인 연동 진행중
+
+[33mcommit 2235a53ca3cbf884ce62c6f3d1c9e3cd1bb84e12[m
+Merge: cb41984 036b469
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Tue Jan 30 09:35:41 2024 +0900
+
+    Merge pull request #60 from do-sg/dsg
+    
+    feat: 반 셀렉트 필터 적용중
+
+[33mcommit 15aa2d91cc3ae3da3a01530273f691b7926abbf0[m
+Merge: 00f3e55 c74ee80
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Tue Jan 30 09:35:30 2024 +0900
+
+    Merge pull request #59 from dsa9925/work
+    
+    유치원 소식 데이터 연동 테스트
+
+[33mcommit cbc88476b3cf26620a2c1e2ed19278f30fedec61[m
+Author: kimsomi0126 <kimsomi00126@gmail.com>
+Date:   Tue Jan 30 07:27:59 2024 +0900
+
+    feat : 학부모 정보 수정 완료, 메인 연동 진행중
+
+[33mcommit 036b469f30adc8439607dea697b2ec1558231884[m
+Author: do-sg <do.seongyeong1@gmail.com>
+Date:   Mon Jan 29 20:33:02 2024 +0900
+
+    feat: 반 셀렉트 필터 적용중
+
+[33mcommit c74ee80eb2686d6bf5fbe381dd66a573a907cfea[m
+Author: dsa9925 <dev.dsa9925@gmail.com>
+Date:   Mon Jan 29 20:25:03 2024 +0900
+
+    유치원 소식 데이터 연동 테스트
+
+[33mcommit 00f3e554e137f2fc844079b8271721b6d20e534f[m
+Author: devcodemaestro <dev.codemaestro@gmail.com>
+Date:   Mon Jan 29 19:49:51 2024 +0900
+
+    feat : API 연동 중. Album 전체 리스트와 상세 리스트 get 연동처리 완료
+
+[33mcommit cb41984565bc1e05397548282eab55d33b535959[m
+Merge: 415c972 dbbe123
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Mon Jan 29 17:44:54 2024 +0900
+
+    Merge pull request #56 from dsa9925/work
+    
+    유치원 소식 페이지 데이터 연동 진행중
+
+[33mcommit 415c972895f3640d85a1211216f8aa30f689bb54[m
+Merge: 365a7ac 668af96
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Mon Jan 29 17:44:46 2024 +0900
+
+    Merge pull request #58 from do-sg/dsg
+    
+    feat: 관리자 페이지 API 연동 진행중
+
+[33mcommit 365a7ac3c0b18e9d8f0fcdecdf857b390d112f47[m
+Merge: b4da614 1410314
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Mon Jan 29 17:44:34 2024 +0900
+
+    Merge pull request #57 from devcodemaestro/work
+    
+    feat : API 연동중
+
+[33mcommit b4da614eeb7f20a5be3f7c794bdfc3f530ae77f6[m
+Merge: b948c9f 2344050
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Mon Jan 29 17:44:10 2024 +0900
+
+    Merge pull request #55 from kimsomi0126/somi
+    
+    feat : 마이페이지, 학부모 정보수정 연동 진행중
+
+[33mcommit 668af96d32e2268260609a4963b4c215b864bb47[m
+Author: do-sg <do.seongyeong1@gmail.com>
+Date:   Mon Jan 29 17:43:45 2024 +0900
+
+    feat: 관리자 페이지 API 연동 진행중
+
+[33mcommit 14103141f098f0cc5459c7553180207c225093f4[m
+Author: devcodemaestro <dev.codemaestro@gmail.com>
+Date:   Mon Jan 29 17:42:39 2024 +0900
+
+    feat : API 연동중
+
+[33mcommit dbbe123b5a690be1b36d11808e843cde9267d387[m
+Author: dsa9925 <dev.dsa9925@gmail.com>
+Date:   Mon Jan 29 17:41:43 2024 +0900
+
+    유치원 소식 페이지 데이터 연동 진행중
+
+[33mcommit 2344050103062e9a4b635bf31007b4dfa74343ab[m
+Author: kimsomi0126 <kimsomi00126@gmail.com>
+Date:   Mon Jan 29 17:38:16 2024 +0900
+
+    feat : 마이페이지, 학부모 정보수정 연동 진행중
+
+[33mcommit b948c9f58f610915c25f36c1a02c4a0c42de8829[m
+Merge: 6910f63 f9f0120
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Sun Jan 28 22:15:54 2024 +0900
+
+    Merge pull request #54 from do-sg/dsg
+    
+    feat: 페이지네이션 css 적용
+
+[33mcommit f9f01200db3c769467eb39ee2df8c21a3771e7d1[m
+Author: do-sg <do.seongyeong1@gmail.com>
+Date:   Sun Jan 28 17:47:08 2024 +0900
+
+    feat: 페이지네이션 css 적용
+
+[33mcommit 6910f63b460022d1092f833ff181d9e47bbe69ff[m
+Merge: cc6c9db e1dea27
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Sun Jan 28 12:23:55 2024 +0900
+
+    Merge pull request #53 from devcodemaestro/work
+    
+    feat : API 연동 테스트 중
+
+[33mcommit e1dea270af046808113bad618167f4cc0c496df2[m
+Author: dev.codemaestro <dev.codemaestro@gmail.com>
+Date:   Sun Jan 28 12:22:20 2024 +0900
+
+    feat : API 연동 테스트 중
+
+[33mcommit cc6c9db9a3ffc5cdbde967e8848317ca55487cf9[m
+Merge: caa8ba3 1066d12
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Sun Jan 28 10:36:00 2024 +0900
+
+    Merge pull request #52 from do-sg/dsg
+    
+    feat: 관리자 페이지 모달창 작업 진행중
+
+[33mcommit 1066d120082df94b4bb6573f86c02eae7a49f8cf[m
+Author: do-sg <do.seongyeong1@gmail.com>
+Date:   Sat Jan 27 19:54:19 2024 +0900
+
+    feat: 관리자 페이지 모달창 작업 진행중
+
+[33mcommit caa8ba35c5aafedec772391c44fcd065725dabed[m
+Merge: 42b36cc ba7c30e
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Sat Jan 27 14:18:56 2024 +0900
+
+    Merge pull request #51 from devcodemaestro/work
+    
+    fix : package 정리 및 CommentClassic 버전 충돌로 삭제
+
+[33mcommit ba7c30edd042627abe124189185ab20fddbdd967[m
+Author: dev.codemaestro <dev.codemaestro@gmail.com>
+Date:   Sat Jan 27 14:17:52 2024 +0900
+
+    fix : package 정리 및 CommentClassic 버전 충돌로 삭제
+
+[33mcommit 42b36cccb44237b38e7bc1f0cc13ff32935c4850[m
+Merge: 5facb79 46a97a7
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Thu Jan 25 22:00:40 2024 +0900
+
+    Merge pull request #50 from devcodemaestro/work
+    
+    feat: 클래식한 댓글기능 추가구현
+
+[33mcommit 5facb791e25937d74c1ede4daac52ee280a9ca2d[m
+Merge: ca0a934 18edb4d
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Thu Jan 25 22:00:19 2024 +0900
+
+    Merge pull request #49 from dsa9925/work
+    
+    feat : 유치원 소식 상세페이지 데이터 연동 진행중
+
+[33mcommit 46a97a76ce91f5b67f2e43a591f900d944d0c19d[m
+Author: devcodemaestro <dev.codemaestro@gmail.com>
+Date:   Thu Jan 25 21:59:27 2024 +0900
+
+    feat: 클래식한 댓글기능 추가구현
+
+[33mcommit 18edb4d6e2fdb0afae736cd045d10e7e9c0b5804[m
+Author: dsa9925 <dev.dsa9925@gmail.com>
+Date:   Thu Jan 25 20:26:12 2024 +0900
+
+    feat : 유치원 소식 상세페이지 데이터 연동 진행중
+
+[33mcommit ca0a9347f65ae54215dd589101c6a64a5848e268[m
+Merge: e1131ff 3b5b098
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Thu Jan 25 18:55:26 2024 +0900
+
+    Merge pull request #48 from devcodemaestro/work
+    
+    feat : 앨범상세화면 댓글 UI 구현.
+
+[33mcommit 3b5b098b8cae1ae4a299bdcdb51da89c66074245[m
+Merge: 981613b e1131ff
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Thu Jan 25 18:55:19 2024 +0900
+
+    Merge branch 'main' into work
+
+[33mcommit e1131ff81cacc11d1cfce218b1bfc0a889d7c43d[m
+Merge: 586f1b3 5c45fac
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Thu Jan 25 18:46:05 2024 +0900
+
+    Merge pull request #47 from dsa9925/work
+    
+    유치원 소식 상세 데이터 연동 진행중
+
+[33mcommit 586f1b3d3e729a200ee4f830b79395699cbaab61[m
+Merge: 0c913d6 113d28c
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Thu Jan 25 18:45:49 2024 +0900
+
+    Merge pull request #46 from do-sg/dsg
+    
+    feat: 학부모 관리, 원생 관리 페이지 api 연동 완료
+
+[33mcommit 0c913d650a07f206e6ca1e486bdd01547d283986[m
+Merge: 9b23505 da9d969
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Thu Jan 25 18:45:27 2024 +0900
+
+    Merge pull request #45 from kimsomi0126/somi
+    
+    feat : 학부모 로그인 작업 완료, 마이페이지 연동 진행중
+
+[33mcommit 981613bcdadefb73535289309938c6423dad134c[m
+Author: devcodemaestro <dev.codemaestro@gmail.com>
+Date:   Thu Jan 25 18:43:49 2024 +0900
+
+    feat : 앨범상세화면 댓글 UI 구현.
+
+[33mcommit 5c45fac74bb015be489fcff41ee2cc7065967151[m
+Author: dsa9925 <dev.dsa9925@gmail.com>
+Date:   Thu Jan 25 18:43:41 2024 +0900
+
+    유치원 소식 상세 데이터 연동 진행중
+
+[33mcommit 113d28c46d71f49a35f9c27c8ed32a33e2f94d13[m
+Author: do-sg <do.seongyeong1@gmail.com>
+Date:   Thu Jan 25 18:21:17 2024 +0900
+
+    feat: 학부모 관리, 원생 관리 페이지 api 연동 완료
+
+[33mcommit da9d96960a144a8c333d3cec5e4c87e5c6e021b9[m
+Author: kimsomi0126 <kimsomi00126@gmail.com>
+Date:   Thu Jan 25 18:16:45 2024 +0900
+
+    feat : 학부모 로그인 작업 완료, 마이페이지 연동 진행중
+
+[33mcommit 9b235054bd96b123d4348871a030f8ac1c95c700[m
+Merge: 7306ba9 bc88f4c
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Thu Jan 25 13:51:44 2024 +0900
+
+    Merge pull request #44 from devcodemaestro/work
+    
+    feat : 앨범 LightBox 기능 구현하여 Swiper와 결합시킴
+
+[33mcommit bc88f4cb6808c2dd5172b70976b4bd06c0f9b0e5[m
+Author: devcodemaestro <dev.codemaestro@gmail.com>
+Date:   Thu Jan 25 13:50:05 2024 +0900
+
+    feat : 앨범 LightBox 기능 구현하여 Swiper와 결합시킴
+
+[33mcommit 7306ba9f774065b715131cb72bb24d14c991592a[m
+Merge: ce80716 eb7a22b
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Thu Jan 25 09:55:41 2024 +0900
+
+    Merge pull request #43 from devcodemaestro/album2
+    
+    feat: 앨범상세부분 swiper 라이브러리 적용.
+
+[33mcommit eb7a22b9c38e9f658543935432f7d2b3ed6bea5f[m[33m ([m[1;31morigin/album2[m[33m)[m
+Author: devcodemaestro <dev.codemaestro@gmail.com>
+Date:   Wed Jan 24 22:01:08 2024 +0900
+
+    feat: 앨범상세부분 swiper 라이브러리 적용.
+
+[33mcommit ce80716cc1c5562e0e12f352bd832347bdee9554[m
+Merge: 65aec77 fbbe099
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Wed Jan 24 18:42:52 2024 +0900
+
+    Merge pull request #42 from devcodemaestro/work
+    
+    feat : 앨범 상세 퍼블리싱 중
+
+[33mcommit 65aec777c80fe0cb612dbe6c250c019cb5f15115[m
+Merge: db06b3e 31ef780
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Wed Jan 24 18:42:31 2024 +0900
+
+    Merge pull request #41 from do-sg/dsg
+    
+    feat: 학부모 관리 페이지 api 연동 작업중
+
+[33mcommit db06b3efede212369ca39911912b936e44661235[m
+Merge: 021f164 52488e7
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Wed Jan 24 18:41:56 2024 +0900
+
+    Merge pull request #40 from dsa9925/work
+    
+    feat : Swagger API 데이터 연동 테스트
+
+[33mcommit 021f1640b7df996e122a5b6b665a198b5a6a1407[m
+Merge: cd133f3 648f8c7
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Wed Jan 24 18:41:40 2024 +0900
+
+    Merge pull request #39 from kimsomi0126/somi
+    
+    feat : 선생님 로그인 및 jwt 설정 완료, 학부모 로그인 진행중
+
+[33mcommit 31ef780d093b559aace8eedc6a7379b8981d8e4c[m
+Author: do-sg <do.seongyeong1@gmail.com>
+Date:   Wed Jan 24 18:40:48 2024 +0900
+
+    feat: 학부모 관리 페이지 api 연동 작업중
+
+[33mcommit fbbe099edb948bff984ced4da33f8da557001b79[m
+Author: devcodemaestro <dev.codemaestro@gmail.com>
+Date:   Wed Jan 24 18:38:40 2024 +0900
+
+    feat : 앨범 상세 퍼블리싱 중
+
+[33mcommit 52488e7789f51f97e530c3af9a27cbb37a372434[m
+Author: dsa9925 <dev.dsa9925@gmail.com>
+Date:   Wed Jan 24 18:38:10 2024 +0900
+
+    feat : Swagger API 데이터 연동 테스트
+
+[33mcommit 648f8c734a85e97689c9323b8204f30256f740c5[m
+Author: kimsomi0126 <kimsomi00126@gmail.com>
+Date:   Wed Jan 24 18:37:27 2024 +0900
+
+    feat : 선생님 로그인 및 jwt 설정 완료, 학부모 로그인 진행중
+
+[33mcommit cd133f39992425d4e90ff4a5f03e679d68c1da33[m
+Merge: e68390e 2b2fd5e
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Wed Jan 24 08:56:06 2024 +0900
+
+    Merge pull request #38 from devcodemaestro/work
+    
+    feat : 알림장 퍼블리싱 중
+
+[33mcommit 2b2fd5e90bb749c44d8f0e42ce1f4b63282797ce[m
+Author: dev.codemaestro <dev.codemaestro@gmail.com>
+Date:   Wed Jan 24 07:45:21 2024 +0900
+
+    feat : 알림장 퍼블리싱 중
+
+[33mcommit e68390eac1e0fe989b8c7215964b1121b6a0aa3f[m
+Merge: d719ceb e86d805
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Wed Jan 24 02:56:57 2024 +0900
+
+    Merge pull request #37 from kimsomi0126/somi
+    
+    feat : 오시는길 완료, 모달 컴포넌트 생성 및 api 연동 준비
+
+[33mcommit e86d805beadb33b5420c80f48765f6c01438f4b3[m
+Merge: fb62e1c d719ceb
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Wed Jan 24 02:56:48 2024 +0900
+
+    Merge branch 'main' into somi
+
+[33mcommit fb62e1c4a556f71b207bf69d82dcb179bd4873c3[m
+Author: kimsomi0126 <kimsomi00126@gmail.com>
+Date:   Tue Jan 23 22:44:35 2024 +0900
+
+    feat : 오시는길 완료, 모달 컴포넌트 생성 및 api 연동 준비
+
+[33mcommit d719ceb4722d6f8d987498d00c374775ddf71f0c[m
+Merge: ba91ffd d76c5ef
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Tue Jan 23 22:06:50 2024 +0900
+
+    Merge pull request #36 from devcodemaestro/work
+    
+    feat : 앨범 무한스크롤 구현, 상세페이지 작성
+
+[33mcommit ba91ffdd1b14e675f2cfb65183b5c833939fdb79[m
+Merge: dfcafa0 ade50c3
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Tue Jan 23 22:05:48 2024 +0900
+
+    Merge pull request #35 from do-sg/dsg
+    
+    feat: 관리자 페이지 컴포넌트 작업중
+
+[33mcommit dfcafa0a430717bf123badf3dc40ef25764f1fa9[m
+Merge: adb58fe 3729307
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Tue Jan 23 22:05:37 2024 +0900
+
+    Merge pull request #34 from dsa9925/work
+    
+    feat : 유치원 소식 기능 수정
+
+[33mcommit d76c5efd340e0cbe0ebf89bcaef86c72928c5216[m
+Merge: c0046aa ef1aa84
+Author: devcodemaestro <dev.codemaestro@gmail.com>
+Date:   Tue Jan 23 22:05:02 2024 +0900
+
+    Merge branch 'work' of https://github.com/devcodemaestro/kindergarten into work
+
+[33mcommit c0046aa7b31a7baa01e54de3112309f2529ccb18[m
+Author: devcodemaestro <dev.codemaestro@gmail.com>
+Date:   Tue Jan 23 21:58:26 2024 +0900
+
+    feat : 앨범 페이지 무한스크롤 구현, 앨범 상세페이지 작성
+
+[33mcommit ade50c37209a1c2fc148bdf294efdfe2c9cd9f29[m
+Author: do-sg <do.seongyeong1@gmail.com>
+Date:   Tue Jan 23 18:52:35 2024 +0900
+
+    feat: 관리자 페이지 컴포넌트 작업중
+
+[33mcommit 37293078e1bedc49a1ae08532072dbfc7256c3ca[m
+Author: dsa9925 <dev.dsa9925@gmail.com>
+Date:   Tue Jan 23 18:10:20 2024 +0900
+
+    feat : 유치원 소식 기능 수정
+
+[33mcommit ef1aa846c8bbea185881899a8b1355099bcebb8e[m
+Merge: 267c88d abd098c
+Author: devcodemaestro <dev.codemaestro@gmail.com>
+Date:   Mon Jan 22 20:59:07 2024 +0900
+
+    Merge branch 'work' of https://github.com/devcodemaestro/kindergarten into work
+
+[33mcommit 267c88d461e42b2d2ab60c11680e08601d032f8d[m
+Author: devcodemaestro <dev.codemaestro@gmail.com>
+Date:   Mon Jan 22 20:57:49 2024 +0900
+
+    fix : 불필요한 패키지 삭제
+
+[33mcommit adb58fe9e1930d5d76b1bc1dfc88556434c1fc17[m
+Merge: 780b476 b9f7a7b
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Mon Jan 22 20:57:16 2024 +0900
+
+    Merge pull request #33 from dsa9925/work
+    
+    유치원 소식 상세페이지 수정중
+
+[33mcommit 780b47682522fa784ae5275a6d8e8c39d3c91768[m
+Merge: 2186f4d f685c7e
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Mon Jan 22 20:57:05 2024 +0900
+
+    Merge pull request #32 from kimsomi0126/somi
+    
+    feat : 유치원소개, 현황 퍼블리싱 완료, 오시는길 진행중
+
+[33mcommit 2186f4da8d25e740e352ae90eb9b43f4a7b5617a[m
+Merge: 92b2c92 feecc7f
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Mon Jan 22 20:56:51 2024 +0900
+
+    Merge pull request #31 from do-sg/dsg
+    
+    feat: 원생상세 페이지, 원생상세 등록 페이지 퍼블리싱 수정
+
+[33mcommit b9f7a7b21a5a4e03883de314b9f625e43105c16b[m
+Author: dsa9925 <dev.dsa9925@gmail.com>
+Date:   Mon Jan 22 18:09:49 2024 +0900
+
+    유치원 소식 상세페이지 수정중
+
+[33mcommit f685c7e16b6d1eb2291cf80a6ed7418bc6d3ab3e[m
+Author: kimsomi0126 <kimsomi00126@gmail.com>
+Date:   Mon Jan 22 18:08:53 2024 +0900
+
+    feat : 유치원소개, 현황 퍼블리싱 완료, 오시는길 진행중
+
+[33mcommit feecc7fc83523b6ac63d4d9fe21deb1fe5d632d7[m
+Author: do-sg <do.seongyeong1@gmail.com>
+Date:   Mon Jan 22 18:00:38 2024 +0900
+
+    feat: 원생상세 페이지, 원생상세 등록 페이지 퍼블리싱 수정
+
+[33mcommit 92b2c92f34b6f3a2fa49b3d80069311336aced6d[m
+Merge: c2ab193 abd098c
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Fri Jan 19 21:47:14 2024 +0900
+
+    Merge pull request #30 from devcodemaestro/work
+    
+    add : 공통 컴포넌트 생성 - ResultModal, Comment
+
+[33mcommit abd098cf6b5f8b99bb0754ad8b2de9e884759951[m
+Merge: 95bc8f4 c2ab193
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Fri Jan 19 21:47:06 2024 +0900
+
+    Merge branch 'main' into work
+
+[33mcommit c2ab193c75d8d22a9b74d91b49be755ad882e617[m
+Merge: 687cb96 ef4f650
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Fri Jan 19 21:44:19 2024 +0900
+
+    Merge pull request #29 from dsa9925/work
+    
+    feat : 유치원소식 등록 페이지 진행중
+
+[33mcommit 687cb9631c601542138fae954a00338385ae55ce[m
+Merge: 561081a d7916d0
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Fri Jan 19 21:44:07 2024 +0900
+
+    Merge pull request #28 from kimsomi0126/somi
+    
+    feat : 로그인페이지 퍼블리싱 완료, 회원가입 퍼블리싱 진행중
+
+[33mcommit 561081a243478f4e069eb9b6aae687d11a343829[m
+Merge: df52828 74536a3
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Fri Jan 19 21:43:54 2024 +0900
+
+    Merge pull request #27 from do-sg/dsg
+    
+    feat : 원생 상세 페이지, 원생 상세 등록 페이지 퍼블리싱
+
+[33mcommit 95bc8f43c00383c011cc7d77f93495bc42922b42[m
+Author: devcodemaestro <dev.codemaestro@gmail.com>
+Date:   Fri Jan 19 21:33:22 2024 +0900
+
+    add : 공통 컴포넌트 생성 - ResultModal, Comment
+
+[33mcommit ef4f6508634d89d76a776bbe10224cd2e862779d[m
+Author: dsa9925 <dev.dsa9925@gmail.com>
+Date:   Fri Jan 19 19:12:47 2024 +0900
+
+    feat : 유치원소식 등록 페이지 진행중
+
+[33mcommit d7916d0d285f204788ca7d11c82a9d39b4211b05[m
+Author: kimsomi0126 <kimsomi00126@gmail.com>
+Date:   Fri Jan 19 18:31:17 2024 +0900
+
+    feat : 로그인페이지 퍼블리싱 완료, 회원가입 퍼블리싱 진행중
+
+[33mcommit 74536a3436c999b527131c926f674bf45532577e[m
+Author: do-sg <do.seongyeong1@gmail.com>
+Date:   Fri Jan 19 18:20:42 2024 +0900
+
+    feat : 원생 상세 페이지, 원생 상세 등록 페이지 퍼블리싱
+
+[33mcommit df52828bd34134d3399f898807ad48e648733aa8[m
+Merge: fa09e3a 43df7d4
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Fri Jan 19 09:54:13 2024 +0900
+
+    Merge pull request #26 from kimsomi0126/somi
+    
+    feat : mypage 퍼블리싱 완료
+
+[33mcommit fa09e3ad6d2f025aa43f9aa5c32f8370a0d3821c[m
+Merge: bb70eee c98ff4b
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Fri Jan 19 09:54:02 2024 +0900
+
+    Merge pull request #25 from dsa9925/work
+    
+    feat : 유치원 상세페이지 퍼블리싱 및 등록 페이지 진행중
+
+[33mcommit bb70eeec647e31df20257506f8785a3c0c5dc82f[m
+Merge: 557e832 bb9832a
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Fri Jan 19 09:53:50 2024 +0900
+
+    Merge pull request #24 from do-sg/dsg
+    
+    feat: 다음 주소 API 설치 및 연동 작업
+
+[33mcommit 43df7d4ee684f39bed7eefa4966b1cd41a3d685b[m
+Author: kimsomi0126 <kimsomi00126@gmail.com>
+Date:   Thu Jan 18 21:16:54 2024 +0900
+
+    feat : mypage 퍼블리싱 완료
+
+[33mcommit c98ff4b9c7c34e6974bad8ea02b90025da167b03[m
+Author: dsa9925 <dev.dsa9925@gmail.com>
+Date:   Thu Jan 18 19:37:14 2024 +0900
+
+    feat : 유치원 상세페이지 퍼블리싱 및 등록 페이지 진행중
+
+[33mcommit bb9832a5c1b18326ab0b52ed5f9d7c3c73579156[m
+Author: do-sg <do.seongyeong1@gmail.com>
+Date:   Thu Jan 18 19:37:02 2024 +0900
+
+    feat: 다음 주소 API 설치 및 연동 작업
+
+[33mcommit 557e8324a1a0a022129d054b4e040342842ef652[m
+Merge: 7e922be 49bae83
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Wed Jan 17 22:05:29 2024 +0900
+
+    Merge pull request #23 from devcodemaestro/work
+    
+    fix : 앨범 컴포넌트 CSS 정리중
+
+[33mcommit 49bae83c3291bda328679470347a76d8c65e783c[m
+Author: devcodemaestro <dev.codemaestro@gmail.com>
+Date:   Wed Jan 17 22:03:42 2024 +0900
+
+    fix : 앨범 컴포넌트 CSS 정리중
+
+[33mcommit 7e922be04fa04d950c7b827bcc220cd61f9f8b49[m
+Author: devcodemaestro <dev.codemaestro@gmail.com>
+Date:   Wed Jan 17 22:00:01 2024 +0900
+
+    fix : 임시 데이터 하나의 컴포넌트로 취합. 공통 CSS 수정
+
+[33mcommit ea82cb7f5a5bd2b39965b9312bcd5e045578e753[m
+Merge: 1a9c317 adffece
+Author: devcodemaestro <dev.codemaestro@gmail.com>
+Date:   Wed Jan 17 21:17:56 2024 +0900
+
+    fix : 커밋 충돌 해결
+
+[33mcommit adffeced3fdba29040249ae63ecc921ef6379601[m
+Merge: d525d0e 2afe9d6
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Wed Jan 17 20:50:14 2024 +0900
+
+    Merge pull request #21 from dsa9925/work
+    
+    feat : 유치원소식 상세페이지 퍼블리싱 진행중
+
+[33mcommit d525d0eb163b412772cea5659667ca1c6be35305[m
+Merge: 335cbea bbfebee
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Wed Jan 17 20:49:53 2024 +0900
+
+    Merge pull request #20 from do-sg/dsg
+    
+    feat: 관리자 페이지 퍼블리싱 진행중
+
+[33mcommit 335cbea65916c4fe9048d699bcffb7ac9034ec30[m
+Merge: c899c09 ba44ed6
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Wed Jan 17 20:49:37 2024 +0900
+
+    Merge pull request #19 from kimsomi0126/somi
+    
+    feat : ContentWrap 최대너비 수정, mypage 작업 진행중
+
+[33mcommit c899c095e6119a5f32b7e0aab23077f6a609a651[m
+Merge: ebc2930 cb06567
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Wed Jan 17 20:49:14 2024 +0900
+
+    Merge pull request #18 from giasong123/work
+    
+    feat: info 작업중
+
+[33mcommit 1a9c317e7cce37f9cc745824194cfab509be080b[m
+Author: devcodemaestro <dev.codemaestro@gmail.com>
+Date:   Wed Jan 17 20:45:59 2024 +0900
+
+    fix : Route 구조 수정.
+    
+    rename : 컴포넌트명 수정 및 이동
+
+[33mcommit 2afe9d63071ce251edaaa44e7580064afe19e67d[m
+Author: dsa9925 <dev.dsa9925@gmail.com>
+Date:   Wed Jan 17 19:22:47 2024 +0900
+
+    feat : 유치원소식 상세페이지 퍼블리싱 진행중
+
+[33mcommit bbfebee7fb331ffae38a7ffa0c781b4c1af63af1[m
+Author: do-sg <do.seongyeong1@gmail.com>
+Date:   Wed Jan 17 19:13:39 2024 +0900
+
+    feat: 관리자 페이지 퍼블리싱 진행중
+
+[33mcommit ba44ed6dee88b2754f6e52a57f85aae186ab7d11[m
+Author: kimsomi0126 <kimsomi00126@gmail.com>
+Date:   Wed Jan 17 18:12:00 2024 +0900
+
+    feat : ContentWrap 최대너비 수정, mypage 작업 진행중
+
+[33mcommit cb06567ccbc909068c5e857faa53bbe7bc4b04b2[m
+Author: giasong123 <fnvl8323@gmail.com>
+Date:   Wed Jan 17 18:11:56 2024 +0900
+
+    feat: info 작업중
+
+[33mcommit ebc2930e4c1a787390f372cfaa7b3747238a9052[m
+Author: devcodemaestro <dev.codemaestro@gmail.com>
+Date:   Wed Jan 17 13:19:53 2024 +0900
+
+    feat : Router 수정 및 임시 데이터 컴포넌트 별도 생성
+
+[33mcommit 7c56ab67fe7cb034f6346600ed2909b70b8203b2[m
+Merge: 67ffd94 dcedcf8
+Author: luckyzi <luckyzi1109@gmail.com>
+Date:   Wed Jan 17 08:41:34 2024 +0900
+
+    Merge branch 'main' of https://github.com/devcodemaestro/kindergarten into main
+
+[33mcommit 67ffd9487b6c2e27b1a4cb0eeee1c59999113c28[m
+Author: luckyzi <luckyzi1109@gmail.com>
+Date:   Tue Jan 16 23:57:14 2024 +0900
+
+    충돌 해결중
+
+[33mcommit dcedcf82be5004624d762ba75ac5231a44ed08b5[m
+Merge: 391a28a 540077b
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Tue Jan 16 22:05:22 2024 +0900
+
+    Merge pull request #16 from kimsomi0126/somi
+    
+    feat : 메인페이지 퍼블리싱 완료
+
+[33mcommit 77f6980bb88cc2481ac10d0c5aa27ae18d7a638e[m
+Merge: 8623933 f9c967a
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Tue Jan 16 22:05:01 2024 +0900
+
+    Merge pull request #15 from dsa9925/work
+    
+    Work
+
+[33mcommit f9c967aa72a88980feee6f16a1e17baf91eb9de9[m
+Merge: c70b4b6 8623933
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Tue Jan 16 22:04:52 2024 +0900
+
+    Merge branch 'work' into work
+
+[33mcommit 391a28ad07a2dd40c03338ec16965408a7db2b0c[m
+Merge: 16e7132 737b0d4
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Tue Jan 16 22:02:53 2024 +0900
+
+    Merge pull request #14 from do-sg/dsg
+    
+    feat: 학부모 관리 리스트, 원생 관리 리스트, 원생 등록 페이지 퍼블리싱 진행중
+
+[33mcommit 8623933d3f3bc6835986f1f07798db5b92b1babe[m
+Author: devcodemaestro <dev.codemaestro@gmail.com>
+Date:   Tue Jan 16 22:01:14 2024 +0900
+
+    feat : 컴포넌트 수정 및 중첩 라우터 구조 수정 중
+
+[33mcommit 540077b479c77accf750466458543c0e53ec9cb1[m
+Author: kimsomi0126 <kimsomi00126@gmail.com>
+Date:   Tue Jan 16 21:47:49 2024 +0900
+
+    feat : 메인페이지 퍼블리싱 완료
+    
+    1. 하단 footer 설정
+    2. swiper 설치, 메인 각 영역별 컴포넌트 작업
+    3. 회원가입, 로그인페이지 router 수정
+
+[33mcommit c70b4b6a921f8b505c2df13ad9629f4412fbcff0[m
+Author: dsa9925 <dev.dsa9925@gmail.com>
+Date:   Tue Jan 16 19:46:00 2024 +0900
+
+    feat : 유치원소식 상세페이지 작업 중
+
+[33mcommit 737b0d42fd66b9c40171121f098dff15e8f350d7[m
+Author: do-sg <do.seongyeong1@gmail.com>
+Date:   Tue Jan 16 18:23:55 2024 +0900
+
+    feat: 학부모 관리 리스트, 원생 관리 리스트, 원생 등록 페이지 퍼블리싱 진행중
+
+[33mcommit 16e713259c2ac1e53f2715af8c6efd4a92ba557f[m
+Merge: a89bf4b ef0ca6a
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Mon Jan 15 21:52:49 2024 +0900
+
+    Merge pull request #13 from devcodemaestro/work
+    
+    feat : 추가 컴포넌트 생성 및 라우터와 아웃렛 설정완료.
+
+[33mcommit ef0ca6a1b6ffa4778a2bf445878636786c9aa524[m
+Author: devcodemaestro <dev.codemaestro@gmail.com>
+Date:   Mon Jan 15 21:51:21 2024 +0900
+
+    feat : 추가 컴포넌트 생성 및 라우터와 아웃렛 설정완료.
+    앨범 컴포넌트 퍼블리싱 중
+
+[33mcommit a89bf4be1a4374d8749cfaf0a675b203fa46e1c2[m
+Merge: 1fa8e89 f0f11a7
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Mon Jan 15 18:50:13 2024 +0900
+
+    Merge pull request #12 from devcodemaestro/work
+    
+    feat: route 수정
+
+[33mcommit f0f11a7b1cb18d8f77f0842112b462b9217a7002[m
+Author: devcodemaestro <dev.codemaestro@gmail.com>
+Date:   Mon Jan 15 18:49:04 2024 +0900
+
+    feat: route 수정
+
+[33mcommit 1fa8e89834a47ade8bd855cae46ac9aee3c0ba66[m
+Merge: fa81102 b48d62b
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Mon Jan 15 18:37:09 2024 +0900
+
+    Merge pull request #11 from do-sg/dsg
+    
+    feat: 학부모 관리 페이지 퍼블리싱 진행중
+
+[33mcommit fa8110252ff606adafebc8002837dc4b75c0819d[m
+Merge: 764d1c7 93fb95c
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Mon Jan 15 18:36:49 2024 +0900
+
+    Merge pull request #10 from devcodemaestro/work
+    
+    feat: 컴포넌트 추가생성 및 수정. 퍼블리싱 작업 중
+
+[33mcommit 93fb95c748dcc11810a25e1f9efcccaef4a57b6b[m
+Merge: 6235c7c 764d1c7
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Mon Jan 15 18:36:34 2024 +0900
+
+    Merge branch 'main' into work
+
+[33mcommit 764d1c7f8da637eb3ab7ca0c19e3c64258fe8cb3[m
+Merge: 932255f 37d5947
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Mon Jan 15 18:33:38 2024 +0900
+
+    Merge pull request #9 from kimsomi0126/somi
+    
+    feat : Header, Footer, Sidebar, Loading, Main  페이지 작업
+
+[33mcommit 6235c7cefa5512cebc2c21acd35a357863eda8f5[m
+Merge: 9bc8d04 833f4e6
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Mon Jan 15 18:33:23 2024 +0900
+
+    Merge pull request #8 from dsa9925/work
+    
+    Work
+
+[33mcommit b48d62b0a3371e1083a0a396bc3b9b1b4e159cf2[m
+Author: do-sg <do.seongyeong1@gmail.com>
+Date:   Mon Jan 15 18:33:21 2024 +0900
+
+    feat: 학부모 관리 페이지 퍼블리싱 진행중
+
+[33mcommit 9bc8d0469fefde4cb58b099716cb48ecb0f49cfb[m
+Author: devcodemaestro <dev.codemaestro@gmail.com>
+Date:   Mon Jan 15 18:29:35 2024 +0900
+
+    feat: 컴포넌트 추가생성 및 수정. 퍼블리싱 작업 중
+
+[33mcommit 37d594737bbfb5eb29b2a85839bd66fd40a3595b[m
+Author: kimsomi0126 <kimsomi00126@gmail.com>
+Date:   Mon Jan 15 18:13:12 2024 +0900
+
+    feat : Header, Footer, Sidebar, Loading, Main  페이지 작업
+    
+    1. Header, Footer, Sidebar ant-design 레이아웃 적용 및 퍼블리싱
+    2. Loading react-spinners 추가설치 및 css조절
+    3. button 공통 style 적용
+    4. main 페이지 퍼블리싱 진행중
+
+[33mcommit 833f4e621d66dea167c5a721cf5fed9d25b4391f[m
+Author: dsa9925 <dev.dsa9925@gmail.com>
+Date:   Mon Jan 15 18:11:43 2024 +0900
+
+    feat : 유치원소식 상세페이지 작업중
+
+[33mcommit 932255fb2594f9d78fcb97e0861cae1777656d2c[m
+Merge: 75918c3 0ab26b7
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Mon Jan 15 08:41:09 2024 +0900
+
+    Merge pull request #7 from devcodemaestro/work
+    
+    feat : NavBar 수정 및 Router 구조 수정 중
+
+[33mcommit 0ab26b7e3ebbb3331fece150f4977ee730f959c9[m
+Author: luckyzi <luckyzi1109@gmail.com>
+Date:   Mon Jan 15 08:39:03 2024 +0900
+
+    feat : NavBar 수정 및 Router 구조 수정 중
+
+[33mcommit 75918c3fa65518f3592d6655c759ba8cbde8ba76[m
+Merge: 90521af 3f7606d
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Sat Jan 13 00:29:03 2024 +0900
+
+    Merge pull request #6 from devcodemaestro/work
+    
+    docs : Router, Outlet 구조 수정 중
+
+[33mcommit 3f7606d680de278352d644aa7165bda96e030a49[m
+Merge: ccc9f31 90521af
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Sat Jan 13 00:28:09 2024 +0900
+
+    Merge branch 'main' into work
+
+[33mcommit 90521affed59bb4f82ad6e4dbbe4143e9a87e673[m
+Merge: 057ea2a 04c34d4
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Sat Jan 13 00:17:36 2024 +0900
+
+    Merge pull request #5 from kimsomi0126/somi
+    
+    feat : 공통 css 적용 진행중
+
+[33mcommit 057ea2ae244a05824f831441caf9964f2f612210[m
+Merge: 4640641 b59b6c1
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Sat Jan 13 00:17:05 2024 +0900
+
+    Merge pull request #4 from dsa9925/work
+    
+    feat: 유치원 소식 페이지 기본 레이아웃 구성
+
+[33mcommit 4640641071cfcf31d5c15e1bb840d4a000a2fd11[m
+Merge: 20d6ceb c749e8a
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Sat Jan 13 00:16:36 2024 +0900
+
+    Merge pull request #3 from giasong123/work
+    
+    feat:info 작업진행중
+
+[33mcommit 20d6cebba6ab60cc8841ab3c627215c39fccd6cc[m
+Merge: 0b8cff5 a7b3168
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Sat Jan 13 00:14:59 2024 +0900
+
+    Merge pull request #2 from do-sg/dsg
+    
+    feat: 관리자 학부모 리스트 페이지 퍼블리싱 진행중
+
+[33mcommit ccc9f31af50a4d6fa286291888eef600dca2eaea[m
+Author: devcodemaestro <dev.codemaestro@gmail.com>
+Date:   Fri Jan 12 18:22:19 2024 +0900
+
+    docs : Router, Outlet 구조 수정 중
+    유치원 소개 상세 컴포넌트 추가 예정
+
+[33mcommit 04c34d41561331a06126d0e1fb4cb2764b6da9ed[m
+Author: kimsomi0126 <kimsomi00126@gmail.com>
+Date:   Fri Jan 12 18:13:39 2024 +0900
+
+    feat : 공통 css 적용 진행중
+
+[33mcommit b59b6c1c5dab796a3cc30477d81c73bbb69b865b[m
+Author: dsa9925 <dev.dsa9925@gmail.com>
+Date:   Fri Jan 12 18:08:05 2024 +0900
+
+    feat: 유치원 소식 페이지 기본 레이아웃 구성
+
+[33mcommit c749e8a5d5f4cb3c93a0aa964a10ac9a6a0e0a69[m
+Author: giasong123 <fnvl8323@gmail.com>
+Date:   Fri Jan 12 18:06:59 2024 +0900
+
+    feat:info 작업진행중
+
+[33mcommit a7b316871cfec56434b58e16abfd2d8b8dee7574[m
+Author: do-sg <do.seongyeong1@gmail.com>
+Date:   Fri Jan 12 18:06:29 2024 +0900
+
+    feat: 관리자 학부모 리스트 페이지 퍼블리싱 진행중
+
+[33mcommit 0b8cff5ce33a9e945e27f93ce459e981ccc08b68[m
+Merge: ae56ad6 a33cf7a
+Author: devcodemaestro <148197355+devcodemaestro@users.noreply.github.com>
+Date:   Fri Jan 12 12:32:00 2024 +0900
+
+    Merge pull request #1 from devcodemaestro/work
+    
+    add:common 컴포넌트의 파일명 수정과 추가
+
+[33mcommit a33cf7a70c21cb92625e2f56d2c97e461085bc50[m
+Author: devcodemaestro <dev.codemaestro@gmail.com>
+Date:   Fri Jan 12 12:29:51 2024 +0900
+
+    add:common 컴포넌트의 파일명 수정과 추가
+
+[33mcommit ae56ad61a6b2b2779a6d38412b42944372e5384b[m
+Author: devcodemaestro <dev.codemaestro@gmail.com>
+Date:   Thu Jan 11 22:20:21 2024 +0900
+
+    docs: 최초 프로젝트 생성

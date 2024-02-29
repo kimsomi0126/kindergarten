@@ -15,7 +15,7 @@ import {
   useSearchParams,
 } from "react-router-dom";
 import useCustomLogin from "../../hooks/useCustomLogin";
-import IndListComponent from "../../components/individualNotice/IndListComponent";
+import ReadAllIndAlbum from "../../components/indivAlbum/ReadAllIndAlbum";
 import {
   getIndParentList,
   getIndTeacherList,
@@ -25,6 +25,7 @@ import IndParentBtnComponent from "../../components/individualNotice/IndParentBt
 import IndTeacherBtnComponent from "../../components/individualNotice/IndTeacherBtnComponent";
 import Search from "antd/es/input/Search";
 import { GreenBtn } from "../../styles/ui/buttons";
+import { getIndAlbumList } from "../../api/indivAlbum/indivalbum_api";
 
 const initData = [
   {
@@ -99,21 +100,19 @@ const IndivAlbumList = () => {
         setIsOpen(true);
         return;
       }
-      getIndParentList({
+      getIndAlbumList({
         page,
-        year,
+        iclass,
         ikid,
-        fromTo,
-        search: "",
+        search: indList,
         errorFn,
         successFn,
       });
     } else if (isLogin) {
       // 선생님 로그인
       if ((isTeacherLogin && iclass == loginState.iclass) || isAdminLogin) {
-        getIndTeacherList({
+        getIndAlbumList({
           page,
-          year,
           iclass,
           fromTo,
           search: searchValue,
@@ -122,7 +121,7 @@ const IndivAlbumList = () => {
         });
       } else {
         setTitle("접근 제한");
-        setSubTitle("담당한 반 알림장만 열람 가능합니다.");
+        setSubTitle("담당한 반 앨범만 열람 가능합니다.");
         setIsNavigate(-1);
         setIsOpen(true);
         return;
@@ -228,33 +227,56 @@ const IndivAlbumList = () => {
         subTitle={subTitle}
       />
       <TabWrap>
-        <Link to={`/ind?year=${currentYear}&page=1&iclass=0`}>알림장</Link>
-        <Link to={pathname + search} className="active">
+        <Link
+          to={`/ind?year=${currentYear}&page=1&ikid=${
+            ikidList[0] ? ikidList[0].ikid : 0
+          }`}
+        >
+          알림장
+        </Link>
+        <Link to={`/ind/album${search}`} className="active">
           추억앨범
         </Link>
       </TabWrap>
       <TitleWrap className="ind-btn-wrap">
-        <FromToBtnWrap fromTo={fromTo} isLogin={isLogin}>
-          <button
-            onClick={e => handleFromTo(e)}
-            value={"teacher"}
-            className="teacher"
-          >
-            {isLogin ? "내가 쓴" : "내가 받은"} 글
-          </button>
-          <button
-            onClick={e => handleFromTo(e)}
-            value={"parent"}
-            className="parent"
-          >
-            {isLogin ? "내가 받은" : "내가 쓴"} 글
-          </button>
-          {fromTo != 3 ? (
-            <button onClick={e => handleFromTo(e)} value={"all"}>
-              모아보기
+        {isLogin ? (
+          <FromToBtnWrap fromTo={fromTo} isLogin={isLogin}>
+            <button
+              onClick={e => handleFromTo(e)}
+              value={"teacher"}
+              className="teacher"
+            >
+              {isLogin ? "내가 쓴" : "내가 받은"} 글
             </button>
-          ) : null}
-        </FromToBtnWrap>
+            <button
+              onClick={e => handleFromTo(e)}
+              value={"parent"}
+              className="parent"
+            >
+              {isLogin ? "내가 받은" : "내가 쓴"} 글
+            </button>
+            {fromTo != 3 ? (
+              <button onClick={e => handleFromTo(e)} value={"all"}>
+                모아보기
+              </button>
+            ) : null}
+          </FromToBtnWrap>
+        ) : (
+          <FromToBtnWrap fromTo={fromTo} isLogin={isParentLogin}>
+            <button
+              onClick={e => handleFromTo(e)}
+              value={"parent"}
+              className="parent"
+            >
+              내가 받은 글
+            </button>
+            {fromTo != 3 ? (
+              <button onClick={e => handleFromTo(e)} value={"all"}>
+                모아보기
+              </button>
+            ) : null}
+          </FromToBtnWrap>
+        )}
         <FlexBox>
           {/* 권한별 서치버튼 */}
           {isLogin ? (
@@ -281,17 +303,19 @@ const IndivAlbumList = () => {
             }}
             size={"large"}
           />
-          <GreenBtn
-            onClick={() => {
-              navigate("/ind/write");
-            }}
-            className="btn"
-          >
-            글쓰기
-          </GreenBtn>
+          {isLogin ? (
+            <GreenBtn
+              onClick={() => {
+                navigate("/ind/write");
+              }}
+              className="btn"
+            >
+              글쓰기
+            </GreenBtn>
+          ) : null}
         </FlexBox>
       </TitleWrap>
-      <IndListComponent
+      <ReadAllIndAlbum
         listData={indList}
         year={year}
         ikid={ikid}

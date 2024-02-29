@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import IndWriteComponent from "../../components/individualNotice/IndWriteComponent";
+import WriteIndivAlbum from "../../components/individualNotice/IndWriteComponent";
 import ModalOneBtn from "../../components/ui/ModalOneBtn";
 import useCustomLogin from "../../hooks/useCustomLogin";
 
@@ -12,11 +12,11 @@ const IndivAlbumWrite = () => {
   const [subTitle, setSubTitle] = useState("");
 
   useEffect(() => {
-    if (!isLogin || isParentLogin) {
+    if (!isLogin || !isParentLogin) {
       // 로그인하지 않았을 경우
       setIsOpen(true);
-      setTitle("관리자 전용 페이지");
-      setSubTitle("관리자만 접근 가능합니다.");
+      setTitle("회원 전용 페이지");
+      setSubTitle("회원만 접근 가능합니다.");
     } else {
       // 다른 상황에 대한 처리가 필요한 경우 여기에 추가
       // 예를 들어, 기본 오류 메시지 설정 등
@@ -40,7 +40,7 @@ const IndivAlbumWrite = () => {
         title={title}
         subTitle={subTitle}
       />
-      <IndWriteComponent isLogin={isLogin} />
+      <WriteIndivAlbum isLogin={isLogin} />
     </>
   );
 };

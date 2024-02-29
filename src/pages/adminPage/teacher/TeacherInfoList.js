@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import {
-  MainTop,
   TeacherTop,
   TeacherTopRight,
 } from "../../../styles/adminstyle/teacherinfolist";
@@ -8,7 +7,7 @@ import { PageTitle } from "../../../styles/basic";
 import { Button, Dropdown, Form, Select } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 import Search from "antd/es/input/Search";
-import { BlueBtn, GreenBtn, OrangeBtn } from "../../../styles/ui/buttons";
+import { BlueBtn, OrangeBtn } from "../../../styles/ui/buttons";
 import TeacherListComponent from "../../../components/adminpage/TeacherListComponent";
 import { useNavigate } from "react-router";
 import useCustomLogin from "../../../hooks/useCustomLogin";
@@ -275,11 +274,6 @@ const TeacherInfoList = () => {
           >
             재직상태변경
           </OrangeBtn>
-          <GreenBtn
-            onClick={e => navigate(`/admin/teacher?page=1&iclass=0&tcIsDel=1`)}
-          >
-            퇴사직원확인
-          </GreenBtn>
           <BlueBtn onClick={e => navigate("/admin/teacher/create")}>
             선생님 등록
           </BlueBtn>

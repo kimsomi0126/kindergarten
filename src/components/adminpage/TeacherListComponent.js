@@ -4,6 +4,8 @@ import {
   ListBox,
   ListBoxTop,
   MainTop,
+  MainTopLeft,
+  MainTopRight,
   TeacherImgInfo,
   TeacherInfo,
   TeacherListItem,
@@ -77,16 +79,33 @@ const TeacherListComponent = ({
     <>
       <TeacherMain>
         <MainTop>
-          <input
-            type="checkbox"
-            id="selectAll"
-            name="iteacher"
-            checked={selectAllChecked}
-            onChange={handleSelectAllChange}
-          />
-          <label htmlFor="selectAll">전체 선택</label>
-          <button>재직중</button>
-          <button>퇴사</button>
+          <MainTopLeft>
+            <input
+              type="checkbox"
+              id="selectAll"
+              name="iteacher"
+              checked={selectAllChecked}
+              onChange={handleSelectAllChange}
+            />
+            <label htmlFor="selectAll">전체 선택</label>
+          </MainTopLeft>
+
+          <MainTopRight>
+            <button
+              onClick={e =>
+                navigate(`/admin/teacher?page=1&iclass=0&tcIsDel=0`)
+              }
+            >
+              재직중
+            </button>
+            <button
+              onClick={e =>
+                navigate(`/admin/teacher?page=1&iclass=0&tcIsDel=1`)
+              }
+            >
+              퇴사
+            </button>
+          </MainTopRight>
         </MainTop>
         <TeacherListWrap>
           {Array.isArray(teacherList.list) &&

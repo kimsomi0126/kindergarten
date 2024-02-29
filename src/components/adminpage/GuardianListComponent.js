@@ -10,8 +10,9 @@ import {
 } from "../../styles/adminstyle/guardianlist";
 import { GrayBtn } from "../../styles/ui/buttons";
 import AdminParentEdit from "../../pages/adminPage/AdminParentEdit";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Pagination } from "antd";
+import useCustomLogin from "../../hooks/useCustomLogin";
 
 const initParentList = {
   totalCnt: 0,
@@ -41,25 +42,25 @@ const GuardianListComponent = ({
 }) => {
   const navigate = useNavigate();
   const [selectAllChecked, setSelectAllChecked] = useState(false);
-
+  // 로그인정보 체크
+  const { isLogin, isAdminLogin, loginState, isTeacherLogin } =
+    useCustomLogin();
   // 페이지네이션
   const handleChangePage = page => {
     // console.log(page);
     navigate(`/admin?page=${page}&iclass=${iclass}`);
   };
-
   // 학부모 정보 수정
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [editKey, setEditKey] = useState(0);
   const [iparent, setIparent] = useState(0);
-
   const [editState, setEditState] = useState(0);
   const onStateChange = () => {
     setEditState(prevState => prevState + 1);
     onChildClick();
   };
-
   // console.log("중간체크 ", editState);
+
   const onAdminParentEditClick = () => {
     setIsEditOpen(true);
     setEditKey(prevKey => prevKey + 1);
@@ -147,15 +148,18 @@ const GuardianListComponent = ({
                   </div>
 
                   <em>{item.phoneNb}</em>
-                  <GrayBtn
-                    onClick={() => {
-                      setIparent(item.iparent);
-                      setIsEditOpen(true);
-                      setEditKey(prevKey => prevKey + 1);
-                    }}
-                  >
-                    정보 수정
-                  </GrayBtn>
+                  {isAdminLogin ||
+                  (isTeacherLogin && iclass == loginState.iclass) ? (
+                    <GrayBtn
+                      onClick={() => {
+                        setIparent(item.iparent);
+                        setIsEditOpen(true);
+                        setEditKey(prevKey => prevKey + 1);
+                      }}
+                    >
+                      정보 수정
+                    </GrayBtn>
+                  ) : null}
                 </UserListBox>
               </UserListItem>
             ))}

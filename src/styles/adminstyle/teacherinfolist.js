@@ -27,12 +27,23 @@ export const TeacherMain = styled.div`
 `;
 export const MainTop = styled.div`
   display: flex;
+  justify-content: space-between;
   gap: 1rem;
   margin: 1rem 0;
-  /* justify-content: space-between; */
+`;
+export const MainTopLeft = styled.div`
+  display: flex;
   input {
     margin-right: 0.5rem;
   }
+`;
+export const MainTopRight = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1rem;
+  margin-right: 1rem;
   button {
     padding: 0;
     color: #888;
@@ -47,6 +58,9 @@ export const MainTop = styled.div`
     :first-of-type:before {
       display: none;
     }
+    :active {
+      color: #222;
+    }
   }
 `;
 export const TeacherListWrap = styled.ul`
@@ -54,7 +68,7 @@ export const TeacherListWrap = styled.ul`
   display: flex;
   flex-wrap: wrap;
   /* justify-content: space-between; */
-  gap: 1rem;
+  gap: 2.3rem;
 `;
 export const TeacherListItem = styled.li`
   position: relative;

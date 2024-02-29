@@ -59,14 +59,13 @@ const initState = {
 
 const StudDetails = () => {
   const navigate = useNavigate();
-  const { isLogin } = useCustomLogin();
+  const { isLogin, isAdminLogin, loginState, isParentLogin } = useCustomLogin();
   const [serchParams, setSearchParams] = useSearchParams();
+
   // 현재 출력 년도, kid 값
   const year = serchParams.get("year");
   const ikid = serchParams.get("ikid");
 
-  // 로그인 회원 정보에서 아이 리스트 추출
-  const { loginState, isParentLogin } = useCustomLogin();
   const ikidList = loginState.kidList;
   // ikid 값만 추출하여 파라미터값과 비교
   const kidCheck = Array.isArray(ikidList) && ikidList.map(item => item.ikid);
@@ -170,11 +169,14 @@ const StudDetails = () => {
               >
                 알림장작성
               </GrayBtn>
-              <PurpleBtn
-                onClick={e => navigate(`/admin/student/modify?ikid=${ikid}`)}
-              >
-                원생정보수정
-              </PurpleBtn>
+              {isAdminLogin || myData.iclass == loginState.iclass ? (
+                <PurpleBtn
+                  onClick={e => navigate(`/admin/student/modify?ikid=${ikid}`)}
+                >
+                  원생정보수정
+                </PurpleBtn>
+              ) : null}
+
               <GreenBtn
                 onClick={e => navigate("/admin/student?page=1&kidCheck=0")}
               >
@@ -196,7 +198,7 @@ const StudDetails = () => {
           <DetailInfo>
             <TitleWrap>
               <PageTitle>상세정보</PageTitle>
-              {ilevel === "admin" ? (
+              {isAdminLogin || myData.iclass == loginState.iclass ? (
                 <Link
                   to={`/admin/student/detailsform?year=${year}&ikid=${ikid}`}
                 >

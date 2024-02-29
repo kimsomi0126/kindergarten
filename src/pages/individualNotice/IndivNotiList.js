@@ -228,12 +228,7 @@ const IndivNotiList = () => {
         subTitle={subTitle}
       />
       <TabWrap>
-        <Link
-          to={`/ind?year=${currentYear}&page=1&ikid=${
-            ikidList[0] ? ikidList[0].ikid : 0
-          }`}
-          className="active"
-        >
+        <Link to={pathname + search} className="active">
           알림장
         </Link>
         <Link to={`/ind/album${search}`}>추억앨범</Link>

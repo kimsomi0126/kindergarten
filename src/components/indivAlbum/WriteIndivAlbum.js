@@ -1,23 +1,29 @@
 import { UploadOutlined } from "@ant-design/icons";
-import { Button, Form, Input, Modal, Upload, TreeSelect, Checkbox } from "antd";
-import React, { useRef, useState, useEffect } from "react";
+import {
+  Button,
+  Cascader,
+  Checkbox,
+  Form,
+  Input,
+  Modal,
+  TreeSelect,
+  Upload,
+} from "antd";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { Link, useSearchParams } from "react-router-dom";
 import { SERVER_URL } from "../../api/config";
-import {
-  getIndchildrenList,
-  postIndNotice,
-} from "../../api/individualNotice/indivNoticeApi";
+import { postIndAlbum } from "../../api/indivAlbum/indivalbum_api";
+import { getIndchildrenList } from "../../api/individualNotice/indivNoticeApi";
 import { FileListStyle } from "../../styles/album/album";
 import { PageTitle } from "../../styles/basic";
 import { GreenBtn, PinkBtn } from "../../styles/ui/buttons";
 import ModalOneBtn from "../ui/ModalOneBtn";
-import { Cascader } from "antd";
 
 const path = `${SERVER_URL}/api/notice`;
 const { SHOW_CHILD } = Cascader;
 
-const IndWriteComponent = () => {
+const WriteIndivAlbum = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const ikid = searchParams.get("ikid");
   const [form] = Form.useForm();
@@ -167,16 +173,15 @@ const IndWriteComponent = () => {
     // JSON 데이터 추가
     const dto = {
       ikids: selectedKids, // ikids 필드 추가
-      noticeTitle: data.noticeTitle,
-      noticeContents: data.noticeContents,
-      noticeCheck: noticeCheck ? 1 : 0,
+      memoryTitle: data.memoryTitle,
+      memoryContents: data.memoryContents,
     };
     formData.append(
       "dto",
       new Blob([JSON.stringify(dto)], { type: "application/json" }),
     );
 
-    postIndNotice({
+    postIndAlbum({
       product: formData,
       successFn: () => setShowSuccessModal(true), // 성공 모달 표시
       failFn: handleFail,
@@ -266,7 +271,7 @@ const IndWriteComponent = () => {
         </Checkbox>
         <Form ref={formRef} form={form} onFinish={onFinish}>
           <Form.Item
-            name="noticeTitle"
+            name="memoryTitle"
             rules={[
               {
                 required: true,
@@ -279,7 +284,7 @@ const IndWriteComponent = () => {
 
           <Form.Item
             style={{ height: "150px" }}
-            name="noticeContents"
+            name="memoryContents"
             rules={[
               {
                 required: true,
@@ -358,4 +363,4 @@ const IndWriteComponent = () => {
   );
 };
 
-export default IndWriteComponent;
+export default WriteIndivAlbum;

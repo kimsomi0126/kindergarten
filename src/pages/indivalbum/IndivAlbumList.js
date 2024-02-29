@@ -15,7 +15,7 @@ import {
   useSearchParams,
 } from "react-router-dom";
 import useCustomLogin from "../../hooks/useCustomLogin";
-import ReadAllIndAlbum from "../../components/indivAlbum/ReadAllIndAlbum";
+import ReadAllIndAlbum from "../../components/indivalbum/ReadAllIndAlbum";
 import {
   getIndParentList,
   getIndTeacherList,
@@ -25,22 +25,37 @@ import IndParentBtnComponent from "../../components/individualNotice/IndParentBt
 import IndTeacherBtnComponent from "../../components/individualNotice/IndTeacherBtnComponent";
 import Search from "antd/es/input/Search";
 import { GreenBtn } from "../../styles/ui/buttons";
-import { getIndAlbumList } from "../../api/indivAlbum/indivalbum_api";
+import {
+  getIndAlbumList,
+  getIndAlbumParentList,
+} from "../../api/indivAlbum/indivalbum_api";
 
 const initData = [
   {
-    inotice: 0,
-    noticeTitle: "",
-    noticeContents: "",
-    kidNm: "",
-    iclass: 0,
-    picCheck: 0,
     cmtCheck: 0,
-    noticeCheck: 0,
     createdAt: "",
+    iclass: 0,
+    inotice: 0,
+    kidNm: "",
+    noticeCheck: 0,
+    noticeContents: "",
+    noticeTitle: "",
+    picCheck: 0,
   },
 ];
-
+// const initData = [
+//   {
+//     inotice: 0,
+//     noticeTitle: "",
+//     noticeContents: "",
+//     kidNm: "",
+//     iclass: 0,
+//     picCheck: 0,
+//     cmtCheck: 0,
+//     noticeCheck: 0,
+//     createdAt: "",
+//   },
+// ];
 const IndivAlbumList = () => {
   const navigate = useNavigate();
   const { pathname, search } = useLocation();
@@ -100,11 +115,11 @@ const IndivAlbumList = () => {
         setIsOpen(true);
         return;
       }
-      getIndAlbumList({
+      getIndAlbumParentList({
         page,
         iclass,
         ikid,
-        search: indList,
+        search: searchValue,
         errorFn,
         successFn,
       });
@@ -114,7 +129,7 @@ const IndivAlbumList = () => {
         getIndAlbumList({
           page,
           iclass,
-          fromTo,
+          ikid,
           search: searchValue,
           errorFn,
           successFn,
@@ -147,8 +162,8 @@ const IndivAlbumList = () => {
     // setSubTitle(res);
 
     const url = isLogin
-      ? `/ind?year=${year}&page=1&iclass=${iclass}&searchValue=${searchValue}`
-      : `/ind?year=${year}&page=1&ikid=${ikid}&searchValue=${searchValue}`;
+      ? `/ind/album?year=${year}&page=1&iclass=${iclass}&searchValue=${searchValue}`
+      : `/ind/album?year=${year}&page=1&ikid=${ikid}&searchValue=${searchValue}`;
 
     if (fromTo != 3) {
       setFromTo(3);
@@ -164,8 +179,8 @@ const IndivAlbumList = () => {
   const handleFromTo = e => {
     const writer = e.target.value;
     const url = isLogin
-      ? `/ind?year=${year}&page=1&iclass=${iclass}&searchValue=${searchValue}&fromTo=`
-      : `/ind?year=${year}&page=1&ikid=${ikid}&searchValue=${searchValue}&fromTo=`;
+      ? `/ind/album?year=${year}&page=1&iclass=${iclass}&searchValue=${searchValue}&fromTo=`
+      : `/ind/album?year=${year}&page=1&ikid=${ikid}&searchValue=${searchValue}&fromTo=`;
     const num =
       isLogin && writer == "teacher"
         ? 1
@@ -227,13 +242,18 @@ const IndivAlbumList = () => {
         subTitle={subTitle}
       />
       <TabWrap>
-        <Link
-          to={`/ind?year=${currentYear}&page=1&ikid=${
-            ikidList[0] ? ikidList[0].ikid : 0
-          }`}
-        >
-          알림장
-        </Link>
+        {/* <Link to={pathname + search}>알림장</Link> */}
+        {isParentLogin ? (
+          <Link
+            to={`/ind?year=${currentYear}&page=1&iclass=${iclass}&ikid=${ikid}`}
+          >
+            알림장
+          </Link>
+        ) : (
+          <Link to={`/ind?year=${currentYear}&page=1&iclass=${iclass}`}>
+            알림장
+          </Link>
+        )}
         <Link to={`/ind/album${search}`} className="active">
           추억앨범
         </Link>
@@ -241,7 +261,7 @@ const IndivAlbumList = () => {
       <TitleWrap className="ind-btn-wrap">
         {isLogin ? (
           <FromToBtnWrap fromTo={fromTo} isLogin={isLogin}>
-            <button
+            {/* <button
               onClick={e => handleFromTo(e)}
               value={"teacher"}
               className="teacher"
@@ -259,22 +279,20 @@ const IndivAlbumList = () => {
               <button onClick={e => handleFromTo(e)} value={"all"}>
                 모아보기
               </button>
-            ) : null}
+            ) : null} */}
           </FromToBtnWrap>
         ) : (
           <FromToBtnWrap fromTo={fromTo} isLogin={isParentLogin}>
-            <button
+            {/* <button
               onClick={e => handleFromTo(e)}
               value={"parent"}
               className="parent"
-            >
-              내가 받은 글
-            </button>
+            ></button>
             {fromTo != 3 ? (
               <button onClick={e => handleFromTo(e)} value={"all"}>
                 모아보기
               </button>
-            ) : null}
+            ) : null} */}
           </FromToBtnWrap>
         )}
         <FlexBox>
@@ -306,7 +324,7 @@ const IndivAlbumList = () => {
           {isLogin ? (
             <GreenBtn
               onClick={() => {
-                navigate("/ind/write");
+                navigate("/ind/album/write");
               }}
               className="btn"
             >

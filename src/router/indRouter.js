@@ -63,6 +63,7 @@ const indRouter = () => {
         </Suspense>
       ),
     },
+    // 추억앨범
     {
       path: "album",
       element: (

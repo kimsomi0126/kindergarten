@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import WriteIndivAlbum from "../../components/individualNotice/IndWriteComponent";
+import WriteIndivAlbum from "../../components/indivalbum/WriteIndivAlbum";
 import ModalOneBtn from "../../components/ui/ModalOneBtn";
 import useCustomLogin from "../../hooks/useCustomLogin";
 

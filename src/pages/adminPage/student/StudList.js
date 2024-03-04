@@ -84,6 +84,7 @@ const StudList = () => {
     setStudentList(result);
     console.log("검색결과", result);
   };
+
   const errorFn = result => {
     setIsOpen(true);
     setTitle("데이터 없음");
@@ -224,7 +225,7 @@ const StudList = () => {
       obj,
     });
   };
-  // console.log(changeState);
+
   return (
     <>
       <StudentTop>

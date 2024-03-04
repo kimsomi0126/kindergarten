@@ -358,30 +358,32 @@ const TeacherModify = () => {
           <TeacherClassInfo>
             <p>재직 정보</p>
             <TeacherClassForm>
-              <Form.Item
-                name="tcRole"
-                rules={[
-                  {
-                    required: true,
-                    message: "직급을 선택해주세요.",
-                  },
-                ]}
-              >
-                <Select
-                  labelInValue
-                  defaultValue={{
-                    value: "",
-                    label: (
-                      <span style={{ color: " rgba(0, 0, 0, 0.25) " }}>
-                        직급 선택
-                      </span>
-                    ),
-                  }}
+              {isAdminLogin ? (
+                <Form.Item
+                  name="tcRole"
+                  rules={[
+                    {
+                      required: true,
+                      message: "직급을 선택해주세요.",
+                    },
+                  ]}
                 >
-                  <Select.Option value="ADMIN">원장</Select.Option>
-                  <Select.Option value="TEACHER">선생님</Select.Option>
-                </Select>
-              </Form.Item>
+                  <Select
+                    labelInValue
+                    defaultValue={{
+                      value: "",
+                      label: (
+                        <span style={{ color: " rgba(0, 0, 0, 0.25) " }}>
+                          직급 선택
+                        </span>
+                      ),
+                    }}
+                  >
+                    <Select.Option value="ADMIN">원장</Select.Option>
+                    <Select.Option value="TEACHER">선생님</Select.Option>
+                  </Select>
+                </Form.Item>
+              ) : null}
 
               <Form.Item
                 name="iclass"

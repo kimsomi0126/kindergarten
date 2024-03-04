@@ -15,7 +15,7 @@ import {
   useSearchParams,
 } from "react-router-dom";
 import useCustomLogin from "../../hooks/useCustomLogin";
-import ReadAllIndAlbum from "../../components/indivalbum/ReadAllIndAlbum";
+import ReadAllIndAlbum from "../../components/indivAlbum/ReadAllIndAlbum";
 import {
   getIndParentList,
   getIndTeacherList,
@@ -119,7 +119,8 @@ const IndivAlbumList = () => {
         page,
         iclass,
         ikid,
-        search: searchValue,
+        year,
+        search: "",
         errorFn,
         successFn,
       });
@@ -129,7 +130,7 @@ const IndivAlbumList = () => {
         getIndAlbumList({
           page,
           iclass,
-          ikid,
+          year,
           search: searchValue,
           errorFn,
           successFn,

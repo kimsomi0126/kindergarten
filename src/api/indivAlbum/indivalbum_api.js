@@ -6,7 +6,7 @@ const path = `${SERVER_URL}/api/memory`;
 export const getIndAlbumList = async ({
   page,
   iclass,
-  ikid,
+  year,
   search,
   successFn,
   failFn,
@@ -14,7 +14,7 @@ export const getIndAlbumList = async ({
 }) => {
   try {
     const res = await jwtAxios.get(
-      `${path}?page=${page}&iclass=${iclass}&ikid=0&search=${search}`,
+      `${path}?page=${page}&iclass=${iclass}&year=${year}&search=${search}`,
     );
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
@@ -33,6 +33,7 @@ export const getIndAlbumParentList = async ({
   page,
   iclass,
   ikid,
+  year,
   search,
   successFn,
   failFn,
@@ -40,7 +41,7 @@ export const getIndAlbumParentList = async ({
 }) => {
   try {
     const res = await jwtAxios.get(
-      `${path}?page=${page}&iclass=${iclass}&ikid=${ikid}&search=${search}`,
+      `${path}?page=${page}&iclass=${iclass}&ikid=${ikid}&year=${year}&search=${search}`,
     );
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
@@ -55,6 +56,22 @@ export const getIndAlbumParentList = async ({
 };
 
 // 추억 앨범 수정 하기.
+// {
+//   "pics": [
+//     "string"
+//   ],
+//   "dto": {
+//     "delPics": [
+//       0
+//     ],
+//     "imemory": 0,
+//     "memoryTitle": "string",
+//     "memoryContents": "string",
+//     "ikids": [
+//       0
+//     ]
+//   }
+// }
 export const putIndAlbum = async ({ product, successFn, failFn, errorFn }) => {
   try {
     const header = { headers: { "Content-Type": "multipart/form-data" } };
@@ -76,6 +93,18 @@ export const putIndAlbum = async ({ product, successFn, failFn, errorFn }) => {
 };
 
 // 추억 앨범 등록하기
+// {
+//   "pics": [
+//     "string"
+//   ],
+//   "dto": {
+//     "ikids": [
+//       0
+//     ],
+//     "memoryTitle": "string",
+//     "memoryContents": "string"
+//   }
+// }
 export const postIndAlbum = async ({ product, successFn, failFn, errorFn }) => {
   try {
     const res = await jwtAxios.post(`${path}`, product);
@@ -97,9 +126,8 @@ export const postIndAlbum = async ({ product, successFn, failFn, errorFn }) => {
 };
 
 // 추억 앨범 글 삭제
-// ?ialbum=1
 export const deleteIndAlbum = async ({
-  ialbum,
+  imemory,
   successFn,
   failFn,
   errorFn,
@@ -107,7 +135,7 @@ export const deleteIndAlbum = async ({
   try {
     // 여기서도 이미지가 추가될 수 있어요.
     // header 가 필요합니다.
-    const res = await jwtAxios.delete(`${path}?ialbum=${ialbum}`);
+    const res = await jwtAxios.delete(`${path}?imemory=${imemory}`);
 
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
@@ -124,13 +152,18 @@ export const deleteIndAlbum = async ({
 
 // 추억 앨범 댓글 등록하기
 export const postIndAlbumComment = async ({
-  product,
+  imemory,
+  memoryComment,
+  iteacher,
+  iparent,
   successFn,
   failFn,
   errorFn,
 }) => {
   try {
-    const res = await jwtAxios.post(`${path}/comment`, product);
+    const res = await jwtAxios.post(
+      `${path}/comment/imemory=${imemory}&memoryComment=${memoryComment}&iteacher=${iteacher}&iparent=${iparent}`,
+    );
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
       successFn(res.data);
@@ -145,7 +178,7 @@ export const postIndAlbumComment = async ({
 
 // 알림장 앨범 댓글 삭제하기
 export const deleteIndAlbumComment = async ({
-  inoticeComment,
+  imemoryComment,
   iteacher,
   iparent,
   successFn,
@@ -155,7 +188,7 @@ export const deleteIndAlbumComment = async ({
   try {
     // header 가 필요합니다.
     const res = await jwtAxios.delete(
-      `${path}/comment/?$inoticeComment={inoticeComment}&iteacher=${iteacher}iparent={iparent}`,
+      `${path}/comment/?$imemoryComment=${imemoryComment}&iteacher=${iteacher}iparent=${iparent}`,
     );
 
     const status = res.status.toString();
@@ -181,9 +214,7 @@ export const getIndAlubmTagList = async ({
   errorFn,
 }) => {
   try {
-    const res = await jwtAxios.get(
-      `${path}?page=${page}&iclass=${iclass}&year=${year}&fromTo=${fromTo}&search=${search}`,
-    );
+    const res = await jwtAxios.get(`${path}/tag`);
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
       successFn(res.data);
@@ -198,13 +229,13 @@ export const getIndAlubmTagList = async ({
 
 // 추억 앨범 수정 전 정보 불러오기
 export const getIndchildrenList = async ({
-  product,
+  imemory,
   successFn,
   failFn,
   errorFn,
 }) => {
   try {
-    const res = await jwtAxios.get(`${path}/tag`, product);
+    const res = await jwtAxios.get(`${path}/edit?imemory=${imemory}`);
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
       successFn(res.data);
@@ -219,19 +250,13 @@ export const getIndchildrenList = async ({
 
 // 추억 앨범 상세 조회
 export const getIndAlbumDetail = async ({
-  page,
-  year,
-  ikid,
-  fromTo,
-  search,
+  tno,
   successFn,
   failFn,
   errorFn,
 }) => {
   try {
-    const res = await jwtAxios.get(
-      `${path}?page=${page}&ikid=${ikid}&year=${year}&fromTo=${fromTo}&search=${search}`,
-    );
+    const res = await jwtAxios.get(`${path}/detail?imemory=${tno}`);
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
       successFn(res.data);

@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
-import IndivDetailsComponent from "../../components/individualNotice/IndivDetailsComponent";
+import { Link, useSearchParams } from "react-router-dom";
+import { IMG_URL } from "../../api/config";
+import { getIndAlbumDetail } from "../../api/indivAlbum/indivalbum_api";
+import { deleteIndDetail } from "../../api/individualNotice/indivNoticeApi";
+import MyTag from "../../components/indivAlbum/MyTag";
+import ModalOneBtn from "../../components/ui/ModalOneBtn";
+import ModalTwoBtn from "../../components/ui/ModalTwoBtn";
+import useCustomLogin from "../../hooks/useCustomLogin";
 import { PageTitle } from "../../styles/basic";
-import {
-  deleteIndDetail,
-  deleteNotice,
-  getIndDetail,
-} from "../../api/individualNotice/indivNoticeApi";
 import { IndBot, IndWrap } from "../../styles/individualNotice/ind";
 import {
   IndBtnWrap,
@@ -16,19 +18,7 @@ import {
   IndDetailTop,
   IndDetailWrap,
 } from "../../styles/individualNotice/inddetail";
-import MyClass from "../../components/user/MyClass";
-import { Link, useSearchParams } from "react-router-dom";
-import { IMG_URL } from "../../api/config";
-import {
-  BlueBtn,
-  BtnWrap,
-  GreenBtn,
-  PinkBtn,
-  RedBtn,
-} from "../../styles/ui/buttons";
-import useCustomLogin from "../../hooks/useCustomLogin";
-import ModalOneBtn from "../../components/ui/ModalOneBtn";
-import ModalTwoBtn from "../../components/ui/ModalTwoBtn";
+import { GreenBtn, PinkBtn } from "../../styles/ui/buttons";
 
 const initData = {
   inotice: 0,
@@ -83,7 +73,7 @@ const IndivAlbumDetails = () => {
       setSubTitle("로그인 회원만 접근 가능합니다.");
       setIsNavigate("/login");
     } else {
-      getIndDetail({ tno, successFn, errorFn });
+      getIndAlbumDetail({ tno, successFn, errorFn });
     }
   }, []);
 
@@ -146,25 +136,25 @@ const IndivAlbumDetails = () => {
         title={title}
         subTitle={subTitle}
       />
-      <PageTitle>알림장</PageTitle>
+      <PageTitle>추억앨범</PageTitle>
       <IndDetailWrap>
         <IndDetailTop>
           <IndClass>
-            <MyClass state={data.iclass} /> <h4>{data.kidNm}</h4>
+            <MyTag state={data.kids} />
           </IndClass>
-          <h3>{data.noticeTitle}</h3>
+          <h3>{data.memoryTitle}</h3>
           <IndBot>
             <div className="ind-date">{data.createdAt.split(" ")[0]}</div>
           </IndBot>
         </IndDetailTop>
         <IndDetailContent>
-          <pre>{data.noticeContents}</pre>
+          <pre>{data.memoryContents}</pre>
         </IndDetailContent>
         <IndDetailFile>
-          {Array.isArray(data.pics) &&
-            data.pics.map((item, index) => (
+          {Array.isArray(data.memoryPic) &&
+            data.memoryPic.map((item, index) => (
               <Link
-                to={`${IMG_URL}/pic/notice/${data.inotice}/${item}`}
+                to={`${IMG_URL}/pic/memory/${data.imemory}/${item}`}
                 key={index}
                 target="_blank"
               >

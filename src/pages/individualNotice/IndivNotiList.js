@@ -232,7 +232,7 @@ const IndivNotiList = () => {
     // console.log(res);
   };
 
-  console.log(loginState);
+  console.log("loginState", loginState);
   return (
     <IndWrap>
       {/* 안내창 */}

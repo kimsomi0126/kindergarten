@@ -1,20 +1,14 @@
-import React, { useState, useEffect, useRef } from "react";
-import { UploadOutlined, DeleteOutlined } from "@ant-design/icons";
-import { Button, Checkbox, Form, Input, Upload, Modal } from "antd";
-import { PageTitle } from "../../styles/basic";
-import { BtnWrap, GreenBtn, PinkBtn } from "../../styles/ui/buttons";
+import { UploadOutlined } from "@ant-design/icons";
+import { Button, Checkbox, Form, Input, Modal, Upload } from "antd";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import {
-  editNotice,
-  getDetail,
-  getList,
-  getNotice,
-  putNotice,
-} from "../../api/notice/notice_api";
-import { IMG_URL, SERVER_URL } from "../../api/config";
-import { FileListStyle, WriteWrap } from "../../styles/album/album";
-import { NoticeWrap } from "../../styles/notice/notice";
+import { IMG_URL } from "../../api/config";
+import { editNotice, putNotice } from "../../api/notice/notice_api";
 import ModalOneBtn from "../../components/ui/ModalOneBtn";
+import { FileListStyle, WriteWrap } from "../../styles/album/album";
+import { PageTitle } from "../../styles/basic";
+import { NoticeWrap } from "../../styles/notice/notice";
+import { BtnWrap, GreenBtn, PinkBtn } from "../../styles/ui/buttons";
 
 const path = `${IMG_URL}/api/full`;
 const imgpath = `${IMG_URL}/pic/fullnotice`;
@@ -80,7 +74,7 @@ const NoticeModify = () => {
     setshowCancelConfirmModal(true); // 취소 확인 모달 표시
   };
 
-  const handleFailure = errorMessage => {
+  const handleFail = errorMessage => {
     Modal.error({
       title: "유치원소식 수정 실패",
       content: errorMessage,
@@ -118,8 +112,6 @@ const NoticeModify = () => {
 
     console.log("================= 보내는 데이터 : ", dto);
 
-    // formData.append("dto", dto);
-
     // 새로 추가된 이미지 파일을 FormData에 추가합니다.
     console.log("현재 남아있는 fileList ", fileList);
     fileList.forEach(async file => {
@@ -127,25 +119,15 @@ const NoticeModify = () => {
       if (file.originFileObj) {
         // 새로운 파일인 경우, 파일 데이터를 추가합니다.
         formData.append("pics", file.originFileObj);
-        // } else if (file.url) {
-        //   // 이미 서버에 존재하는 파일인 경우, 파일 경로를 추가합니다.
-        //   formData.append("pics", file.url);
       }
-      // 도현님 이상해요...
-      //  else {
-      //   // 기존 파일인 경우, 파일의 고유 식별자를 FormData에 추가합니다.
-      //   // formData.append("ifullPic", file.ifullPic);
-      //   formData.append("pics", file.ifullPic);
-      // }
     });
 
-    console.log("formData", formData);
     // 서버에 요청을 보냅니다.
     try {
       const response = await putNotice({
         data: formData,
         successFn: () => setShowSuccessModal(true), // 성공 모달 표시
-        failFn: handleFailure,
+        failFn: handleFail,
         errorFn: handleError,
       });
 

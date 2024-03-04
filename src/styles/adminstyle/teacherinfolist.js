@@ -7,6 +7,7 @@ export const TeacherTop = styled.div`
   justify-content: space-between;
   ${mq.mobileBig} {
     flex-wrap: wrap;
+    margin-bottom: 4rem;
   }
 `;
 
@@ -84,7 +85,7 @@ export const TeacherListWrap = styled.ul`
   display: flex;
   flex-wrap: wrap;
   /* justify-content: space-between; */
-  gap: 2.3rem;
+  gap: 2%;
 `;
 export const TeacherListItem = styled.li`
   position: relative;
@@ -100,10 +101,12 @@ export const TeacherListItem = styled.li`
     right: 2rem;
     top: 2rem;
   }
+  ${mq.pc} {
+    width: 49%;
+    margin-bottom: 2rem;
+  }
   ${mq.mobileBig} {
     width: 100%;
-    padding: 1rem;
-    margin-bottom: 1rem;
   }
 `;
 export const ListBox = styled.div`
@@ -198,10 +201,10 @@ export const TeacherInfo = styled.div`
     font-size: 2rem;
     color: ${colors.blueDeep};
   }
-  ${mq.mobileBig} {
+  /* ${mq.mobileBig} {
     padding: 0;
     margin: 0 auto;
-  }
+  } */
 `;
 
 export const InfoBox = styled.div`

@@ -94,13 +94,17 @@ const NotiAlarm = () => {
                 >
                   <ul>
                     <li className="noti-kid">
-                      {item.kidNm} {item.noticeTitle ? "알림장" : "추억앨범"}
-                    </li>
-                    <li className="noti-title">
                       <span className="noti-date">
                         {item.createdAt.split(" ")[0]}
-                      </span>
+                      </span>{" "}
+                      {item.kidNm} {item.noticeTitle ? "알림장" : "추억앨범"}{" "}
+                      {item.noticeComment || item.noticeComment
+                        ? "새 댓글"
+                        : null}
+                    </li>
+                    <li className="noti-title">
                       {item.noticeTitle || item.memoryTitle}
+                      {item.noticeComment || item.noticeComment}
                     </li>
                     {/* <li className="noti-writer">{item.writerNm}</li> */}
                   </ul>

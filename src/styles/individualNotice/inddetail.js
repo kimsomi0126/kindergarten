@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { boxStyle, colors } from "../basic";
+import { boxStyle, colors, mq } from "../basic";
 import { BtnWrap } from "../ui/buttons";
 
 export const IndDetailWrap = styled.div`
@@ -16,14 +16,35 @@ export const IndDetailTop = styled.div`
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid ${colors.grayBar};
+
+  ${mq.mobileBig} {
+    padding: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    h3 {
+      width: 100%;
+      text-align: center;
+      margin: 1rem 0;
+    }
+    p {
+      flex: 2;
+      img {
+        display: none;
+      }
+    }
+  }
 `;
 
 export const IndClass = styled.div`
   display: flex;
-  gap: 1rem;
+  gap: 0.5rem;
   align-items: center;
+
   h3 {
     color: #555;
+  }
+  p {
+    color: #888;
   }
 `;
 export const IndDetailContent = styled.div`

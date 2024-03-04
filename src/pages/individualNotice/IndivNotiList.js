@@ -105,11 +105,6 @@ const IndivNotiList = () => {
         setIsOpen(true);
         return;
       }
-      if (!isAccept) {
-        // 졸업생 학부모일 경우
-        return;
-      }
-
       getIndParentList({
         page,
         year,
@@ -155,20 +150,6 @@ const IndivNotiList = () => {
   const errorFn = res => {
     // console.log(res);
     setIndList(initData);
-    // setIsOpen(true);
-    // setTitle("데이터 없음");
-    // setSubTitle(res);
-
-    // const url = isLogin
-    //   ? `/ind?year=${year}&page=1&iclass=${iclass}&searchValue=${searchValue}`
-    //   : `/ind?year=${year}&page=1&ikid=${ikid}&searchValue=${searchValue}`;
-
-    // if (fromTo != 3) {
-    //   setFromTo(3);
-    //   setIsNavigate(url);
-    // } else {
-    //   setIsNavigate(-1);
-    // }
   };
 
   // 작성자 분류
@@ -232,7 +213,7 @@ const IndivNotiList = () => {
     // console.log(res);
   };
 
-  console.log("loginState", loginState);
+  console.log(loginState);
   return (
     <IndWrap>
       {/* 안내창 */}
@@ -272,21 +253,20 @@ const IndivNotiList = () => {
         </FromToBtnWrap>
         <FlexBox>
           {/* 권한별 서치버튼 */}
-          {isLogin ? (
-            <IndTeacherBtnComponent
-              iclass={iclass}
-              indList={indList}
-              year={year}
-              page={page}
-            />
-          ) : (
+          {isParentLogin ? (
             <IndParentBtnComponent
               ikidList={ikidList}
               indList={indList}
               ikid={ikid}
               year={year}
               page={page}
-              isAccept={isAccept}
+            />
+          ) : (
+            <IndTeacherBtnComponent
+              iclass={iclass}
+              indList={indList}
+              year={year}
+              page={page}
             />
           )}
           <Search

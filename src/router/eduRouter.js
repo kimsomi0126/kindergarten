@@ -14,7 +14,7 @@ const eduRouter = () => {
       path: "",
       element: (
         <Suspense fallback={<Loading />}>
-          <Edu />
+          <Hospital />
         </Suspense>
       ),
     },

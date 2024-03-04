@@ -35,6 +35,7 @@ import {
   CommentWrite,
 } from "../../styles/ui/comment";
 import TextArea from "antd/es/input/TextArea";
+import IndClassName from "./IndClassName";
 const host = `${SERVER_URL}/ind`;
 
 const initData = {
@@ -51,6 +52,7 @@ const initData = {
 
 const IndivDetailsComponent = ({ tno }) => {
   const navigate = useNavigate();
+  // params 정보
   const [searchParams, setSearchParams] = useSearchParams();
   const year = searchParams.get("year");
   const ikid = searchParams.get("ikid");
@@ -58,19 +60,20 @@ const IndivDetailsComponent = ({ tno }) => {
   const iclass = searchParams.get("iclass");
   const [data, setData] = useState(initData);
   const [isLoading, setIsLoading] = useState(true);
+  const { isLogin, loginState, isTeacherLogin, isAdminLogin, isParentLogin } =
+    useCustomLogin();
+  // 모달 state
   const [title, setTitle] = useState("");
   const [subTitle, setSubTitle] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [isNavigate, setIsNavigate] = useState();
+  // 댓글 state
   const [commentState, setCommentState] = useState(false);
   const [commentNum, setCommentNum] = useState(null);
-  // const iwriter = isTeacherLogin ? loginState.teacherUid : loginState.iparent; // 수정된 부분: isTeacherLogin 변수 사용
+  const iwriter = loginState.iteacher || loginState.iparent;
+  const ilevel = loginState.role === "PARENT" ? 1 : loginState.ilevel;
   const [isDelComment, setIsDelComment] = useState(false);
   const [form] = Form.useForm();
-
-  const { isLogin, loginState, isTeacherLogin, isAdminLogin, isParentLogin } =
-    useCustomLogin(); // 수정된 부분: useCustomLogin 훅 사용
-  console.log("로그인 상태값 확인", loginState);
 
   const handleOk = () => {
     setIsOpen(false);
@@ -149,11 +152,20 @@ const IndivDetailsComponent = ({ tno }) => {
   const errorDelFn = () => {};
 
   const handleWriteComment = value => {
-    const obj = {
+    let obj = {
       inotice: tno,
       noticeComment: value.noticeComment,
       iteacher: loginState.iteacher,
     };
+
+    if (isParentLogin) {
+      obj = {
+        inotice: tno,
+        noticeComment: value.noticeComment,
+        iparent: loginState.iparent,
+      };
+    }
+
     console.log(obj, "댓글등록");
     console.log("댓글작성 확인", value);
     postIndComment({
@@ -165,7 +177,7 @@ const IndivDetailsComponent = ({ tno }) => {
   };
 
   const handleDeleteComment = () => {
-    if (loginState.iteacher) {
+    if (isLogin) {
       deleteIndComment({
         inoticeComment: commentNum,
         inotice: tno,
@@ -204,7 +216,7 @@ const IndivDetailsComponent = ({ tno }) => {
       <IndDetailWrap>
         <IndDetailTop>
           <IndClass>
-            <MyClass state={data.iclass} /> <h4>{data.kidNm}</h4>
+            <IndClassName state={data.iclass} /> <p>{data.kidNm}</p>
           </IndClass>
           <h3>{data.noticeTitle}</h3>
           <IndBot>
@@ -230,24 +242,32 @@ const IndivDetailsComponent = ({ tno }) => {
         </IndDetailFile>
         <CommentWrap>
           <CommentView>
-            {/* {console.log("데이터 확인", data.comments[0])} */}
             {Array.isArray(data.comments) &&
               data.comments.map((item, index) => (
-                <CommentBox key={item.inoticeComment}>
+                <CommentBox
+                  key={item.inoticeComment}
+                  className={
+                    ilevel === item.ilevel && item.writerIuser == iwriter
+                      ? "right"
+                      : null
+                  }
+                >
                   <pre className="text">{item.noticeComment}</pre>
                   <ul>
                     <li className="name">{item.writerName}</li>
                     <li className="date">{item.createdAt}</li>
                   </ul>
-                  <span
-                    className="delete"
-                    onClick={() => {
-                      setCommentNum(item.inoticeComment);
-                      setIsDelComment(true);
-                    }}
-                  >
-                    댓글삭제
-                  </span>
+                  {ilevel === item.ilevel && item.writerIuser == iwriter ? (
+                    <span
+                      className="delete"
+                      onClick={() => {
+                        setCommentNum(item.inoticeComment);
+                        setIsDelComment(true);
+                      }}
+                    >
+                      댓글삭제
+                    </span>
+                  ) : null}
                 </CommentBox>
               ))}
           </CommentView>
@@ -256,9 +276,7 @@ const IndivDetailsComponent = ({ tno }) => {
               <Form.Item name="noticeComment">
                 <TextArea required placeholder="댓글내용을 입력해주세요." />
               </Form.Item>
-              <Button htmlType="submit" type="primary">
-                등록
-              </Button>
+              <OrangeBtn>등록</OrangeBtn>
             </Form>
           </CommentWrite>
         </CommentWrap>

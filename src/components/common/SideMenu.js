@@ -9,6 +9,7 @@ const SideMenu = () => {
   const currentYear = new Date().getFullYear();
   const ikidList = loginState.kidList;
   const iclass = isLogin && !isTeacherLogin ? 0 : loginState.iclass;
+  const iteacher = loginState.iteacher;
   function getItem(label, key, icon, children, type) {
     return {
       key,
@@ -109,7 +110,14 @@ const SideMenu = () => {
         <img
           src={process.env.PUBLIC_URL + "/images/common/sidebar/manager.svg"}
         />,
-        teacherItems,
+        teacherItems.concat([
+          getItem(
+            <Link to={`/admin/teacher/edit?iteacher=${iteacher}`}>
+              정보 수정
+            </Link>,
+            "5-6",
+          ),
+        ]),
       ),
     );
   }

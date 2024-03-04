@@ -9,10 +9,9 @@ import {
 } from "../../styles/adminstyle/studentlist";
 import { Pagination } from "antd";
 import { PageNum } from "../../styles/adminstyle/guardianlist";
-import { getAdminStudentList } from "../../api/adminPage/admin_api";
 import { Link, useNavigate } from "react-router-dom";
-import useCustomLogin from "../../hooks/useCustomLogin";
 import { IMG_URL } from "../../api/config";
+import useCustomLogin from "../../hooks/useCustomLogin";
 
 const StudListComponent = ({
   page,
@@ -24,6 +23,7 @@ const StudListComponent = ({
   const [selectAllChecked, setSelectAllChecked] = useState(false);
   const navigate = useNavigate();
   const currentYear = new Date().getFullYear();
+  const { loginState } = useCustomLogin();
 
   // 체크박스 전체 선택 시 pk값 수집
   const handleSelectAllChange = e => {
@@ -59,31 +59,39 @@ const StudListComponent = ({
     navigate(`/admin/student?page=${page}&kidCheck=${kidCheck}`);
   };
 
+  console.log("키드체크", kidCheck);
+  console.log("로그인스테이트", loginState.iclass);
   return (
     <>
       <StudentMain>
-        <div>
-          <input
-            type="checkbox"
-            id="selectAll"
-            name="ikid"
-            checked={selectAllChecked}
-            onChange={handleSelectAllChange}
-          />
-          <label htmlFor="selectAll">전체 선택</label>
-        </div>
+        {parseInt(kidCheck) === loginState.iclass ? (
+          <div>
+            <input
+              type="checkbox"
+              id="selectAll"
+              name="ikid"
+              checked={selectAllChecked}
+              onChange={handleSelectAllChange}
+            />
+            <label htmlFor="selectAll">전체 선택</label>
+          </div>
+        ) : null}
+
         <StudentListWrap>
           {Array.isArray(studentList.kidPage) &&
             studentList.kidPage.map(item => (
               <StudentListItem key={item.ikid}>
-                <input
-                  type="checkbox"
-                  name="ikid"
-                  value={item.ikid}
-                  onChange={e => {
-                    handleChangeCheck(e);
-                  }}
-                />
+                {parseInt(kidCheck) === loginState.iclass ? (
+                  <input
+                    type="checkbox"
+                    name="ikid"
+                    value={item.ikid}
+                    onChange={e => {
+                      handleChangeCheck(e);
+                    }}
+                  />
+                ) : null}
+
                 <Link
                   to={`/admin/student/details?year=${currentYear}&ikid=${item.ikid}`}
                 >

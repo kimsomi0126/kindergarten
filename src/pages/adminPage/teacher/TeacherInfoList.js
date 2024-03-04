@@ -175,7 +175,6 @@ const TeacherInfoList = () => {
     { iclass: 1, classNm: "무궁화반", tcIsDel },
     { iclass: 2, classNm: "해바라기반", tcIsDel },
     { iclass: 3, classNm: "장미반", tcIsDel },
-    { iclass: 4, classNm: "원장", tcIsDel },
   ];
 
   const classItems =
@@ -223,8 +222,6 @@ const TeacherInfoList = () => {
                 ? "해바라기반"
                 : iclass === "3"
                 ? "장미반"
-                : iclass === "4"
-                ? "원장"
                 : "반 선택"}
               <DownOutlined />
             </Button>

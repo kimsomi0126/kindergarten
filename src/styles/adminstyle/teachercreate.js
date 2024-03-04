@@ -48,9 +48,15 @@ export const TeacherIdItem = styled.div`
   }
 
   ${mq.mobileBig} {
+    position: relative;
     flex-wrap: wrap;
     .ant-form-item {
       width: 100%;
+    }
+    button {
+      position: absolute;
+      top: 0;
+      right: 0;
     }
   }
 `;

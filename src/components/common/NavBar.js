@@ -45,13 +45,15 @@ const NavBar = () => {
   };
   // 푸시알림 State
   const [notiPush, setNotiPush] = useRecoilState(pushState);
-  // console.log(notiPush);
 
   // 알림사용 승인 후 firebase 토큰 가져오기
   useEffect(() => {
-    // setNotiPush({
-    //   pushList: [],
-    // });
+    // 값이 잘못들어가있으면 리셋 (추후삭제)
+    if (notiPush.pushList.some(item => "iuser" in item)) {
+      setNotiPush({
+        pushList: [],
+      });
+    }
     if (Notification.permission !== "granted") {
       Notification.requestPermission().then(permission => {
         if (permission === "granted") {
@@ -62,39 +64,15 @@ const NavBar = () => {
       getFbToken(successFn);
     }
   }, [loginState]);
-  //가져온 firebase 토큰이 로그인정보에 있는 토큰값과 다르면 서버로 토큰정보 전달
+  //가져온 firebase 토큰이 로그인정보에 있는 토큰값과 다른지 체크
   const successFn = res => {
     const userFirebaseToken = isParentLogin
       ? loginState.prFirebaseToken
       : loginState.firebaseToken;
 
     if (userFirebaseToken !== res && loginState.accessToken) {
-      let params = {
-        iteacher: loginState.iteacher,
-        firebaseToken: res,
-      };
-      if (isParentLogin) {
-        params = {
-          iparent: loginState.iparent,
-          firebaseToken: res,
-        };
-        patchParentFbToken({ params, successFn: successrefrash });
-      } else {
-        patchTeacherFbToken({ params, successFn: successrefrash });
-      }
-      console.log(params);
+      console.log("firebaseToken :", res);
     }
-  };
-
-  // firebase 토큰 갱신에 성공하면 로그인 정보 다시 가져옴
-  const successrefrash = res => {
-    const resultNum = res.data.result;
-    if (resultNum === 1) {
-      refreshAccessToken();
-    } else {
-      console.log("firebase 토큰업데이트 실패");
-    }
-    // refreshAccessToken();
   };
 
   // 푸시알림감지 후 알림 리스트 업데이트

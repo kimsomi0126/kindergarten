@@ -76,6 +76,7 @@ const DetailsAlbum = ({ pno, isLogin, loginState }) => {
   const [commentState, setCommentState] = useState(false);
   const [commentNum, setCommentNum] = useState(null);
   const iwriter = loginState.iteacher || loginState.iparent;
+  const ilevel = loginState.role === "PARENT" ? 1 : loginState.ilevel;
   const [isDelComment, setIsDelComment] = useState(false); // 댓글삭제 모달
 
   // 모달창 내용
@@ -301,14 +302,18 @@ const DetailsAlbum = ({ pno, isLogin, loginState }) => {
                 albumData.albumComments.map((item, index) => (
                   <CommentBox
                     key={item.ialbumComment}
-                    className={item.writerIuser == iwriter ? "right" : null}
+                    className={
+                      ilevel === item.ilevel && item.writerIuser == iwriter
+                        ? "right"
+                        : null
+                    }
                   >
                     <pre className="text">{item.albumComment}</pre>
                     <ul>
                       <li className="name">{item.writerName}</li>
                       <li className="date">{item.createdAt}</li>
                     </ul>
-                    {item.writerIuser == iwriter ? (
+                    {ilevel === item.ilevel && item.writerIuser == iwriter ? (
                       <span
                         className="delete"
                         onClick={() => {

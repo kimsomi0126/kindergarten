@@ -206,3 +206,25 @@ export const putIndDetail = async ({ data, successFn, failFn, errorFn }) => {
     errorFn(error);
   }
 };
+
+// 알림장 게시글 수정시 정보 조회하기
+export const editIndNotice = async ({
+  tno,
+  ikid,
+  successFn,
+  failFn,
+  errorFn,
+}) => {
+  try {
+    const res = await jwtAxios.get(`${path}/edit?inotice=${tno}&ikid=${ikid}`);
+    const status = res.status.toString();
+    if (status.charAt(0) === "2") {
+      successFn(res.data);
+      return res.data;
+    } else {
+      failFn("수정 에러입니다.");
+    }
+  } catch (error) {
+    errorFn(error);
+  }
+};

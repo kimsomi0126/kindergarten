@@ -24,7 +24,7 @@ export const getFirebaseToken = async () => {
 export const onMessageListener = () => {
   return new Promise(resolve => {
     onMessage(messaging, payload => {
-      console.log("onMessage");
+      // console.log("onMessage");
       // const data = JSON.parse(payload.data);
       console.log(payload);
       // console.log(data);

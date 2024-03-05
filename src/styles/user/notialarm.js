@@ -1,5 +1,7 @@
 import styled from "@emotion/styled";
-import { boxStyle, colors } from "../basic";
+import { boxStyle, colors, ellipsis } from "../basic";
+import { animationSwing } from "../ui/animations";
+import { css } from "@emotion/react";
 
 export const NotiWrap = styled.div`
   position: relative;
@@ -12,6 +14,12 @@ export const NotiIcon = styled.div`
   cursor: pointer;
   img {
     width: 100%;
+    animation: ${props =>
+      props.state
+        ? css`
+            ${animationSwing} 0.1s alternate infinite
+          `
+        : "none"};
   }
 
   :after {
@@ -104,6 +112,7 @@ export const NotiItem = styled.div`
   .noti-title {
     font-size: 1.3rem;
     font-weight: 500;
+    ${ellipsis.line2}
     span {
       padding-right: 0.5rem;
     }

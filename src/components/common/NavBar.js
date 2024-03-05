@@ -79,13 +79,15 @@ const NavBar = () => {
   onMessageListener()
     .then(payload => {
       const newData = JSON.parse(payload.notification.body);
+      console.log(newData);
       setNotiPush(prev => {
         let pushListUpdated = false;
         const updatedPushList = prev.pushList.map(item => {
           // iteacher,iparent 값 확인
           if (
-            item.iteacher === loginState.iteacher ||
-            item.iparent === loginState.iparent
+            (item.iteacher !== undefined &&
+              item.iteacher === loginState.iteacher) ||
+            (item.iparent !== undefined && item.iparent === loginState.iparent)
           ) {
             // 일치하면 원래 있던 객체에 data, totalCnt만 추가
             item.data.push(newData);

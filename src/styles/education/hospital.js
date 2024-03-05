@@ -139,7 +139,7 @@ export const NightHospitalMap = styled.div`
 export const HospitalDetail = styled.div`
   width: 100%;
   max-width: 50%;
-  background: #fff;
+  background: #fafafa;
   padding: 2rem 3%;
   font-size: 1.5rem;
 

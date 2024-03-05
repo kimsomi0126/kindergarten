@@ -1,6 +1,17 @@
 import React, { useState } from "react";
 import MyClass from "../user/MyClass";
 import {
+  DownloadOutlined,
+  RotateLeftOutlined,
+  RotateRightOutlined,
+  SwapOutlined,
+  ZoomInOutlined,
+  ZoomOutOutlined,
+} from "@ant-design/icons";
+import { Image, Space } from "antd";
+import { IMG_URL } from "../../api/config";
+const path = `${IMG_URL}/pic/memory`;
+import {
   IndBot,
   IndCon,
   IndIcon,
@@ -11,28 +22,22 @@ import {
   IndTitle,
   IndTop,
 } from "../../styles/individualNotice/ind";
+
+import {
+  IndAlbum,
+  IndAlbumOver,
+  ImageWrapper,
+} from "../../styles/individualAlbum/indalbum";
 import { Link } from "react-router-dom";
 import useCustomLogin from "../../hooks/useCustomLogin";
 
 const ReadAllIndAlbum = ({ listData, year, ikid, iclass, page }) => {
-  const { loginState, isLogin, isParentLogin } = useCustomLogin();
-  const classState = state => {
-    const className =
-      state === 1
-        ? "무궁화반"
-        : state === 2
-        ? "해바라기반"
-        : state === 3
-        ? "장미반"
-        : state === -1
-        ? "퇴소"
-        : state === -2
-        ? "졸업"
-        : "";
-    return className;
-  };
+  console.log("listData", listData);
+  // const src =
+  //   Array.isArray(listData) && listData.map((item, index) => item.memoryPic);
 
-  // console.log("listData", listData)
+  const { loginState, isLogin, isParentLogin } = useCustomLogin();
+
   return (
     <IndListWrap>
       <IndList>
@@ -54,9 +59,7 @@ const ReadAllIndAlbum = ({ listData, year, ikid, iclass, page }) => {
                 }
               >
                 <IndTop>
-                  <IndName>
-                    {classState(item.iclass)} {item.kidNm}
-                  </IndName>
+                  <IndName>{item.kidNm}</IndName>
                   <IndTitle>
                     {item.noticeCheck === 1 ? (
                       <img
@@ -67,20 +70,11 @@ const ReadAllIndAlbum = ({ listData, year, ikid, iclass, page }) => {
                         alt="file"
                       />
                     ) : null}
-                    <span>{item.createdAt.split(" ")[0]}</span>
-                    <b>{item.noticeTitle}</b>
+                    <span>{item.createdAt.substring(0, 10)}</span>
+                    <b>{item.memoryTitle}</b>
                   </IndTitle>
                   <IndIcon>
-                    {item.picCheck === 1 ? (
-                      <img
-                        src={
-                          process.env.PUBLIC_URL +
-                          "/images/common/file_icon.svg"
-                        }
-                        alt="file"
-                      />
-                    ) : null}
-                    {item.cmtCheck === 1 ? (
+                    {item.memoryComments.length >= 1 ? (
                       <img
                         src={
                           process.env.PUBLIC_URL +
@@ -92,8 +86,23 @@ const ReadAllIndAlbum = ({ listData, year, ikid, iclass, page }) => {
                   </IndIcon>
                 </IndTop>
                 <IndCon>
-                  <span>{item.noticeContents}</span>
+                  <span>{item.memoryContents}</span>
                 </IndCon>
+                <IndAlbum>
+                  <ImageWrapper>
+                    {item.memoryPic.slice(0, 5).map((pic, idx) => (
+                      <Image
+                        key={idx}
+                        width={50}
+                        src={`${IMG_URL}/pic/memory/${item.imemory}/${pic}`}
+                        preview={false}
+                      />
+                    ))}
+                    {item.memoryPic.length > 5 ? (
+                      <IndAlbumOver>+{item.memoryPic.length - 5}</IndAlbumOver>
+                    ) : null}
+                  </ImageWrapper>
+                </IndAlbum>
               </Link>
             </IndListBox>
           ))

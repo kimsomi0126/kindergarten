@@ -1,24 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
+import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import { useNavigate, useParams } from "react-router";
 import { Link, useSearchParams } from "react-router-dom";
 import { IMG_URL } from "../../api/config";
-import { getIndAlbumDetail } from "../../api/indivAlbum/indivalbum_api";
-import { deleteIndDetail } from "../../api/individualNotice/indivNoticeApi";
+import {
+  deleteIndAlbum,
+  getIndAlbumDetail,
+} from "../../api/indivAlbum/indivalbum_api";
 import MyTag from "../../components/indivAlbum/MyTag";
+import Loading from "../../components/loading/Loading";
 import ModalOneBtn from "../../components/ui/ModalOneBtn";
 import ModalTwoBtn from "../../components/ui/ModalTwoBtn";
 import useCustomLogin from "../../hooks/useCustomLogin";
 import { PageTitle } from "../../styles/basic";
 import { IndBot, IndWrap } from "../../styles/individualNotice/ind";
 import {
+  IndAlbumDetailContent,
   IndBtnWrap,
   IndClass,
-  IndDetailContent,
-  IndDetailFile,
   IndDetailTop,
   IndDetailWrap,
 } from "../../styles/individualNotice/inddetail";
-import { GreenBtn, PinkBtn } from "../../styles/ui/buttons";
+import { BlueBtn, GreenBtn, PinkBtn } from "../../styles/ui/buttons";
 
 const initData = {
   inotice: 0,
@@ -42,7 +45,7 @@ const IndivAlbumDetails = () => {
   const page = serchParams.get("page");
   const iclass = serchParams.get("iclass");
   // 로그인 정보
-  const { isLogin, isParentLogin } = useCustomLogin();
+  const { isLogin, isParentLogin, isAdminLogin } = useCustomLogin();
   // 연동데이터
   const [data, setData] = useState(initData);
 
@@ -66,7 +69,7 @@ const IndivAlbumDetails = () => {
   };
 
   useEffect(() => {
-    if (!isParentLogin && !isLogin) {
+    if (!isParentLogin && !isLogin && !isAdminLogin) {
       // 로그인 안했을때
       setIsOpen(true);
       setTitle("회원 전용 페이지");
@@ -75,7 +78,7 @@ const IndivAlbumDetails = () => {
     } else {
       getIndAlbumDetail({ tno, successFn, errorFn });
     }
-  }, []);
+  }, [tno, isParentLogin, isLogin, isAdminLogin]);
 
   // Get 연동 결과
   const successFn = res => {
@@ -89,9 +92,9 @@ const IndivAlbumDetails = () => {
   // 회원별 목록보기
   const handleClickList = () => {
     if (isLogin) {
-      navigate(`/ind?year=${year}&page=${page}&iclass=${iclass}`);
+      navigate(`/ind/album?year=${year}&page=${page}&iclass=${iclass}`);
     } else {
-      navigate(`/ind?year=${year}&page=${page}&ikid=${ikid}`);
+      navigate(`/ind/album?year=${year}&page=${page}&ikid=${ikid}`);
     }
   };
 
@@ -101,11 +104,11 @@ const IndivAlbumDetails = () => {
     setDelOpen(true);
     setTitle("정말 삭제할까요?");
     setSubTitle(
-      "삭제된 알림장은 복구할 수 없습니다. \n 정말 삭제하시겠습니까?",
+      "삭제된 추억앨범은 복구할 수 없습니다. \n 정말 삭제하시겠습니까?",
     );
   };
   const handleDelOk = () => {
-    deleteIndDetail({ tno, successDelFn, errorDelFn });
+    deleteIndAlbum({ tno, successDelFn, errorDelFn });
   };
   const successDelFn = res => {
     setDelOpen(false);
@@ -113,10 +116,16 @@ const IndivAlbumDetails = () => {
     setTitle("삭제 완료");
     setSubTitle("삭제 완료되었습니다.");
     isLogin
-      ? setIsNavigate(`/ind?year=${year}&page=${page}&iclass=${iclass}`)
-      : setIsNavigate(`/ind?year=${year}&page=${page}&ikid=${ikid}`);
+      ? setIsNavigate(`/ind/album?year=${year}&page=${page}&iclass=${iclass}`)
+      : setIsNavigate(`/ind/album?year=${year}&page=${page}&ikid=${ikid}`);
   };
-  const errorDelFn = () => {};
+  const errorDelFn = error => {
+    // 삭제 실패 처리
+    setDelOpen(false); // 삭제 확인 모달을 닫습니다.
+    setIsOpen(true); // 에러 알림 모달을 엽니다.
+    setTitle("삭제 실패"); // 에러 모달의 제목을 설정합니다.
+    setSubTitle("삭제에 실패했습니다. \n 잠시 후 다시 시도해 주세요."); // 에러 모달의 부제목을 설정합니다.
+  };
 
   return (
     <IndWrap>
@@ -140,34 +149,62 @@ const IndivAlbumDetails = () => {
       <IndDetailWrap>
         <IndDetailTop>
           <IndClass>
-            <MyTag state={data.kids} />
+            {data.kids && data.kids.length > 0 && <MyTag state={data.kids} />}
           </IndClass>
           <h3>{data.memoryTitle}</h3>
           <IndBot>
             <div className="ind-date">{data.createdAt.split(" ")[0]}</div>
           </IndBot>
         </IndDetailTop>
-        <IndDetailContent>
+        <IndAlbumDetailContent>
           <pre>{data.memoryContents}</pre>
-        </IndDetailContent>
-        <IndDetailFile>
-          {Array.isArray(data.memoryPic) &&
-            data.memoryPic.map((item, index) => (
-              <Link
-                to={`${IMG_URL}/pic/memory/${data.imemory}/${item}`}
-                key={index}
-                target="_blank"
-              >
-                {item}
-              </Link>
-            ))}
-        </IndDetailFile>
+        </IndAlbumDetailContent>
+        {/* <IndDetailFile> */}
+        <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3 }}>
+          <Masonry gutter="10px">
+            {Array.isArray(data.memoryPic) &&
+              data.memoryPic.map((item, index) => (
+                <Suspense fallback={<Loading />} key={index}>
+                  <Link
+                    to={`${IMG_URL}/pic/memory/${data.imemory}/${item}`}
+                    key={index}
+                    target="_blank"
+                    className="item"
+                  >
+                    <img
+                      key={index}
+                      style={{ width: "100%", display: "block" }}
+                      src={`${IMG_URL}/pic/memory/${data.imemory}/${item}`}
+                    />
+                  </Link>
+                </Suspense>
+              ))}
+          </Masonry>
+        </ResponsiveMasonry>
+
+        {/* {Array.isArray(data.memoryPic) &&
+          data.memoryPic.map((item, index) => (
+            <Link
+              to={`${IMG_URL}/pic/memory/${data.imemory}/${item}`}
+              key={index}
+              target="_blank"
+            >
+              {item}
+            </Link>
+          ))} */}
+        {/* </IndDetailFile> */}
       </IndDetailWrap>
       <IndBtnWrap>
         <GreenBtn onClick={handleClickList}>목록보기</GreenBtn>
         {isLogin ? (
           <>
-            {/* <BlueBtn>수정</BlueBtn> */}
+            <BlueBtn
+            // onClick={() => {
+            //   navigate(`${host}/modify/${pno}`);
+            // }}
+            >
+              수정
+            </BlueBtn>
             <PinkBtn onClick={handleClickDelete}>삭제</PinkBtn>
           </>
         ) : null}

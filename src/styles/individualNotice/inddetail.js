@@ -51,6 +51,10 @@ export const IndDetailContent = styled.div`
   padding: 4rem;
   min-height: 30vh;
 `;
+export const IndAlbumDetailContent = styled.div`
+  padding: 4rem;
+  min-height: 3vh;
+`;
 export const IndDetailFile = styled.div`
   padding: 4rem;
   a {

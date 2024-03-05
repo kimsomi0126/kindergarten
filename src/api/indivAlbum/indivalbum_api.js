@@ -127,24 +127,22 @@ export const postIndAlbum = async ({ product, successFn, failFn, errorFn }) => {
 
 // 추억 앨범 글 삭제
 export const deleteIndAlbum = async ({
-  imemory,
-  successFn,
+  tno,
+  successDelFn,
   failFn,
-  errorFn,
+  errorDelFn,
 }) => {
   try {
-    // 여기서도 이미지가 추가될 수 있어요.
-    // header 가 필요합니다.
-    const res = await jwtAxios.delete(`${path}?imemory=${imemory}`);
+    const res = await jwtAxios.delete(`${path}?imemory=${tno}`);
 
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
-      successFn(res.data);
+      successDelFn(res.data);
     } else {
       failFn("삭제 호출 오류입니다.");
     }
   } catch (error) {
-    errorFn(
+    errorDelFn(
       "삭제에 실패하였습니다. 서버가 불안정하니 잠시 후 다시 시도해주세요.",
     );
   }

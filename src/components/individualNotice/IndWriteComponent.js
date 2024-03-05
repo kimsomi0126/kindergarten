@@ -215,7 +215,7 @@ const IndWriteComponent = () => {
 
   return (
     <div>
-      <PageTitle>추억앨범</PageTitle>
+      <PageTitle>알림장</PageTitle>
       <div
         style={{
           width: "100%",

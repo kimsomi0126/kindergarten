@@ -17,7 +17,7 @@ import { postIndAlbum } from "../../api/indivAlbum/indivalbum_api";
 import { getIndchildrenList } from "../../api/individualNotice/indivNoticeApi";
 import { FileListStyle } from "../../styles/album/album";
 import { PageTitle } from "../../styles/basic";
-import { GreenBtn, PinkBtn } from "../../styles/ui/buttons";
+import { BtnWrap, GreenBtn, PinkBtn } from "../../styles/ui/buttons";
 import ModalOneBtn from "../ui/ModalOneBtn";
 
 const path = `${SERVER_URL}/api/notice`;
@@ -43,15 +43,15 @@ const WriteIndivAlbum = () => {
     fetchChildrenList();
   }, []);
 
-  const beforeUpload = (file, fileList) => {
-    const totalFiles =
-      fileList.length + fileList.filter(f => f.status === "done").length;
-    if (totalFiles > 5) {
-      setShowExceedLimitModal(true); // 경고 모달 표시
-      return Upload.LIST_IGNORE; // 파일 업로드 중단
-    }
-    return true; // 파일 추가를 계속 진행
-  };
+  // const beforeUpload = (file, fileList) => {
+  //   const totalFiles =
+  //     fileList.length + fileList.filter(f => f.status === "done").length;
+  //   if (totalFiles > 5) {
+  //     setShowExceedLimitModal(true); // 경고 모달 표시
+  //     return Upload.LIST_IGNORE; // 파일 업로드 중단
+  //   }
+  //   return true; // 파일 추가를 계속 진행
+  // };
 
   const handleExceedLimitModalOk = e => {
     setShowExceedLimitModal(false); // 경고 모달 닫기
@@ -119,12 +119,12 @@ const WriteIndivAlbum = () => {
 
   const handleChange = info => {
     let newFileList = [...info.fileList].filter(file => !!file.status);
-    if (newFileList.length > 5) {
-      // 파일 리스트의 길이가 5개를 초과할 경우 모달 창을 띄움
-      setIsModalVisible(true);
-      // 5개를 초과한 파일은 제외하고 설정
-      newFileList = newFileList.slice(-5);
-    }
+    // if (newFileList.length > 5) {
+    //   // 파일 리스트의 길이가 5개를 초과할 경우 모달 창을 띄움
+    //   setIsModalVisible(true);
+    //   // 5개를 초과한 파일은 제외하고 설정
+    //   newFileList = newFileList.slice(-5);
+    // }
     setFileList(newFileList);
   };
 
@@ -266,9 +266,9 @@ const WriteIndivAlbum = () => {
             }}
           />
         </div>
-        <Checkbox onChange={onChange} style={{ marginBottom: 10 }}>
+        {/* <Checkbox onChange={onChange} style={{ marginBottom: 10 }}>
           중요
-        </Checkbox>
+        </Checkbox> */}
         <Form ref={formRef} form={form} onFinish={onFinish}>
           <Form.Item
             name="memoryTitle"
@@ -307,11 +307,19 @@ const WriteIndivAlbum = () => {
               customRequest={customRequest}
               className="upload-list-inline"
               multiple={true}
-              beforeUpload={beforeUpload}
+              // beforeUpload={beforeUpload}
             >
               <Button icon={<UploadOutlined />}>업로드</Button>
             </Upload.Dragger>
           </FileListStyle>
+          <BtnWrap right>
+            <GreenBtn type="button" onClick={handleGreenButtonClick}>
+              등록
+            </GreenBtn>
+            <PinkBtn type="button" onClick={handleCancelConfirmation}>
+              취소
+            </PinkBtn>
+          </BtnWrap>
         </Form>
         <div
           style={{
@@ -319,14 +327,7 @@ const WriteIndivAlbum = () => {
             display: "flex",
             justifyContent: "flex-end",
           }}
-        >
-          <GreenBtn type="button" onClick={handleGreenButtonClick}>
-            등록
-          </GreenBtn>
-          <PinkBtn type="button" onClick={handleCancelConfirmation}>
-            취소
-          </PinkBtn>
-        </div>
+        ></div>
       </div>
 
       {/* 모달창 */}
@@ -352,12 +353,12 @@ const WriteIndivAlbum = () => {
         )}
 
         {/* 파일 제한 초과 경고 모달 */}
-        <ModalOneBtn
+        {/* <ModalOneBtn
           isOpen={showExceedLimitModal}
           handleOk={handleExceedLimitModalOk}
           title="파일 업로드 제한 초과"
           subTitle="최대 5개까지만 업로드할 수 있습니다."
-        />
+        /> */}
       </Link>
     </div>
   );

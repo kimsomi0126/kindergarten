@@ -21,8 +21,8 @@ import {
   getIndTeacherList,
 } from "../../api/individualNotice/indivNoticeApi";
 import ModalOneBtn from "../../components/ui/ModalOneBtn";
-import IndParentBtnComponent from "../../components/individualNotice/IndParentBtnComponent";
-import IndTeacherBtnComponent from "../../components/individualNotice/IndTeacherBtnComponent";
+import IndAlbumParentBtn from "../../components/indivAlbum/IndAlbumParentBtn";
+import IndAlbumTeacherBtn from "../../components/indivAlbum/IndAlbumTeacherBtn";
 import Search from "antd/es/input/Search";
 import { GreenBtn } from "../../styles/ui/buttons";
 import {
@@ -299,14 +299,14 @@ const IndivAlbumList = () => {
         <FlexBox>
           {/* 권한별 서치버튼 */}
           {isLogin ? (
-            <IndTeacherBtnComponent
+            <IndAlbumTeacherBtn
               iclass={iclass}
               indList={indList}
               year={year}
               page={page}
             />
           ) : (
-            <IndParentBtnComponent
+            <IndAlbumParentBtn
               ikidList={ikidList}
               indList={indList}
               ikid={ikid}

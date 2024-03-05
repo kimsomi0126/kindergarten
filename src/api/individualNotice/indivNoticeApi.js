@@ -76,7 +76,7 @@ export const getIndchildrenList = async ({
   }
 };
 
-// 알림장 게시글 등록하기
+// 알림장 게시글 등록하기(선생님)
 export const postIndNotice = async ({
   product,
   successFn,
@@ -85,6 +85,32 @@ export const postIndNotice = async ({
 }) => {
   try {
     const res = await jwtAxios.post(`${path}/tea`, product);
+    const status = res.status.toString();
+    if (status.charAt(0) === "2") {
+      successFn(res.data);
+    } else {
+      failFn("글 등록 오류");
+    }
+  } catch (error) {
+    const res = error.response.data;
+    console.log("res", res);
+    if (res.code === "PUSH_FAIL") {
+      errorFn("푸쉬알림에 비동의 상태입니다.");
+    } else {
+      errorFn(res.message);
+    }
+  }
+};
+
+// 알림장 게시글 등록하기(학부모)
+export const postIndParentNotice = async ({
+  product,
+  successFn,
+  failFn,
+  errorFn,
+}) => {
+  try {
+    const res = await jwtAxios.post(`${path}/par`, product);
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
       successFn(res.data);

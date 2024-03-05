@@ -306,7 +306,9 @@ const IndivDetailsComponent = ({ tno }) => {
             </BlueBtn>
             <PinkBtn onClick={handleClickDelete}>삭제</PinkBtn>
           </>
-        ) : null}
+        ) : (
+          <PinkBtn onClick={handleClickDelete}>삭제</PinkBtn>
+        )}
       </IndBtnWrap>
     </IndWrap>
   );

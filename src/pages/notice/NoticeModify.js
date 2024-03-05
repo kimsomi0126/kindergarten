@@ -148,6 +148,7 @@ const NoticeModify = () => {
             fullTitle: data.fullTitle,
             fullContents: data.fullContents,
           });
+          console.log("data확인", data);
 
           // Transform album pictures for the fileList state
           // console.log("데이터 확인", data);

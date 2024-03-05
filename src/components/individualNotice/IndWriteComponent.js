@@ -7,23 +7,45 @@ import { SERVER_URL } from "../../api/config";
 import {
   getIndchildrenList,
   postIndNotice,
+  postIndParentNotice,
 } from "../../api/individualNotice/indivNoticeApi";
 import { FileListStyle } from "../../styles/album/album";
 import { PageTitle } from "../../styles/basic";
 import { GreenBtn, PinkBtn } from "../../styles/ui/buttons";
 import ModalOneBtn from "../ui/ModalOneBtn";
 import { Cascader } from "antd";
+import useCustomLogin from "../../hooks/useCustomLogin";
+import MyClass from "../user/MyClass";
+import {
+  IndClass,
+  IndDetailTop,
+} from "../../styles/individualNotice/inddetail";
 
 const path = `${SERVER_URL}/api/notice`;
 const { SHOW_CHILD } = Cascader;
 
+export const initData = [
+  {
+    ikid: 0,
+    inotice: 0,
+    iclass: 0,
+    noticeTitle: "",
+    noticeContents: "",
+    noticePics: [],
+    kidNm: "",
+  },
+];
+
 const IndWriteComponent = () => {
   const [searchParams, setSearchParams] = useSearchParams();
+
   const ikid = searchParams.get("ikid");
+  const kidNm = searchParams.get("kidNm");
   const [form] = Form.useForm();
   const [fileList, setFileList] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [treeData, setTreeData] = useState([]);
+  // const [indList, setIndList] = useState(initData);
   const navigate = useNavigate();
   const [noticeCheck, setNoticeCheck] = useState(0);
   const [selectedKids, setSelectedKids] = useState([]);
@@ -32,6 +54,16 @@ const IndWriteComponent = () => {
   // 모달 상태 관리
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showCancelConfirmModal, setShowCancelConfirmModal] = useState(false);
+
+  // 로그인 회원 정보에서 아이 리스트 추출
+  const {
+    loginState,
+    isLogin,
+    isParentLogin,
+    isTeacherLogin,
+    isAdminLogin,
+    isAccept,
+  } = useCustomLogin();
 
   useEffect(() => {
     fetchChildrenList();
@@ -152,8 +184,9 @@ const IndWriteComponent = () => {
     });
 
     // JSON 데이터 추가
+    const ikids = isLogin ? selectedKids : [ikid];
     const dto = {
-      ikids: selectedKids, // ikids 필드 추가
+      ikids: ikids, // ikids 필드 추가
       noticeTitle: data.noticeTitle,
       noticeContents: data.noticeContents,
       noticeCheck: noticeCheck ? 1 : 0,
@@ -162,13 +195,19 @@ const IndWriteComponent = () => {
       "dto",
       new Blob([JSON.stringify(dto)], { type: "application/json" }),
     );
-
-    postIndNotice({
-      product: formData,
-      successFn: () => setShowSuccessModal(true), // 성공 모달 표시
-      failFn: handleFail,
-      errorFn: handleError,
-    });
+    isLogin
+      ? postIndNotice({
+          product: formData,
+          successFn: () => setShowSuccessModal(true), // 성공 모달 표시
+          failFn: handleFail,
+          errorFn: handleError,
+        })
+      : postIndParentNotice({
+          product: formData,
+          successFn: () => setShowSuccessModal(true), // 성공 모달 표시
+          failFn: handleFail,
+          errorFn: handleError,
+        });
   };
 
   const handleCancelOk = () => {
@@ -193,7 +232,7 @@ const IndWriteComponent = () => {
       title: "오류",
       content: error,
       onOk: () => {
-        navigate(`/ind?year=2024&page=1&iclass=0`);
+        navigate(`/ind?year=2024&page=1&ikid=${ikid}`);
       },
     });
   };
@@ -215,7 +254,7 @@ const IndWriteComponent = () => {
 
   return (
     <div>
-      <PageTitle>추억앨범</PageTitle>
+      <PageTitle>알림장</PageTitle>
       <div
         style={{
           width: "100%",
@@ -232,21 +271,30 @@ const IndWriteComponent = () => {
             marginBottom: "2rem",
           }}
         >
-          <TreeSelect
-            style={{ width: "100%" }}
-            treeData={treeData}
-            placeholder="유치원생 선택"
-            treeCheckable={true}
-            showCheckedStrategy={SHOW_CHILD}
-            onChange={value => {
-              if (Array.isArray(value)) {
-                setSelectedKids(value);
-                console.log("value check", value);
-              } else {
-                setSelectedKids([value]);
-              }
-            }}
-          />
+          {" "}
+          {isLogin ? (
+            <TreeSelect
+              style={{ width: "100%" }}
+              treeData={treeData}
+              placeholder="유치원생 선택"
+              treeCheckable={true}
+              showCheckedStrategy={SHOW_CHILD}
+              onChange={value => {
+                if (Array.isArray(value)) {
+                  setSelectedKids(value);
+                  console.log("value check", value);
+                } else {
+                  setSelectedKids([value]);
+                }
+              }}
+            />
+          ) : (
+            <IndDetailTop>
+              <IndClass>
+                <h4>{kidNm}</h4>
+              </IndClass>
+            </IndDetailTop>
+          )}
         </div>
         <Checkbox onChange={onChange} style={{ marginBottom: 10 }}>
           중요
@@ -312,7 +360,7 @@ const IndWriteComponent = () => {
       </div>
 
       {/* 모달창 */}
-      <Link to="/ind?year=2024&page=1&iclass=0">
+      <Link to={`/ind?year=2024&page=1&ikid=${ikid}`}>
         {/* 등록 성공 모달 */}
         {showSuccessModal && (
           <ModalOneBtn

@@ -5,7 +5,6 @@ import "react-image-gallery/styles/css/image-gallery.css";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { IMG_URL } from "../../api/config";
 import {
-  editIndNotice,
   getIndDetail,
   putIndDetail,
 } from "../../api/individualNotice/indivNoticeApi";
@@ -29,13 +28,15 @@ const customRequest = ({ onSuccess }) => {
 
 export const obj = [
   {
-    ikid: 0,
     inotice: 0,
-    iclass: 0,
     noticeTitle: "",
     noticeContents: "",
-    noticePics: [],
+    pics: [],
+    comments: [],
+    createdAt: "",
     kidNm: "",
+    iclass: 0,
+    ikid: 0,
   },
 ];
 
@@ -169,15 +170,15 @@ const IndivNotiModify = () => {
 
   useEffect(() => {
     const fetchNoticeData = async () => {
-      editIndNotice({
+      getIndDetail({
         tno: tno,
-        ikid: ikid,
         successFn: data => {
           setNoticeData(data);
           form.setFieldsValue({
             noticeTitle: data.noticeTitle,
             noticeContents: data.noticeContents,
           });
+          console.log("data확인", data);
 
           // Transform album pictures for the fileList state
           // console.log("데이터 확인", data);
@@ -220,7 +221,7 @@ const IndivNotiModify = () => {
     });
 
     fetchNoticeData();
-  }, [tno, ikid, form]);
+  }, [tno]);
 
   const beforeUpload = file => {
     // 새로 업로드되는 파일을 fileList에 추가

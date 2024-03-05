@@ -66,7 +66,7 @@ const IndivNotiList = () => {
     isAccept,
   } = useCustomLogin();
   const ikidList = loginState.kidList;
-
+  console.log("loginState", loginState);
   // 페이지네이션
   const handlePageChange = (page, pageSize) => {
     if (isLogin) {
@@ -213,6 +213,24 @@ const IndivNotiList = () => {
     // console.log(res);
   };
 
+  // 글쓰기 버튼 이동
+  const handleClickWrite = () => {
+    if (isLogin) {
+      console.log("선생님 글쓰기");
+      navigate("/ind/write");
+      return;
+    } else if (isParentLogin) {
+      console.log("학부모 글쓰기");
+      navigate(`/ind/write?ikid=${ikid}&kidNm=${indList[0].kidNm}`);
+      return;
+    } else {
+      setIsOpen(true);
+      setTitle("회원 전용 페이지");
+      setSubTitle("로그인 회원만 접근 가능합니다.");
+      setIsNavigate("/login");
+    }
+  };
+
   console.log(loginState);
   return (
     <IndWrap>
@@ -277,11 +295,18 @@ const IndivNotiList = () => {
             }}
             size={"large"}
           />
+          {/* <Link
+            to={{
+              pathname: "/ind/write",
+              state: { ikidList: ikidList },
+            }}
+          >
+            <GreenBtn>글쓰기</GreenBtn>
+          </Link> */}
           <GreenBtn
             onClick={() => {
-              navigate("/ind/write");
+              handleClickWrite();
             }}
-            className="btn"
           >
             글쓰기
           </GreenBtn>

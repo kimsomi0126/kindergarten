@@ -6,13 +6,13 @@ import useCustomLogin from "../../hooks/useCustomLogin";
 
 const IndivAlbumWrite = () => {
   const navigate = useNavigate();
-  const { isLogin, isParentLogin } = useCustomLogin();
+  const { isLogin, isParentLogin, isAdminLogin } = useCustomLogin();
   const [isOpen, setIsOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [subTitle, setSubTitle] = useState("");
 
   useEffect(() => {
-    if (!isLogin || !isParentLogin) {
+    if (!isLogin && !isParentLogin && !isAdminLogin) {
       // 로그인하지 않았을 경우
       setIsOpen(true);
       setTitle("회원 전용 페이지");

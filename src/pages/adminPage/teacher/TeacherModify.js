@@ -48,7 +48,7 @@ const TeacherModify = () => {
   const [serchParams, setSearchParams] = useSearchParams();
   const [form] = Form.useForm();
   const navigate = useNavigate();
-  const { isAdminLogin, isTeacherLogin } = useCustomLogin();
+  const { isAdminLogin, isLogin } = useCustomLogin();
   // 모달창
   const [title, setTitle] = useState("");
   const [subTitle, setSubTitle] = useState("");
@@ -90,9 +90,23 @@ const TeacherModify = () => {
 
   // 선생님 기존 정보 GET
   useEffect(() => {
-    getTeacherInfo({ iteacher, successGetFn, failGetFn, errorGetFn });
-    form.setFieldsValue();
-  }, []);
+    if (!isLogin) {
+      setTitle("관리자 전용 페이지");
+      setSubTitle("관리자만 접근 가능합니다.");
+      setIsOpen(true);
+      setIsNavigate(`/login`);
+    } else {
+      getTeacherInfo({ iteacher, successGetFn, failGetFn, errorGetFn });
+      form.setFieldsValue();
+    }
+  }, [isLogin]);
+  const handleOk = () => {
+    setIsOpen(false);
+
+    if (isNavigate) {
+      navigate(isNavigate);
+    }
+  };
   // console.log("아이티쳐", iteacher);
   const successGetFn = res => {
     const newData = Object.keys(res).reduce((acc, key) => {
@@ -193,22 +207,33 @@ const TeacherModify = () => {
 
     putTeacherInfo({ successFn, errorFn, teacher: formData });
   };
-  // console.log("수정내용", dto);
+  console.log("수정내용", dto);
 
   const successFn = res => {
     setIsResultOpen(true);
     setTitle("수정 완료");
     setSubTitle("성공적으로 등록되었습니다.");
-    setIsNavigate(`/admin/teacher?iclass=0&page=1&tcIsDel=0`);
+    if (isAdminLogin) {
+      setIsNavigate(`/admin/teacher?iclass=0&page=1&tcIsDel=0`);
+    } else {
+      setIsNavigate(-1);
+    }
   };
   const errorFn = res => {
     setIsResultOpen(true);
     setTitle("수정 실패");
     setSubTitle(`수정에 실패했습니다. \n다시 시도해주세요.`);
   };
-
+  console.log("티씨롤", dto.tcRole);
   return (
     <>
+      {/* 권한 안내창 */}
+      <ModalOneBtn
+        isOpen={isOpen}
+        handleOk={handleOk}
+        title={title}
+        subTitle={subTitle}
+      />
       {/* 안내창 */}
       <ModalOneBtn
         isOpen={isResultOpen}
@@ -263,7 +288,7 @@ const TeacherModify = () => {
                       },
                     ]}
                   >
-                    <Input placeholder="새로운 비밀번호 입력" />
+                    <Input.Password placeholder="새로운 비밀번호 입력" />
                   </Form.Item>
                 </NewPasswordEdit>
               ) : (
@@ -296,7 +321,7 @@ const TeacherModify = () => {
                       }),
                     ]}
                   >
-                    <Input placeholder="기존 비밀번호 입력" />
+                    <Input.Password placeholder="기존 비밀번호 입력" />
                   </Form.Item>
 
                   <Form.Item
@@ -311,7 +336,7 @@ const TeacherModify = () => {
                       },
                     ]}
                   >
-                    <Input
+                    <Input.Password
                       placeholder="새로운 비밀번호 입력"
                       disabled={isDisabled}
                     />
@@ -358,32 +383,33 @@ const TeacherModify = () => {
           <TeacherClassInfo>
             <p>재직 정보</p>
             <TeacherClassForm>
-              {isAdminLogin ? (
-                <Form.Item
-                  name="tcRole"
-                  rules={[
-                    {
-                      required: true,
-                      message: "직급을 선택해주세요.",
-                    },
-                  ]}
+              <Form.Item
+                name="tcRole"
+                rules={[
+                  {
+                    required: true,
+                    message: "직급을 선택해주세요.",
+                  },
+                ]}
+                style={{
+                  display: isAdminLogin ? "block" : "none",
+                }}
+              >
+                <Select
+                  labelInValue
+                  defaultValue={{
+                    value: "",
+                    label: (
+                      <span style={{ color: " rgba(0, 0, 0, 0.25) " }}>
+                        직급 선택
+                      </span>
+                    ),
+                  }}
                 >
-                  <Select
-                    labelInValue
-                    defaultValue={{
-                      value: "",
-                      label: (
-                        <span style={{ color: " rgba(0, 0, 0, 0.25) " }}>
-                          직급 선택
-                        </span>
-                      ),
-                    }}
-                  >
-                    <Select.Option value="ADMIN">원장</Select.Option>
-                    <Select.Option value="TEACHER">선생님</Select.Option>
-                  </Select>
-                </Form.Item>
-              ) : null}
+                  <Select.Option value="ADMIN">원장</Select.Option>
+                  <Select.Option value="TEACHER">선생님</Select.Option>
+                </Select>
+              </Form.Item>
 
               <Form.Item
                 name="iclass"

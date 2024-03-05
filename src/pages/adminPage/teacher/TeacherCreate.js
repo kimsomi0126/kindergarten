@@ -171,7 +171,7 @@ const TeacherCreate = () => {
                     },
                   ]}
                 >
-                  <Input placeholder="비밀번호 입력" />
+                  <Input.Password placeholder="비밀번호 입력" />
                 </Form.Item>
               </TeacherIdItem>
             </TeacherIdForm>
@@ -264,7 +264,15 @@ const TeacherCreate = () => {
           <TeacherMemo>
             <p>선생님 소개</p>
             <TeacherMemoForm>
-              <Form.Item name="teacherIntroduce">
+              <Form.Item
+                name="teacherIntroduce"
+                rules={[
+                  {
+                    required: true,
+                    message: "선생님 소개를 입력해주세요.",
+                  },
+                ]}
+              >
                 <TextArea placeholder="선생님 소개" />
               </Form.Item>
             </TeacherMemoForm>

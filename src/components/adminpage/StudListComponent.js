@@ -23,7 +23,7 @@ const StudListComponent = ({
   const [selectAllChecked, setSelectAllChecked] = useState(false);
   const navigate = useNavigate();
   const currentYear = new Date().getFullYear();
-  const { loginState } = useCustomLogin();
+  const { loginState, isAdminLogin } = useCustomLogin();
 
   // 체크박스 전체 선택 시 pk값 수집
   const handleSelectAllChange = e => {
@@ -64,7 +64,7 @@ const StudListComponent = ({
   return (
     <>
       <StudentMain>
-        {parseInt(kidCheck) === loginState.iclass ? (
+        {isAdminLogin || parseInt(kidCheck) === loginState.iclass ? (
           <div>
             <input
               type="checkbox"
@@ -81,7 +81,7 @@ const StudListComponent = ({
           {Array.isArray(studentList.kidPage) &&
             studentList.kidPage.map(item => (
               <StudentListItem key={item.ikid}>
-                {parseInt(kidCheck) === loginState.iclass ? (
+                {isAdminLogin || parseInt(kidCheck) === loginState.iclass ? (
                   <input
                     type="checkbox"
                     name="ikid"

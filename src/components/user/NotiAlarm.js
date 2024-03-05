@@ -48,6 +48,17 @@ const NotiAlarm = () => {
   // 알림 리스트
   const handleClickOpen = () => {
     setIsListOpen(!isListOpen);
+    if (!isListOpen && totalCnt) {
+      setNotiPush(prev => {
+        const updatedPushList = prev.pushList.map(item => {
+          if (item[iuser] === userNm) {
+            item.totalCnt = 0;
+          }
+          return item;
+        });
+        return { ...prev, pushList: updatedPushList };
+      });
+    }
   };
 
   // 알림삭제
@@ -64,15 +75,13 @@ const NotiAlarm = () => {
       const updatedPushList = prev.pushList.map(item => {
         if (item[iuser] === userNm) {
           item.data = item.data.filter((notiItem, idx) => idx !== index);
-          item.totalCnt--;
+          // item.totalCnt--;
         }
         return item;
       });
       return { ...prev, pushList: updatedPushList };
     });
   };
-
-  console.log(isListOpen);
 
   return (
     <NotiWrap ref={listRef}>
@@ -95,9 +104,10 @@ const NotiAlarm = () => {
                   <ul>
                     <li className="noti-kid">
                       <span className="noti-date">
-                        {item.createdAt.split(" ")[0]}
+                        {item.createdAt || item.cmtCreatedAt}
                       </span>{" "}
-                      {item.kidNm} {item.noticeTitle ? "알림장" : "추억앨범"}{" "}
+                      <br />
+                      {item.kidNm} {item.inotice ? "알림장" : "추억앨범"}{" "}
                       {item.noticeComment || item.noticeComment
                         ? "새 댓글"
                         : null}

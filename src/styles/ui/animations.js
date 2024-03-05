@@ -64,3 +64,16 @@ from {
     transform: translateX(0);
     opacity: 1;
   }`;
+
+export const animationSwing = keyframes`
+
+    0% {
+        -webkit-transform: rotate(-4deg);
+        transform: rotate(-4deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(2deg);
+        transform: rotate(2deg);
+    }
+`;

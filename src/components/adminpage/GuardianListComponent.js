@@ -99,29 +99,35 @@ const GuardianListComponent = ({
   return (
     <>
       <UserMain>
-        <div>
-          <input
-            type="checkbox"
-            id="selectAll"
-            name="iparent"
-            checked={selectAllChecked}
-            onChange={handleSelectAllChange}
-          />
-          <label htmlFor="selectAll">전체 선택</label>
-        </div>
+        {isAdminLogin ? (
+          <div>
+            <input
+              type="checkbox"
+              id="selectAll"
+              name="iparent"
+              checked={selectAllChecked}
+              onChange={handleSelectAllChange}
+            />
+            <label htmlFor="selectAll">전체 선택</label>
+          </div>
+        ) : null}
+
         <UserListWrap>
           {Array.isArray(parentList.parentPage) &&
             parentList.parentPage.map(item => (
               <UserListItem key={item.iparent}>
                 <UserListBox>
-                  <input
-                    type="checkbox"
-                    name="iparent"
-                    value={item.iparent}
-                    onChange={e => {
-                      handleChangeCheck(e);
-                    }}
-                  />
+                  {isAdminLogin ? (
+                    <input
+                      type="checkbox"
+                      name="iparent"
+                      value={item.iparent}
+                      onChange={e => {
+                        handleChangeCheck(e);
+                      }}
+                    />
+                  ) : null}
+
                   <UserInfo>
                     <span>{item.uid}</span>
                     <p>{item.parentNm}</p>

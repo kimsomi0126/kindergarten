@@ -160,15 +160,17 @@ const StudDetails = () => {
               </Button>
             </Dropdown>
             <BtnWrap>
-              <GrayBtn
-                onClick={e =>
-                  navigate(
-                    `/ind/write?ikid=${ikid}&iclass=${myData.iclass}&kidNm=${myData.kidNm}`,
-                  )
-                }
-              >
-                알림장작성
-              </GrayBtn>
+              {isAdminLogin || myData.iclass == loginState.iclass ? (
+                <GrayBtn
+                  onClick={e =>
+                    navigate(
+                      `/ind/write?ikid=${ikid}&iclass=${myData.iclass}&kidNm=${myData.kidNm}`,
+                    )
+                  }
+                >
+                  알림장작성
+                </GrayBtn>
+              ) : null}
               {isAdminLogin || myData.iclass == loginState.iclass ? (
                 <PurpleBtn
                   onClick={e => navigate(`/admin/student/modify?ikid=${ikid}`)}

@@ -41,6 +41,7 @@ import ModalOneBtn from "../../../components/ui/ModalOneBtn";
 import ModalTwoBtn from "../../../components/ui/ModalTwoBtn";
 import { useNavigate } from "react-router";
 import { useSearchParams } from "react-router-dom";
+import useCustomLogin from "../../../hooks/useCustomLogin";
 
 // dto 초기값
 const initDto = {
@@ -55,6 +56,7 @@ const initDto = {
 };
 const StudModify = () => {
   const navigate = useNavigate();
+  const { isLogin } = useCustomLogin();
   // ikid값 체크
   const [serchParams, setSearchParams] = useSearchParams();
   const ikid = serchParams.get("ikid");
@@ -141,6 +143,10 @@ const StudModify = () => {
   };
   const handleOk = () => {
     setIsModalOpen(false);
+    setIsOpen(false);
+    if (isNavigate) {
+      navigate(isNavigate);
+    }
   };
   const handleCancel = () => {
     setIsModalOpen(false);
@@ -148,9 +154,16 @@ const StudModify = () => {
 
   // 주소 api form값에 추가, 기존정보 가져오기
   useEffect(() => {
-    getStudentInfo({ successGetFn, failGetFn, errorGetFn, ikid });
-    form.setFieldsValue(initialValues);
-  }, []);
+    if (!isLogin) {
+      setTitle("관리자 전용 페이지");
+      setSubTitle("관리자만 접근 가능합니다.");
+      setIsOpen(true);
+      setIsNavigate(`/login`);
+    } else {
+      getStudentInfo({ successGetFn, failGetFn, errorGetFn, ikid });
+      form.setFieldsValue(initialValues);
+    }
+  }, [isLogin]);
 
   // get 결과
   const successGetFn = res => {
@@ -297,6 +310,13 @@ const StudModify = () => {
 
   return (
     <>
+      {/* 안내창 */}
+      <ModalOneBtn
+        isOpen={isOpen}
+        handleOk={handleOk}
+        title={title}
+        subTitle={subTitle}
+      />
       {/* 안내창 */}
       <ModalOneBtn
         isOpen={isResultOpen}

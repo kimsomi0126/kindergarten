@@ -94,16 +94,18 @@ export const TeacherListItem = styled.li`
   width: 32%;
   background: ${colors.white};
   padding: 2rem;
+  margin-bottom: 2rem;
   ${shadow}
   input {
     z-index: 999;
     position: absolute;
     right: 2rem;
     top: 2rem;
+    width: 1.5rem;
+    height: 1.5rem;
   }
   ${mq.pc} {
     width: 49%;
-    margin-bottom: 2rem;
   }
   ${mq.mobileBig} {
     width: 100%;
@@ -115,7 +117,7 @@ export const ListBox = styled.div`
   dl {
     display: flex;
     font-size: 1.5rem;
-    font-weight: 300;
+    /* font-weight: 300; */
     dt {
       color: ${colors.grayDeep};
       margin-right: 3rem;
@@ -211,7 +213,7 @@ export const InfoBox = styled.div`
   display: flex;
   flex-wrap: wrap;
   dl {
-    margin-top: 2rem;
+    margin-top: 1.5rem;
     width: 45%;
     dt {
       margin-right: 2rem;
@@ -221,13 +223,13 @@ export const InfoBox = styled.div`
     margin-top: 2rem;
     color: ${colors.grayDeep};
     font-size: 1.5rem;
-    font-weight: 300;
+    /* font-weight: 300; */
     width: 100%;
   }
   span {
-    margin-top: 2rem;
+    margin-top: 1rem;
     color: ${colors.black};
     font-size: 1.5rem;
-    font-weight: 300;
+    /* font-weight: 300; */
   }
 `;

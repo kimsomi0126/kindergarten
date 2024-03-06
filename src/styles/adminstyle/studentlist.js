@@ -71,6 +71,8 @@ export const StudentListItem = styled.li`
     position: absolute;
     right: 2rem;
     top: 2rem;
+    width: 1.5rem;
+    height: 1.5rem;
   }
   ${mq.mobileBig} {
     width: 49%;

@@ -258,6 +258,27 @@ export const FooterBus = styled.div`
 
   animation: ${animationGo} 15s infinite linear;
 
+  :after {
+    content: "만든사람들";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    padding: 0.5rem;
+    font-size: 1.4rem;
+    text-align: center;
+    opacity: 0;
+    transition: 0.3s;
+    background: ${colors.greenLight};
+    color: ${colors.greenDeep};
+    border-radius: 4rem;
+  }
+  :hover:after {
+    top: -1.5rem;
+    opacity: 1;
+  }
+
   ${mq.mobileBig} {
     width: 5rem;
     height: 5rem;

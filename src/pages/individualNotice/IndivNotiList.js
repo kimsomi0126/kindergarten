@@ -245,9 +245,7 @@ const IndivNotiList = () => {
         <Link to={pathname + search} className="active">
           알림장
         </Link>
-        <Link to={`/ind/album${search}`} isLogin={isLogin}>
-          추억앨범
-        </Link>
+        <Link to={`/ind/album${search}`}>추억앨범</Link>
       </TabWrap>
       <TitleWrap className="ind-btn-wrap">
         <FromToBtnWrap fromTo={fromTo} isLogin={isLogin}>

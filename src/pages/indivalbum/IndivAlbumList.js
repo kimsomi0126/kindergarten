@@ -298,7 +298,7 @@ const IndivAlbumList = () => {
         )}
         <FlexBox>
           {/* 권한별 서치버튼 */}
-          {isLogin ? (
+          {isLogin || isAdminLogin ? (
             <IndAlbumTeacherBtn
               iclass={iclass}
               indList={indList}
@@ -325,7 +325,7 @@ const IndivAlbumList = () => {
           {isLogin ? (
             <GreenBtn
               onClick={() => {
-                navigate("/ind/album/write");
+                navigate(`/ind/album/write${search}`);
               }}
               className="btn"
             >

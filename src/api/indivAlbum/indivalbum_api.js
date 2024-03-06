@@ -226,12 +226,7 @@ export const getIndAlubmTagList = async ({
 };
 
 // 추억 앨범 수정 전 정보 불러오기
-export const getIndchildrenList = async ({
-  imemory,
-  successFn,
-  failFn,
-  errorFn,
-}) => {
+export const getIndAlubm = async ({ imemory, successFn, failFn, errorFn }) => {
   try {
     const res = await jwtAxios.get(`${path}/edit?imemory=${imemory}`);
     const status = res.status.toString();
@@ -262,8 +257,9 @@ export const getIndAlbumDetail = async ({
       failFn(res.data);
     }
   } catch (error) {
-    const res = error.response.data;
-    errorFn(res.message);
+    // const res = error.response.data;
+    // errorFn(res.message);
+    console.log("error");
   }
 };
 

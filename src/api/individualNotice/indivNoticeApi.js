@@ -209,8 +209,7 @@ export const getIndDetail = async ({ tno, successFn, failFn, errorFn }) => {
       failFn(res.data);
     }
   } catch (error) {
-    const res = error.response.data;
-    errorFn(res.message);
+    errorFn(error);
   }
 };
 

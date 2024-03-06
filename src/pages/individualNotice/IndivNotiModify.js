@@ -2,7 +2,12 @@ import { UploadOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Form, Input, Modal, Upload } from "antd";
 import React, { useEffect, useRef, useState } from "react";
 import "react-image-gallery/styles/css/image-gallery.css";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import {
+  Link,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import { IMG_URL } from "../../api/config";
 import {
   getIndDetail,
@@ -16,9 +21,11 @@ import {
   IndDetailTop,
 } from "../../styles/individualNotice/inddetail";
 import "../../styles/notice/gallery.css";
+import useCustomLogin from "../../hooks/useCustomLogin";
 import { NoticeWrap } from "../../styles/notice/notice";
 import { BtnWrap, GreenBtn, PinkBtn } from "../../styles/ui/buttons";
 import { IndBot } from "../../styles/individualNotice/ind";
+import ModalOneBtn from "../../components/ui/ModalOneBtn";
 
 const imgpath = `${IMG_URL}/pic/notice`;
 const path = `${IMG_URL}/api/notice`;
@@ -37,11 +44,13 @@ export const obj = [
     kidNm: "",
     iclass: 0,
     ikid: 0,
+    noticeCheck: 0,
   },
 ];
 
 const IndivNotiModify = () => {
   const { tno, ikid } = useParams();
+  const [ikidData, setIkidData] = useState(0);
   const [noticeData, setNoticeData] = useState(obj); // noticeData 상태를 추가
   const params = useSearchParams();
 
@@ -55,7 +64,7 @@ const IndivNotiModify = () => {
   const [treeData, setTreeData] = useState([]);
   const [noticeFix, setNoticeFix] = useState(0);
   const [selectedKids, setSelectedKids] = useState([]);
-  const [deletedPics, setDeletedPics] = useState([]);
+  const [deletedPic, setDeletedPic] = useState([]);
   const [form] = Form.useForm();
   const [searchParams, setSearchParams] = useSearchParams();
   const year = searchParams.get("year");
@@ -70,6 +79,16 @@ const IndivNotiModify = () => {
   // 모달 상태 관리
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showCancelConfirmModal, setShowCancelConfirmModal] = useState(false);
+
+  // 로그인 회원 정보에서 아이 리스트 추출
+  const {
+    loginState,
+    isLogin,
+    isParentLogin,
+    isTeacherLogin,
+    isAdminLogin,
+    isAccept,
+  } = useCustomLogin();
 
   const showDeleteModal = () => {
     setIsDeleteModalOpen(true);
@@ -97,17 +116,21 @@ const IndivNotiModify = () => {
 
   const onFinish = async data => {
     const formData = new FormData();
+
     // JSON 데이터 추가
     const noticeInfo = {
       inotice: tno,
-      ikid: ikid,
+      ikid: ikidData,
       noticeTitle: data.noticeTitle,
       noticeContents: data.noticeContents,
+      NoticeCheck: noticeCheck,
+      delPic: [],
     };
+    console.log("noticeCheck", noticeCheck);
 
     // deletedPics 배열에 항목이 있는 경우에만 delPics 속성을 추가
-    if (deletedPics.length > 0) {
-      noticeInfo.delPics = deletedPics;
+    if (deletedPic.length > 0) {
+      noticeInfo.delPic = deletedPic;
     }
     const dto = new Blob([JSON.stringify(noticeInfo)], {
       type: "application/json",
@@ -141,6 +164,10 @@ const IndivNotiModify = () => {
     }
   };
 
+  const handleSuccessModalOk = () => {
+    setShowSuccessModal(false);
+  };
+
   const handleDeleteCancel = () => {
     setIsDeleteModalOpen(false);
   };
@@ -165,7 +192,7 @@ const IndivNotiModify = () => {
   };
 
   const onChange = e => {
-    setNoticeCheck(e.target.checked ? 1 : 0); // 중요 체크를 했을 때 1, 안 했을 때 0으로 설정
+    setNoticeCheck(e.target.checked ? 1 : 0);
   };
 
   useEffect(() => {
@@ -173,25 +200,23 @@ const IndivNotiModify = () => {
       getIndDetail({
         tno: tno,
         successFn: data => {
-          setNoticeData(data);
           form.setFieldsValue({
+            ikid: data.ikid,
             noticeTitle: data.noticeTitle,
             noticeContents: data.noticeContents,
           });
           console.log("data확인", data);
-
+          setIkidData(data.ikid);
           // Transform album pictures for the fileList state
           // console.log("데이터 확인", data);
-          const transformedFileList = data.noticePic.map(
-            (noticePic, index) => ({
-              inoticePic: noticePic.inoticePic, // uid is required to be unique
-              name: noticePic.noticePic, // file name
-              status: "done", // upload status
-              url: `${imgpath}/${tno}/${noticePic.noticePic}`, // file URL, adjust the path as needed
-            }),
-          );
-          console.log("transformedFileList", transformedFileList);
+          const transformedFileList = data.pics.map((pic, index) => ({
+            inoticePic: pic, // uid is required to be unique
+            name: pic, // file name
+            status: "done", // upload status
+            url: `${imgpath}/${tno}/${pic}`, // file URL, adjust the path as needed
+          }));
           setFileList(transformedFileList);
+          console.log("transformedFileList", transformedFileList);
         },
         failFn: errorMessage => {
           console.error("Notice fetch failed:", errorMessage);
@@ -254,16 +279,16 @@ const IndivNotiModify = () => {
     );
     setFileList(newFileList);
     if (typeof file.inoticePic === "number") {
-      setDeletedPics([...deletedPics, file.inoticePic]);
+      setDeletedPic([...deletedPic, file.inoticePic]);
     }
 
     return true; // 삭제 처리를 진행
   };
-  console.log("deletedPics", deletedPics);
+  console.log("deletedPic", deletedPic);
 
   useEffect(() => {
     // console.log("삭제 목록 deletedPics : ", deletedPics);
-  }, [deletedPics]);
+  }, [deletedPic]);
 
   useEffect(() => {
     // console.log("현재 보이는 목록 fileList : ", fileList);
@@ -329,6 +354,24 @@ const IndivNotiModify = () => {
           취소
         </PinkBtn>
       </BtnWrap>
+
+      {/* 모달창 */}
+      <Link
+        to={
+          isParentLogin
+            ? `/ind?year=2024&page=1&ikid=${ikid}`
+            : `/ind?year=2024&page=1&iclass=${iclass}`
+        }
+      >
+        {showSuccessModal && (
+          <ModalOneBtn
+            isOpen={showSuccessModal}
+            handleOk={handleSuccessModalOk}
+            title="수정 완료"
+            subTitle="성공적으로 수정되었습니다."
+          />
+        )}
+      </Link>
     </NoticeWrap>
   );
 };

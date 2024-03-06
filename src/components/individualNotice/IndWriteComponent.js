@@ -64,6 +64,9 @@ const IndWriteComponent = () => {
     isAdminLogin,
     isAccept,
   } = useCustomLogin();
+  console.log("loginState", loginState);
+
+  const iclass = isAdminLogin ? 0 : loginState.iclass;
 
   useEffect(() => {
     fetchChildrenList();
@@ -98,7 +101,9 @@ const IndWriteComponent = () => {
   };
 
   const handleChildrenListSuccess = data => {
+    console.log("data", data);
     const groupedData = groupChildrenByClass(data);
+    console.log("groupedData", groupedData);
     const treeData = groupedData.map(classItem => ({
       title: getClassTitle(classItem.classNumber),
       value: classItem.classNumber,
@@ -111,7 +116,8 @@ const IndWriteComponent = () => {
     }));
     setTreeData(treeData);
   };
-
+  console.log("treeData 확인", treeData);
+  console.log("treeData", treeData.key === isTeacherLogin.iclass);
   const getClassTitle = classNumber => {
     switch (classNumber) {
       case 1:
@@ -272,10 +278,28 @@ const IndWriteComponent = () => {
           }}
         >
           {" "}
-          {isLogin ? (
+          {isAdminLogin ? (
             <TreeSelect
               style={{ width: "100%" }}
               treeData={treeData}
+              placeholder="유치원생 선택"
+              treeCheckable={true}
+              showCheckedStrategy={SHOW_CHILD}
+              onChange={value => {
+                if (Array.isArray(value)) {
+                  setSelectedKids(value);
+                  console.log("value check", value);
+                } else {
+                  setSelectedKids([value]);
+                }
+              }}
+            />
+          ) : isTeacherLogin ? (
+            <TreeSelect
+              style={{ width: "100%" }}
+              treeData={treeData.filter(
+                item => item.value === loginState.iclass,
+              )} // 본인의 반만 필터링하여 사용
               placeholder="유치원생 선택"
               treeCheckable={true}
               showCheckedStrategy={SHOW_CHILD}
@@ -360,7 +384,13 @@ const IndWriteComponent = () => {
       </div>
 
       {/* 모달창 */}
-      <Link to={`/ind?year=2024&page=1&ikid=${ikid}`}>
+      <Link
+        to={
+          isParentLogin
+            ? `/ind?year=2024&page=1&ikid=${ikid}`
+            : `/ind?year=2024&page=1&iclass=${iclass}`
+        }
+      >
         {/* 등록 성공 모달 */}
         {showSuccessModal && (
           <ModalOneBtn

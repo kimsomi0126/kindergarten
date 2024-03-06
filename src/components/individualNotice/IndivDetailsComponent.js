@@ -47,6 +47,10 @@ const initData = {
   createdAt: "",
   kidNm: "",
   iclass: 0,
+  ikid: 0,
+  iparent: 0,
+  parentNm: 0,
+  teacherNm: 0,
   iteacher: 0,
 };
 
@@ -102,7 +106,7 @@ const IndivDetailsComponent = ({ tno }) => {
         setIsLoading(false);
       },
     });
-  }, [tno, commentState]);
+  }, [(tno, commentState)]);
 
   const successFn = res => {
     setData({ ...res });
@@ -110,6 +114,7 @@ const IndivDetailsComponent = ({ tno }) => {
     setCommentNum(null);
     console.log("성공", res);
   };
+  console.log("res 확인", data);
 
   const errorFn = res => {
     setIsOpen(true);

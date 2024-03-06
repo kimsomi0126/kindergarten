@@ -1,8 +1,8 @@
-import React, { Suspense, useEffect, useState } from "react";
+import React, { Suspense, lazy, useEffect, useState } from "react";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import { useNavigate, useParams } from "react-router";
 import { Link, useSearchParams } from "react-router-dom";
-import { IMG_URL } from "../../api/config";
+import { IMG_URL, SERVER_URL } from "../../api/config";
 import {
   deleteIndAlbum,
   getIndAlbumDetail,
@@ -22,6 +22,7 @@ import {
   IndDetailWrap,
 } from "../../styles/individualNotice/inddetail";
 import { BlueBtn, GreenBtn, PinkBtn } from "../../styles/ui/buttons";
+const host = `${SERVER_URL}/ind/album`;
 
 const initData = {
   inotice: 0,
@@ -33,6 +34,9 @@ const initData = {
   kidNm: "",
   iclass: 0,
 };
+const ImageComponent = lazy(() =>
+  import("../../components/indivAlbum/ImageComponent"),
+);
 
 const IndivAlbumDetails = () => {
   const navigate = useNavigate();
@@ -83,6 +87,7 @@ const IndivAlbumDetails = () => {
   // Get 연동 결과
   const successFn = res => {
     setData({ ...res });
+    console.log("성공 데이타", res);
   };
   const errorFn = res => {
     setIsOpen(true);
@@ -153,14 +158,19 @@ const IndivAlbumDetails = () => {
           </IndClass>
           <h3>{data.memoryTitle}</h3>
           <IndBot>
-            <div className="ind-date">{data.createdAt.split(" ")[0]}</div>
+            <div className="ind-date">
+              {data.createdAt.split(" ")[0].split("T").join(" ")}
+            </div>
           </IndBot>
         </IndDetailTop>
         <IndAlbumDetailContent>
           <pre>{data.memoryContents}</pre>
         </IndAlbumDetailContent>
         {/* <IndDetailFile> */}
-        <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3 }}>
+        <ResponsiveMasonry
+          style={{ padding: "3rem" }}
+          columnsCountBreakPoints={{ 350: 1, 500: 2, 900: 3, 1200: 4 }}
+        >
           <Masonry gutter="10px">
             {Array.isArray(data.memoryPic) &&
               data.memoryPic.map((item, index) => (
@@ -171,7 +181,7 @@ const IndivAlbumDetails = () => {
                     target="_blank"
                     className="item"
                   >
-                    <img
+                    <ImageComponent
                       key={index}
                       style={{ width: "100%", display: "block" }}
                       src={`${IMG_URL}/pic/memory/${data.imemory}/${item}`}
@@ -181,27 +191,17 @@ const IndivAlbumDetails = () => {
               ))}
           </Masonry>
         </ResponsiveMasonry>
-
-        {/* {Array.isArray(data.memoryPic) &&
-          data.memoryPic.map((item, index) => (
-            <Link
-              to={`${IMG_URL}/pic/memory/${data.imemory}/${item}`}
-              key={index}
-              target="_blank"
-            >
-              {item}
-            </Link>
-          ))} */}
-        {/* </IndDetailFile> */}
       </IndDetailWrap>
       <IndBtnWrap>
         <GreenBtn onClick={handleClickList}>목록보기</GreenBtn>
-        {isLogin ? (
+        {isLogin || isAdminLogin ? (
           <>
             <BlueBtn
-            // onClick={() => {
-            //   navigate(`${host}/modify/${pno}`);
-            // }}
+              onClick={() => {
+                navigate(
+                  `${host}/modify/${tno}?year=${year}&page=${page}&iclass=${iclass}`,
+                );
+              }}
             >
               수정
             </BlueBtn>

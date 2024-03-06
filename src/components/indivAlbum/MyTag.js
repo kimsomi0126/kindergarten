@@ -1,6 +1,8 @@
 import styled from "@emotion/styled";
 import React from "react";
 import { colors, fonts } from "../../styles/basic";
+import { ConfigProvider, Dropdown, Space } from "antd";
+import { DownOutlined } from "@ant-design/icons";
 
 const MyTag = ({ state }) => {
   const list = Array.isArray(state) ? state.map(item => item.kidNm) : [];
@@ -10,11 +12,26 @@ const MyTag = ({ state }) => {
       padding-right: 0.5rem;
     }
     h4 {
-      color: black;
-      opacity: 0.5;
-      font-size: 1.7rem;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji",
+        "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+      font-size: 1.4rem;
+
+      font-weight: normal;
+    }
+    a {
+      color: #888;
+    }
+    .ant-dropdown-trigger-open {
+      color: red;
     }
   `;
+  const items = [
+    {
+      key: "1",
+      label: list.join(", "),
+    },
+  ];
 
   return (
     // 반pk = 1 : 무궁화반,  2 : 해바라기반, 3 : 장미반
@@ -26,9 +43,20 @@ const MyTag = ({ state }) => {
           alt="Icon"
         ></img>
         <h4>
-          {list.length >= 2
-            ? `${list.join(", ")} 외 ${list.length - 1}명`
-            : list.join(", ")}
+          <Dropdown
+            menu={{
+              items,
+            }}
+          >
+            <a onClick={e => e.preventDefault()}>
+              <Space>
+                {list.length >= 2
+                  ? `${list[0]} 외 ${list.length - 1}명`
+                  : list.join(", ")}
+                <DownOutlined />
+              </Space>
+            </a>
+          </Dropdown>
         </h4>
       </ClassTitle>
     </>

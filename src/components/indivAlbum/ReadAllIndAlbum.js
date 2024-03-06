@@ -32,16 +32,13 @@ import { Link } from "react-router-dom";
 import useCustomLogin from "../../hooks/useCustomLogin";
 
 const ReadAllIndAlbum = ({ listData, year, ikid, iclass, page }) => {
-  console.log("listData", listData);
-  // const src =
-  //   Array.isArray(listData) && listData.map((item, index) => item.memoryPic);
-
   const { loginState, isLogin, isParentLogin } = useCustomLogin();
+  // console.log("read listData", listData);
 
   return (
     <IndListWrap>
       <IndList>
-        {Array.isArray(listData) && listData[0].inotice === 0 ? (
+        {listData.length === 0 || listData[0].inotice === 0 ? (
           <div
             style={{ textAlign: "center", width: "100%", marginTop: "5rem" }}
           >
@@ -74,7 +71,7 @@ const ReadAllIndAlbum = ({ listData, year, ikid, iclass, page }) => {
                     <b>{item.memoryTitle}</b>
                   </IndTitle>
                   <IndIcon>
-                    {item.memoryComments.length >= 1 ? (
+                    {item.memoryComents && item.memoryComments.length >= 1 ? (
                       <img
                         src={
                           process.env.PUBLIC_URL +
@@ -94,6 +91,7 @@ const ReadAllIndAlbum = ({ listData, year, ikid, iclass, page }) => {
                       <Image
                         key={idx}
                         width={50}
+                        height={50}
                         src={`${IMG_URL}/pic/memory/${item.imemory}/${pic}`}
                         preview={false}
                       />

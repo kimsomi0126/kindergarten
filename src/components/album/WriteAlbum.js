@@ -151,11 +151,6 @@ const WriteAlbum = ({ albumData, submit }) => {
     });
   };
 
-  // 업로드 칸 스타일을 수정하기 위한 변수
-  const uploadAreaStyle = {
-    lineHeight: "15rem",
-  };
-
   return (
     <AlbumWrap>
       <PageTitle>활동앨범</PageTitle>
@@ -196,7 +191,7 @@ const WriteAlbum = ({ albumData, submit }) => {
               customRequest={customRequest}
               className="upload-list-inline"
               multiple={true}
-              style={uploadAreaStyle}
+              style={{ lineHeight: "15rem" }}
               maxCount={20}
               beforeUpload={beforeUpload}
             >
@@ -241,7 +236,7 @@ const WriteAlbum = ({ albumData, submit }) => {
             isOpen={isImageUploadWarningVisible}
             handleOk={handleImageUploadWarningOk}
             title="이미지 업로드 경고"
-            subTitle="최소 하나의 이미지 파일은 업로드 되어야 합니다."
+            subTitle={`최소 하나의 이미지 파일은 \n 업로드 되어야 합니다.`}
             maskClosable={false}
           />
         )}

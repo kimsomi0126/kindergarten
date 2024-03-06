@@ -14,11 +14,13 @@ import { useNavigate } from "react-router";
 import { Link, useSearchParams } from "react-router-dom";
 import { SERVER_URL } from "../../api/config";
 import { postIndAlbum } from "../../api/indivAlbum/indivalbum_api";
-import { getIndchildrenList } from "../../api/individualNotice/indivNoticeApi";
-import { FileListStyle } from "../../styles/album/album";
+import { getIndAlubm } from "../../api/indivAlbum/indivalbum_api";
+import { AlbumWrap, FileListStyle, WriteWrap } from "../../styles/album/album";
 import { PageTitle } from "../../styles/basic";
 import { BtnWrap, GreenBtn, PinkBtn } from "../../styles/ui/buttons";
 import ModalOneBtn from "../ui/ModalOneBtn";
+import { NoticeWrap } from "../../styles/notice/notice";
+import useCustomLogin from "../../hooks/useCustomLogin";
 
 const path = `${SERVER_URL}/api/notice`;
 const { SHOW_CHILD } = Cascader;
@@ -26,6 +28,8 @@ const { SHOW_CHILD } = Cascader;
 const WriteIndivAlbum = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const ikid = searchParams.get("ikid");
+  const year = searchParams.get("year");
+  const page = searchParams.get("page");
   const [form] = Form.useForm();
   const [fileList, setFileList] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -34,10 +38,15 @@ const WriteIndivAlbum = () => {
   const [noticeCheck, setNoticeCheck] = useState(0);
   const [selectedKids, setSelectedKids] = useState([]);
   const [showExceedLimitModal, setShowExceedLimitModal] = useState(false); // 파일 제한 초과 경고 모달 상태
-
+  const { loginState, isAdminLogin } = useCustomLogin();
+  console.log("loginState", loginState);
+  const iclass = loginState === 4 ? 0 : loginState.iclass;
   // 모달 상태 관리
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showCancelConfirmModal, setShowCancelConfirmModal] = useState(false);
+
+  const [isImageUploadWarningVisible, setIsImageUploadWarningVisible] =
+    useState(false); // 이미지 업로드 경고 모달 상태
 
   useEffect(() => {
     fetchChildrenList();
@@ -58,9 +67,15 @@ const WriteIndivAlbum = () => {
     e.stopPropagation(); // 이벤트가 상위 엘리먼트에 전달되지 않게 막기
   };
 
+  // 이미지 업로드 경고 모달 핸들러
+  const handleImageUploadWarningOk = e => {
+    setIsImageUploadWarningVisible(false); // 경고 모달 닫기
+    e.stopPropagation(); // 이벤트가 상위 엘리먼트에 전달되지 않게 막기
+  };
+
   const fetchChildrenList = async () => {
     try {
-      const response = await getIndchildrenList({
+      const response = await getIndAlubm({
         product: {},
         successFn: handleChildrenListSuccess,
         failFn: handleChildrenListFail,
@@ -114,6 +129,10 @@ const WriteIndivAlbum = () => {
   const formRef = useRef();
 
   const handleGreenButtonClick = () => {
+    if (fileList.length === 0) {
+      setIsImageUploadWarningVisible(true);
+      return; // 파일이 업로드되지 않았다면 폼 제출 방지
+    }
     formRef.current.submit();
   };
 
@@ -150,7 +169,7 @@ const WriteIndivAlbum = () => {
   };
 
   const onFinish = async data => {
-    console.log("data", data);
+    console.log("onFinish data", data);
     const formData = new FormData();
     // const dto = new Blob(
     //   [
@@ -189,8 +208,9 @@ const WriteIndivAlbum = () => {
     });
   };
 
+  console.log("treeData", treeData);
   const handleCancelOk = () => {
-    navigate(`/ind?year=2024&page=1&iclass=0`);
+    navigate(`/ind?year=${year}&page=1&iclass=${iclass === 4 ? 0 : iclass}`);
     setIsModalVisible(false);
   };
 
@@ -211,7 +231,9 @@ const WriteIndivAlbum = () => {
       title: "오류",
       content: error,
       onOk: () => {
-        navigate(`/ind?year=2024&page=1&iclass=0`);
+        navigate(
+          `/ind?year=${year}}&page=1&iclass=${iclass === 4 ? 0 : iclass}`,
+        );
       },
     });
   };
@@ -232,26 +254,12 @@ const WriteIndivAlbum = () => {
   };
 
   return (
-    <div>
+    <NoticeWrap>
       <PageTitle>추억앨범</PageTitle>
-      <div
-        style={{
-          width: "100%",
-          height: 600,
-          padding: 16,
-          borderTop: "1.5px solid #00876D",
-          borderBottom: "1.5px solid #00876D",
-          background: "#FAFAFA",
-          marginTop: 30,
-        }}
-      >
-        <div
-          style={{
-            marginBottom: "2rem",
-          }}
-        >
+      <Form ref={formRef} form={form} onFinish={onFinish}>
+        <WriteWrap>
           <TreeSelect
-            style={{ width: "100%" }}
+            style={{ width: "20%" }}
             treeData={treeData}
             placeholder="유치원생 선택"
             treeCheckable={true}
@@ -265,12 +273,9 @@ const WriteIndivAlbum = () => {
               }
             }}
           />
-        </div>
-        {/* <Checkbox onChange={onChange} style={{ marginBottom: 10 }}>
-          중요
-        </Checkbox> */}
-        <Form ref={formRef} form={form} onFinish={onFinish}>
+
           <Form.Item
+            style={{ paddingTop: "2rem" }}
             name="memoryTitle"
             rules={[
               {
@@ -307,31 +312,30 @@ const WriteIndivAlbum = () => {
               customRequest={customRequest}
               className="upload-list-inline"
               multiple={true}
+              maxCount={20}
+              style={{ lineHeight: "15rem" }}
               // beforeUpload={beforeUpload}
             >
-              <Button icon={<UploadOutlined />}>업로드</Button>
+              <Button icon={<UploadOutlined />}>업로드(최대 20개)</Button>
             </Upload.Dragger>
           </FileListStyle>
-          <BtnWrap right>
-            <GreenBtn type="button" onClick={handleGreenButtonClick}>
-              등록
-            </GreenBtn>
-            <PinkBtn type="button" onClick={handleCancelConfirmation}>
-              취소
-            </PinkBtn>
-          </BtnWrap>
-        </Form>
-        <div
-          style={{
-            marginTop: 35,
-            display: "flex",
-            justifyContent: "flex-end",
-          }}
-        ></div>
-      </div>
+        </WriteWrap>
+        <BtnWrap right>
+          <GreenBtn type="button" onClick={handleGreenButtonClick}>
+            등록
+          </GreenBtn>
+          <PinkBtn type="button" onClick={handleCancelConfirmation}>
+            취소
+          </PinkBtn>
+        </BtnWrap>
+      </Form>
 
       {/* 모달창 */}
-      <Link to="/ind?year=2024&page=1&iclass=0">
+      <Link
+        to={`/ind/album?year=${year}&page=1&iclass=${
+          iclass === 4 ? 0 : iclass
+        }`}
+      >
         {/* 등록 성공 모달 */}
         {showSuccessModal && (
           <ModalOneBtn
@@ -352,15 +356,28 @@ const WriteIndivAlbum = () => {
           />
         )}
 
+        {/* 이미지 업로드 경고 모달 */}
+        {isImageUploadWarningVisible && (
+          <ModalOneBtn
+            isOpen={isImageUploadWarningVisible}
+            handleOk={handleImageUploadWarningOk}
+            title="이미지 업로드 경고"
+            subTitle={`최소 하나의 이미지 파일은 \n 업로드 되어야 합니다.`}
+            maskClosable={false}
+          />
+        )}
         {/* 파일 제한 초과 경고 모달 */}
-        {/* <ModalOneBtn
-          isOpen={showExceedLimitModal}
-          handleOk={handleExceedLimitModalOk}
-          title="파일 업로드 제한 초과"
-          subTitle="최대 5개까지만 업로드할 수 있습니다."
-        /> */}
+        {showExceedLimitModal && (
+          <ModalOneBtn
+            isOpen={showExceedLimitModal}
+            handleOk={handleExceedLimitModalOk}
+            title="업로드 제한 초과"
+            subTitle="업로드할 수 있는 파일 수는 최대 20개입니다."
+            maskClosable={false}
+          />
+        )}
       </Link>
-    </div>
+    </NoticeWrap>
   );
 };
 

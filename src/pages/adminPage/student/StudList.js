@@ -34,7 +34,8 @@ const StudList = () => {
   const [studentList, setStudentList] = useState(initStudentList);
   const [checkedItems, setCheckedItems] = useState([]);
   const [changeState, setChangeState] = useState(0);
-  const { loginState, isLogin, isTeacherLogin } = useCustomLogin();
+  const { loginState, isLogin, isTeacherLogin, isAdminLogin } =
+    useCustomLogin();
   const [serchParams, setSearchParams] = useSearchParams();
 
   const page = serchParams.get("page");
@@ -136,14 +137,14 @@ const StudList = () => {
       setIsOpen(true);
       setTitle("변경할 대상이 없습니다.");
       setSubTitle("변경할 원생을 선택해주세요.");
-    } else if (parseInt(kidCheck) !== loginState.iclass) {
-      setIsOpen(true);
-      setTitle("권한 없음");
-      setSubTitle("담당한 반 원생 정보만 수정가능합니다.");
-    } else {
+    } else if (isAdminLogin || parseInt(kidCheck) == loginState.iclass) {
       setClassOpen(true);
       setTitle("반 일괄 수정");
       setSubTitle("반 이름을 선택해주세요.");
+    } else {
+      setIsOpen(true);
+      setTitle("권한 없음");
+      setSubTitle("담당한 반 원생 정보만 수정가능합니다.");
     }
   };
 
@@ -152,15 +153,16 @@ const StudList = () => {
       // console.log("변경할 대상이 없습니다");
       setIsOpen(true);
       setTitle("변경할 대상이 없습니다.");
-    } else if (parseInt(kidCheck) !== loginState.iclass) {
-      setIsOpen(true);
-      setTitle("권한 없음");
-      setSubTitle("담당한 반 원생 정보만 수정가능합니다.");
-    } else {
-      // console.log("재원상태 변경");
+      setSubTitle("변경할 원생을 선택해주세요.");
+    } else if (isAdminLogin || parseInt(kidCheck) == loginState.iclass) {
       setChangeOpen(true);
       setTitle("재원 상태 수정");
       setSubTitle("재원 상태를 선택해주세요.");
+    } else {
+      // console.log("재원상태 변경");
+      setIsOpen(true);
+      setTitle("권한 없음");
+      setSubTitle("담당한 반 원생 정보만 수정가능합니다.");
     }
   };
   const handleDelOk = () => {

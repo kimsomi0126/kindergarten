@@ -98,6 +98,16 @@ export const IndBot = styled.div`
   }
 `;
 
+export const IndUser = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 0.5rem;
+  img {
+    width: 1.5rem;
+    margin-right: 0.5rem;
+  }
+`;
+
 // 작성자 선택버튼
 export const FromToBtnWrap = styled.div`
   display: flex;

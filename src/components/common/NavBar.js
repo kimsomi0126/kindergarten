@@ -43,6 +43,7 @@ const NavBar = () => {
     doLogout();
     moveToPath("/");
   };
+  // ===========================================================================
   // 푸시알림 State
   const [notiPush, setNotiPush] = useRecoilState(pushState);
 
@@ -118,6 +119,8 @@ const NavBar = () => {
     .catch(error => console.log(error));
 
   console.log(notiPush);
+
+  // ===========================================================================
 
   return (
     <NavWrap>

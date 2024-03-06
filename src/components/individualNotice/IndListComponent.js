@@ -10,6 +10,7 @@ import {
   IndName,
   IndTitle,
   IndTop,
+  IndUser,
 } from "../../styles/individualNotice/ind";
 import { Link } from "react-router-dom";
 import useCustomLogin from "../../hooks/useCustomLogin";
@@ -96,6 +97,22 @@ const IndListComponent = ({ listData, year, ikid, iclass, page }) => {
                 <IndCon>
                   <span>{item.noticeContents}</span>
                 </IndCon>
+                <IndUser>
+                  {item.teacherNm || item.parentNm ? (
+                    <>
+                      <img
+                        src={
+                          process.env.PUBLIC_URL +
+                          "/images/common/user_icon.svg"
+                        }
+                        alt="user"
+                      />
+                      {item.parentNm === null
+                        ? item.teacherNm + "선생님"
+                        : item.parentNm + "학부모"}
+                    </>
+                  ) : null}
+                </IndUser>
               </Link>
             </IndListBox>
           ))

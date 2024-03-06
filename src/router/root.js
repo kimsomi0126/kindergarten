@@ -29,6 +29,9 @@ const MainPage = lazy(() => import("../pages/Main"));
 const Login = lazy(() => import("../pages/user/Login"));
 const MyPage = lazy(() => import("../pages/user/MyPage"));
 
+// 팀 소개 페이지
+const About = lazy(() => import("../pages/about/About"));
+
 const router = createBrowserRouter([
   {
     element: (
@@ -131,6 +134,15 @@ const router = createBrowserRouter([
           </Suspense>
         ),
         children: indRouter(),
+      },
+
+      {
+        path: "/about",
+        element: (
+          <Suspense fallback={<Loading />}>
+            <About />
+          </Suspense>
+        ),
       },
     ],
   },

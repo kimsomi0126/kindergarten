@@ -1,13 +1,14 @@
 import React from "react";
 import { FooterBg, FooterBus, FooterWrap } from "../../styles/basic";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Footer = () => {
+  const navigate = useNavigate();
   return (
     <FooterWrap>
-      <FooterBus />
+      <FooterBus onClick={() => navigate("/about")} />
       <FooterBg>
-        <Link to="/">copyright 떡잎방범대</Link>
+        <Link to="/about">copyright 떡잎방범대</Link>
       </FooterBg>
     </FooterWrap>
   );

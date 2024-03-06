@@ -19,6 +19,7 @@ export const FlexBox = styled.div`
     width: 100%;
     flex-wrap: wrap;
     margin-top: 1rem;
+    justify-content: flex-end;
   }
 `;
 

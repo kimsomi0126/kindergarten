@@ -15,22 +15,26 @@ export const IndAlbum = styled.div`
 
 export const IndAlbumOver = styled.div`
   position: absolute;
-  width: 50px;
-  height: 50px;
+  width: 18.5%;
+  aspect-ratio: 1/1;
   right: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.5);
   color: white;
-  padding: 0 5px;
   display: flex;
   align-items: center;
   justify-content: center;
 `;
 
 export const ImageWrapper = styled.div`
-  padding-top: 1rem;
-  display: flex; // flexbox 레이아웃 적용
   position: relative;
+  display: flex; // flexbox 레이아웃 적용
+  margin-top: 1rem;
   justify-content: start; // 이미지를 왼쪽 정렬
-  gap: 5px; // 이미지 사이의 간격 설정
+  gap: 2%; // 이미지 사이의 간격 설정
+
+  .ant-image {
+    width: 24% !important;
+    aspect-ratio: 1/1;
+  }
 `;

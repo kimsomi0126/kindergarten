@@ -23,34 +23,18 @@ firebase.initializeApp(firebaseConfig);
 const messaging = firebase.messaging();
 
 messaging.onBackgroundMessage(function (payload) {
-  self.clients
-    .matchAll({
-      type: "window",
-      includeUncontrolled: true,
-    })
-    .then(all =>
-      all.forEach(client => {
-        console.log("client", client);
-        client.postMessage(payload);
-      }),
-    );
+  console.log("백그라운드일때", payload.notification.body);
+  const body = JSON.parse(payload.notification.body);
+  let title = "백그라운드 메세지";
 
-  console.log("onBackgroundMessage!!!");
-  console.log(payload);
-
-  const data = JSON.parse(payload.data);
-  let title = "Direct Message";
-  let body = data.body;
-  let icon = null;
-
-  const notificationOptions = { body, icon };
+  const notificationOptions = { body };
 
   self.registration.showNotification(title, notificationOptions);
 });
 
-self.addEventListener("notificationclick", function (event) {
-  console.log("notification click");
-  const url = "http://localhost:3000";
-  event.notification.close();
-  event.waitUntil(clients.openWindow(url));
-});
+// self.addEventListener("notificationclick", function (event) {
+//   console.log("notification click");
+//   const url = "http://localhost:3000";
+//   event.notification.close();
+//   event.waitUntil(clients.openWindow(url));
+// });

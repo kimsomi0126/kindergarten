@@ -44,9 +44,9 @@ const IndListComponent = ({ listData, year, ikid, iclass, page }) => {
           </div>
         ) : (
           Array.isArray(listData) &&
-          listData.map(item => (
+          listData.map((item, index) => (
             <IndListBox
-              key={item.inotice}
+              key={index}
               className={item.noticeCheck === 1 ? "notice" : ""}
             >
               <Link
@@ -108,8 +108,8 @@ const IndListComponent = ({ listData, year, ikid, iclass, page }) => {
                         alt="user"
                       />
                       {item.parentNm === null
-                        ? item.teacherNm + "선생님"
-                        : item.parentNm + "학부모"}
+                        ? "[선생님] " + item.teacherNm
+                        : "[학부모] " + item.parentNm}
                     </>
                   ) : null}
                 </IndUser>

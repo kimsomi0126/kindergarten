@@ -37,6 +37,10 @@ const initData = [
     cmtCheck: 0,
     noticeCheck: 0,
     createdAt: "",
+    iparent: 0,
+    parentNm: null,
+    iteacher: 0,
+    teacherNm: null,
   },
 ];
 
@@ -45,7 +49,9 @@ const IndivNotiList = () => {
   const { pathname, search } = useLocation();
   const [serchParams, setSearchParams] = useSearchParams();
   const [indList, setIndList] = useState(initData);
-  const [fromTo, setFromTo] = useState(3 || serchParams.get("fromTo"));
+  const [fromTo, setFromTo] = useState(
+    serchParams.get("fromTo") ? serchParams.get("fromTo") : 3,
+  );
   const [count, setCount] = useState(0);
   const currentYear = new Date().getFullYear();
 
@@ -66,7 +72,6 @@ const IndivNotiList = () => {
     isAccept,
   } = useCustomLogin();
   const ikidList = loginState.kidList;
-  console.log("loginState", loginState);
   // 페이지네이션
   const handlePageChange = (page, pageSize) => {
     if (isLogin) {
@@ -216,11 +221,11 @@ const IndivNotiList = () => {
   // 글쓰기 버튼 이동
   const handleClickWrite = () => {
     if (isLogin) {
-      console.log("선생님 글쓰기");
+      // console.log("선생님 글쓰기");
       navigate("/ind/write");
       return;
     } else if (isParentLogin) {
-      console.log("학부모 글쓰기");
+      // console.log("학부모 글쓰기");
       navigate(`/ind/write?ikid=${ikid}&kidNm=${indList[0].kidNm}`);
       return;
     } else {
@@ -231,7 +236,6 @@ const IndivNotiList = () => {
     }
   };
 
-  console.log(loginState);
   return (
     <IndWrap>
       {/* 안내창 */}

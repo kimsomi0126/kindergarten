@@ -13,6 +13,13 @@ export const getIndAlbumList = async ({
   errorFn,
 }) => {
   try {
+    const obj = {
+      page: parseInt(page),
+      iclass: parseInt(iclass),
+      year,
+      search,
+    };
+    console.log(obj);
     const res = await jwtAxios.get(
       `${path}?page=${page}&iclass=${iclass}&year=${year}&search=${search}`,
     );
@@ -31,7 +38,6 @@ export const getIndAlbumList = async ({
 // 추억 앨범 학부모 전체 조회
 export const getIndAlbumParentList = async ({
   page,
-  iclass,
   ikid,
   year,
   search,
@@ -41,7 +47,7 @@ export const getIndAlbumParentList = async ({
 }) => {
   try {
     const res = await jwtAxios.get(
-      `${path}?page=${page}&iclass=${iclass}&ikid=${ikid}&year=${year}&search=${search}`,
+      `${path}?page=${page}&ikid=${ikid}&year=${year}&search=${search}`,
     );
     const status = res.status.toString();
     if (status.charAt(0) === "2") {

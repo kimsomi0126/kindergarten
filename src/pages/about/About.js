@@ -42,7 +42,7 @@ const About = () => {
           </TeamItem>
           <TeamItem>
             <ItemInfo>
-              <img src={`${imgUrl}/front_pf01.jpg`} alt="" />
+              <img src={`${imgUrl}/front_pf02.jpg`} alt="" />
               <div>
                 <p>김도현</p>
                 <span>프론트엔드 3차 팀장</span>

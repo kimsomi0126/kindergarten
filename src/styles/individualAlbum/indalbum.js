@@ -28,13 +28,24 @@ export const IndAlbumOver = styled.div`
 
 export const ImageWrapper = styled.div`
   position: relative;
+  width: 100%;
   display: flex; // flexbox 레이아웃 적용
   margin-top: 1rem;
   justify-content: start; // 이미지를 왼쪽 정렬
   gap: 2%; // 이미지 사이의 간격 설정
 
   .ant-image {
-    width: 24% !important;
+    position: relative;
+    width: 19% !important;
     aspect-ratio: 1/1;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .ant-image-img {
+      width: auto;
+      height: 100%;
+    }
   }
 `;

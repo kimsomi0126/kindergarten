@@ -13,7 +13,10 @@ import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { Link, useSearchParams } from "react-router-dom";
 import { SERVER_URL } from "../../api/config";
-import { postIndAlbum } from "../../api/indivAlbum/indivalbum_api";
+import {
+  getIndAlubmTagList,
+  postIndAlbum,
+} from "../../api/indivAlbum/indivalbum_api";
 import { getIndAlubm } from "../../api/indivAlbum/indivalbum_api";
 import { AlbumWrap, FileListStyle, WriteWrap } from "../../styles/album/album";
 import { PageTitle } from "../../styles/basic";
@@ -75,7 +78,7 @@ const WriteIndivAlbum = () => {
 
   const fetchChildrenList = async () => {
     try {
-      const response = await getIndAlubm({
+      const response = await getIndAlubmTagList({
         product: {},
         successFn: handleChildrenListSuccess,
         failFn: handleChildrenListFail,
@@ -259,7 +262,7 @@ const WriteIndivAlbum = () => {
       <Form ref={formRef} form={form} onFinish={onFinish}>
         <WriteWrap>
           <TreeSelect
-            style={{ width: "20%" }}
+            style={{ width: "100%" }}
             treeData={treeData}
             placeholder="유치원생 선택"
             treeCheckable={true}

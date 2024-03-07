@@ -34,7 +34,7 @@ const NotiAlarm = () => {
   }
 
   const listRef = useRef(null);
-  console.log(notiList);
+  // console.log(notiList);
   // 화면 나오면 data 값 넣기
   useEffect(() => {
     // const handleOutsideClose = e => {

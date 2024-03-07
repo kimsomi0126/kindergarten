@@ -47,7 +47,7 @@ const ReadAllIndAlbum = ({ listData, year, ikid, iclass, page }) => {
         ) : (
           Array.isArray(listData) &&
           listData.map((item, index) => (
-            <IndListBox key={item.inotice}>
+            <IndListBox key={item.imemory}>
               <Link
                 to={
                   isLogin
@@ -90,8 +90,6 @@ const ReadAllIndAlbum = ({ listData, year, ikid, iclass, page }) => {
                     {item.memoryPic.slice(0, 5).map((pic, idx) => (
                       <Image
                         key={idx}
-                        width={50}
-                        height={50}
                         src={`${IMG_URL}/pic/memory/${item.imemory}/${pic}`}
                         preview={false}
                       />

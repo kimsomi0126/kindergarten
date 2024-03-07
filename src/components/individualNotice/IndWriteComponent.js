@@ -15,6 +15,7 @@ import { BtnWrap, GreenBtn, PinkBtn } from "../../styles/ui/buttons";
 import ModalOneBtn from "../ui/ModalOneBtn";
 import { Cascader } from "antd";
 import useCustomLogin from "../../hooks/useCustomLogin";
+import ModalTwoBtn from "../ui/ModalTwoBtn";
 import MyClass from "../user/MyClass";
 import {
   IndClass,
@@ -170,6 +171,11 @@ const IndWriteComponent = () => {
 
   const handleSuccessModalOk = () => {
     setShowSuccessModal(false);
+    navigate(
+      isParentLogin
+        ? `/ind/details/${pageNumber}?year=2024&page=1&ikid=${ikid}`
+        : `/ind/details/${pageNumber}?year=2024&page=1&iclass=${iclass}`,
+    );
   };
 
   // 취소 확인 모달 핸들러
@@ -179,6 +185,10 @@ const IndWriteComponent = () => {
 
   const handleCancelConfirmation = () => {
     setShowCancelConfirmModal(true); // 취소 확인 모달 표시
+  };
+  const [pageNumber, setPageNumber] = useState("");
+  const returnPage = listNumber => {
+    setPageNumber(listNumber.result[0]);
   };
 
   const onFinish = async data => {
@@ -204,13 +214,17 @@ const IndWriteComponent = () => {
     isLogin
       ? postIndNotice({
           product: formData,
-          successFn: () => setShowSuccessModal(true), // 성공 모달 표시
+          successFn: listNumber => {
+            setShowSuccessModal(true), returnPage(listNumber);
+          }, // 성공 모달 표시
           failFn: handleFail,
           errorFn: handleError,
         })
       : postIndParentNotice({
           product: formData,
-          successFn: () => setShowSuccessModal(true), // 성공 모달 표시
+          successFn: listNumber => {
+            setShowSuccessModal(true), returnPage(listNumber);
+          }, // 성공 모달 표시
           failFn: handleFail,
           errorFn: handleError,
         });
@@ -219,6 +233,12 @@ const IndWriteComponent = () => {
   const handleCancelOk = () => {
     navigate(`/ind?year=2024&page=1&iclass=0`);
     setIsModalVisible(false);
+  };
+
+  const handleCancelConfirmModalCancel = e => {
+    // 모달을 닫음
+    setShowCancelConfirmModal(false);
+    e.stopPropagation();
   };
 
   const handleSuccess = () => {
@@ -338,13 +358,15 @@ const IndWriteComponent = () => {
               onChange={handleChange}
               customRequest={customRequest}
               className="upload-list-inline"
+              maxCount={5}
               multiple={true}
               beforeUpload={beforeUpload}
             >
-              <Button icon={<UploadOutlined />}>업로드</Button>
+              <Button icon={<UploadOutlined />}>업로드(최대 5개)</Button>
             </Upload.Dragger>
           </FileListStyle>
         </Form>
+
       </WriteWrap>
       <BtnWrap right>
         <GreenBtn type="button" onClick={handleGreenButtonClick}>
@@ -354,7 +376,18 @@ const IndWriteComponent = () => {
           취소
         </PinkBtn>
       </BtnWrap>
+      
       {/* 모달창 */}
+      {/* 등록 성공 모달 */}
+      {showSuccessModal && (
+        <ModalOneBtn
+          isOpen={showSuccessModal}
+          handleOk={handleSuccessModalOk}
+          title="등록 완료"
+          subTitle="성공적으로 등록되었습니다."
+        />
+      )}
+
       <Link
         to={
           isParentLogin
@@ -362,23 +395,15 @@ const IndWriteComponent = () => {
             : `/ind?year=2024&page=1&iclass=${iclass}`
         }
       >
-        {/* 등록 성공 모달 */}
-        {showSuccessModal && (
-          <ModalOneBtn
-            isOpen={showSuccessModal}
-            handleOk={handleSuccessModalOk}
-            title="등록 완료"
-            subTitle="성공적으로 등록되었습니다."
-          />
-        )}
-
         {/* 취소 확인 모달 */}
         {showCancelConfirmModal && (
-          <ModalOneBtn
+          <ModalTwoBtn
             isOpen={showCancelConfirmModal}
             handleOk={handleCancelConfirmModalOk}
+            handleCancel={handleCancelConfirmModalCancel}
             title="정말 취소할까요?"
             subTitle="작성된 내용은 저장되지 않습니다."
+            maskClosable={false}
           />
         )}
 

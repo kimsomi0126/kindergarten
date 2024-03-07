@@ -134,12 +134,11 @@ const GuardianList = () => {
   const onChildClick = () => {
     // 자식 컴포넌트에서 호출할 함수
     setEditState(prevState => prevState + 1);
-    console.log("돼라");
   };
 
   // 이름 검색
   const handleSearch = value => {
-    console.log(value);
+    // console.log(value);
     getAdminParentList({
       successFn: successGetFn,
       errorFn: errorSearchFn,
@@ -175,13 +174,11 @@ const GuardianList = () => {
   const errorGetFn = result => {
     setIsOpen(true);
     setTitle("데이터 없음");
-    console.log(result);
   };
   const errorSearchFn = result => {
     setIsOpen(true);
     setTitle("검색 결과 없음");
     setSubTitle("검색된 이름이 없습니다.");
-    console.log(result);
   };
   return (
     <>

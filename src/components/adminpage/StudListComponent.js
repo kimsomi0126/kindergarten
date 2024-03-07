@@ -59,8 +59,6 @@ const StudListComponent = ({
     navigate(`/admin/student?page=${page}&kidCheck=${kidCheck}`);
   };
 
-  console.log("키드체크", kidCheck);
-  console.log("로그인스테이트", loginState.iclass);
   return (
     <>
       <StudentMain>

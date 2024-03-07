@@ -75,7 +75,7 @@ const TeacherCreate = () => {
   // 등록 버튼 클릭, 결과
   const [form] = Form.useForm();
   const onFinish = value => {
-    console.log("과연", value);
+    // console.log("결과", value);
 
     let formData = new FormData();
     formData.append("pic", fileList[0]);

@@ -195,9 +195,7 @@ const TeacherModify = () => {
       iteacher: parseInt(iteacher),
     };
     setDto(values);
-    console.log("뉴 비밀번호", value.newTeacherUpw);
-    console.log("기존 비밀번호", dto.teacherUpw);
-    console.log("비밀번호", newTeacherUpwValue);
+
     let formData = new FormData();
     formData.append("pic", fileList[0]);
     formData.append(
@@ -207,7 +205,7 @@ const TeacherModify = () => {
 
     putTeacherInfo({ successFn, errorFn, teacher: formData });
   };
-  console.log("수정내용", dto);
+  // console.log("수정내용", dto);
 
   const successFn = res => {
     setIsResultOpen(true);
@@ -224,7 +222,7 @@ const TeacherModify = () => {
     setTitle("수정 실패");
     setSubTitle(`수정에 실패했습니다. \n다시 시도해주세요.`);
   };
-  console.log("티씨롤", dto.tcRole);
+
   return (
     <>
       {/* 권한 안내창 */}

@@ -80,7 +80,7 @@ const TeacherInfoList = () => {
 
   //검색
   const handleSearch = value => {
-    console.log(value);
+    // console.log(value);
     getTeacherList({
       successFn,
       errorFn: errorSearchFn,
@@ -92,7 +92,7 @@ const TeacherInfoList = () => {
   };
   const successFn = result => {
     setTeacherList(result);
-    console.log("됐나요?", result);
+    // console.log("성공", result);
   };
 
   const errorFn = result => {
@@ -102,7 +102,6 @@ const TeacherInfoList = () => {
     setIsOpen(true);
     setTitle("검색 결과 없음");
     setSubTitle("검색된 이름이 없습니다.");
-    console.log(result);
   };
   const formRef = useRef();
   const handleExternalSubmit = () => {
@@ -122,7 +121,6 @@ const TeacherInfoList = () => {
       setSubTitle("재직 상태를 선택해주세요.");
     }
   };
-  console.log(checkedItems);
 
   const handleDelOk = () => {
     formRef.current.submit();
@@ -137,7 +135,6 @@ const TeacherInfoList = () => {
     setChangeOpen();
   };
   const errorpatchFn = res => {
-    console.log(res);
     setIsOpen(true);
     setTitle("변경 실패");
     setSubTitle("변경을 실패했습니다. 다시 시도해주세요.");

@@ -78,24 +78,22 @@ const StudList = () => {
       kidCheck,
       search: value,
     });
-    console.log(value);
+    // console.log(value);
   };
 
   const successFn = result => {
     setStudentList(result);
-    console.log("검색결과", result);
+    // console.log("검색결과", result);
   };
 
   const errorFn = result => {
     setIsOpen(true);
     setTitle("데이터 없음");
-    console.log(result);
   };
   const errorSearchFn = result => {
     setIsOpen(true);
     setTitle("검색 결과 없음");
     setSubTitle("검색된 이름이 없습니다.");
-    console.log(result);
   };
   // 반 선택
   const classArr = [
@@ -124,7 +122,7 @@ const StudList = () => {
   const oncheckedClick = item => {
     setCheckedItems(item);
   };
-  console.log("체크", checkedItems);
+  // console.log("체크", checkedItems);
 
   // 선택 졸업 & 선택 퇴소 모달
   const [delOpen, setDelOpen] = useState(false);

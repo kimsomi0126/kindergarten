@@ -59,9 +59,9 @@ const IndivDetailsComponent = ({ tno }) => {
   // params 정보
   const [searchParams, setSearchParams] = useSearchParams();
   const year = searchParams.get("year");
-  const ikid = searchParams.get("ikid");
   const page = searchParams.get("page");
   const iclass = searchParams.get("iclass");
+  const ikid = searchParams.get("ikid");
   const [data, setData] = useState(initData);
   const [isLoading, setIsLoading] = useState(true);
   const { isLogin, loginState, isTeacherLogin, isAdminLogin, isParentLogin } =
@@ -78,7 +78,8 @@ const IndivDetailsComponent = ({ tno }) => {
   const ilevel = loginState.role === "PARENT" ? 1 : loginState.ilevel;
   const [isDelComment, setIsDelComment] = useState(false);
   const [form] = Form.useForm();
-
+  const [teacherNm, setTeacherNm] = useState("");
+  const [btnOpen, setBtnOpen] = useState(false);
   const handleOk = () => {
     setIsOpen(false);
     if (isNavigate) {
@@ -96,6 +97,7 @@ const IndivDetailsComponent = ({ tno }) => {
       successFn: data => {
         setData(data);
         setIsLoading(false);
+        // setTeacherNm(data.teacherNm);
       },
       failFn: message => {
         console.error(message);
@@ -106,15 +108,26 @@ const IndivDetailsComponent = ({ tno }) => {
         setIsLoading(false);
       },
     });
-  }, [(tno, commentState)]);
+
+    // console.log("asdfasdfsadata", data);
+    // console.log("data.teacherNm", data.teacherNm);
+  }, [tno, commentState]);
+
+  // console.log("loginState.teacherNm", loginState.teacherNm);
+  // console.log("teacherNm", teacherNm);
 
   const successFn = res => {
     setData({ ...res });
     setCommentState(!commentState);
     setCommentNum(null);
-    console.log("성공", res);
+
+    // console.log("성공", res);
   };
-  console.log("res 확인", data);
+  // console.log("res 확인", data);
+
+  // if (loginState.teacherNm === teacherNm || loginState.teacherNm === "원장") {
+  //   setHtmlOpen(true);
+  // }
 
   const errorFn = res => {
     setIsOpen(true);
@@ -298,12 +311,12 @@ const IndivDetailsComponent = ({ tno }) => {
 
       <IndBtnWrap>
         <GreenBtn onClick={handleClickList}>목록보기</GreenBtn>
-        {isLogin ? (
+        {/* {isLogin && htmlOpen ? (
           <>
             <BlueBtn
               onClick={() => {
                 navigate(
-                  `${host}/modify/${tno}?year=${year}&page=${page}&iclass=${iclass}`,
+                  `${host}/modify/${tno}?year=${year}&page=${page}&iclass=${iclass}&ikid=${data.ikid}`,
                 );
               }}
             >
@@ -313,7 +326,41 @@ const IndivDetailsComponent = ({ tno }) => {
           </>
         ) : (
           <PinkBtn onClick={handleClickDelete}>삭제</PinkBtn>
-        )}
+        )} */}
+        {loginState.iteacher === data.iteacher && isTeacherLogin ? (
+          <>
+            <BlueBtn
+              onClick={() => {
+                navigate(
+                  `${host}/modify/${tno}?year=${year}&page=${page}&iclass=${data.iclass}&ikid=${data.ikid}&kidNm=${data.kidNm}`,
+                );
+              }}
+            >
+              수정
+            </BlueBtn>
+            <PinkBtn onClick={handleClickDelete}>삭제</PinkBtn>
+          </>
+        ) : isAdminLogin && data.iparent !== 0 ? (
+          <>
+            <PinkBtn onClick={handleClickDelete}>삭제</PinkBtn>
+          </>
+        ) : isAdminLogin && data.teacherNm !== null ? (
+          <>
+            <BlueBtn
+              onClick={() => {
+                navigate(
+                  `${host}/modify/${tno}?year=${year}&page=${page}&iclass=${data.iclass}&ikid=${data.ikid}&kidNm=${data.kidNm}`,
+                );
+              }}
+            >
+              수정
+            </BlueBtn>
+            <PinkBtn onClick={handleClickDelete}>삭제</PinkBtn>
+          </>
+        ) : null}
+        {loginState.iparent === data.iparent ? (
+          <PinkBtn onClick={handleClickDelete}>삭제</PinkBtn>
+        ) : null}
       </IndBtnWrap>
     </IndWrap>
   );

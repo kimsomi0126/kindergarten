@@ -1,15 +1,21 @@
 import { UploadOutlined } from "@ant-design/icons";
-import { Button, Checkbox, Form, Input, Modal, Upload } from "antd";
+import { Button, Form, Input, Modal, Upload } from "antd";
 import React, { useEffect, useRef, useState } from "react";
 import "react-image-gallery/styles/css/image-gallery.css";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import {
+  Link,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import { IMG_URL } from "../../api/config";
 import {
-  getIndDetail,
-  putIndDetail,
-} from "../../api/individualNotice/indivNoticeApi";
+  getIndAlbumDetail,
+  getIndAlubm,
+  putIndAlbum,
+} from "../../api/indivAlbum/indivalbum_api";
 import MyClass from "../../components/user/MyClass";
-import { FileListStyle, WriteWrap } from "../../styles/album/album";
+import { AlbumWrap, FileListStyle, WriteWrap } from "../../styles/album/album";
 import { PageTitle } from "../../styles/basic";
 import {
   IndClass,
@@ -18,11 +24,9 @@ import {
 import "../../styles/notice/gallery.css";
 import { NoticeWrap } from "../../styles/notice/notice";
 import { BtnWrap, GreenBtn, PinkBtn } from "../../styles/ui/buttons";
-import { IndBot } from "../../styles/individualNotice/ind";
-import {
-  getIndAlbumDetail,
-  putIndAlbum,
-} from "../../api/indivAlbum/indivalbum_api";
+import ModalTwoBtn from "../../components/ui/ModalTwoBtn";
+import ModalOneBtn from "../../components/ui/ModalOneBtn";
+import MyTag from "../../components/indivAlbum/MyTag";
 const path = `${IMG_URL}/api/memory`;
 const imgpath = `${IMG_URL}/pic/memory`;
 const customRequest = ({ onSuccess }) => {
@@ -69,13 +73,36 @@ const IndivAlbumModify = () => {
   // 모달 상태 관리
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showCancelConfirmModal, setShowCancelConfirmModal] = useState(false);
+  const [isEditConfirmModalVisible, setIsEditConfirmModalVisible] =
+    useState(false);
+  const [isMinimumWarningVisible, setIsMinimumWarningVisible] = useState(false);
+  const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false);
 
   const showDeleteModal = () => {
     setIsDeleteModalOpen(true);
   };
 
+  const handleModalClose = () => {
+    setIsSuccessModalVisible(false); // 모달 닫기
+    navigate(`/album/details/${tno}`); // 성공 후 상세 페이지로 이동
+  };
+  const handleEditConfirm = () => {
+    // 모달에서 '확인' 버튼 클릭 시 호출될 함수
+    formRef.current.submit(); // Form의 submit 메서드 호출
+    setIsEditConfirmModalVisible(false); // 모달 닫기
+  };
+  const handleEditCancel = () => {
+    setIsEditConfirmModalVisible(false); // 모달 닫기
+  };
+
   const handleCancelConfirmation = () => {
     setShowCancelConfirmModal(true); // 취소 확인 모달 표시
+  };
+  // 이미지 삭제 시 최소 파일 수 검증 경고 모달을 닫는 함수
+  const handleCloseMinimumWarning = e => {
+    e.stopPropagation();
+    setIsMinimumWarningVisible(false); // 경고 모달 상태를 false로 변경하여 닫음
+    // 여기에 필요한 추가 로직을 배치할 수 있음
   };
 
   const handleFail = errorMessage => {
@@ -93,34 +120,29 @@ const IndivAlbumModify = () => {
         "서버 오류 또는 네트워크 문제가 발생했습니다. 다시 시도해주세요.",
     });
   };
-
   const onFinish = async data => {
     const formData = new FormData();
-    // JSON 데이터 추가
-    const noticeInfo = {
-      inotice: tno,
-      ikid: ikid,
-      noticeTitle: data.noticeTitle,
-      noticeContents: data.noticeContents,
-    };
 
     // deletedPics 배열에 항목이 있는 경우에만 delPics 속성을 추가
-    if (deletedPics.length > 0) {
-      noticeInfo.delPics = deletedPics;
-    }
+    const delPicsData = deletedPics.length > 0 ? deletedPics : null;
+    // JSON 데이터 추가
+    const noticeInfo = {
+      ikid: [...noticeData.ikid],
+      imemory: tno,
+      memoryTitle: data.memoryTitle,
+      memoryContents: data.memoryContents,
+      delPics: delPicsData,
+    };
+
     const dto = new Blob([JSON.stringify(noticeInfo)], {
       type: "application/json",
     });
     formData.append("dto", dto);
 
-    console.log("================= 보내는 데이터 : ", dto);
-
-    console.log("현재 남아있는 fileList ", fileList);
-    fileList.forEach(async file => {
-      console.log("file", file);
+    fileList.forEach(file => {
       if (file.originFileObj) {
         // 새로운 파일인 경우, 파일 데이터를 추가합니다.
-        formData.append("pics", file.originFileObj);
+        formData.append("pics", file.originFileObj, file.name);
       }
     });
 
@@ -132,9 +154,6 @@ const IndivAlbumModify = () => {
         failFn: handleFail,
         errorFn: handleError,
       });
-
-      // 응답 처리
-      console.log("Response from putIndDetail:", response);
     } catch (error) {
       handleError(error.message);
     }
@@ -165,25 +184,22 @@ const IndivAlbumModify = () => {
 
   useEffect(() => {
     const fetchNoticeData = async () => {
-      getIndAlbumDetail({
+      // 기존 정보를 가져와서
+      getIndAlubm({
         tno: tno,
         successFn: data => {
           setNoticeData(data);
           form.setFieldsValue({
-            noticeTitle: data.noticeTitle,
-            noticeContents: data.noticeContents,
+            memoryTitle: data.memoryTitle,
+            memoryContents: data.memoryContents,
           });
-          console.log("data확인", data);
-
-          // Transform album pictures for the fileList state
-          console.log("data.memoryPic", data.memoryPic);
+          console.log("data memoryPic", data);
           const transformedFileList = data.memoryPic.map((pic, index) => ({
-            imemory: pic, // uid is required to be unique
-            name: pic, // file name
+            imemory: pic.imemoryPic, // uid is required to be unique
+            name: pic.memoryPic, // file name
             status: "done", // upload status
-            url: `${imgpath}/${tno}/${pic}`, // file URL, adjust the path as needed
+            url: `${imgpath}/${tno}/${pic.memoryPic}`, // file URL, adjust the path as needed
           }));
-          console.log("transformedFileList", transformedFileList);
           setFileList(transformedFileList);
         },
         failFn: errorMessage => {
@@ -240,36 +256,24 @@ const IndivAlbumModify = () => {
   };
   // 이미지 파일을 삭제할 때 호출될 함수
   const onRemove = file => {
-    console.log("file", file);
-
-    const newFileList = fileList.filter(
-      item => item.inoticePic !== file.inoticePic,
-    );
+    const newFileList = fileList.filter(item => item.imemory !== file.imemory);
     setFileList(newFileList);
-    if (typeof file.inoticePic === "number") {
-      setDeletedPics([...deletedPics, file.inoticePic]);
+    if (typeof file.imemory === "number") {
+      setDeletedPics([...deletedPics, file.imemory]);
     }
 
     return true; // 삭제 처리를 진행
   };
   console.log("deletedPics", deletedPics);
 
-  useEffect(() => {
-    // console.log("삭제 목록 deletedPics : ", deletedPics);
-  }, [deletedPics]);
-
-  useEffect(() => {
-    // console.log("현재 보이는 목록 fileList : ", fileList);
-  }, [fileList]);
-
+  console.log("noticeData", noticeData);
   return (
-    <NoticeWrap>
-      <PageTitle>알림장 수정</PageTitle>
-
+    <AlbumWrap>
+      <PageTitle>추억앨범 수정</PageTitle>
       <WriteWrap>
         <IndDetailTop>
           <IndClass>
-            <MyClass state={data.iclass} /> <h4>{data.kidNm}</h4>
+            {data.kids && data.kids.length > 0 && <MyTag state={data.kids} />}
           </IndClass>
         </IndDetailTop>
         <Form ref={formRef} form={form} onFinish={onFinish}>
@@ -303,6 +307,7 @@ const IndivAlbumModify = () => {
               className="upload-list-inline"
               multiple={true}
               maxCount={10}
+              style={{ lineHeight: "15rem" }}
             >
               <Button icon={<UploadOutlined />}>업로드</Button>
             </Upload.Dragger>
@@ -315,7 +320,53 @@ const IndivAlbumModify = () => {
           취소
         </PinkBtn>
       </BtnWrap>
-    </NoticeWrap>
+      <ModalTwoBtn
+        isOpen={isEditConfirmModalVisible}
+        handleOk={handleEditConfirm}
+        handleCancel={handleEditCancel}
+        title="앨범 수정 확인"
+        subTitle={`앨범을 수정하시겠습니까? \n수정하신 내용은 되돌릴 수 없습니다.`}
+        maskClosable={false}
+      ></ModalTwoBtn>
+      {/* ModalTwoBtn 사용하여 취소 확인 모달 표시 */}
+      <ModalTwoBtn
+        isOpen={showCancelConfirmModal}
+        handleOk={() => {
+          setShowCancelConfirmModal(false); // 모달 닫기
+          navigate(
+            `/ind/album?year=${year}&page=1&iclass=${
+              iclass === 4 ? 0 : iclass
+            }`,
+          ); // 사용자를 앨범 목록 페이지로 이동
+        }}
+        handleCancel={() => {
+          setShowCancelConfirmModal(false); // 모달 닫기
+        }}
+        title="정말 취소하시겠습니까?"
+        subTitle="수정 내용이 저장되지 않습니다."
+        maskClosable={false}
+      />
+      <Link
+        to={`/ind/album?year=${year}&page=1&iclass=${
+          iclass === 4 ? 0 : iclass
+        }`}
+      >
+        <ModalOneBtn
+          isOpen={isSuccessModalVisible}
+          handleOk={handleModalClose}
+          title="앨범 수정 완료"
+          subTitle={`성공적으로 수정되었습니다. \n 수정 내용을 확인하시려면 확인 버튼을 클릭해주세요.`}
+          maskClosable={false}
+        />
+        <ModalOneBtn
+          isOpen={isMinimumWarningVisible}
+          handleOk={handleCloseMinimumWarning}
+          title="이미지 파일 경고"
+          subTitle={`최소 하나의 이미지파일은 업로드 되어야 합니다.`}
+          maskClosable={false}
+        />
+      </Link>
+    </AlbumWrap>
   );
 };
 

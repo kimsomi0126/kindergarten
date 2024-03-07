@@ -25,10 +25,19 @@ const ModalTwoBtn = ({
   // 키보드 이벤트 리스너 추가
   useEffect(() => {
     const handleKeyDown = event => {
-      if (event.key === "Enter") {
-        handleOk(); // Enter 키를 누르면 확인 액션 실행
-      } else if (event.key === "Escape") {
-        handleCancel(); // Escape 키를 누르면 취소 액션 실행
+      if (isOpen) {
+        if (event.key === "Enter") {
+          event.preventDefault();
+          handleOk(event); // Enter 키를 누르면 확인 액션 실행
+        }
+        if (event.key === "Escape") {
+          event.preventDefault();
+          handleCancel(event); // Escape 키를 누르면 취소 액션 실행
+        }
+        if (event.key === "Esc") {
+          event.preventDefault();
+          handleCancel(event); // Escape 키를 누르면 취소 액션 실행
+        }
       }
     };
 

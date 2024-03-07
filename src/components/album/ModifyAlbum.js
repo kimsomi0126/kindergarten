@@ -45,9 +45,6 @@ const ModifyAlbum = () => {
   const [isNoChangeWarningVisible, setIsNoChangeWarningVisible] =
     useState(false);
   const [showCancelConfirmModal, setShowCancelConfirmModal] = useState(false);
-  const uploadAreaStyle = {
-    lineHeight: "15rem",
-  };
   const handleGreenButtonClick = () => {
     setIsEditConfirmModalVisible(true); // 수정 확인 모달을 표시
   };
@@ -142,7 +139,6 @@ const ModifyAlbum = () => {
       });
 
       // 응답 처리
-      // console.log("Response from putAlbum:", response);
     } catch (error) {
       handleError(error.message);
     }
@@ -153,7 +149,6 @@ const ModifyAlbum = () => {
       getEditAlbum({
         pno: pno,
         successFn: data => {
-          // setAlbumData(data); // Set the album data in state
           setAlbumData({ ...data });
           setAlbumTitle(data.albumTitle);
           setAlbumContents(data.albumContents);
@@ -165,6 +160,7 @@ const ModifyAlbum = () => {
 
           // Transform album pictures for the fileList state
           const newData = data.albumPic;
+          console.log("newData", newData);
           const transformedFileList = newData.map((albumPic, index) => ({
             uid: albumPic.ialbumPic, // uid is required to be unique
             name: albumPic.albumPic, // file name
@@ -254,7 +250,7 @@ const ModifyAlbum = () => {
               customRequest={customRequest}
               className="upload-list-inline"
               multiple={true}
-              style={uploadAreaStyle}
+              style={{ lineHeight: "15rem" }}
               // onPreview={handlePreview}
             >
               <Button icon={<UploadOutlined />}>업로드 </Button>
@@ -307,17 +303,6 @@ const ModifyAlbum = () => {
           subTitle={`최소 하나의 이미지파일은 업로드 되어야 합니다.`}
           maskClosable={false}
         />
-        {/* <Modal
-          title="수정 완료"
-          open={isModalVisible}
-          onOk={handleOk}
-          onCancel={handleCancel}
-          okText="확인"
-          cancelButtonProps={{ style: { display: "none" } }}
-          width={350}
-        >
-          <p>성공적으로 수정되었습니다.</p>
-        </Modal> */}
       </Link>
     </AlbumWrap>
   );

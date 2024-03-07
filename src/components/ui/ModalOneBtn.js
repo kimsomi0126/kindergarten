@@ -6,8 +6,19 @@ import { ModalBody, ModalTitle } from "../../styles/ui/warning";
 const ModalOneBtn = ({ isOpen, handleOk, title, subTitle, children }) => {
   useEffect(() => {
     const handleKeyPress = event => {
-      if (event.key === "Enter" || event.key === "Escape") {
-        handleOk(); // 'Enter' 키를 누르면 확인 동작 실행
+      if (isOpen) {
+        if (event.key === "Enter") {
+          event.preventDefault();
+          handleOk(event); // 키를 누르면 확인 동작 실행
+        }
+        if (event.key === "Escape") {
+          event.preventDefault();
+          handleOk(event); // 키를 누르면 확인 동작 실행
+        }
+        if (event.key === "Esc") {
+          event.preventDefault();
+          handleOk(event); // 키를 누르면 확인 동작 실행
+        }
       }
     };
 

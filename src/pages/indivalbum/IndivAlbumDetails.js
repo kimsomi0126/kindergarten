@@ -1,3 +1,5 @@
+import { Form } from "antd";
+import TextArea from "antd/es/input/TextArea";
 import React, { Suspense, lazy, useEffect, useState } from "react";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import { useNavigate, useParams } from "react-router";
@@ -5,13 +7,16 @@ import { Link, useSearchParams } from "react-router-dom";
 import { IMG_URL, SERVER_URL } from "../../api/config";
 import {
   deleteIndAlbum,
+  deleteIndAlbumComment,
   getIndAlbumDetail,
+  putIndAlbumComment,
 } from "../../api/indivAlbum/indivalbum_api";
 import MyTag from "../../components/indivAlbum/MyTag";
 import Loading from "../../components/loading/Loading";
 import ModalOneBtn from "../../components/ui/ModalOneBtn";
 import ModalTwoBtn from "../../components/ui/ModalTwoBtn";
 import useCustomLogin from "../../hooks/useCustomLogin";
+import { CommentWrap } from "../../styles/album/album";
 import { PageTitle } from "../../styles/basic";
 import { IndBot, IndWrap } from "../../styles/individualNotice/ind";
 import {
@@ -21,7 +26,8 @@ import {
   IndDetailTop,
   IndDetailWrap,
 } from "../../styles/individualNotice/inddetail";
-import { BlueBtn, GreenBtn, PinkBtn } from "../../styles/ui/buttons";
+import { BlueBtn, GreenBtn, OrangeBtn, PinkBtn } from "../../styles/ui/buttons";
+import { CommentBox, CommentView, CommentWrite } from "../../styles/ui/comment";
 const host = `${SERVER_URL}/ind/album`;
 
 const initData = {
@@ -49,9 +55,17 @@ const IndivAlbumDetails = () => {
   const page = serchParams.get("page");
   const iclass = serchParams.get("iclass");
   // 로그인 정보
-  const { isLogin, isParentLogin, isAdminLogin } = useCustomLogin();
+  const { isLogin, isParentLogin, isAdminLogin, loginState } = useCustomLogin();
+  console.log("loginState", loginState);
   // 연동데이터
   const [data, setData] = useState(initData);
+
+  // 댓글관련
+  const [commentState, setCommentState] = useState(false);
+  const [commentNum, setCommentNum] = useState(null);
+  const iwriter = loginState.iteacher || loginState.iparent;
+  const ilevel = loginState.role === "PARENT" ? 1 : loginState.ilevel;
+  const [isDelComment, setIsDelComment] = useState(false); // 댓글삭제 모달
 
   // 모달창 내용
   const [title, setTitle] = useState("");
@@ -132,6 +146,68 @@ const IndivAlbumDetails = () => {
     setSubTitle("삭제에 실패했습니다. \n 잠시 후 다시 시도해 주세요."); // 에러 모달의 부제목을 설정합니다.
   };
 
+  // 댓글등록
+  const [form] = Form.useForm();
+  const handleWriteComment = value => {
+    console.log("value", value);
+    let obj = {
+      imemory: tno,
+      memoryComment: value.albumComment,
+      iteacher: loginState.iteacher,
+    };
+    if (isParentLogin) {
+      obj = {
+        inotice: tno,
+        noticeComment: value.albumComment,
+        iparent: loginState.iparent,
+      };
+    }
+
+    console.log(obj, "댓글등록");
+    putIndAlbumComment({
+      imemory: tno,
+      memoryComment: value.albumComment,
+      iteacher: loginState.iteacher,
+      iparent: loginState.iparent,
+      successFn,
+      errorFn,
+    });
+    form.resetFields();
+  };
+
+  // 댓글삭제
+  const handleDeleteComment = () => {
+    if (loginState.iteacher) {
+      deleteIndAlbumComment({
+        ialbumComment: commentNum,
+        ialbum: tno,
+        iteacher: loginState.iteacher,
+        successCommentFn,
+        errorCommentFn,
+      });
+    } else {
+      deleteIndAlbumComment({
+        ialbumComment: commentNum,
+        ialbum: tno,
+        iparent: loginState.iparent,
+        successCommentFn,
+        errorCommentFn,
+      });
+    }
+    setIsDelComment(false);
+  };
+
+  const successCommentFn = res => {
+    setCommentState(!commentState);
+    setCommentNum(null);
+    console.log(res);
+  };
+
+  const errorCommentFn = res => {
+    console.log(res);
+  };
+
+  console.log("data", data);
   return (
     <IndWrap>
       {/* 안내창 */}
@@ -166,6 +242,7 @@ const IndivAlbumDetails = () => {
         <IndAlbumDetailContent>
           <pre>{data.memoryContents}</pre>
         </IndAlbumDetailContent>
+
         {/* <IndDetailFile> */}
         <ResponsiveMasonry
           style={{ padding: "3rem" }}
@@ -191,7 +268,50 @@ const IndivAlbumDetails = () => {
               ))}
           </Masonry>
         </ResponsiveMasonry>
+        <CommentWrap>
+          <CommentView>
+            {Array.isArray(data.memoryComments) &&
+              data.memoryComments.map((item, index) => (
+                <CommentBox
+                  key={item.imemoryComment}
+                  className={
+                    ilevel === item.ilevel && item.writerIuser == iwriter
+                      ? "right"
+                      : null
+                  }
+                >
+                  <pre className="text">{item.memoryComment}</pre>
+                  <ul>
+                    <li className="name">
+                      {item.teacherNm ? item.teacherNm : item.parentNm}
+                    </li>
+                    <li className="date">{item.createdAt}</li>
+                  </ul>
+                  {ilevel === item.ilevel && item.writerIuser == iwriter ? (
+                    <span
+                      className="delete"
+                      onClick={() => {
+                        setCommentNum(item.imemoryComment);
+                        setIsDelComment(true);
+                      }}
+                    >
+                      댓글삭제
+                    </span>
+                  ) : null}
+                </CommentBox>
+              ))}
+          </CommentView>
+          <CommentWrite>
+            <Form form={form} onFinish={handleWriteComment}>
+              <Form.Item name="albumComment">
+                <TextArea required placeholder="댓글내용을 입력해주세요." />
+              </Form.Item>
+              <OrangeBtn>등록</OrangeBtn>
+            </Form>
+          </CommentWrite>
+        </CommentWrap>
       </IndDetailWrap>
+
       <IndBtnWrap>
         <GreenBtn onClick={handleClickList}>목록보기</GreenBtn>
         {isLogin || isAdminLogin ? (

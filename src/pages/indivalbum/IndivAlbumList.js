@@ -232,42 +232,7 @@ const IndivAlbumList = () => {
         </Link>
       </TabWrap>
       <TitleWrap className="ind-btn-wrap">
-        {isLogin ? (
-          <FromToBtnWrap fromTo={fromTo} isLogin={isLogin}>
-            {/* <button
-              onClick={e => handleFromTo(e)}
-              value={"teacher"}
-              className="teacher"
-            >
-              {isLogin ? "내가 쓴" : "내가 받은"} 글
-            </button>
-            <button
-              onClick={e => handleFromTo(e)}
-              value={"parent"}
-              className="parent"
-            >
-              {isLogin ? "내가 받은" : "내가 쓴"} 글
-            </button>
-            {fromTo != 3 ? (
-              <button onClick={e => handleFromTo(e)} value={"all"}>
-                모아보기
-              </button>
-            ) : null} */}
-          </FromToBtnWrap>
-        ) : (
-          <FromToBtnWrap fromTo={fromTo} isLogin={isParentLogin}>
-            {/* <button
-              onClick={e => handleFromTo(e)}
-              value={"parent"}
-              className="parent"
-            ></button>
-            {fromTo != 3 ? (
-              <button onClick={e => handleFromTo(e)} value={"all"}>
-                모아보기
-              </button>
-            ) : null} */}
-          </FromToBtnWrap>
-        )}
+        <FromToBtnWrap />
         <FlexBox>
           {/* 권한별 서치버튼 */}
           {isLogin || isAdminLogin ? (

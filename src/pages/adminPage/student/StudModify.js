@@ -224,7 +224,7 @@ const StudModify = () => {
     form.setFieldsValue(values);
 
     const imageUrl = `/pic/kid/${ikid}/${res.profile}`;
-    console.log("사진", res.profile);
+    // console.log("사진", res.profile);
     const imageUrlToFile = async imageUrl => {
       try {
         const fileName = imageUrl.substring(imageUrl.lastIndexOf("/") + 1);

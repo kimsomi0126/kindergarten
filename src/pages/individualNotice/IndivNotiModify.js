@@ -10,6 +10,7 @@ import {
 } from "react-router-dom";
 import { IMG_URL } from "../../api/config";
 import {
+  editIndNotice,
   getIndDetail,
   putIndDetail,
 } from "../../api/individualNotice/indivNoticeApi";
@@ -49,10 +50,9 @@ export const obj = [
 ];
 
 const IndivNotiModify = () => {
-  const { tno, ikid } = useParams();
+  const { tno } = useParams();
   const [ikidData, setIkidData] = useState(0);
   const [noticeData, setNoticeData] = useState(obj); // noticeData 상태를 추가
-  const params = useSearchParams();
 
   const [data, setData] = useState(obj);
   const [noticeCheck, setNoticeCheck] = useState(0);
@@ -66,15 +66,20 @@ const IndivNotiModify = () => {
   const [selectedKids, setSelectedKids] = useState([]);
   const [deletedPic, setDeletedPic] = useState([]);
   const [form] = Form.useForm();
+
+  // params 정보
   const [searchParams, setSearchParams] = useSearchParams();
+  const ikid = searchParams.get("ikid");
   const year = searchParams.get("year");
   const page = searchParams.get("page");
   const iclass = searchParams.get("iclass");
+  const kidNm = searchParams.get("kidNm");
   const [isLoading, setIsLoading] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [fileList, setFileList] = useState([]);
   const [showExceedLimitModal, setShowExceedLimitModal] = useState(false); // 파일 제한 초과 경고 모달 상태
   const [newPics, setNewPics] = useState([]);
+  const [pageNumber, setPageNumber] = useState("");
 
   // 모달 상태 관리
   const [showSuccessModal, setShowSuccessModal] = useState(false);
@@ -92,6 +97,10 @@ const IndivNotiModify = () => {
 
   const showDeleteModal = () => {
     setIsDeleteModalOpen(true);
+  };
+
+  const returnPage = listNumber => {
+    setPageNumber(listNumber.result[0]);
   };
 
   const handleCancelConfirmation = () => {
@@ -116,15 +125,15 @@ const IndivNotiModify = () => {
 
   const onFinish = async data => {
     const formData = new FormData();
-
+    console.log("data", data);
     // JSON 데이터 추가
     const noticeInfo = {
       inotice: tno,
-      ikid: ikidData,
+      ikid: ikid,
       noticeTitle: data.noticeTitle,
       noticeContents: data.noticeContents,
       NoticeCheck: noticeCheck,
-      delPic: [],
+      // delPic: [],
     };
     console.log("noticeCheck", noticeCheck);
 
@@ -152,7 +161,9 @@ const IndivNotiModify = () => {
     try {
       const response = await putIndDetail({
         data: formData,
-        successFn: () => setShowSuccessModal(true), // 성공 모달 표시
+        successFn: listNumber => {
+          setShowSuccessModal(true), returnPage(listNumber);
+        }, // 성공 모달 표시
         failFn: handleFail,
         errorFn: handleError,
       });
@@ -166,6 +177,11 @@ const IndivNotiModify = () => {
 
   const handleSuccessModalOk = () => {
     setShowSuccessModal(false);
+    navigate(
+      isParentLogin
+        ? `/ind/details/${pageNumber}?year=2024&page=1&ikid=${ikid}`
+        : `/ind/details/${pageNumber}?year=2024&page=1&iclass=${iclass}`,
+    );
   };
 
   const handleDeleteCancel = () => {
@@ -197,26 +213,26 @@ const IndivNotiModify = () => {
 
   useEffect(() => {
     const fetchNoticeData = async () => {
-      getIndDetail({
-        tno: tno,
+      editIndNotice({
+        tno,
+        ikid,
         successFn: data => {
           form.setFieldsValue({
-            ikid: data.ikid,
+            ikid: ikid,
             noticeTitle: data.noticeTitle,
             noticeContents: data.noticeContents,
           });
-          console.log("data확인", data);
-          setIkidData(data.ikid);
           // Transform album pictures for the fileList state
-          // console.log("데이터 확인", data);
-          const transformedFileList = data.pics.map((pic, index) => ({
-            inoticePic: pic, // uid is required to be unique
-            name: pic, // file name
-            status: "done", // upload status
-            url: `${imgpath}/${tno}/${pic}`, // file URL, adjust the path as needed
-          }));
+          console.log("데이터 확인", data);
+          const transformedFileList = data.noticePics.map(
+            (noticePics, index) => ({
+              inoticePic: noticePics.inoticePic, // uid is required to be unique
+              name: noticePics.noticePic, // file name
+              status: "done", // upload status
+              url: `${imgpath}/${tno}/${noticePics.noticePic}`, // file URL, adjust the path as needed
+            }),
+          );
           setFileList(transformedFileList);
-          console.log("transformedFileList", transformedFileList);
         },
         failFn: errorMessage => {
           console.error("Notice fetch failed:", errorMessage);
@@ -229,22 +245,21 @@ const IndivNotiModify = () => {
       });
     };
 
-    getIndDetail({
-      tno: tno,
-      successFn: data => {
-        setData(data);
-        setIsLoading(false);
-      },
-      failFn: message => {
-        console.error(message);
-        setIsLoading(false);
-      },
-      errorFn: data => {
-        console.error(data);
-        setIsLoading(false);
-      },
-    });
-
+    // editIndNotice({
+    //   tno: tno,
+    //   successFn: data => {
+    //     setData(data);
+    //     setIsLoading(false);
+    //   },
+    //   failFn: message => {
+    //     console.error(message);
+    //     setIsLoading(false);
+    //   },
+    //   errorFn: data => {
+    //     console.error(data);
+    //     setIsLoading(false);
+    //   },
+    // });
     fetchNoticeData();
   }, [tno]);
 
@@ -272,7 +287,7 @@ const IndivNotiModify = () => {
   };
   // 이미지 파일을 삭제할 때 호출될 함수
   const onRemove = file => {
-    console.log("file", file);
+    console.log("삭제시 file", file);
 
     const newFileList = fileList.filter(
       item => item.inoticePic !== file.inoticePic,
@@ -284,15 +299,14 @@ const IndivNotiModify = () => {
 
     return true; // 삭제 처리를 진행
   };
-  console.log("deletedPic", deletedPic);
+  console.log("data", data);
+  // useEffect(() => {
+  //   // console.log("삭제 목록 deletedPics : ", deletedPics);
+  // }, [deletedPic]);
 
-  useEffect(() => {
-    // console.log("삭제 목록 deletedPics : ", deletedPics);
-  }, [deletedPic]);
-
-  useEffect(() => {
-    // console.log("현재 보이는 목록 fileList : ", fileList);
-  }, [fileList]);
+  // useEffect(() => {
+  //   // console.log("현재 보이는 목록 fileList : ", fileList);
+  // }, [fileList]);
 
   return (
     <NoticeWrap>
@@ -301,7 +315,7 @@ const IndivNotiModify = () => {
       <WriteWrap>
         <IndDetailTop>
           <IndClass>
-            <MyClass state={data.iclass} /> <h4>{data.kidNm}</h4>
+            <MyClass state={parseInt(iclass)} /> <h4>{kidNm}</h4>
           </IndClass>
         </IndDetailTop>
         <Checkbox
@@ -341,18 +355,20 @@ const IndivNotiModify = () => {
               customRequest={customRequest}
               className="upload-list-inline"
               multiple={true}
-              maxCount={10}
+              maxCount={5}
             >
-              <Button icon={<UploadOutlined />}>업로드</Button>
+              <Button icon={<UploadOutlined />}>업로드(최대 5개)</Button>
             </Upload.Dragger>
           </FileListStyle>
         </Form>
       </WriteWrap>
       <BtnWrap right>
         <GreenBtn onClick={handleGreenButtonClick}>수정</GreenBtn>
-        <PinkBtn type="button" onClick={handleCancelConfirmation}>
-          취소
-        </PinkBtn>
+        <Link to="/ind?year=2024&page=1&iclass=0">
+          <PinkBtn type="button" onClick={handleCancelConfirmation}>
+            취소
+          </PinkBtn>
+        </Link>
       </BtnWrap>
 
       {/* 모달창 */}

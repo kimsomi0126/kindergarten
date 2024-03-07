@@ -13,6 +13,13 @@ export const getIndAlbumList = async ({
   errorFn,
 }) => {
   try {
+    const obj = {
+      page: parseInt(page),
+      iclass: parseInt(iclass),
+      year,
+      search,
+    };
+    console.log(obj);
     const res = await jwtAxios.get(
       `${path}?page=${page}&iclass=${iclass}&year=${year}&search=${search}`,
     );

@@ -9,12 +9,13 @@ import {
   postIndNotice,
   postIndParentNotice,
 } from "../../api/individualNotice/indivNoticeApi";
-import { FileListStyle } from "../../styles/album/album";
+import { FileListStyle, WriteWrap } from "../../styles/album/album";
 import { PageTitle } from "../../styles/basic";
-import { GreenBtn, PinkBtn } from "../../styles/ui/buttons";
+import { BtnWrap, GreenBtn, PinkBtn } from "../../styles/ui/buttons";
 import ModalOneBtn from "../ui/ModalOneBtn";
 import { Cascader } from "antd";
 import useCustomLogin from "../../hooks/useCustomLogin";
+import ModalTwoBtn from "../ui/ModalTwoBtn";
 import MyClass from "../user/MyClass";
 import {
   IndClass,
@@ -64,7 +65,7 @@ const IndWriteComponent = () => {
     isAdminLogin,
     isAccept,
   } = useCustomLogin();
-  console.log("loginState", loginState);
+  // console.log("loginState", loginState);
 
   const iclass = isAdminLogin ? 0 : loginState.iclass;
 
@@ -96,14 +97,14 @@ const IndWriteComponent = () => {
         errorFn: handleChildrenListError,
       });
     } catch (error) {
-      console.error("Error fetching children list:", error);
+      // console.error("Error fetching children list:", error);
     }
   };
 
   const handleChildrenListSuccess = data => {
-    console.log("data", data);
+    // console.log("data", data);
     const groupedData = groupChildrenByClass(data);
-    console.log("groupedData", groupedData);
+    // console.log("groupedData", groupedData);
     const treeData = groupedData.map(classItem => ({
       title: getClassTitle(classItem.classNumber),
       value: classItem.classNumber,
@@ -116,8 +117,8 @@ const IndWriteComponent = () => {
     }));
     setTreeData(treeData);
   };
-  console.log("treeData 확인", treeData);
-  console.log("treeData", treeData.key === isTeacherLogin.iclass);
+  // console.log("treeData 확인", treeData);
+  // console.log("treeData", treeData.key === isTeacherLogin.iclass);
   const getClassTitle = classNumber => {
     switch (classNumber) {
       case 1:
@@ -136,11 +137,11 @@ const IndWriteComponent = () => {
   };
 
   const handleChildrenListFail = errorMessage => {
-    console.error("Failed to fetch children list:", errorMessage);
+    // console.error("Failed to fetch children list:", errorMessage);
   };
 
   const handleChildrenListError = error => {
-    console.error("Error while fetching children list:", error);
+    // console.error("Error while fetching children list:", error);
   };
 
   const formRef = useRef();
@@ -170,6 +171,11 @@ const IndWriteComponent = () => {
 
   const handleSuccessModalOk = () => {
     setShowSuccessModal(false);
+    navigate(
+      isParentLogin
+        ? `/ind/details/${pageNumber}?year=2024&page=1&ikid=${ikid}`
+        : `/ind/details/${pageNumber}?year=2024&page=1&iclass=${iclass}`,
+    );
   };
 
   // 취소 확인 모달 핸들러
@@ -180,9 +186,13 @@ const IndWriteComponent = () => {
   const handleCancelConfirmation = () => {
     setShowCancelConfirmModal(true); // 취소 확인 모달 표시
   };
+  const [pageNumber, setPageNumber] = useState("");
+  const returnPage = listNumber => {
+    setPageNumber(listNumber.result[0]);
+  };
 
   const onFinish = async data => {
-    console.log("data", data);
+    // console.log("data", data);
     const formData = new FormData();
 
     fileList.forEach(file => {
@@ -204,13 +214,17 @@ const IndWriteComponent = () => {
     isLogin
       ? postIndNotice({
           product: formData,
-          successFn: () => setShowSuccessModal(true), // 성공 모달 표시
+          successFn: listNumber => {
+            setShowSuccessModal(true), returnPage(listNumber);
+          }, // 성공 모달 표시
           failFn: handleFail,
           errorFn: handleError,
         })
       : postIndParentNotice({
           product: formData,
-          successFn: () => setShowSuccessModal(true), // 성공 모달 표시
+          successFn: listNumber => {
+            setShowSuccessModal(true), returnPage(listNumber);
+          }, // 성공 모달 표시
           failFn: handleFail,
           errorFn: handleError,
         });
@@ -219,6 +233,12 @@ const IndWriteComponent = () => {
   const handleCancelOk = () => {
     navigate(`/ind?year=2024&page=1&iclass=0`);
     setIsModalVisible(false);
+  };
+
+  const handleCancelConfirmModalCancel = e => {
+    // 모달을 닫음
+    setShowCancelConfirmModal(false);
+    e.stopPropagation();
   };
 
   const handleSuccess = () => {
@@ -233,7 +253,7 @@ const IndWriteComponent = () => {
   };
 
   const handleError = error => {
-    console.error("오류", error);
+    // console.error("오류", error);
     Modal.error({
       title: "오류",
       content: error,
@@ -261,66 +281,46 @@ const IndWriteComponent = () => {
   return (
     <div>
       <PageTitle>알림장</PageTitle>
-      <div
-        style={{
-          width: "100%",
-          height: 600,
-          padding: 16,
-          borderTop: "1.5px solid #00876D",
-          borderBottom: "1.5px solid #00876D",
-          background: "#FAFAFA",
-          marginTop: 30,
-        }}
-      >
-        <div
-          style={{
-            marginBottom: "2rem",
-          }}
-        >
-          {" "}
-          {isAdminLogin ? (
-            <TreeSelect
-              style={{ width: "100%" }}
-              treeData={treeData}
-              placeholder="유치원생 선택"
-              treeCheckable={true}
-              showCheckedStrategy={SHOW_CHILD}
-              onChange={value => {
-                if (Array.isArray(value)) {
-                  setSelectedKids(value);
-                  console.log("value check", value);
-                } else {
-                  setSelectedKids([value]);
-                }
-              }}
-            />
-          ) : isTeacherLogin ? (
-            <TreeSelect
-              style={{ width: "100%" }}
-              treeData={treeData.filter(
-                item => item.value === loginState.iclass,
-              )} // 본인의 반만 필터링하여 사용
-              placeholder="유치원생 선택"
-              treeCheckable={true}
-              showCheckedStrategy={SHOW_CHILD}
-              onChange={value => {
-                if (Array.isArray(value)) {
-                  setSelectedKids(value);
-                  console.log("value check", value);
-                } else {
-                  setSelectedKids([value]);
-                }
-              }}
-            />
-          ) : (
-            <IndDetailTop>
-              <IndClass>
-                <h4>{kidNm}</h4>
-              </IndClass>
-            </IndDetailTop>
-          )}
-        </div>
-        <Checkbox onChange={onChange} style={{ marginBottom: 10 }}>
+      <WriteWrap>
+        {isAdminLogin ? (
+          <TreeSelect
+            style={{ width: "100%" }}
+            treeData={treeData}
+            placeholder="유치원생 선택"
+            treeCheckable={true}
+            showCheckedStrategy={SHOW_CHILD}
+            onChange={value => {
+              if (Array.isArray(value)) {
+                setSelectedKids(value);
+              } else {
+                setSelectedKids([value]);
+              }
+            }}
+          />
+        ) : isTeacherLogin ? (
+          <TreeSelect
+            style={{ width: "100%" }}
+            treeData={treeData.filter(item => item.value === loginState.iclass)} // 본인의 반만 필터링하여 사용
+            placeholder="유치원생 선택"
+            treeCheckable={true}
+            showCheckedStrategy={SHOW_CHILD}
+            onChange={value => {
+              if (Array.isArray(value)) {
+                setSelectedKids(value);
+                // console.log("value check", value);
+              } else {
+                setSelectedKids([value]);
+              }
+            }}
+          />
+        ) : (
+          <IndDetailTop>
+            <IndClass>
+              <h4>{kidNm}</h4>
+            </IndClass>
+          </IndDetailTop>
+        )}
+        <Checkbox onChange={onChange} style={{ margin: "1rem 0" }}>
           중요
         </Checkbox>
         <Form ref={formRef} form={form} onFinish={onFinish}>
@@ -335,7 +335,6 @@ const IndWriteComponent = () => {
           >
             <Input placeholder="제목 입력" />
           </Form.Item>
-
           <Form.Item
             style={{ height: "150px" }}
             name="noticeContents"
@@ -351,7 +350,6 @@ const IndWriteComponent = () => {
               style={{ height: "150px" }}
             />
           </Form.Item>
-
           <FileListStyle>
             <Upload.Dragger
               action={`${path}`}
@@ -360,30 +358,36 @@ const IndWriteComponent = () => {
               onChange={handleChange}
               customRequest={customRequest}
               className="upload-list-inline"
+              maxCount={5}
               multiple={true}
               beforeUpload={beforeUpload}
             >
-              <Button icon={<UploadOutlined />}>업로드</Button>
+              <Button icon={<UploadOutlined />}>업로드(최대 5개)</Button>
             </Upload.Dragger>
           </FileListStyle>
         </Form>
-        <div
-          style={{
-            marginTop: 35,
-            display: "flex",
-            justifyContent: "flex-end",
-          }}
-        >
-          <GreenBtn type="button" onClick={handleGreenButtonClick}>
-            등록
-          </GreenBtn>
-          <PinkBtn type="button" onClick={handleCancelConfirmation}>
-            취소
-          </PinkBtn>
-        </div>
-      </div>
 
+      </WriteWrap>
+      <BtnWrap right>
+        <GreenBtn type="button" onClick={handleGreenButtonClick}>
+          등록
+        </GreenBtn>
+        <PinkBtn type="button" onClick={handleCancelConfirmation}>
+          취소
+        </PinkBtn>
+      </BtnWrap>
+      
       {/* 모달창 */}
+      {/* 등록 성공 모달 */}
+      {showSuccessModal && (
+        <ModalOneBtn
+          isOpen={showSuccessModal}
+          handleOk={handleSuccessModalOk}
+          title="등록 완료"
+          subTitle="성공적으로 등록되었습니다."
+        />
+      )}
+
       <Link
         to={
           isParentLogin
@@ -391,23 +395,15 @@ const IndWriteComponent = () => {
             : `/ind?year=2024&page=1&iclass=${iclass}`
         }
       >
-        {/* 등록 성공 모달 */}
-        {showSuccessModal && (
-          <ModalOneBtn
-            isOpen={showSuccessModal}
-            handleOk={handleSuccessModalOk}
-            title="등록 완료"
-            subTitle="성공적으로 등록되었습니다."
-          />
-        )}
-
         {/* 취소 확인 모달 */}
         {showCancelConfirmModal && (
-          <ModalOneBtn
+          <ModalTwoBtn
             isOpen={showCancelConfirmModal}
             handleOk={handleCancelConfirmModalOk}
+            handleCancel={handleCancelConfirmModalCancel}
             title="정말 취소할까요?"
             subTitle="작성된 내용은 저장되지 않습니다."
+            maskClosable={false}
           />
         )}
 

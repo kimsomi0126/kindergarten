@@ -161,22 +161,24 @@ const StudDetails = () => {
             </Dropdown>
             <BtnWrap>
               {isAdminLogin || myData.iclass == loginState.iclass ? (
-                <GrayBtn
-                  onClick={e =>
-                    navigate(
-                      `/ind/write?ikid=${ikid}&iclass=${myData.iclass}&kidNm=${myData.kidNm}`,
-                    )
-                  }
-                >
-                  알림장작성
-                </GrayBtn>
-              ) : null}
-              {isAdminLogin || myData.iclass == loginState.iclass ? (
-                <PurpleBtn
-                  onClick={e => navigate(`/admin/student/modify?ikid=${ikid}`)}
-                >
-                  원생정보수정
-                </PurpleBtn>
+                <>
+                  <GrayBtn
+                    onClick={e =>
+                      navigate(
+                        `/ind/write?ikid=${ikid}&iclass=${myData.iclass}&kidNm=${myData.kidNm}`,
+                      )
+                    }
+                  >
+                    알림장작성
+                  </GrayBtn>
+                  <PurpleBtn
+                    onClick={e =>
+                      navigate(`/admin/student/modify?ikid=${ikid}`)
+                    }
+                  >
+                    원생정보수정
+                  </PurpleBtn>
+                </>
               ) : null}
 
               <GreenBtn

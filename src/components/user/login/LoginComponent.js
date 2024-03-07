@@ -1,5 +1,5 @@
 import { Button, Flex, Form, Input, Radio, Select, Tooltip } from "antd";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FormWrap } from "../../../styles/user/login";
 import { GreenBtn } from "../../../styles/ui/buttons";
 import { Link } from "react-router-dom";
@@ -7,13 +7,19 @@ import { LogoWrap } from "../../../styles/basic";
 import useCustomLogin from "../../../hooks/useCustomLogin";
 import ModalOneBtn from "../../ui/ModalOneBtn";
 
+const initData = {
+  uid: "user1",
+  upw: "1234",
+};
+
 const LoginComponent = () => {
-  const [loginParam, setLoginParam] = useState("");
-  const [userState, setUserState] = useState("");
+  const [loginParam, setLoginParam] = useState(initData);
+  const [userState, setUserState] = useState("1");
   const { doLogin, doParentLogin, moveToPath } = useCustomLogin();
   const [title, setTitle] = useState("");
   const [subTitle, setSubTitle] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+  const [form] = Form.useForm();
 
   // 모달창 확인버튼
   const handleOk = () => {
@@ -34,9 +40,29 @@ const LoginComponent = () => {
   };
   const onValuesChanged = (changeValues, allValues) => {
     setLoginParam({ ...allValues });
+    // console.log(loginParam);
   };
   const handleUserStateChange = e => {
     setUserState(e.target.value);
+    if (e.target.value === "2") {
+      setLoginParam({
+        uid: "tea125",
+        upw: "123",
+      });
+      form.setFieldsValue({
+        uid: "tea125",
+        upw: "123",
+      });
+    } else {
+      setLoginParam({
+        uid: "user1",
+        upw: "1234",
+      });
+      form.setFieldsValue({
+        uid: "user1",
+        upw: "1234",
+      });
+    }
   };
   // 로그인 결과
   const successFn = result => {
@@ -87,7 +113,9 @@ const LoginComponent = () => {
           </Radio.Group>
         </Flex>
         <Form
+          form={form}
           name="login"
+          initialValues={loginParam}
           style={{
             maxWidth: 600,
           }}

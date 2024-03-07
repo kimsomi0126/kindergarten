@@ -80,7 +80,7 @@ const NavBar = () => {
   onMessageListener()
     .then(payload => {
       const newData = JSON.parse(payload.notification.body);
-      console.log(newData);
+      // console.log(newData);
       setNotiPush(prev => {
         let pushListUpdated = false;
         const updatedPushList = prev.pushList.map(item => {
@@ -118,7 +118,7 @@ const NavBar = () => {
     })
     .catch(error => console.log(error));
 
-  console.log(notiPush);
+  // console.log(notiPush);
 
   // ===========================================================================
 
@@ -137,7 +137,9 @@ const NavBar = () => {
             <GrayBtn
               className="nav-btn"
               onClick={e =>
-                navigate(`/ind?year=${currentYear}&page=1&iclass=${iclass}`)
+                navigate(
+                  `/ind?year=${currentYear}&page=1&iclass=${iclass}&fromTo=3`,
+                )
               }
             >
               알림장목록
@@ -183,7 +185,7 @@ const NavBar = () => {
                 navigate(
                   `/ind?year=${currentYear}&page=1&ikid=${
                     ikidList[0] ? ikidList[0].ikid : 0
-                  }`,
+                  }&fromTo=3`,
                 )
               }
             >

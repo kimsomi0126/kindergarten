@@ -31,7 +31,7 @@ const SideMenu = () => {
     ),
     getItem(<Link to="/admin/student/create">원생 등록</Link>, "5-3"),
     getItem(
-      <Link to={`/ind?year=${currentYear}&page=1&iclass=${iclass}`}>
+      <Link to={`/ind?year=${currentYear}&page=1&iclass=${iclass}&fromTo=3`}>
         알림장 목록
       </Link>,
       "5-4",
@@ -134,7 +134,7 @@ const SideMenu = () => {
             <Link
               to={`/ind?year=${currentYear}&page=1&ikid=${
                 ikidList[0] ? ikidList[0].ikid : 0
-              }`}
+              }&fromTo=3`}
             >
               알림장
             </Link>,

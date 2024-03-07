@@ -76,15 +76,16 @@ const IndivAlbumList = () => {
   const { loginState, isLogin, isParentLogin, isTeacherLogin, isAdminLogin } =
     useCustomLogin();
   const ikidList = loginState.kidList;
-
   // 페이지네이션
   const handlePageChange = (page, pageSize) => {
     if (isLogin) {
       navigate(
-        `/ind?year=${year}&page=${page}&iclass=${iclass}&fromTo=${fromTo}`,
+        `/ind/album?year=${year}&page=${page}&iclass=${iclass}&fromTo=${fromTo}`,
       );
     } else {
-      navigate(`/ind?year=${year}&page=${page}&ikid=${ikid}&fromTo=${fromTo}`);
+      navigate(
+        `/ind/album?year=${year}&page=${page}&ikid=${ikid}&fromTo=${fromTo}`,
+      );
     }
   };
 
@@ -117,7 +118,7 @@ const IndivAlbumList = () => {
       }
       getIndAlbumParentList({
         page,
-        iclass,
+        iclass: ikidList.iclass,
         ikid,
         year,
         search: "",
@@ -154,14 +155,9 @@ const IndivAlbumList = () => {
   // 데이터연동 결과
   const successFn = res => {
     setIndList(res.list);
-    setCount(res.noticeCnt);
+    setCount(res.imemoryCnt);
   };
   const errorFn = res => {
-    console.log(res);
-    // setIsOpen(true);
-    // setTitle("데이터 없음");
-    // setSubTitle(res);
-
     const url = isLogin
       ? `/ind/album?year=${year}&page=1&iclass=${iclass}&searchValue=${searchValue}`
       : `/ind/album?year=${year}&page=1&ikid=${ikid}&searchValue=${searchValue}`;
@@ -174,34 +170,10 @@ const IndivAlbumList = () => {
     }
   };
 
-  // 작성자 분류
-  // 식별코드정보값 가져오기
-
-  const handleFromTo = e => {
-    const writer = e.target.value;
-    const url = isLogin
-      ? `/ind/album?year=${year}&page=1&iclass=${iclass}&searchValue=${searchValue}&fromTo=`
-      : `/ind/album?year=${year}&page=1&ikid=${ikid}&searchValue=${searchValue}&fromTo=`;
-    const num =
-      isLogin && writer == "teacher"
-        ? 1
-        : isLogin && writer == "parent"
-        ? 0
-        : isParentLogin && writer == "parent"
-        ? 1
-        : isParentLogin && writer == "teacher"
-        ? 0
-        : 3;
-    // const num = writer == "teacher" ? 1 : writer == "parent" ? 0 : 3;
-
-    navigate(url + num, { state: { writer } });
-    setFromTo(num);
-  };
-
   // 검색
   const handleSearch = value => {
     if (isParentLogin) {
-      getIndParentList({
+      getIndAlbumParentList({
         page: 1,
         year,
         ikid,
@@ -211,9 +183,9 @@ const IndivAlbumList = () => {
         successFn,
       });
       setSearchParams({ page: 1, year, ikid, fromTo, searchValue: value });
-    } else if (isLogin) {
+    } else if (isLogin || isAdminLogin) {
       // 선생님 로그인
-      getIndTeacherList({
+      getIndAlbumList({
         page: 1,
         year,
         iclass,

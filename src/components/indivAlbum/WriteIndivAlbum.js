@@ -42,7 +42,7 @@ const WriteIndivAlbum = () => {
   const [selectedKids, setSelectedKids] = useState([]);
   const [showExceedLimitModal, setShowExceedLimitModal] = useState(false); // 파일 제한 초과 경고 모달 상태
   const { loginState, isAdminLogin } = useCustomLogin();
-  console.log("loginState", loginState);
+  const [pageNumber, setPageNumber] = useState("");
   const iclass = loginState === 4 ? 0 : loginState.iclass;
   // 모달 상태 관리
   const [showSuccessModal, setShowSuccessModal] = useState(false);
@@ -55,25 +55,15 @@ const WriteIndivAlbum = () => {
     fetchChildrenList();
   }, []);
 
-  // const beforeUpload = (file, fileList) => {
-  //   const totalFiles =
-  //     fileList.length + fileList.filter(f => f.status === "done").length;
-  //   if (totalFiles > 5) {
-  //     setShowExceedLimitModal(true); // 경고 모달 표시
-  //     return Upload.LIST_IGNORE; // 파일 업로드 중단
-  //   }
-  //   return true; // 파일 추가를 계속 진행
-  // };
-
   const handleExceedLimitModalOk = e => {
     setShowExceedLimitModal(false); // 경고 모달 닫기
-    e.stopPropagation(); // 이벤트가 상위 엘리먼트에 전달되지 않게 막기
+    e?.stopPropagation(); // 이벤트가 상위 엘리먼트에 전달되지 않게 막기
   };
 
   // 이미지 업로드 경고 모달 핸들러
   const handleImageUploadWarningOk = e => {
     setIsImageUploadWarningVisible(false); // 경고 모달 닫기
-    e.stopPropagation(); // 이벤트가 상위 엘리먼트에 전달되지 않게 막기
+    e?.stopPropagation(); // 이벤트가 상위 엘리먼트에 전달되지 않게 막기
   };
 
   const fetchChildrenList = async () => {
@@ -140,14 +130,18 @@ const WriteIndivAlbum = () => {
   };
 
   const handleChange = info => {
-    let newFileList = [...info.fileList].filter(file => !!file.status);
-    // if (newFileList.length > 5) {
-    //   // 파일 리스트의 길이가 5개를 초과할 경우 모달 창을 띄움
-    //   setIsModalVisible(true);
-    //   // 5개를 초과한 파일은 제외하고 설정
-    //   newFileList = newFileList.slice(-5);
-    // }
-    setFileList(newFileList);
+    let fileList = [...info.fileList].slice(-20); // 최대 20개 파일만 유지
+    setFileList(fileList);
+  };
+
+  const beforeUpload = file => {
+    const isExceedLimit = fileList.length >= 20; // 현재 파일 리스트의 길이가 20 이상인지 검사
+    if (isExceedLimit) {
+      // 파일리스트 길이가 20개를 초과하는 경우
+      setShowExceedLimitModal(true); // 경고 모달 표시
+      return Upload.LIST_IGNORE; // 파일 업로드 중단
+    }
+    return true; // 파일 추가를 계속 진행
   };
 
   const handleModalOk = () => {
@@ -160,6 +154,15 @@ const WriteIndivAlbum = () => {
 
   const handleSuccessModalOk = () => {
     setShowSuccessModal(false);
+    navigate(
+      `/ind/album/details/${pageNumber}?year=${year}&page=1&iclass=${
+        iclass === 4 ? 0 : iclass
+      }`,
+    );
+  };
+
+  const returnPage = data => {
+    setPageNumber(data.result);
   };
 
   // 취소 확인 모달 핸들러
@@ -172,20 +175,7 @@ const WriteIndivAlbum = () => {
   };
 
   const onFinish = async data => {
-    console.log("onFinish data", data);
     const formData = new FormData();
-    // const dto = new Blob(
-    //   [
-    //     JSON.stringify({
-    //       ikids: ikid,
-    //       noticeTitle: data.noticeTitle,
-    //       noticeContents: data.noticeContents,
-    //       noticeCheck: noticeCheck ? 1 : 0,
-    //     }),
-    //   ],
-    //   { type: "application/json" },
-    // );
-    // formData.append("dto", dto);
 
     // 파일 데이터 추가
     fileList.forEach(file => {
@@ -205,13 +195,14 @@ const WriteIndivAlbum = () => {
 
     postIndAlbum({
       product: formData,
-      successFn: () => setShowSuccessModal(true), // 성공 모달 표시
+      successFn: data => {
+        setShowSuccessModal(true), returnPage(data);
+      }, // 성공 모달 표시
       failFn: handleFail,
       errorFn: handleError,
     });
   };
 
-  console.log("treeData", treeData);
   const handleCancelOk = () => {
     navigate(`/ind?year=${year}&page=1&iclass=${iclass === 4 ? 0 : iclass}`);
     setIsModalVisible(false);
@@ -262,7 +253,11 @@ const WriteIndivAlbum = () => {
       <Form ref={formRef} form={form} onFinish={onFinish}>
         <WriteWrap>
           <TreeSelect
+            showSearch
+            allowClear
             style={{ width: "100%" }}
+            value={selectedKids}
+            dropdownStyle={{ maxHeight: 200, overflow: "auto" }}
             treeData={treeData}
             placeholder="유치원생 선택"
             treeCheckable={true}
@@ -270,11 +265,13 @@ const WriteIndivAlbum = () => {
             onChange={value => {
               if (Array.isArray(value)) {
                 setSelectedKids(value);
-                console.log("value check", value);
               } else {
                 setSelectedKids([value]);
               }
             }}
+            filterTreeNode={(input, node) =>
+              node.title.toLowerCase().indexOf(input.toLowerCase()) >= 0
+            }
           />
 
           <Form.Item
@@ -317,7 +314,7 @@ const WriteIndivAlbum = () => {
               multiple={true}
               maxCount={20}
               style={{ lineHeight: "15rem" }}
-              // beforeUpload={beforeUpload}
+              beforeUpload={beforeUpload}
             >
               <Button icon={<UploadOutlined />}>업로드(최대 20개)</Button>
             </Upload.Dragger>
@@ -334,21 +331,22 @@ const WriteIndivAlbum = () => {
       </Form>
 
       {/* 모달창 */}
+      {/* 등록 성공 모달 */}
+
+      {showSuccessModal && (
+        <ModalOneBtn
+          isOpen={showSuccessModal}
+          handleOk={handleSuccessModalOk}
+          title="등록 완료"
+          subTitle="성공적으로 등록되었습니다."
+        />
+      )}
+
       <Link
         to={`/ind/album?year=${year}&page=1&iclass=${
           iclass === 4 ? 0 : iclass
         }`}
       >
-        {/* 등록 성공 모달 */}
-        {showSuccessModal && (
-          <ModalOneBtn
-            isOpen={showSuccessModal}
-            handleOk={handleSuccessModalOk}
-            title="등록 완료"
-            subTitle="성공적으로 등록되었습니다."
-          />
-        )}
-
         {/* 취소 확인 모달 */}
         {showCancelConfirmModal && (
           <ModalOneBtn

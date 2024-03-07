@@ -93,7 +93,6 @@ const ReadAllAlbum = () => {
 
     return () => observer.disconnect();
   }, [handleObserver]);
-
   return (
     <AlbumWrap>
       {/* 메인 콘텐츠 상단 바 컴포넌트 */}

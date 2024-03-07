@@ -30,6 +30,8 @@ const WriteAlbum = ({ albumData, submit }) => {
     setFileList(fileList);
   };
 
+  const [pageNumber, setPageNumber] = useState("");
+
   const beforeUpload = file => {
     const isExceedLimit = fileList.length >= 20; // 현재 파일 리스트의 길이가 20 이상인지 검사
     if (isExceedLimit) {
@@ -56,11 +58,13 @@ const WriteAlbum = ({ albumData, submit }) => {
   const handleCancel = () => {
     setIsModalVisible(false);
   };
-
+  const returnPage = data => {
+    setPageNumber(data.result);
+  };
   // 앨범 등록 성공 모달 핸들러
-  const handleSuccessModalOk = () => {
+  const handleSuccessModalOk = e => {
     setShowSuccessModal(false);
-    navigate("/album");
+    navigate(`/album/details/${pageNumber}`);
   };
 
   const handleCancelConfirmModalOk = () => {
@@ -122,10 +126,13 @@ const WriteAlbum = ({ albumData, submit }) => {
     // formData를 서버에 전송
     postAlbum({
       product: formData,
-      successFn: () => setShowSuccessModal(true), // 성공 모달 표시
+      successFn: data => {
+        returnPage(data), setShowSuccessModal(true);
+      }, // 성공 모달 표시
       failFn: handleFailure,
       errorFn: handleError,
     });
+    // returnPage(data);
     setSubmitClicked(false); // 다음 제출을 위해 재설정
   };
 
@@ -207,18 +214,18 @@ const WriteAlbum = ({ albumData, submit }) => {
         </BtnWrap>
       </Form>
 
-      <Link to="/album">
-        {/* 등록 성공 모달 */}
-        {showSuccessModal && (
-          <ModalOneBtn
-            isOpen={showSuccessModal}
-            handleOk={handleSuccessModalOk}
-            title="등록 완료"
-            subTitle="성공적으로 등록되었습니다."
-            maskClosable={false}
-          />
-        )}
+      {/* 등록 성공 모달 */}
+      {showSuccessModal && (
+        <ModalOneBtn
+          isOpen={showSuccessModal}
+          handleOk={handleSuccessModalOk}
+          title="등록 완료"
+          subTitle="성공적으로 등록되었습니다."
+          maskClosable={false}
+        />
+      )}
 
+      <Link to="/album">
         {/* 취소 확인 모달 */}
         {showCancelConfirmModal && (
           <ModalTwoBtn

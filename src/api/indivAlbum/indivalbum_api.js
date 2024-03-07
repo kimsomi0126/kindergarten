@@ -19,7 +19,7 @@ export const getIndAlbumList = async ({
       year,
       search,
     };
-    console.log(obj);
+    // console.log(obj);
     const res = await jwtAxios.get(
       `${path}?page=${page}&iclass=${iclass}&year=${year}&search=${search}`,
     );
@@ -69,7 +69,7 @@ export const putIndAlbum = async ({ data, successFn, failFn, errorFn }) => {
     const res = await jwtAxios.put(`${path}`, data, header);
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
-      console.log("res.data : ", res.data);
+      // console.log("res.data : ", res.data);
       successFn(res.data);
       return res.data;
     } else {
@@ -96,7 +96,7 @@ export const postIndAlbum = async ({ product, successFn, failFn, errorFn }) => {
     }
   } catch (error) {
     const res = error.response.data;
-    console.log("res", res);
+    // console.log("res", res);
     if (res.code === "PUSH_FAIL") {
       errorFn("푸쉬알림에 비동의 상태입니다.");
     } else {

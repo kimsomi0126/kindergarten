@@ -220,7 +220,7 @@ const NightHospital = () => {
                       clickable={true}
                       onClick={() => {
                         window.open(
-                          `https://map.kakao.com/link/map/${item.facltNm},${item.refineWgs84Lat},${item.refineWgs84Logt}`,
+                          `https://map.kakao.com/link/map/${item.medcareFacltNm},${item.refineWgs84Lat},${item.refineWgs84Logt}`,
                         );
                       }}
                     />

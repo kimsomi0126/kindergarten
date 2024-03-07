@@ -217,9 +217,7 @@ const IndivAlbumList = () => {
       <TabWrap>
         {/* <Link to={pathname + search}>알림장</Link> */}
         {isParentLogin ? (
-          <Link
-            to={`/ind?year=${currentYear}&page=1&iclass=${iclass}&ikid=${ikid}`}
-          >
+          <Link to={`/ind?year=${currentYear}&page=1&ikid=${ikid}`}>
             알림장
           </Link>
         ) : (

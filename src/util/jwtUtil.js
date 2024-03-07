@@ -41,7 +41,7 @@ export const refreshJWT = async (accessToken, refreshToken) => {
   const header = { headers: { Authorization: `Bearer ${accessToken}` } };
   const memberInfo = getCookie("member");
   const isLogin = memberInfo.teacherUid ? true : false;
-  console.log(isLogin);
+  // console.log(isLogin);
   // API 백엔드 Refresh 해줄 주소(URI)를 요청
   const url = isLogin
     ? `${host}/api/teacher/refresh-token`

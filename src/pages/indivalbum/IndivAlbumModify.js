@@ -125,6 +125,7 @@ const IndivAlbumModify = () => {
 
     // deletedPics 배열에 항목이 있는 경우에만 delPics 속성을 추가
     const delPicsData = deletedPics.length > 0 ? deletedPics : null;
+    // console.log("noticeData", noticeData);
     // JSON 데이터 추가
     const noticeInfo = {
       ikid: [...noticeData.ikid],
@@ -188,6 +189,7 @@ const IndivAlbumModify = () => {
       getIndAlubm({
         tno: tno,
         successFn: data => {
+          // console.log("successFn data", data);
           setNoticeData(data);
           form.setFieldsValue({
             memoryTitle: data.memoryTitle,

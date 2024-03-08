@@ -144,18 +144,13 @@ export const postAlbumComment = async ({ obj, successFn, failFn, errorFn }) => {
 
 // 추억 앨범 댓글 등록하기
 export const putIndAlbumComment = async ({
-  imemory,
-  memoryComment,
-  iteacher,
-  iparent,
+  obj,
   successFn,
   failFn,
   errorFn,
 }) => {
   try {
-    const res = await jwtAxios.put(
-      `${path}/comment/imemory=${imemory}&memoryComment=${memoryComment}&iteacher=${iteacher}&iparent=${iparent}`,
-    );
+    const res = await jwtAxios.post(`${path}/comment`, obj);
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
       successFn(res.data);

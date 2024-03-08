@@ -60,7 +60,7 @@ const IndivAlbumDetails = () => {
   // 연동데이터
   const [data, setData] = useState(initData);
 
-  // 댓글관련
+  // 댓글관련 state
   const [commentState, setCommentState] = useState(false);
   const [commentNum, setCommentNum] = useState(null);
   const iwriter = loginState.iteacher || loginState.iparent;
@@ -96,11 +96,13 @@ const IndivAlbumDetails = () => {
     } else {
       getIndAlbumDetail({ tno, successFn, errorFn });
     }
-  }, [tno, isParentLogin, isLogin, isAdminLogin]);
+  }, [tno, isParentLogin, isLogin, isAdminLogin, commentState]);
 
   // Get 연동 결과
   const successFn = res => {
     setData({ ...res });
+    setCommentState(!commentState);
+    setCommentNum(null);
     // console.log("성공 데이타", res);
   };
   const errorFn = res => {
@@ -149,26 +151,20 @@ const IndivAlbumDetails = () => {
   // 댓글등록
   const [form] = Form.useForm();
   const handleWriteComment = value => {
-    // console.log("value", value);
     let obj = {
       imemory: tno,
       memoryComment: value.albumComment,
-      iteacher: loginState.iteacher,
     };
     if (isParentLogin) {
       obj = {
         inotice: tno,
-        noticeComment: value.albumComment,
-        iparent: loginState.iparent,
+        memoryComment: value.albumComment,
       };
     }
 
     // console.log(obj, "댓글등록");
     putIndAlbumComment({
-      imemory: tno,
-      memoryComment: value.albumComment,
-      iteacher: loginState.iteacher,
-      iparent: loginState.iparent,
+      obj,
       successFn,
       errorFn,
     });
@@ -208,6 +204,7 @@ const IndivAlbumDetails = () => {
   };
 
   // console.log("data", data);
+  // console.log("loginState", loginState);
   return (
     <IndWrap>
       {/* 안내창 */}
@@ -235,7 +232,9 @@ const IndivAlbumDetails = () => {
           <h3>{data.memoryTitle}</h3>
           <IndBot>
             <div className="ind-date">
-              {data.createdAt.split(" ")[0].split("T").join(" ")}
+              {data.createdAt
+                ? data.createdAt.split(" ")[0].split("T").join(" ")
+                : ""}
             </div>
           </IndBot>
         </IndDetailTop>
@@ -287,7 +286,8 @@ const IndivAlbumDetails = () => {
                     </li>
                     <li className="date">{item.createdAt}</li>
                   </ul>
-                  {ilevel === item.ilevel && item.writerIuser == iwriter ? (
+                  {ilevel === loginState.ilevel &&
+                  loginState.writerIuser == iwriter ? (
                     <span
                       className="delete"
                       onClick={() => {
@@ -313,6 +313,16 @@ const IndivAlbumDetails = () => {
       </IndDetailWrap>
 
       <IndBtnWrap>
+        {/* 댓글삭제 */}
+        <ModalTwoBtn
+          isOpen={isDelComment}
+          handleOk={() => handleDeleteComment()}
+          handleCancel={() => setIsDelComment(false)}
+          title={"댓글 삭제"}
+          subTitle={
+            "삭제된 댓글은 복구할 수 없습니다. \n정말 삭제하시겠습니까?"
+          }
+        />
         <GreenBtn onClick={handleClickList}>목록보기</GreenBtn>
         {isLogin || isAdminLogin ? (
           <>

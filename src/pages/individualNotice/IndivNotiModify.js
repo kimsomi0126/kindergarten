@@ -128,11 +128,11 @@ const IndivNotiModify = () => {
     // console.log("data", data);
     // JSON 데이터 추가
     const noticeInfo = {
-      inotice: tno,
-      ikid: ikid,
+      inotice: parseInt(tno),
+      ikid: parseInt(ikid),
       noticeTitle: data.noticeTitle,
       noticeContents: data.noticeContents,
-      NoticeCheck: noticeCheck,
+      noticeCheck: noticeCheck,
       // delPic: [],
     };
     // console.log("noticeCheck", noticeCheck);
@@ -232,6 +232,7 @@ const IndivNotiModify = () => {
               url: `${imgpath}/${tno}/${noticePics.noticePic}`, // file URL, adjust the path as needed
             }),
           );
+          setNoticeCheck(data.noticeCheck);
           setFileList(transformedFileList);
         },
         failFn: errorMessage => {
@@ -308,6 +309,8 @@ const IndivNotiModify = () => {
   //   // console.log("현재 보이는 목록 fileList : ", fileList);
   // }, [fileList]);
 
+  console.log(noticeCheck);
+
   return (
     <NoticeWrap>
       <PageTitle>알림장 수정</PageTitle>
@@ -321,7 +324,7 @@ const IndivNotiModify = () => {
         <Checkbox
           onChange={onChange}
           style={{ marginBottom: 10 }}
-          checked={noticeCheck}
+          checked={noticeCheck === 1 ? true : false}
         >
           중요
         </Checkbox>

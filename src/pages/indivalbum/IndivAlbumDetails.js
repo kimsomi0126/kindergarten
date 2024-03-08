@@ -56,7 +56,7 @@ const IndivAlbumDetails = () => {
   const iclass = serchParams.get("iclass");
   // 로그인 정보
   const { isLogin, isParentLogin, isAdminLogin, loginState } = useCustomLogin();
-  console.log("loginState", loginState);
+  // console.log("loginState", loginState);
   // 연동데이터
   const [data, setData] = useState(initData);
 
@@ -101,7 +101,7 @@ const IndivAlbumDetails = () => {
   // Get 연동 결과
   const successFn = res => {
     setData({ ...res });
-    console.log("성공 데이타", res);
+    // console.log("성공 데이타", res);
   };
   const errorFn = res => {
     setIsOpen(true);
@@ -149,7 +149,7 @@ const IndivAlbumDetails = () => {
   // 댓글등록
   const [form] = Form.useForm();
   const handleWriteComment = value => {
-    console.log("value", value);
+    // console.log("value", value);
     let obj = {
       imemory: tno,
       memoryComment: value.albumComment,
@@ -163,7 +163,7 @@ const IndivAlbumDetails = () => {
       };
     }
 
-    console.log(obj, "댓글등록");
+    // console.log(obj, "댓글등록");
     putIndAlbumComment({
       imemory: tno,
       memoryComment: value.albumComment,
@@ -200,14 +200,14 @@ const IndivAlbumDetails = () => {
   const successCommentFn = res => {
     setCommentState(!commentState);
     setCommentNum(null);
-    console.log(res);
+    // console.log(res);
   };
 
   const errorCommentFn = res => {
-    console.log(res);
+    // console.log(res);
   };
 
-  console.log("data", data);
+  // console.log("data", data);
   return (
     <IndWrap>
       {/* 안내창 */}

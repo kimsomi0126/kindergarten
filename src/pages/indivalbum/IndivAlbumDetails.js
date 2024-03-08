@@ -96,7 +96,7 @@ const IndivAlbumDetails = () => {
     } else {
       getIndAlbumDetail({ tno, successFn, errorFn });
     }
-  }, [tno, isParentLogin, isLogin, isAdminLogin, commentState]);
+  }, [tno, isParentLogin, isLogin, isAdminLogin]);
 
   // useEffect(() => {
   //   getIndAlbumDetail({ tno, successFn, errorFn });
@@ -267,7 +267,7 @@ const IndivAlbumDetails = () => {
               ))}
           </Masonry>
         </ResponsiveMasonry>
-        <CommentWrap>
+        {/* <CommentWrap>
           <CommentView>
             {Array.isArray(data.memoryComments) &&
               data.memoryComments.map((item, index) => (
@@ -305,7 +305,7 @@ const IndivAlbumDetails = () => {
               <OrangeBtn>등록</OrangeBtn>
             </Form>
           </CommentWrite>
-        </CommentWrap>
+        </CommentWrap> */}
       </IndDetailWrap>
 
       <IndBtnWrap>

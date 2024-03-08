@@ -203,7 +203,7 @@ const DetailsAlbum = ({ pno, isLogin, loginState }) => {
       ialbum: pno,
       albumComment: value.albumComment,
     };
-    console.log(obj, "댓글등록");
+    // console.log(obj, "댓글등록");
     postAlbumComment({
       obj,
       successFn,
@@ -236,7 +236,7 @@ const DetailsAlbum = ({ pno, isLogin, loginState }) => {
   const successFn = res => {
     setCommentState(!commentState);
     setCommentNum(null);
-    console.log(res);
+    // console.log(res);
   };
 
   const errorFn = res => {

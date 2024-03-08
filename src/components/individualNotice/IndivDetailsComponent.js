@@ -133,7 +133,7 @@ const IndivDetailsComponent = ({ tno }) => {
     setIsOpen(true);
     setTitle("데이터 오류");
     setSubTitle(res);
-    console.log("실패", res);
+    // console.log("실패", res);
   };
 
   const handleClickList = () => {
@@ -184,8 +184,8 @@ const IndivDetailsComponent = ({ tno }) => {
       };
     }
 
-    console.log(obj, "댓글등록");
-    console.log("댓글작성 확인", value);
+    // console.log(obj, "댓글등록");
+    // console.log("댓글작성 확인", value);
     postIndComment({
       obj,
       successFn,

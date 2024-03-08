@@ -36,8 +36,8 @@ export const onMessageListener = () => {
 export const onTokenRefresh = async () => {
   return await getFirebaseToken()
     .then(function (refreshedToken) {
-      console.log(refreshedToken);
-      console.log("Token refreshed.");
+      // console.log(refreshedToken);
+      // console.log("Token refreshed.");
       return refreshedToken;
     })
     .catch(function (err) {

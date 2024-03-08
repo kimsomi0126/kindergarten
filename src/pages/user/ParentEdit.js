@@ -59,7 +59,7 @@ const ParentEdit = ({ open, handleCancel }) => {
   }, []);
 
   const successFn = result => {
-    console.log("성공", result);
+    // console.log("성공", result);
     form.setFieldsValue(result);
   };
   const failFn = result => {

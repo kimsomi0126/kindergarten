@@ -160,14 +160,14 @@ const ModifyAlbum = () => {
 
           // Transform album pictures for the fileList state
           const newData = data.albumPic;
-          console.log("newData", newData);
+          // console.log("newData", newData);
           const transformedFileList = newData.map((albumPic, index) => ({
             uid: albumPic.ialbumPic, // uid is required to be unique
             name: albumPic.albumPic, // file name
             status: "done", // upload status
             url: `${imgpath}/${pno}/${albumPic.albumPic}`, // file URL, adjust the path as needed
           }));
-          console.log("transformedFileList", transformedFileList);
+          // console.log("transformedFileList", transformedFileList);
           setFileList(transformedFileList);
         },
         failFn: errorMessage => {
@@ -200,7 +200,7 @@ const ModifyAlbum = () => {
 
   // 이미지 파일을 삭제할 때 호출될 함수
   const handleRemove = file => {
-    console.log("file.uid", typeof file.uid);
+    // console.log("file.uid", typeof file.uid);
     // 이미지 파일 리스트의 길이가 2개 이상일 때만 삭제 처리
     if (fileList.length > 1) {
       const newFileList = fileList.filter(item => item.uid !== file.uid);

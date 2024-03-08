@@ -110,12 +110,12 @@ const NoticeModify = () => {
     });
     formData.append("dto", dto);
 
-    console.log("================= 보내는 데이터 : ", dto);
+    // console.log("================= 보내는 데이터 : ", dto);
 
     // 새로 추가된 이미지 파일을 FormData에 추가합니다.
-    console.log("현재 남아있는 fileList ", fileList);
+    // console.log("현재 남아있는 fileList ", fileList);
     fileList.forEach(async file => {
-      console.log("file", file);
+      // console.log("file", file);
       if (file.originFileObj) {
         // 새로운 파일인 경우, 파일 데이터를 추가합니다.
         formData.append("pics", file.originFileObj);
@@ -132,7 +132,7 @@ const NoticeModify = () => {
       });
 
       // 응답 처리
-      console.log("Response from putNotice:", response);
+      // console.log("Response from putNotice:", response);
     } catch (error) {
       handleError(error.message);
     }
@@ -148,7 +148,7 @@ const NoticeModify = () => {
             fullTitle: data.fullTitle,
             fullContents: data.fullContents,
           });
-          console.log("data확인", data);
+          // console.log("data확인", data);
 
           // Transform album pictures for the fileList state
           // console.log("데이터 확인", data);
@@ -158,7 +158,7 @@ const NoticeModify = () => {
             status: "done", // upload status
             url: `${imgpath}/${tno}/${fullPic.fullPic}`, // file URL, adjust the path as needed
           }));
-          console.log("transformedFileList", transformedFileList);
+          // console.log("transformedFileList", transformedFileList);
           setFileList(transformedFileList);
         },
         failFn: errorMessage => {
@@ -199,7 +199,7 @@ const NoticeModify = () => {
   };
   // 이미지 파일을 삭제할 때 호출될 함수
   const onRemove = file => {
-    console.log("file", file);
+    // console.log("file", file);
 
     const newFileList = fileList.filter(
       item => item.ifullPic !== file.ifullPic,
@@ -211,7 +211,7 @@ const NoticeModify = () => {
 
     return true; // 삭제 처리를 진행
   };
-  console.log("deletedPics", deletedPics);
+  // console.log("deletedPics", deletedPics);
   // if (file.originFileObj) {
   //   return true;
   // }

@@ -96,7 +96,7 @@ const IndivAlbumDetails = () => {
     } else {
       getIndAlbumDetail({ tno, successFn, errorFn });
     }
-  }, [tno, isParentLogin, isLogin, isAdminLogin]);
+  }, [tno, isParentLogin, isLogin, isAdminLogin, commentState]);
 
   // useEffect(() => {
   //   getIndAlbumDetail({ tno, successFn, errorFn });

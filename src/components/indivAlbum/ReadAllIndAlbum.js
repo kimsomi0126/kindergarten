@@ -33,7 +33,7 @@ import useCustomLogin from "../../hooks/useCustomLogin";
 
 const ReadAllIndAlbum = ({ listData, year, ikid, iclass, page }) => {
   const { loginState, isLogin, isParentLogin } = useCustomLogin();
-  console.log("read listData", listData);
+  // console.log("read listData", listData);
 
   return (
     <IndListWrap>

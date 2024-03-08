@@ -55,11 +55,11 @@ const IndivAlbumDetails = () => {
   const page = serchParams.get("page");
   const iclass = serchParams.get("iclass");
   // 로그인 정보
-  const { isLogin, isParentLogin, isAdminLogin, loginState } = useCustomLogin();
+  const { isLogin, isParentLogin, isAdminLogin, loginState, isName } =
+    useCustomLogin();
   // console.log("loginState", loginState);
   // 연동데이터
   const [data, setData] = useState(initData);
-
   // 댓글관련 state
   const [commentState, setCommentState] = useState(false);
   const [commentNum, setCommentNum] = useState(null);
@@ -96,7 +96,11 @@ const IndivAlbumDetails = () => {
     } else {
       getIndAlbumDetail({ tno, successFn, errorFn });
     }
-  }, [tno, isParentLogin, isLogin, isAdminLogin, commentState]);
+  }, [tno, isParentLogin, isLogin, isAdminLogin]);
+
+  // useEffect(() => {
+  //   getIndAlbumDetail({ tno, successFn, errorFn });
+  // }, [commentState]);
 
   // Get 연동 결과
   const successFn = res => {
@@ -173,21 +177,19 @@ const IndivAlbumDetails = () => {
 
   // 댓글삭제
   const handleDeleteComment = () => {
-    if (loginState.iteacher) {
+    if (isLogin) {
       deleteIndAlbumComment({
-        ialbumComment: commentNum,
-        ialbum: tno,
+        imemoryComment: commentNum,
         iteacher: loginState.iteacher,
-        successCommentFn,
-        errorCommentFn,
+        successFn,
+        errorFn,
       });
     } else {
       deleteIndAlbumComment({
-        ialbumComment: commentNum,
-        ialbum: tno,
+        imemoryComment: commentNum,
         iparent: loginState.iparent,
-        successCommentFn,
-        errorCommentFn,
+        successFn,
+        errorFn,
       });
     }
     setIsDelComment(false);
@@ -203,8 +205,6 @@ const IndivAlbumDetails = () => {
     // console.log(res);
   };
 
-  // console.log("data", data);
-  // console.log("loginState", loginState);
   return (
     <IndWrap>
       {/* 안내창 */}
@@ -273,11 +273,7 @@ const IndivAlbumDetails = () => {
               data.memoryComments.map((item, index) => (
                 <CommentBox
                   key={item.imemoryComment}
-                  className={
-                    ilevel === item.ilevel && item.writerIuser == iwriter
-                      ? "right"
-                      : null
-                  }
+                  className={data.memoryComments[0] ? "right" : null}
                 >
                   <pre className="text">{item.memoryComment}</pre>
                   <ul>
@@ -287,7 +283,7 @@ const IndivAlbumDetails = () => {
                     <li className="date">{item.createdAt}</li>
                   </ul>
                   {ilevel === loginState.ilevel &&
-                  loginState.writerIuser == iwriter ? (
+                  item.writerIuser == iwriter ? (
                     <span
                       className="delete"
                       onClick={() => {

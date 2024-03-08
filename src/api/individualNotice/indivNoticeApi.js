@@ -93,7 +93,7 @@ export const postIndNotice = async ({
     }
   } catch (error) {
     const res = error.response.data;
-    console.log("res", res);
+    // console.log("res", res);
     if (res.code === "PUSH_FAIL") {
       errorFn("푸쉬알림에 비동의 상태입니다.");
     } else {
@@ -119,7 +119,7 @@ export const postIndParentNotice = async ({
     }
   } catch (error) {
     const res = error.response.data;
-    console.log("res", res);
+    // console.log("res", res);
     if (res.code === "PUSH_FAIL") {
       errorFn("푸쉬알림에 비동의 상태입니다.");
     } else {
@@ -220,7 +220,7 @@ export const putIndDetail = async ({ data, successFn, failFn, errorFn }) => {
     const res = await jwtAxios.put(`${path}`, data, header);
 
     const status = res.status.toString();
-    console.log("res.data", res.data);
+    // console.log("res.data", res.data);
     if (status.charAt(0) === "2") {
       successFn(res.data);
       return res.data;

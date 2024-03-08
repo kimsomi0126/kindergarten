@@ -73,7 +73,7 @@ const NavBar = () => {
       : loginState.firebaseToken;
 
     if (userFirebaseToken !== res && loginState.accessToken) {
-      console.log("firebaseToken :", res);
+      // console.log("firebaseToken :", res);
       let params = {
         iuser: loginState.iteacher,
         firebaseToken: res,
@@ -96,7 +96,7 @@ const NavBar = () => {
     if (resultNum === 1) {
       refreshAccessToken();
     } else {
-      console.log("firebase 토큰업데이트 실패");
+      // console.log("firebase 토큰업데이트 실패");
     }
   };
   // 푸시알림감지 후 알림 리스트 업데이트

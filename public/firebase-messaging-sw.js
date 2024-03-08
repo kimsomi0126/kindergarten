@@ -23,7 +23,7 @@ firebase.initializeApp(firebaseConfig);
 const messaging = firebase.messaging();
 
 messaging.onBackgroundMessage(function (payload) {
-  console.log("백그라운드일때", payload.notification.body);
+  // console.log("백그라운드일때", payload.notification.body);
   const body = JSON.parse(payload.notification.body);
   let title = "백그라운드 메세지";
 

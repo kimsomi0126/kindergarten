@@ -33,7 +33,7 @@ import useCustomLogin from "../../hooks/useCustomLogin";
 
 const ReadAllIndAlbum = ({ listData, year, ikid, iclass, page }) => {
   const { loginState, isLogin, isParentLogin } = useCustomLogin();
-  // console.log("read listData", listData);
+  console.log("read listData", listData);
 
   return (
     <IndListWrap>
@@ -42,7 +42,7 @@ const ReadAllIndAlbum = ({ listData, year, ikid, iclass, page }) => {
           <div
             style={{ textAlign: "center", width: "100%", marginTop: "5rem" }}
           >
-            알림장 내용이 없습니다.
+            기록된 추억앨범이 없습니다.
           </div>
         ) : (
           Array.isArray(listData) &&
@@ -56,7 +56,7 @@ const ReadAllIndAlbum = ({ listData, year, ikid, iclass, page }) => {
                 }
               >
                 <IndTop>
-                  <IndName>{item.kidNm}</IndName>
+                  {/* <IndName>{item.kidNm}</IndName> */}
                   <IndTitle>
                     {item.noticeCheck === 1 ? (
                       <img
@@ -71,7 +71,7 @@ const ReadAllIndAlbum = ({ listData, year, ikid, iclass, page }) => {
                     <b>{item.memoryTitle}</b>
                   </IndTitle>
                   <IndIcon>
-                    {item.memoryComents && item.memoryComments.length >= 1 ? (
+                    {item.memoryComments.length >= 1 ? (
                       <img
                         src={
                           process.env.PUBLIC_URL +

@@ -97,7 +97,7 @@ export const putAlbum = async ({ product, successFn, failFn, errorFn }) => {
     const res = await jwtAxios.put(`${path}`, product, header);
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
-      console.log("res.data : ", res.data);
+      // console.log("res.data : ", res.data);
       successFn(res.data);
       return res.data;
     } else {

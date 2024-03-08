@@ -64,6 +64,7 @@ const NavBar = () => {
     } else {
       getFbToken(successFn);
     }
+    // refreshAccessToken();
   }, [loginState]);
   //가져온 firebase 토큰이 로그인정보에 있는 토큰값과 다른지 체크
   const successFn = res => {
@@ -73,9 +74,31 @@ const NavBar = () => {
 
     if (userFirebaseToken !== res && loginState.accessToken) {
       console.log("firebaseToken :", res);
+      let params = {
+        iuser: loginState.iteacher,
+        firebaseToken: res,
+      };
+      if (isParentLogin) {
+        params = {
+          iuser: loginState.iparent,
+          firebaseToken: res,
+        };
+        patchParentFbToken({ params, successFn: successrefrash });
+      } else {
+        patchTeacherFbToken({ params, successFn: successrefrash });
+      }
     }
   };
 
+  // firebase 토큰 갱신에 성공하면 로그인 정보 다시 가져옴
+  const successrefrash = res => {
+    const resultNum = res.data.result;
+    if (resultNum === 1) {
+      refreshAccessToken();
+    } else {
+      console.log("firebase 토큰업데이트 실패");
+    }
+  };
   // 푸시알림감지 후 알림 리스트 업데이트
   onMessageListener()
     .then(payload => {

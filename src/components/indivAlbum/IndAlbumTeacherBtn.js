@@ -14,7 +14,7 @@ const IndAlbumTeacherBtn = ({ iclass, year, ikid, page }) => {
     yearArr.push({
       key: yearNum.toString(),
       label: (
-        <Link to={`/ind/album/?year=${yearNum}&page=1&iclass=${iclass}`}>
+        <Link to={`/ind/album?year=${yearNum}&page=1&iclass=${iclass}`}>
           {yearNum}
         </Link>
       ),
@@ -35,7 +35,7 @@ const IndAlbumTeacherBtn = ({ iclass, year, ikid, page }) => {
       return {
         key: item.iclass.toString(),
         label: (
-          <Link to={`/ind/album/?year=${year}&page=1&iclass=${item.iclass}`}>
+          <Link to={`/ind/album?year=${year}&page=1&iclass=${item.iclass}`}>
             {item.classNm}
           </Link>
         ),

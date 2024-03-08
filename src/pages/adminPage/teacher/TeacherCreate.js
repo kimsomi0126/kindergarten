@@ -91,7 +91,7 @@ const TeacherCreate = () => {
     setIsResultOpen(true);
     setTitle("등록 완료");
     setSubTitle("성공적으로 등록되었습니다.");
-    setIsNavigate("/admin/teacher?iclass=0&page=1");
+    setIsNavigate("/admin/teacher?tcIsDel=0&iclass=0&page=1");
   };
   const errorFn = res => {
     setIsResultOpen(true);
@@ -102,7 +102,7 @@ const TeacherCreate = () => {
     setIsCancelOpen(true);
     setTitle("정말 취소할까요?");
     setSubTitle("작성된 내용은 저장되지 않습니다.");
-    setIsNavigate("/admin/teacher?iclass=0&page=1");
+    setIsNavigate("/admin/teacher?tcIsDel=0&iclass=0&page=1");
   };
   // 모달창 확인버튼
   const handleResultOk = () => {

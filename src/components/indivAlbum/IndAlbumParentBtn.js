@@ -12,7 +12,7 @@ const IndAlbumParentBtn = ({ indList, ikidList, year, ikid }) => {
     yearArr.push({
       key: yearNum.toString(),
       label: (
-        <Link to={`/ind/album/?year=${yearNum}&page=1&ikid=${ikid}`}>
+        <Link to={`/ind/album?year=${yearNum}&page=1&ikid=${ikid}`}>
           {yearNum}
         </Link>
       ),
@@ -25,7 +25,7 @@ const IndAlbumParentBtn = ({ indList, ikidList, year, ikid }) => {
       return {
         key: item.ikid.toString(),
         label: (
-          <Link to={`/ind/album/?year=${year}&page=1&ikid=${item.ikid}`}>
+          <Link to={`/ind/album?year=${year}&page=1&ikid=${item.ikid}`}>
             {item.kidNm}
           </Link>
         ),

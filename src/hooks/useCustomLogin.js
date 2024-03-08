@@ -77,14 +77,12 @@ const useCustomLogin = () => {
   // 액세스 토큰 리프레시 및 업데이트
   const refreshAccessToken = async () => {
     const memberInfo = getCookie("member");
-    const { accessToken, refreshToken } = memberInfo;
-
+    const { accessToken } = memberInfo;
     try {
-      const newTokens = await refreshJWT(accessToken, refreshToken);
+      const newTokens = await refreshJWT(accessToken);
       // 새로운 액세스 토큰으로 기존 쿠키의 accessToken 값만 업데이트
       memberInfo.accessToken = newTokens.accessToken;
-
-      setCookie("member", newTokens, 1);
+      setCookie("member", JSON.stringify(newTokens), 1);
       return newTokens;
     } catch (error) {
       // 리프레시 실패 처리

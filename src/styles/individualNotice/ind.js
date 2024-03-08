@@ -136,12 +136,6 @@ export const FromToBtnWrap = styled.div`
         : !props.isLogin && props.fromTo == 0
         ? "#222"
         : "#888"};
-    /* background: ${props =>
-      props.isLogin && props.fromTo == 1
-        ? "#ccc"
-        : !props.isLogin && props.fromTo == 0
-        ? "#ccc"
-        : "#fff"}; */
   }
   .parent {
     color: ${props =>
@@ -150,16 +144,10 @@ export const FromToBtnWrap = styled.div`
         : !props.isLogin && props.fromTo == 1
         ? "#222"
         : "#888"};
-    /* background: ${props =>
-      props.isLogin && props.fromTo == 0
-        ? "#ccc"
-        : !props.isLogin && props.fromTo == 1
-        ? "#ccc"
-        : "#fff"}; */
   }
 
   ${mq.mobileBig} {
-    margin-top: -2rem;
+    margin-top: 1rem;
   }
 `;
 

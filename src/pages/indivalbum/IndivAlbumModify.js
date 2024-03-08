@@ -193,7 +193,7 @@ const IndivAlbumModify = () => {
             memoryTitle: data.memoryTitle,
             memoryContents: data.memoryContents,
           });
-          console.log("data memoryPic", data);
+          // console.log("data memoryPic", data);
           const transformedFileList = data.memoryPic.map((pic, index) => ({
             imemory: pic.imemoryPic, // uid is required to be unique
             name: pic.memoryPic, // file name
@@ -264,9 +264,9 @@ const IndivAlbumModify = () => {
 
     return true; // 삭제 처리를 진행
   };
-  console.log("deletedPics", deletedPics);
+  // console.log("deletedPics", deletedPics);
 
-  console.log("noticeData", noticeData);
+  // console.log("noticeData", noticeData);
   return (
     <AlbumWrap>
       <PageTitle>추억앨범 수정</PageTitle>
@@ -334,7 +334,7 @@ const IndivAlbumModify = () => {
         handleOk={() => {
           setShowCancelConfirmModal(false); // 모달 닫기
           navigate(
-            `/ind/album?year=${year}&page=1&iclass=${
+            `/ind/album/details/${tno}?year=${year}&page=1&iclass=${
               iclass === 4 ? 0 : iclass
             }`,
           ); // 사용자를 앨범 목록 페이지로 이동
@@ -347,7 +347,7 @@ const IndivAlbumModify = () => {
         maskClosable={false}
       />
       <Link
-        to={`/ind/album?year=${year}&page=1&iclass=${
+        to={`/ind/album/details/${tno}?year=${year}&page=1&iclass=${
           iclass === 4 ? 0 : iclass
         }`}
       >

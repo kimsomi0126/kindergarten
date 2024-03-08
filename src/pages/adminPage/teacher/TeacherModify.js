@@ -71,7 +71,7 @@ const TeacherModify = () => {
     setIsCancelOpen(true);
     setTitle("정말 취소할까요?");
     setSubTitle("작성된 내용은 저장되지 않습니다.");
-    setIsNavigate("/admin/teacher?iclass=0&page=1");
+    setIsNavigate("/admin/teacher?tcIsDel=0&iclass=0&page=1");
   };
 
   // 모달창 확인버튼

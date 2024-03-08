@@ -115,7 +115,7 @@ const IndivNotiModify = () => {
   };
 
   const handleError = error => {
-    console.error("유치원소식 수정 오류:", error);
+    // console.error("유치원소식 수정 오류:", error);
     Modal.error({
       title: "유치원소식 수정 중 오류 발생",
       content:
@@ -125,7 +125,7 @@ const IndivNotiModify = () => {
 
   const onFinish = async data => {
     const formData = new FormData();
-    console.log("data", data);
+    // console.log("data", data);
     // JSON 데이터 추가
     const noticeInfo = {
       inotice: tno,
@@ -135,7 +135,7 @@ const IndivNotiModify = () => {
       NoticeCheck: noticeCheck,
       // delPic: [],
     };
-    console.log("noticeCheck", noticeCheck);
+    // console.log("noticeCheck", noticeCheck);
 
     // deletedPics 배열에 항목이 있는 경우에만 delPics 속성을 추가
     if (deletedPic.length > 0) {
@@ -146,11 +146,11 @@ const IndivNotiModify = () => {
     });
     formData.append("dto", dto);
 
-    console.log("================= 보내는 데이터 : ", dto);
+    // console.log("================= 보내는 데이터 : ", dto);
 
-    console.log("현재 남아있는 fileList ", fileList);
+    // console.log("현재 남아있는 fileList ", fileList);
     fileList.forEach(async file => {
-      console.log("file", file);
+      // console.log("file", file);
       if (file.originFileObj) {
         // 새로운 파일인 경우, 파일 데이터를 추가합니다.
         formData.append("pics", file.originFileObj);
@@ -161,15 +161,15 @@ const IndivNotiModify = () => {
     try {
       const response = await putIndDetail({
         data: formData,
-        successFn: listNumber => {
-          setShowSuccessModal(true), returnPage(listNumber);
+        successFn: res => {
+          setShowSuccessModal(true), setPageNumber(res.result);
         }, // 성공 모달 표시
         failFn: handleFail,
         errorFn: handleError,
       });
 
       // 응답 처리
-      console.log("Response from putIndDetail:", response);
+      // console.log("Response from putIndDetail:", response);
     } catch (error) {
       handleError(error.message);
     }
@@ -223,7 +223,7 @@ const IndivNotiModify = () => {
             noticeContents: data.noticeContents,
           });
           // Transform album pictures for the fileList state
-          console.log("데이터 확인", data);
+          // console.log("데이터 확인", data);
           const transformedFileList = data.noticePics.map(
             (noticePics, index) => ({
               inoticePic: noticePics.inoticePic, // uid is required to be unique
@@ -235,11 +235,11 @@ const IndivNotiModify = () => {
           setFileList(transformedFileList);
         },
         failFn: errorMessage => {
-          console.error("Notice fetch failed:", errorMessage);
+          // console.error("Notice fetch failed:", errorMessage);
           // Handle failure (show error message to user, etc.)
         },
         errorFn: errorData => {
-          console.error("Error fetching notice:", errorData);
+          // console.error("Error fetching notice:", errorData);
           // Handle error (show error message to user, etc.)
         },
       });
@@ -287,7 +287,7 @@ const IndivNotiModify = () => {
   };
   // 이미지 파일을 삭제할 때 호출될 함수
   const onRemove = file => {
-    console.log("삭제시 file", file);
+    // console.log("삭제시 file", file);
 
     const newFileList = fileList.filter(
       item => item.inoticePic !== file.inoticePic,
@@ -299,7 +299,7 @@ const IndivNotiModify = () => {
 
     return true; // 삭제 처리를 진행
   };
-  console.log("data", data);
+  // console.log("data", data);
   // useEffect(() => {
   //   // console.log("삭제 목록 deletedPics : ", deletedPics);
   // }, [deletedPic]);
@@ -364,7 +364,13 @@ const IndivNotiModify = () => {
       </WriteWrap>
       <BtnWrap right>
         <GreenBtn onClick={handleGreenButtonClick}>수정</GreenBtn>
-        <Link to="/ind?year=2024&page=1&iclass=0">
+        <Link
+          to={
+            isTeacherLogin
+              ? `/ind?year=2024&page=1&iclass=${iclass}`
+              : `/ind?year=2024&page=1&iclass=0`
+          }
+        >
           <PinkBtn type="button" onClick={handleCancelConfirmation}>
             취소
           </PinkBtn>
@@ -374,9 +380,9 @@ const IndivNotiModify = () => {
       {/* 모달창 */}
       <Link
         to={
-          isParentLogin
-            ? `/ind?year=2024&page=1&ikid=${ikid}`
-            : `/ind?year=2024&page=1&iclass=${iclass}`
+          isTeacherLogin
+            ? `/ind/details/${pageNumber}?year=2024&page=1&iclass=${iclass}`
+            : `/ind/details/${pageNumber}?year=2024&page=1&iclass=0`
         }
       >
         {showSuccessModal && (

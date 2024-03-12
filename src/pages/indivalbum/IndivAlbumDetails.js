@@ -9,7 +9,7 @@ import {
   deleteIndAlbum,
   deleteIndAlbumComment,
   getIndAlbumDetail,
-  putIndAlbumComment,
+  postIndAlbumComment,
 } from "../../api/indivAlbum/indivalbum_api";
 import MyTag from "../../components/indivAlbum/MyTag";
 import Loading from "../../components/loading/Loading";
@@ -60,6 +60,8 @@ const IndivAlbumDetails = () => {
   // console.log("loginState", loginState);
   // 연동데이터
   const [data, setData] = useState(initData);
+  const [form] = Form.useForm();
+
   // 댓글관련 state
   const [commentState, setCommentState] = useState(false);
   const [commentNum, setCommentNum] = useState(null);
@@ -94,9 +96,9 @@ const IndivAlbumDetails = () => {
       setSubTitle("로그인 회원만 접근 가능합니다.");
       setIsNavigate("/login");
     } else {
-      getIndAlbumDetail({ tno, successFn, errorFn });
+      refreshAlbumData();
     }
-  }, [tno, isParentLogin, isLogin, isAdminLogin]);
+  }, [tno]);
 
   // useEffect(() => {
   //   getIndAlbumDetail({ tno, successFn, errorFn });
@@ -152,24 +154,42 @@ const IndivAlbumDetails = () => {
     setSubTitle("삭제에 실패했습니다. \n 잠시 후 다시 시도해 주세요."); // 에러 모달의 부제목을 설정합니다.
   };
 
+  // 댓글 등록과 삭제 후 데이터를 새로고침하는 함수
+  const refreshAlbumData = () => {
+    getIndAlbumDetail({ tno, successFn, errorFn });
+  };
+
+  // 댓글 등록 성공 후 콜백
+  const onCommentPostSuccess = () => {
+    refreshAlbumData(); // 데이터 새로고침
+    form.resetFields(); // 댓글 입력 필드 초기화
+  };
+
+  // 댓글 삭제 성공 후 콜백
+  const onCommentDeleteSuccess = () => {
+    refreshAlbumData(); // 데이터 새로고침
+  };
+
   // 댓글등록
-  const [form] = Form.useForm();
+
   const handleWriteComment = value => {
     let obj = {
       imemory: tno,
       memoryComment: value.albumComment,
+      iteacher: loginState.iteacher,
     };
     if (isParentLogin) {
       obj = {
-        inotice: tno,
+        imemory: tno,
         memoryComment: value.albumComment,
+        iparent: loginState.iparent,
       };
     }
 
     // console.log(obj, "댓글등록");
-    putIndAlbumComment({
+    postIndAlbumComment({
       obj,
-      successFn,
+      successFn: onCommentPostSuccess,
       errorFn,
     });
     form.resetFields();
@@ -181,14 +201,14 @@ const IndivAlbumDetails = () => {
       deleteIndAlbumComment({
         imemoryComment: commentNum,
         iteacher: loginState.iteacher,
-        successFn,
+        successFn: onCommentDeleteSuccess,
         errorFn,
       });
     } else {
       deleteIndAlbumComment({
         imemoryComment: commentNum,
         iparent: loginState.iparent,
-        successFn,
+        successFn: onCommentDeleteSuccess,
         errorFn,
       });
     }
@@ -205,6 +225,9 @@ const IndivAlbumDetails = () => {
     // console.log(res);
   };
 
+  console.log("iwriter", iwriter);
+
+  console.log("data", data);
   return (
     <IndWrap>
       {/* 안내창 */}
@@ -267,7 +290,7 @@ const IndivAlbumDetails = () => {
               ))}
           </Masonry>
         </ResponsiveMasonry>
-        {/* <CommentWrap>
+        <CommentWrap>
           <CommentView>
             {Array.isArray(data.memoryComments) &&
               data.memoryComments.map((item, index) => (
@@ -278,7 +301,7 @@ const IndivAlbumDetails = () => {
                   <pre className="text">{item.memoryComment}</pre>
                   <ul>
                     <li className="name">
-                      {item.teacherNm ? item.teacherNm : item.parentNm}
+                      {item.writerNm ? item.writerNm : item.parentNm}
                     </li>
                     <li className="date">{item.createdAt}</li>
                   </ul>
@@ -305,7 +328,7 @@ const IndivAlbumDetails = () => {
               <OrangeBtn>등록</OrangeBtn>
             </Form>
           </CommentWrite>
-        </CommentWrap> */}
+        </CommentWrap>
       </IndDetailWrap>
 
       <IndBtnWrap>

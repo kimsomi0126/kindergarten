@@ -143,7 +143,7 @@ export const postAlbumComment = async ({ obj, successFn, failFn, errorFn }) => {
 };
 
 // 추억 앨범 댓글 등록하기
-export const putIndAlbumComment = async ({
+export const postIndAlbumComment = async ({
   obj,
   successFn,
   failFn,
@@ -172,11 +172,11 @@ export const deleteIndAlbumComment = async ({
   failFn,
   errorFn,
 }) => {
-  const result = iteacher ? `iteacher = ${iteacher}` : `iparent = ${iparent}`;
+  const result = iteacher ? `iteacher=${iteacher}` : `iparent=${iparent}`;
   try {
     // header 가 필요합니다.
     const res = await jwtAxios.delete(
-      `${path}/comment/?imemoryComment=${imemoryComment}&${result}`,
+      `${path}/comment?imemoryComment=${imemoryComment}&${result}`,
     );
 
     const status = res.status.toString();

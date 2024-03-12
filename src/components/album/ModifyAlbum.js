@@ -38,23 +38,28 @@ const ModifyAlbum = () => {
   const [albumPics, setAlbumPics] = useState([]);
   const [newPics, setNewPics] = useState([]);
   const [deletedPics, setDeletedPics] = useState([]);
+
   const [isEditConfirmModalVisible, setIsEditConfirmModalVisible] =
     useState(false);
   const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false);
   const [isMinimumWarningVisible, setIsMinimumWarningVisible] = useState(false);
-  const [isNoChangeWarningVisible, setIsNoChangeWarningVisible] =
-    useState(false);
   const [showCancelConfirmModal, setShowCancelConfirmModal] = useState(false);
   const handleGreenButtonClick = () => {
     setIsEditConfirmModalVisible(true); // 수정 확인 모달을 표시
   };
-  const handleEditCancel = () => {
-    setIsEditConfirmModalVisible(false); // 모달 닫기
-  };
+
   const handleEditConfirm = () => {
     // 모달에서 '확인' 버튼 클릭 시 호출될 함수
     formRef.current.submit(); // Form의 submit 메서드 호출
     setIsEditConfirmModalVisible(false); // 모달 닫기
+  };
+
+  const handleEditCancel = () => {
+    setIsEditConfirmModalVisible(false); // 모달 닫기
+  };
+
+  const handleCancelConfirmation = () => {
+    setShowCancelConfirmModal(true); // 취소 확인 모달 표시
   };
 
   const handleSuccess = response => {
@@ -96,10 +101,6 @@ const ModifyAlbum = () => {
       content:
         "서버 오류 또는 네트워크 문제가 발생했습니다. 다시 시도해주세요.",
     });
-  };
-
-  const handleCancelConfirmation = () => {
-    setShowCancelConfirmModal(true); // 취소 확인 모달 표시
   };
 
   const onFinish = async data => {

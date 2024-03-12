@@ -14,7 +14,9 @@ import {
   getIndAlubm,
   putIndAlbum,
 } from "../../api/indivAlbum/indivalbum_api";
-import MyClass from "../../components/user/MyClass";
+import MyTag from "../../components/indivAlbum/MyTag";
+import ModalOneBtn from "../../components/ui/ModalOneBtn";
+import ModalTwoBtn from "../../components/ui/ModalTwoBtn";
 import { AlbumWrap, FileListStyle, WriteWrap } from "../../styles/album/album";
 import { PageTitle } from "../../styles/basic";
 import {
@@ -22,11 +24,7 @@ import {
   IndDetailTop,
 } from "../../styles/individualNotice/inddetail";
 import "../../styles/notice/gallery.css";
-import { NoticeWrap } from "../../styles/notice/notice";
 import { BtnWrap, GreenBtn, PinkBtn } from "../../styles/ui/buttons";
-import ModalTwoBtn from "../../components/ui/ModalTwoBtn";
-import ModalOneBtn from "../../components/ui/ModalOneBtn";
-import MyTag from "../../components/indivAlbum/MyTag";
 const path = `${IMG_URL}/api/memory`;
 const imgpath = `${IMG_URL}/pic/memory`;
 const customRequest = ({ onSuccess }) => {
@@ -49,15 +47,9 @@ const IndivAlbumModify = () => {
   const params = useSearchParams();
 
   const [data, setData] = useState(obj);
-  const [noticeCheck, setNoticeCheck] = useState(0);
-  const [postNumber, setPostNumber] = useState(0);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [detailData, setDetailData] = useState(obj);
-  const [detailImage, setDetailImage] = useState([]);
   const navigate = useNavigate();
-  const [treeData, setTreeData] = useState([]);
-  const [noticeFix, setNoticeFix] = useState(0);
-  const [selectedKids, setSelectedKids] = useState([]);
+
   const [deletedPics, setDeletedPics] = useState([]);
   const [form] = Form.useForm();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -65,9 +57,7 @@ const IndivAlbumModify = () => {
   const page = searchParams.get("page");
   const iclass = searchParams.get("iclass");
   const [isLoading, setIsLoading] = useState(true);
-  const [isModalVisible, setIsModalVisible] = useState(false);
   const [fileList, setFileList] = useState([]);
-  const [showExceedLimitModal, setShowExceedLimitModal] = useState(false); // 파일 제한 초과 경고 모달 상태
   const [newPics, setNewPics] = useState([]);
 
   // 모달 상태 관리
@@ -78,14 +68,11 @@ const IndivAlbumModify = () => {
   const [isMinimumWarningVisible, setIsMinimumWarningVisible] = useState(false);
   const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false);
 
-  const showDeleteModal = () => {
-    setIsDeleteModalOpen(true);
+  const handleGreenButtonClick = () => {
+    // 수정 버튼을 클릭했을 때 "앨범 수정 확인" 모달을 열도록 설정
+    setIsEditConfirmModalVisible(true);
   };
 
-  const handleModalClose = () => {
-    setIsSuccessModalVisible(false); // 모달 닫기
-    navigate(`/album/details/${tno}`); // 성공 후 상세 페이지로 이동
-  };
   const handleEditConfirm = () => {
     // 모달에서 '확인' 버튼 클릭 시 호출될 함수
     formRef.current.submit(); // Form의 submit 메서드 호출
@@ -98,6 +85,15 @@ const IndivAlbumModify = () => {
   const handleCancelConfirmation = () => {
     setShowCancelConfirmModal(true); // 취소 확인 모달 표시
   };
+
+  const handleSuccess = response => {
+    setIsSuccessModalVisible(true); // 성공 메시지 모달 표시
+  };
+
+  const handleModalClose = () => {
+    setIsSuccessModalVisible(false); // 모달 닫기
+  };
+
   // 이미지 삭제 시 최소 파일 수 검증 경고 모달을 닫는 함수
   const handleCloseMinimumWarning = e => {
     e.stopPropagation();
@@ -107,7 +103,7 @@ const IndivAlbumModify = () => {
 
   const handleFail = errorMessage => {
     Modal.error({
-      title: "알림장 업로드 실패",
+      title: "추억앨범 업로드 실패",
       content: errorMessage,
     });
   };
@@ -123,17 +119,17 @@ const IndivAlbumModify = () => {
   const onFinish = async data => {
     const formData = new FormData();
 
-    // deletedPics 배열에 항목이 있는 경우에만 delPics 속성을 추가
-    const delPicsData = deletedPics.length > 0 ? deletedPics : null;
-    // console.log("noticeData", noticeData);
     // JSON 데이터 추가
     const noticeInfo = {
-      ikid: [...noticeData.ikid],
-      imemory: tno,
+      ikids: [...noticeData.ikid],
+      imemory: parseInt(tno),
       memoryTitle: data.memoryTitle,
       memoryContents: data.memoryContents,
-      delPics: delPicsData,
     };
+    // deletedPics 배열에 항목이 있는 경우에만 delPics 속성을 추가
+    if (deletedPics.length > 0) {
+      noticeInfo.delPics = deletedPics;
+    }
 
     const dto = new Blob([JSON.stringify(noticeInfo)], {
       type: "application/json",
@@ -151,7 +147,7 @@ const IndivAlbumModify = () => {
     try {
       const response = await putIndAlbum({
         data: formData,
-        successFn: () => setShowSuccessModal(true), // 성공 모달 표시
+        successFn: handleSuccess,
         failFn: handleFail,
         errorFn: handleError,
       });
@@ -160,28 +156,7 @@ const IndivAlbumModify = () => {
     }
   };
 
-  const handleDeleteCancel = () => {
-    setIsDeleteModalOpen(false);
-  };
-
   const formRef = useRef();
-
-  const handleGreenButtonClick = () => {
-    formRef.current.submit();
-  };
-
-  const getClassTitle = classNumber => {
-    switch (classNumber) {
-      case 1:
-        return "무궁화반";
-      case 2:
-        return "해바라기반";
-      case 3:
-        return "장미반";
-      default:
-        return "";
-    }
-  };
 
   useEffect(() => {
     const fetchNoticeData = async () => {
@@ -322,6 +297,7 @@ const IndivAlbumModify = () => {
           취소
         </PinkBtn>
       </BtnWrap>
+
       <ModalTwoBtn
         isOpen={isEditConfirmModalVisible}
         handleOk={handleEditConfirm}

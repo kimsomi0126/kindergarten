@@ -22,37 +22,6 @@ const ModalTwoBtn = ({
     },
   };
 
-  // 키보드 이벤트 리스너 추가
-  useEffect(() => {
-    const handleKeyDown = event => {
-      if (isOpen) {
-        if (event.key === "Enter") {
-          event.preventDefault();
-          handleOk(event); // Enter 키를 누르면 확인 액션 실행
-        }
-        if (event.key === "Escape") {
-          event.preventDefault();
-          handleCancel(event); // Escape 키를 누르면 취소 액션 실행
-        }
-        if (event.key === "Esc") {
-          event.preventDefault();
-          handleCancel(event); // Escape 키를 누르면 취소 액션 실행
-        }
-      }
-    };
-
-    if (isOpen) {
-      // 모달이 열려 있을 때만 이벤트 리스너를 추가
-      document.addEventListener("keydown", handleKeyDown);
-    } else {
-      document.removeEventListener("keydown", handleKeyDown);
-    }
-
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown); // 컴포넌트가 언마운트되거나 모달이 닫힐 때 이벤트 리스너 제거
-    };
-  }, [isOpen, handleOk, handleCancel]); // 의존성 배열에 isOpen, handleOk, handleCancel 추가
-
   return (
     <Modal
       open={isOpen}
@@ -69,6 +38,16 @@ const ModalTwoBtn = ({
         </OrangeBtn>,
       ]}
       styles={modalStyles}
+      onKeyDown={event => {
+        if (event.key === "Enter") {
+          event.preventDefault();
+          handleOk(event);
+        }
+        if (event.key === "Escape" || event.key === "Esc") {
+          event.preventDefault();
+          handleCancel(event);
+        }
+      }}
     >
       <ModalTitle>
         <h3>{title}</h3>

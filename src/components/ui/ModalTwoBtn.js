@@ -44,6 +44,8 @@ const ModalTwoBtn = ({
     if (isOpen) {
       // 모달이 열려 있을 때만 이벤트 리스너를 추가
       document.addEventListener("keydown", handleKeyDown);
+    } else {
+      document.removeEventListener("keydown", handleKeyDown);
     }
 
     return () => {

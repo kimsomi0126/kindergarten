@@ -225,9 +225,6 @@ const IndivAlbumDetails = () => {
     // console.log(res);
   };
 
-  console.log("iwriter", iwriter);
-
-  console.log("data", data);
   return (
     <IndWrap>
       {/* 안내창 */}

@@ -302,8 +302,7 @@ const IndivAlbumDetails = () => {
                     </li>
                     <li className="date">{item.createdAt}</li>
                   </ul>
-                  {ilevel === loginState.ilevel &&
-                  item.writerIuser == iwriter ? (
+                  {item.writerIuser == iwriter ? (
                     <span
                       className="delete"
                       onClick={() => {
